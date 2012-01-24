@@ -19,18 +19,13 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
-import gnu.io.PortInUseException;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -40,12 +35,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.impl.ArduinoService;
+
 public class CommunicationPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
+
+	private final ISerialCommService commService = new ArduinoService();
 
 	/**
 	 * Create the panel.
@@ -56,7 +56,7 @@ public class CommunicationPanel extends JPanel {
 		setBorder(BorderFactory.createTitledBorder("Communication"));
 
 		// port selection combo box
-		cmbPort = new JComboBox(getPorts());
+		cmbPort = new JComboBox(commService.getPorts());
 		cmbPort.setRenderer(new ListCellRenderer() {
 
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -109,45 +109,21 @@ public class CommunicationPanel extends JPanel {
 	}
 
 	private void updateStatus() {
-		if (isOnline()) {
+		boolean isOnline = false;
+
+		Object selectedItem = cmbPort.getSelectedItem();
+		if (selectedItem instanceof CommPortIdentifier) {
+			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
+			isOnline = commService.isOnline(portId);
+		}
+
+		if (isOnline) {
 			lblStatus.setText("Online");
 			lblStatus.setForeground(Color.GREEN);
 		} else {
 			lblStatus.setText("Offline");
 			lblStatus.setForeground(Color.RED);
 		}
-	}
-
-	public boolean isOnline() {
-		Object selectedItem = cmbPort.getSelectedItem();
-		if (selectedItem instanceof CommPortIdentifier) {
-			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
-			CommPort port = null;
-			try {
-				port = portId.open(this.getClass().getName(), 1000);
-				return true;
-			} catch (PortInUseException e) {
-			} finally {
-				if (port != null) {
-					port.close();
-				}
-			}
-		}
-		return false;
-	}
-
-	private CommPortIdentifier[] getPorts() {
-		List<CommPortIdentifier> ports = new ArrayList<CommPortIdentifier>();
-
-		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
-		// iterate through, looking for the port
-		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum
-					.nextElement();
-			ports.add(currPortId);
-		}
-
-		return ports.toArray(new CommPortIdentifier[] {});
 	}
 
 }

@@ -52,6 +52,7 @@ public class Droplet extends JFrame {
 	 * Create the frame.
 	 */
 	public Droplet() {
+		setTitle("Droplet - Toolkit for Liquid Art Photographers");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 

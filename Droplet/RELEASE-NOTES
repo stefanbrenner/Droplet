@@ -18,7 +18,8 @@ Release 0.1b
 
 T O D O S:
 * Draw Arduino Layout in Fritzing
-* Implement Arduino Sketch that understands and executes the Droplet Message Format
+* Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
+* Implement Java Service that speaks DMF
 * Implement Basic UI with the following functionality:
 	- Connect to serial port and show live status
 	- Configure 3 Valves and 1 camera

@@ -16,7 +16,7 @@ be very flexible for as many devices and configurations as possible.
 
 
 
-Message Format in EBNF
+Droplet Message Format (DMF) in EBNF
 --------------------------------------------------------------------------------
 Protocol			= SetCommand | "I" | "R" ;
 

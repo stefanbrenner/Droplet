@@ -1,0 +1,66 @@
+================================================================================
+Droplet - Toolkit for Liquid Art Photographer
+================================================================================
+Title:		Release Notes
+Version:	0.1b
+Date:		2012/01/25
+Author:		Stefan Brenner
+--------------------------------------------------------------------------------
+
+
+Droplet is an Open Source Toolkit for Liquid Art Photographers.
+
+
+
+--------------------------------------------------------------------------------
+Release 0.1b
+--------------------------------------------------------------------------------
+
+T O D O S:
+* Draw Arduino Layout in Fritzing
+* Implement Arduino Sketch that understands and executes the Droplet Message Format
+* Implement Basic UI with the following functionality:
+	- Connect to serial port and show live status
+	- Configure 3 Valves and 1 camera
+	- Open/Close Valves for water release
+	- Start one round
+	- Simple Logging of photo number combined with the current configuration
+* Implement UI with Java Swing and any binding framework
+
+
+
+
+
+// TODO this is just a template
+--------------------------------------------------------------------------------
+Release 0.1b
+--------------------------------------------------------------------------------
+
+NEW FEATURES:
+* Support for embedded & network Derby (only distinct count queries don't work yet)
+
+NOTES:
+* Internal OJB class configuration files are changed, don't forget to replace
+  these files on upgrade from older version (by default the internal used
+
+CHANGES:
+* INTERNAL API CHANGES:
+  Pluggable class interfaces changed to support and fix OJB-31, OJB-6, OJB-63:
+  - StatementsForClassIF
+  - StatementManagerIF
+  - Platform
+  - RowReader
+  - SqlGenerator
+
+BUG FIXES:
+* [OJB-18] - ODMG ordering problem with circular/bidirectional 1:1 references
+
+KNOWN ISSUES:
+* Auto-Detection for insert/update objects checks to avoid DB queries the PK fields of the object.
+  If at least one PK field is 'NULL' or if primitive field '0', OJB assume the object is new and
+  needs insert. This will be configurable in next upcoming version. Workaround for PB-api: use method
+  PB#store(Object obj, ObjectModification mod) to state update or insert.
+
+
+
+==EOF===========================================================================

@@ -1,0 +1,72 @@
+================================================================================
+Droplet Serial Communication Protocol
+================================================================================
+Title:		Release Notes
+Version:	0.1b
+Date:		2012/01/25
+Author:		Stefan Brenner
+--------------------------------------------------------------------------------
+
+
+Purpose of this document
+--------------------------------------------------------------------------------
+This document describes the communication protocol that is used in Droplet for
+the serial communication with an Arduino microcontroller. It's intention is to
+be very flexible for as many devices and configurations as possible. 
+
+
+
+Message Format in EBNF
+--------------------------------------------------------------------------------
+Protocol			= SetCommand | "I" | "R" ;
+
+SetCommand			= "S" DeviceConfig { DeviceConfig } ;
+DeviceConfig		= Device DeviceNumber FieldSeperator Times BlockSeperator
+
+Device 				= "V" | "F" | "C" ;
+DeviceNumber		= DigitWithoutZero ;
+
+Times				= Time { FieldSeperator Time } ;
+Time				= Offset FieldSeperator Duration ;
+
+Offset				= Number ;
+Duration			= Number ;
+
+FieldSeperator		= ";" ;
+BlockSeperator		= "^" ;
+
+Number				= DigitWithoutZero { Digit } ;
+DigitWithoutZero  	= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+Digit				= "0" | DigitWithoutZero ;
+
+
+Example1:
+---------
+S;V1;300;50;370;20^V2;220;20^F1;350;10^C1;500;10
+
+"Open Valve1 Open at 300ms for 50ms and at 370ms for 20ms
+ Open Valve2 at 220ms for 20ms
+ Fire Flash1 at 350ms for 10ms
+ Release Camera1 at 500ms for 10ms"
+
+TODO: We don't need a duration for flashes
+
+
+Example2:
+---------
+R
+
+"Start one round"
+
+TODO: Add number of rounds with a defined delay between them (i.e. R5;500 - 5 rounds with 500ms delay)
+
+
+Example3:
+---------
+I
+
+"Return some information about the current configuration on the arduino" 
+
+
+
+==EOF===========================================================================

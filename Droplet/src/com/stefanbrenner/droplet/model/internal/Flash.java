@@ -55,8 +55,7 @@ public class Flash extends AbstractModelObject implements IFlash {
 
 	@Override
 	public void setDescription(String description) {
-		firePropertyChange(PROPERTY_DESCRIPTION, this.description,
-				this.description = description);
+		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
 
 	@Override

@@ -21,8 +21,7 @@ package com.stefanbrenner.droplet.model.internal;
 
 import com.stefanbrenner.droplet.model.ICameraAction;
 
-public class CameraAction extends AbstractOffsetModelObject implements
-		ICameraAction {
+public class CameraAction extends AbstractOffsetModelObject implements ICameraAction {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,8 +34,7 @@ public class CameraAction extends AbstractOffsetModelObject implements
 
 	@Override
 	public void setDuration(Integer duration) {
-		firePropertyChange(PROPERTY_DURATION, this.duration,
-				this.duration = duration);
+		firePropertyChange(PROPERTY_DURATION, this.duration, this.duration = duration);
 	}
 
 }

@@ -28,6 +28,7 @@ import java.util.List;
 
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 
 public class Droplet extends AbstractModelObject implements IDroplet {
@@ -38,7 +39,19 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	private List<IValve> valves = new ArrayList<IValve>();
 
-	private ICamera camera;
+	private List<IFlash> flashes = new ArrayList<IFlash>();
+
+	private List<ICamera> cameras = new ArrayList<ICamera>();
+
+	private static final IDroplet instance = new Droplet();
+
+	private Droplet() {
+
+	}
+
+	public static IDroplet getInstance() {
+		return instance;
+	}
 
 	@Override
 	public CommPortIdentifier getPort() {
@@ -61,13 +74,23 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	}
 
 	@Override
-	public ICamera getCamera() {
-		return camera;
+	public List<IFlash> getFlashes() {
+		return flashes;
 	}
 
 	@Override
-	public void setCamera(ICamera camera) {
-		this.camera = camera;
+	public void setFlashes(List<IFlash> flashes) {
+		this.flashes = flashes;
+	}
+
+	@Override
+	public List<ICamera> getCameras() {
+		return cameras;
+	}
+
+	@Override
+	public void setCameras(List<ICamera> cameras) {
+		this.cameras = cameras;
 	}
 
 }

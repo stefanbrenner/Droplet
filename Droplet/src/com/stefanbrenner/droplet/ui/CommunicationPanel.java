@@ -35,6 +35,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.service.ISerialCommService;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 
@@ -62,13 +63,11 @@ public class CommunicationPanel extends JPanel {
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
 			@Override
-			public Component getListCellRendererComponent(JList list,
-					Object value, int index, boolean isSelected,
+			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
 
-				JLabel lbItem = (JLabel) defaultRenderer
-						.getListCellRendererComponent(list, value, index,
-								isSelected, cellHasFocus);
+				JLabel lbItem = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected,
+						cellHasFocus);
 
 				if (value instanceof CommPortIdentifier) {
 					lbItem.setText(((CommPortIdentifier) value).getName());
@@ -114,6 +113,12 @@ public class CommunicationPanel extends JPanel {
 		Object selectedItem = cmbPort.getSelectedItem();
 		if (selectedItem instanceof CommPortIdentifier) {
 			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
+
+			// set selected port on Droplet
+			Droplet.getInstance().setPort(portId);
+
+			// TODO brenner: connect immediately?
+
 			isOnline = commService.isOnline(portId);
 		}
 

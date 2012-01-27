@@ -45,4 +45,34 @@ public interface ISerialCommService {
 	 */
 	public abstract boolean isOnline(CommPortIdentifier portId);
 
+	/**
+	 * Indicates if the service is currently connected to a serial port.
+	 * 
+	 * @return <code>true</code> if the serivce is connected, otherwise
+	 *         <code>false</code>
+	 */
+	public abstract boolean isConnected();
+
+	/**
+	 * Send a message to the receiver.
+	 * 
+	 * @param message
+	 *            message to send
+	 */
+	public abstract void sendData(String message);
+
+	/**
+	 * This should be called when you stop using the port. This will prevent
+	 * port locking on platforms like Linux.
+	 */
+	public abstract void close();
+
+	/**
+	 * Connect to a given serial port.
+	 * 
+	 * @param portId
+	 *            port identifier to connect to
+	 */
+	public abstract void connect(CommPortIdentifier portId);
+
 }

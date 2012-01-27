@@ -41,6 +41,7 @@ public class DropletToolbar extends JPanel {
 
 		// start button
 		JButton btnStart = new JButton("Start");
+		btnStart.setToolTipText("Start (S)");
 		add(btnStart);
 
 	}

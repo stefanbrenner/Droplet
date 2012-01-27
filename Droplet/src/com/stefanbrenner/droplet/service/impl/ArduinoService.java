@@ -19,13 +19,20 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.service.impl;
 
-import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+import gnu.io.UnsupportedCommOperationException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.TooManyListenersException;
 
 import com.stefanbrenner.droplet.service.ISerialCommService;
 
@@ -37,21 +44,37 @@ import com.stefanbrenner.droplet.service.ISerialCommService;
  * 
  * @author Stefan Brenner
  */
-public class ArduinoService implements ISerialCommService {
+public class ArduinoService implements ISerialCommService, SerialPortEventListener {
 
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
-	/** Default bits per second for COM port. */
+	/** Default bits per second for COM port */
 	private static final int DATA_RATE = 9600;
+
+	/** connected port information **/
+	private CommPortIdentifier connPortId = null;
+	private SerialPort connSerialPort = null;
+
+	/** input stream for sending data **/
+	private InputStream input = null;
+	/** output streams for receiving data **/
+	private OutputStream output = null;
+
+	/** flag that indicates if the service is currently connected to a port **/
+	private boolean connected = false;
 
 	/**
 	 * Tries to open a serial communication to the given port.
 	 */
 	@Override
-	public boolean isOnline(CommPortIdentifier portId) {
-		CommPort port = null;
+	// TODO brenner: refactor: bei auswahl aus cb sofort verbinden zu port und
+	// status setzen. so wie es jetzt ist, bekomm ich probleme wenn ich in dem
+	// moment wo diese methode aufgerufen wird connecten will
+	// current fix: synchronized methods
+	public synchronized boolean isOnline(CommPortIdentifier portId) {
+		SerialPort port = null;
 		try {
-			port = portId.open(this.getClass().getName(), TIME_OUT);
+			port = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 			return true;
 		} catch (PortInUseException e) {
 		} finally {
@@ -69,12 +92,111 @@ public class ArduinoService implements ISerialCommService {
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
 		// iterate through, looking for the port
 		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum
-					.nextElement();
-			ports.add(currPortId);
+			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+			// add only serial ports
+			if (currPortId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+				ports.add(currPortId);
+			}
 		}
 
 		return ports.toArray(new CommPortIdentifier[] {});
+	}
+
+	@Override
+	public synchronized void connect(CommPortIdentifier portId) {
+		try {
+			connPortId = portId;
+			// try to open a connection to the serial port
+			connSerialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
+
+			// set port parameters
+			connSerialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+					SerialPort.PARITY_NONE);
+
+			// set connected flag
+			setConnected(true);
+
+			// open the streams
+			input = connSerialPort.getInputStream();
+			output = connSerialPort.getOutputStream();
+
+			// add event listeners
+			connSerialPort.addEventListener(this);
+			connSerialPort.notifyOnDataAvailable(true);
+
+		} catch (PortInUseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedCommOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TooManyListenersException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public synchronized void close() {
+		try {
+			if (connSerialPort != null) {
+				connSerialPort.removeEventListener();
+				connSerialPort.close();
+				input.close();
+				output.close();
+				setConnected(false);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	// TODO brenner: move listener directly to UI ?
+	public void serialEvent(SerialPortEvent event) {
+		if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+			try {
+				int available = input.available();
+				byte chunk[] = new byte[available];
+				input.read(chunk, 0, available);
+
+				// TODO brenner: handle resultMessage to UI
+				String resultMessage = new String(chunk);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// TODO brenner: implement a two way synchronous communication protocol
+	@Override
+	public void sendData(String message) {
+		try {
+			if (output != null) {
+				output.write(message.getBytes());
+				output.flush();
+			} else {
+				throw new RuntimeException("Not connected to a port!");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean isConnected() {
+		return connected;
+	}
+
+	private void setConnected(boolean connected) {
+		this.connected = connected;
 	}
 
 }

@@ -17,28 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model;
+package com.stefanbrenner.droplet.suite;
 
-import gnu.io.CommPortIdentifier;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-import java.util.List;
+import com.stefanbrenner.droplet.utils.UiUtilsTest;
 
-public interface IDroplet {
-
-	public abstract void setPort(CommPortIdentifier port);
-
-	public abstract CommPortIdentifier getPort();
-
-	public abstract void setCameras(List<ICamera> cameras);
-
-	public abstract List<ICamera> getCameras();
-
-	public abstract void setFlashes(List<IFlash> flashes);
-
-	public abstract List<IFlash> getFlashes();
-
-	public abstract void setValves(List<IValve> valves);
-
-	public abstract List<IValve> getValves();
+/**
+ * Test Suite for all Droplet Tests.
+ * 
+ * @author Stefan Brenner
+ */
+@RunWith(Suite.class)
+@SuiteClasses({ UiUtilsTest.class })
+public class DropletTestSuite {
 
 }

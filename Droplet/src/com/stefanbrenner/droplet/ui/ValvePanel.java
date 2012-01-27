@@ -53,8 +53,7 @@ public class ValvePanel extends JPanel {
 		Valve valve1 = new Valve();
 		valve1.setName("MV 1");
 		BeanAdapter<IValve> adapter = new BeanAdapter<IValve>(valve1);
-		JLabel createLabel = BasicComponentFactory.createLabel(adapter
-				.getValueModel("name"));
+		JLabel createLabel = BasicComponentFactory.createLabel(adapter.getValueModel("name"));
 		add(createLabel, BorderLayout.CENTER);
 
 		// title label

@@ -19,6 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,10 +32,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 public class ProcessingPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	private final JCheckBox cbEnable;
 
 	/**
 	 * Create the panel.
@@ -45,73 +52,76 @@ public class ProcessingPanel extends JPanel {
 		setBorder(BorderFactory.createTitledBorder("Processing"));
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(2, 2, 2, 2);
+		gbc.fill = GridBagConstraints.BOTH;
 
-		// checkbox
-		JCheckBox cbEnable = new JCheckBox("Enable Processing");
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.WEST;
-		// gbc.gridwidth = GridBagConstraints.RELATIVE;
+		cbEnable = new JCheckBox("Write Metadata to EXIF");
+		cbEnable.setSelected(false);
+		cbEnable.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent event) {
+				updateUi();
+			}
+		});
+		UiUtils.editGridBagConstraints(gbc, 0, 0, 0, 0, GridBagConstraints.WEST);
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		add(cbEnable, gbc);
 
-		// watch folder label
-		gbc.gridx = 0;
-		gbc.gridy = 1;
+		// reset gridwidth
 		gbc.gridwidth = 1;
+
+		// watch folder label
+		UiUtils.editGridBagConstraints(gbc, 0, 1, 0, 0, GridBagConstraints.WEST);
 		add(new JLabel("Watch Folder"), gbc);
 
-		// watch folder textbox
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.anchor = GridBagConstraints.EAST;
-		JTextField txtWatchFolder = new JTextField(
-				"/Users/Stefan/Pictures/AutomatedImport");
-		txtWatchFolder.setEnabled(false);
-		add(txtWatchFolder, gbc);
+		{
+			JPanel watchFolderPanel = new JPanel();
+			watchFolderPanel.setLayout(new BorderLayout());
+			UiUtils.editGridBagConstraints(gbc, 1, 1, 1, 0);
+			add(watchFolderPanel, gbc);
 
-		// watch folder button
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		JButton btnWatchFolder = new JButton("Browse...");
-		add(btnWatchFolder, gbc);
+			// watch folder textbox
+			JTextField txtWatchFolder = new JTextField();
+			txtWatchFolder.setEditable(false);
+			watchFolderPanel.add(txtWatchFolder, BorderLayout.CENTER);
 
-		// tag label
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.anchor = GridBagConstraints.NORTHWEST;
-		add(new JLabel("Tags"), gbc);
+			// watch folder button
+			JButton btnWatchFolder = new JButton("...");
+			watchFolderPanel.add(btnWatchFolder, BorderLayout.EAST);
 
-		// tag textbox
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		JTextArea txtTag = new JTextArea(4, 20);
-		txtTag.setMargin(new Insets(5, 5, 5, 5));
-		txtTag.setLineWrap(true);
-		JScrollPane tagScrollPane = new JScrollPane(txtTag);
-		add(tagScrollPane, gbc);
+		}
 
 		// comments label
-		gbc.gridx = 3;
-		gbc.gridy = 2;
+		UiUtils.editGridBagConstraints(gbc, 0, 2, 0, 1, GridBagConstraints.NORTHEAST);
 		add(new JLabel("Comments"), gbc);
 
-		// comments textbox
-		gbc.gridx = 4;
-		gbc.gridy = 2;
+		// comments textarea
 		JTextArea txtComments = new JTextArea(4, 20);
 		txtComments.setMargin(new Insets(5, 5, 5, 5));
 		txtComments.setLineWrap(true);
+		UiUtils.disableTab(txtComments);
 		JScrollPane commentsScrollPane = new JScrollPane(txtComments);
+		UiUtils.editGridBagConstraints(gbc, 1, 2, 1, 1);
 		add(commentsScrollPane, gbc);
 
-		// checkbox
-		JCheckBox cbWriteMetaData = new JCheckBox("Write Metadata to EXIF");
-		gbc.gridx = 4;
-		gbc.gridy = 1;
-		gbc.anchor = GridBagConstraints.WEST;
-		add(cbWriteMetaData, gbc);
+		// tag label
+		UiUtils.editGridBagConstraints(gbc, 2, 2, 0, 1, GridBagConstraints.NORTHEAST);
+		add(new JLabel("Tags"), gbc);
 
+		// tag textarea
+		JTextArea txtTag = new JTextArea(4, 20);
+		txtTag.setMargin(new Insets(5, 5, 5, 5));
+		txtTag.setLineWrap(true);
+		UiUtils.disableTab(txtTag);
+		JScrollPane tagScrollPane = new JScrollPane(txtTag);
+		UiUtils.editGridBagConstraints(gbc, 3, 2, 1, 1, GridBagConstraints.EAST);
+		add(tagScrollPane, gbc);
+
+		updateUi();
+	}
+
+	private void updateUi() {
+		UiUtils.setEnabledRecursive(ProcessingPanel.this, cbEnable.isSelected(), cbEnable);
 	}
 
 }

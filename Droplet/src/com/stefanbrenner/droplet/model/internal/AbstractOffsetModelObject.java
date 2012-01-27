@@ -21,8 +21,7 @@ package com.stefanbrenner.droplet.model.internal;
 
 import com.stefanbrenner.droplet.model.IOffsetAction;
 
-public abstract class AbstractOffsetModelObject extends AbstractModelObject
-		implements IOffsetAction {
+public abstract class AbstractOffsetModelObject extends AbstractModelObject implements IOffsetAction {
 
 	private static final long serialVersionUID = 1L;
 

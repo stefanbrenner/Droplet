@@ -21,8 +21,7 @@ package com.stefanbrenner.droplet.model.internal;
 
 import com.stefanbrenner.droplet.model.IFlashAction;
 
-public class FlashAction extends AbstractOffsetModelObject implements
-		IFlashAction {
+public class FlashAction extends AbstractOffsetModelObject implements IFlashAction {
 
 	private static final long serialVersionUID = 1L;
 

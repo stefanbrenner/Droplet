@@ -24,6 +24,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+// TODO brenner: use JToolBar
 public class DropletToolbar extends JPanel {
 
 	private static final long serialVersionUID = 1L;

@@ -25,12 +25,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.service.ISerialCommService;
@@ -46,6 +51,8 @@ public class LoggingPanel extends JPanel {
 
 	private ISerialCommService commService;
 
+	private JTextArea txtMessages;
+
 	/**
 	 * Create the panel.
 	 */
@@ -59,7 +66,7 @@ public class LoggingPanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 
-		JTextArea txtMessages = new JTextArea(5, 50);
+		txtMessages = new JTextArea(5, 50);
 		txtMessages.setFocusable(false);
 		txtMessages.setFocusTraversalKeysEnabled(true);
 		txtMessages.setMargin(new Insets(10, 10, 10, 10));
@@ -84,4 +91,18 @@ public class LoggingPanel extends JPanel {
 
 	}
 
+	/**
+	 * Add a message to the logging text area.
+	 */
+	public void addMessage(String message) {
+		// TODO brenner: make locale configurable in settings
+		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
+		String timestamp = format.format(new Date(System.currentTimeMillis()));
+		String logEntry = timestamp + ": " + message;
+		if (txtMessages.getText().isEmpty()) {
+			txtMessages.setText(logEntry);
+		} else {
+			txtMessages.setText(StringUtils.join(txtMessages.getText(), "\n", logEntry));
+		}
+	}
 }

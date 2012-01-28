@@ -25,12 +25,21 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.JTextComponent;
 
@@ -45,6 +54,8 @@ public class DropletMainFrame extends JFrame {
 
 	private final IDroplet droplet = Droplet.getInstance();
 
+	private final JMenuBar menuBar;
+
 	// panels
 	private final CommunicationPanel commPanel;
 	private final ConfigurationPanel configPanel;
@@ -54,8 +65,25 @@ public class DropletMainFrame extends JFrame {
 
 	/**
 	 * Launch the application.
+	 * 
+	 * @throws UnsupportedLookAndFeelException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ClassNotFoundException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, UnsupportedLookAndFeelException {
+
+		// identify that we run on a mac
+		String lcOSName = System.getProperty("os.name").toLowerCase();
+		boolean IS_MAC = lcOSName.startsWith("mac os x");
+		// put jmenubar on mac menu bar
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		// set application name
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Droplet");
+		// use nativ look and feel
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -78,6 +106,40 @@ public class DropletMainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		// TODO setIconImage(new ImageIcon("icons/icon.gif").getImage());
+
+		// build menu
+		ActionListener menuItemListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				loggingPanel.addMessage(event.getActionCommand());
+			}
+		};
+		menuBar = new JMenuBar();
+		JMenu fileMenu = menuBar.add(new JMenu("File"));
+		JMenuItem newMenuItem = new JMenuItem("New");
+		newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit()
+				.getMenuShortcutKeyMask()));
+		newMenuItem.addActionListener(menuItemListener);
+		fileMenu.add(newMenuItem);
+		JMenuItem openMenuItem = new JMenuItem("Open");
+		openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit()
+				.getMenuShortcutKeyMask()));
+		openMenuItem.addActionListener(menuItemListener);
+		fileMenu.add(openMenuItem);
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit()
+				.getMenuShortcutKeyMask()));
+		saveMenuItem.addActionListener(menuItemListener);
+		fileMenu.add(saveMenuItem);
+		JMenuItem saveAsMenuItem = new JMenuItem("Save As...");
+		saveAsMenuItem.addActionListener(menuItemListener);
+		fileMenu.add(saveAsMenuItem);
+		fileMenu.addSeparator();
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.addActionListener(menuItemListener);
+		fileMenu.add(exitMenuItem);
+		JMenu helpMenu = menuBar.add(new JMenu("Help"));
+		setJMenuBar(menuBar);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

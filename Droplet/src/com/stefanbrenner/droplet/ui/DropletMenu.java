@@ -90,7 +90,7 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 		// create actions
 		newAction = new NewAction(dropletContext);
 		openAction = new OpenFileAction(this, fileChooser, dropletContext);
-		saveAction = new SaveFileAction(dropletContext);
+		saveAction = new SaveFileAction(this, fileChooser, dropletContext);
 		saveAsAction = new SaveAsFileAction(this, fileChooser, dropletContext);
 
 		// create menu items

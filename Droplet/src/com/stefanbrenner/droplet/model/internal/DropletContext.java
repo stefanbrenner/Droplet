@@ -38,10 +38,12 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	private IDroplet droplet;
 
+	@Override
 	public File getFile() {
 		return file;
 	}
 
+	@Override
 	public void setFile(File file) {
 		this.file = file;
 	}

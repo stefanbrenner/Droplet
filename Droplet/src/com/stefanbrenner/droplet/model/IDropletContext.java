@@ -21,6 +21,8 @@ package com.stefanbrenner.droplet.model;
 
 import gnu.io.CommPortIdentifier;
 
+import java.io.File;
+
 /**
  * @author Stefan Brenner
  */
@@ -37,5 +39,9 @@ public interface IDropletContext extends INotificationSupport {
 	public abstract void setDroplet(IDroplet droplet);
 
 	public abstract IDroplet getDroplet();
+
+	public abstract void setFile(File file);
+
+	public abstract File getFile();
 
 }

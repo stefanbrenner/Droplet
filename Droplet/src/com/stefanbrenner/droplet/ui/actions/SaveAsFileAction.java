@@ -20,7 +20,6 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -33,14 +32,8 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 @SuppressWarnings("serial")
 public class SaveAsFileAction extends SaveFileAction {
 
-	private final JComponent parent;
-	private final JFileChooser fileChooser;
-
 	public SaveAsFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(dropletContext, "Save As...");
-
-		this.fileChooser = fileChooser;
-		this.parent = parent;
+		super("Save As...", parent, fileChooser, dropletContext);
 
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration in new file");
 
@@ -48,17 +41,7 @@ public class SaveAsFileAction extends SaveFileAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		int returnVal = fileChooser.showSaveDialog(parent);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-
-			// Get the selected file
-			File file = fileChooser.getSelectedFile();
-
-			// TODO brenner: automatically add file extension
-			// TODO brenner: warn before overwrite
-			saveFile(file);
-
-		}
+		showFileChooser();
 	}
 
 };

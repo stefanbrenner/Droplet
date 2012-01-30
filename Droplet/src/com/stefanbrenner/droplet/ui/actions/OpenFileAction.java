@@ -74,6 +74,7 @@ public class OpenFileAction extends AbstractDropletAction {
 
 				// set droplet to context
 				getDropletContext().setDroplet(droplet);
+				getDropletContext().setFile(file);
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

@@ -47,6 +47,7 @@ public class NewAction extends AbstractDropletAction {
 		// TODO brenner: remove this initialization
 		droplet.initializeWithDefaults();
 		getDropletContext().setDroplet(droplet);
+		getDropletContext().setFile(null);
 	}
 
 }

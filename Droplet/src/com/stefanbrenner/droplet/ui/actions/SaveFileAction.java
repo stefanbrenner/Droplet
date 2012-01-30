@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.xml.bind.JAXBException;
 
 import com.stefanbrenner.droplet.model.IDroplet;
@@ -39,26 +41,47 @@ import com.stefanbrenner.droplet.xml.JAXBHelper;
 @SuppressWarnings("serial")
 public class SaveFileAction extends AbstractDropletAction {
 
-	public SaveFileAction(IDropletContext dropletContext) {
-		this(dropletContext, "Save");
+	private final JComponent parent;
+	private final JFileChooser fileChooser;
+
+	public SaveFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
+		this("Save", parent, fileChooser, dropletContext);
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration");
 	}
 
-	public SaveFileAction(IDropletContext dropletContext, String name) {
+	public SaveFileAction(String name, JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
 		super(dropletContext, name);
+		this.parent = parent;
+		this.fileChooser = fileChooser;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		File file = getDropletContext().getFile();
+		if (file == null) {
+			showFileChooser();
+		} else {
+			saveFile(file);
+		}
+	}
 
-		// TODO brenner: where do we store the file information?
-		// TODO brenner: show file chooser if we don't already have a file
-		// information
-		File file = new File("test.drp");
-		saveFile(file);
+	protected void showFileChooser() {
+		int returnVal = fileChooser.showSaveDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
+			// Get the selected file
+			File file = fileChooser.getSelectedFile();
+
+			// add file to context
+			getDropletContext().setFile(file);
+
+			// TODO brenner: automatically add file extension
+			// TODO brenner: warn before overwrite
+			saveFile(file);
+
+		}
 	}
 
 	protected void saveFile(File file) {

@@ -1,0 +1,142 @@
+/*******************************************************************************
+ * Project: Droplet - Toolkit for Liquid Art Photographers
+ * Copyright (C) 2012 Stefan Brenner
+ *
+ * This file is part of Droplet.
+ *
+ * Droplet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Droplet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
+ *******************************************************************************/
+package com.stefanbrenner.droplet.ui;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import com.jgoodies.binding.adapter.BasicComponentFactory;
+import com.jgoodies.binding.beans.BeanAdapter;
+import com.stefanbrenner.droplet.model.IAction;
+import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IValve;
+import com.stefanbrenner.droplet.utils.DropletColors;
+import com.stefanbrenner.droplet.utils.DropletDimensions;
+
+public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	// model objects
+	private T device;
+
+	// UI components
+	private final JTextField txtName;
+
+	private JPanel actionsPanel;
+
+	/**
+	 * Create the panel.
+	 */
+	public ActionDevicePanel(T device) {
+
+		setDevice(device);
+
+		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		setBackground(DropletColors.getBackgroundColor(getDevice()));
+		setPreferredSize(DropletDimensions.getDimension(getDevice()));
+		setMinimumSize(getPreferredSize());
+
+		BeanAdapter<T> adapter = new BeanAdapter<T>(device, true);
+
+		txtName = BasicComponentFactory.createTextField(adapter.getValueModel(IValve.PROPERTY_NAME));
+		txtName.setHorizontalAlignment(SwingConstants.CENTER);
+		add(txtName, BorderLayout.NORTH);
+
+		actionsPanel = new JPanel();
+		actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
+		actionsPanel.setBackground(getBackground());
+		add(actionsPanel, BorderLayout.CENTER);
+
+		// add button
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent action) {
+				addAction(getDevice().createNewAction());
+			}
+		});
+		add(btnAdd, BorderLayout.SOUTH);
+
+		updateActionsPanel();
+
+		initializeListeners();
+
+	}
+
+	private void initializeListeners() {
+		device.addPropertyChangeListener(IValve.ASSOCIATION_ACTIONS, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				updateActionsPanel();
+			}
+		});
+	}
+
+	private void addAction(IAction action) {
+		device.addAction(action);
+	}
+
+	private void updateActionsPanel() {
+		// remove all components
+		actionsPanel.removeAll();
+		// add components for each action
+		for (IAction action : device.getActions()) {
+			ActionPanel<IAction> valveActionPanel = new ActionPanel<IAction>(device, action);
+			actionsPanel.add(valveActionPanel);
+		}
+		// add fill
+		actionsPanel.add(Box.createVerticalGlue());
+		// redraw panel
+		actionsPanel.revalidate();
+		actionsPanel.repaint();
+	}
+
+	@Override
+	public Dimension getMaximumSize() {
+		Dimension size = getPreferredSize();
+		size.height = Short.MAX_VALUE;
+		return size;
+	}
+
+	public T getDevice() {
+		return device;
+	}
+
+	public void setDevice(T device) {
+		this.device = device;
+	}
+
+}

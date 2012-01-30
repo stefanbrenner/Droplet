@@ -23,23 +23,17 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.stefanbrenner.droplet.model.internal.Droplet;
-import com.stefanbrenner.droplet.service.ISerialCommService;
-import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
@@ -49,16 +43,12 @@ public class LoggingPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private ISerialCommService commService;
-
 	private JTextArea txtMessages;
 
 	/**
 	 * Create the panel.
 	 */
 	public LoggingPanel() {
-
-		commService = new ArduinoService();
 
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createTitledBorder("Logging"));
@@ -75,19 +65,6 @@ public class LoggingPanel extends JPanel {
 		JScrollPane loggingScrollPane = new JScrollPane(txtMessages);
 		UiUtils.editGridBagConstraints(gbc, 0, 0, 1, 0);
 		add(loggingScrollPane, gbc);
-
-		JButton btnEcho = new JButton("Test Echo");
-		btnEcho.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-				commService.connect(Droplet.getInstance().getPort());
-				commService.sendData("This is just a test message!\n");
-				commService.close();
-			}
-		});
-		UiUtils.editGridBagConstraints(gbc, 0, 1, 1, 0, GridBagConstraints.SOUTHEAST);
-		gbc.fill = GridBagConstraints.NONE;
-		add(btnEcho, gbc);
 
 	}
 

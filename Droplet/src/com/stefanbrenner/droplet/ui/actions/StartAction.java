@@ -17,40 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model.internal;
+package com.stefanbrenner.droplet.ui.actions;
 
-import java.awt.Color;
+import java.awt.event.ActionEvent;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.swing.AbstractAction;
 
-import com.stefanbrenner.droplet.model.IDurationAction;
-import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.xml.ColorAdapter;
+import com.stefanbrenner.droplet.service.impl.ArduinoService;
+import com.stefanbrenner.droplet.service.impl.DropletParser;
 
-@XmlRootElement(name = "Valve")
-public class Valve extends AbstractActionDevice<IDurationAction> implements IValve {
+/**
+ * @author Stefan Brenner
+ */
+@SuppressWarnings("serial")
+public class StartAction extends AbstractAction {
 
-	private static final long serialVersionUID = 1L;
-
-	@XmlAttribute(name = "Color")
-	@XmlJavaTypeAdapter(ColorAdapter.class)
-	private Color color;
-
-	@Override
-	public Color getColor() {
-		return color;
+	public StartAction() {
+		super("Start");
 	}
 
 	@Override
-	public void setColor(Color color) {
-		firePropertyChange(PROPERTY_COLOR, this.color, this.color = color);
-	}
-
-	@Override
-	public IDurationAction createNewAction() {
-		return new DurationAction();
+	public void actionPerformed(ActionEvent event) {
+		System.out.println("start");
+		DropletParser.start(ArduinoService.getInstance());
 	}
 
 }

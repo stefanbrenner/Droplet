@@ -17,14 +17,39 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model;
+package com.stefanbrenner.droplet.model.internal;
 
-public interface IValveAction extends IOffsetAction, INotificationSupport {
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
-	public static final String PROPERTY_DURATION = "ValveAction.Duration";
+import com.stefanbrenner.droplet.model.IDurationAction;
 
-	public abstract void setDuration(Integer duration);
+@XmlRootElement(name = "DurationAction")
+public class DurationAction extends Action implements IDurationAction {
 
-	public abstract Integer getDuration();
+	private static final long serialVersionUID = 1L;
+
+	@XmlAttribute(name = "Duration")
+	private Integer duration;
+
+	public DurationAction() {
+		super();
+		setDuration(0);
+	}
+
+	@Override
+	public Integer getDuration() {
+		return duration;
+	}
+
+	@Override
+	public void setDuration(Integer duration) {
+		firePropertyChange(PROPERTY_DURATION, this.duration, this.duration = duration);
+	}
+
+	@Override
+	public void addDuration(Integer duration) {
+		firePropertyChange(PROPERTY_DURATION, this.duration, this.duration += duration);
+	}
 
 }

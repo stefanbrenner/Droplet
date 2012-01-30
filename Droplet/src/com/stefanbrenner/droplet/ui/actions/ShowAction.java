@@ -17,24 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model.internal;
+package com.stefanbrenner.droplet.ui.actions;
 
-import com.stefanbrenner.droplet.model.ICameraAction;
+import java.awt.event.ActionEvent;
 
-public class CameraAction extends AbstractOffsetModelObject implements ICameraAction {
+import javax.swing.AbstractAction;
 
-	private static final long serialVersionUID = 1L;
+import com.stefanbrenner.droplet.service.impl.ArduinoService;
+import com.stefanbrenner.droplet.service.impl.DropletParser;
 
-	private Integer duration;
+/**
+ * @author Stefan Brenner
+ */
+@SuppressWarnings("serial")
+public class ShowAction extends AbstractAction {
 
-	@Override
-	public Integer getDuration() {
-		return duration;
+	public ShowAction() {
+		super("Show");
 	}
 
 	@Override
-	public void setDuration(Integer duration) {
-		firePropertyChange(PROPERTY_DURATION, this.duration, this.duration = duration);
+	public void actionPerformed(ActionEvent event) {
+		System.out.println("show");
+		DropletParser.show(ArduinoService.getInstance());
 	}
 
 }

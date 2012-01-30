@@ -19,38 +19,50 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import com.stefanbrenner.droplet.model.IAction;
-import com.stefanbrenner.droplet.model.IFlash;
-import com.stefanbrenner.droplet.xml.ColorAdapter;
+import com.stefanbrenner.droplet.model.IActionDevice;
 
-@XmlRootElement(name = "Flash")
-public class Flash extends AbstractActionDevice<IAction> implements IFlash {
+/**
+ * @author Stefan Brenner
+ */
+public abstract class AbstractActionDevice<T extends IAction> extends AbstractDevice implements IActionDevice<T> {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlAttribute(name = "Color")
-	@XmlJavaTypeAdapter(ColorAdapter.class)
-	private Color color;
+	@XmlElement(name = "Action", type = Action.class)
+	@XmlElementWrapper(name = "Actions")
+	private List<T> actions = new ArrayList<T>();
 
 	@Override
-	public Color getColor() {
-		return color;
+	public List<T> getActions() {
+		return actions;
 	}
 
 	@Override
-	public void setColor(Color color) {
-		firePropertyChange(PROPERTY_COLOR, this.color, this.color = color);
+	public void setActions(List<T> actions) {
+		firePropertyChange(ASSOCIATION_ACTIONS, this.actions, this.actions = actions);
 	}
 
 	@Override
-	public IAction createNewAction() {
-		return new Action();
+	public void addAction(T action) {
+		List<T> oldValue = actions;
+		actions = new ArrayList<T>(this.actions);
+		actions.add(action);
+		firePropertyChange(ASSOCIATION_ACTIONS, oldValue, actions);
+	}
+
+	@Override
+	public void removeAction(T action) {
+		List<T> oldValue = actions;
+		actions = new ArrayList<T>(this.actions);
+		actions.remove(action);
+		firePropertyChange(ASSOCIATION_ACTIONS, oldValue, actions);
 	}
 
 }

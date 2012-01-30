@@ -17,12 +17,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model.internal;
+package com.stefanbrenner.droplet.model;
 
-import com.stefanbrenner.droplet.model.IFlashAction;
+import java.util.List;
 
-public class FlashAction extends AbstractOffsetModelObject implements IFlashAction {
+/**
+ * @author Stefan Brenner
+ */
+public interface IActionDevice<T extends IAction> extends IDevice {
 
-	private static final long serialVersionUID = 1L;
+	public static final String ASSOCIATION_ACTIONS = "actions";
+
+	public abstract void setActions(List<T> actions);
+
+	public abstract List<T> getActions();
+
+	public abstract void removeAction(T action);
+
+	public abstract void addAction(T action);
+
+	public abstract T createNewAction();
 
 }

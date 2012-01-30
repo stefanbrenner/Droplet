@@ -24,25 +24,37 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.ui.actions.SendAction;
+import com.stefanbrenner.droplet.ui.actions.ShowAction;
+import com.stefanbrenner.droplet.ui.actions.StartAction;
+
 // TODO brenner: use JToolBar
 public class DropletToolbar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private final IDroplet droplet;
+
 	/**
 	 * Create the panel.
 	 */
-	public DropletToolbar() {
+	public DropletToolbar(IDroplet droplet) {
+
+		this.droplet = droplet;
 
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
 
+		// show button
+		JButton btnShow = new JButton(new ShowAction());
+		add(btnShow);
+
 		// send button
-		JButton btnSend = new JButton("Send");
+		JButton btnSend = new JButton(new SendAction(droplet));
 		add(btnSend);
 
 		// start button
-		JButton btnStart = new JButton("Start");
-		btnStart.setToolTipText("Start (S)");
+		JButton btnStart = new JButton(new StartAction());
 		add(btnStart);
 
 	}

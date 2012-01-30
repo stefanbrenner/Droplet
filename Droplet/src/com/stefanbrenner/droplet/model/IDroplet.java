@@ -41,4 +41,12 @@ public interface IDroplet {
 
 	public abstract List<IValve> getValves();
 
+	public abstract void setDescription(String description);
+
+	public abstract String getDescription();
+
+	public abstract void setName(String name);
+
+	public abstract String getName();
+
 }

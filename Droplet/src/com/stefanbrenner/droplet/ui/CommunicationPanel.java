@@ -46,7 +46,7 @@ public class CommunicationPanel extends JPanel {
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
 
-	private final ISerialCommService commService = new ArduinoService();
+	private final ISerialCommService commService = ArduinoService.getInstance();
 
 	/**
 	 * Create the panel.
@@ -79,7 +79,7 @@ public class CommunicationPanel extends JPanel {
 		cmbPort.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent event) {
-				updateStatus();
+				selectPort();
 			}
 		});
 		add(cmbPort);
@@ -90,43 +90,55 @@ public class CommunicationPanel extends JPanel {
 		lblStatus.setForeground(Color.RED);
 		add(lblStatus);
 
-		// start status thread
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (!Thread.interrupted()) {
-					updateStatus();
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
+		// TODO brenner: update port list periodically
+		// new Thread(new Runnable() {
+		// @Override
+		// public void run() {
+		// while (!Thread.interrupted()) {
+		// updatePorts();
+		// try {
+		// Thread.sleep(2000);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// }).start();
+
+		selectPort();
 
 	}
 
-	private void updateStatus() {
-		boolean isOnline = false;
+	private void selectPort() {
+		// TODO brenner: run in thread
+		// new Thread(new Runnable() {
+		// @Override
+		// public void run() {
+		boolean connected = false;
+
+		// close previous connection
+		if (commService.isConnected()) {
+			commService.close();
+		}
 
 		Object selectedItem = cmbPort.getSelectedItem();
 		if (selectedItem instanceof CommPortIdentifier) {
 			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
-
-			// set selected port on Droplet
 			Droplet.getInstance().setPort(portId);
-
-			// TODO brenner: connect immediately?
-
-			isOnline = commService.isOnline(portId);
+			connected = commService.connect(portId);
 		}
 
-		if (isOnline) {
-			lblStatus.setText("Online");
+		updateStatus(connected);
+		// }
+		// }).start();
+	}
+
+	private void updateStatus(boolean connected) {
+		if (connected) {
+			lblStatus.setText("Connected");
 			lblStatus.setForeground(Color.GREEN);
 		} else {
-			lblStatus.setText("Offline");
+			lblStatus.setText("Not Connected");
 			lblStatus.setForeground(Color.RED);
 		}
 	}

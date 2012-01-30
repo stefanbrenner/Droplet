@@ -36,16 +36,6 @@ public interface ISerialCommService {
 	public abstract CommPortIdentifier[] getPorts();
 
 	/**
-	 * Check if a connection to a given serial port can be established
-	 * 
-	 * @param portId
-	 *            port to connect to
-	 * @return <code>true</code> if a connection to the given port was
-	 *         successful, <code>false</code> otherwise
-	 */
-	public abstract boolean isOnline(CommPortIdentifier portId);
-
-	/**
 	 * Indicates if the service is currently connected to a serial port.
 	 * 
 	 * @return <code>true</code> if the serivce is connected, otherwise
@@ -73,6 +63,6 @@ public interface ISerialCommService {
 	 * @param portId
 	 *            port identifier to connect to
 	 */
-	public abstract void connect(CommPortIdentifier portId);
+	public abstract boolean connect(CommPortIdentifier portId);
 
 }

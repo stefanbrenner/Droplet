@@ -22,7 +22,7 @@ Release 0.1b
 * Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
 * Implement Java Service that speaks DMF
 * Implement Basic UI with the following functionality:
-	- Connect to serial port and show live status
+	- Connect to serial port and show connection status
 	- Configure 3 Valves and 1 camera
 	- Open/Close Valves for water release
 	- Start one round

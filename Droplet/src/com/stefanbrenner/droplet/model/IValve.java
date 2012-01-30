@@ -21,21 +21,9 @@ package com.stefanbrenner.droplet.model;
 
 import java.awt.Color;
 
-public interface IValve extends INotificationSupport {
+public interface IValve extends IActionDevice<IDurationAction> {
 
-	public static final String PROPERTY_NAME = "Valve.Name";
-
-	public static final String PROPERTY_DESCRIPTION = "Valve.Description";
-
-	public static final String PROPERTY_COLOR = "Valve.Color";
-
-	public abstract String getName();
-
-	public abstract void setName(String name);
-
-	public abstract void setDescription(String description);
-
-	public abstract String getDescription();
+	public static final String PROPERTY_COLOR = "color";
 
 	public abstract void setColor(Color color);
 

@@ -17,14 +17,34 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model;
+package com.stefanbrenner.droplet.utils;
 
-public interface ICameraAction extends IOffsetAction, INotificationSupport {
+import java.awt.Dimension;
 
-	public static final String PROPERTY_DURATION = "ValveAction.Duration";
+import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDevice;
+import com.stefanbrenner.droplet.model.IFlash;
+import com.stefanbrenner.droplet.model.IValve;
 
-	public abstract void setDuration(Integer duration);
+/**
+ * @author Stefan Brenner
+ */
+public class DropletDimensions {
 
-	public abstract Integer getDuration();
+	public static final int WIDTH_ACTION = 180;
 
+	public static final int WIDTH_DURATION_ACTION = 250;
+
+	public static final int HEIGHT_MIN = 200;
+
+	public static Dimension getDimension(IDevice device) {
+		if (device instanceof IValve) {
+			return new Dimension(WIDTH_DURATION_ACTION, HEIGHT_MIN);
+		} else if (device instanceof IFlash) {
+			return new Dimension(WIDTH_ACTION, HEIGHT_MIN);
+		} else if (device instanceof ICamera) {
+			return new Dimension(WIDTH_DURATION_ACTION, HEIGHT_MIN);
+		}
+		return new Dimension();
+	}
 }

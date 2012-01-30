@@ -19,38 +19,53 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import java.awt.Color;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.stefanbrenner.droplet.model.IDurationAction;
-import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.xml.ColorAdapter;
+import com.stefanbrenner.droplet.model.IAction;
 
-@XmlRootElement(name = "Valve")
-public class Valve extends AbstractActionDevice<IDurationAction> implements IValve {
+/**
+ * @author Stefan Brenner
+ */
+@XmlRootElement(name = "Action")
+public class Action extends AbstractModelObject implements IAction {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlAttribute(name = "Color")
-	@XmlJavaTypeAdapter(ColorAdapter.class)
-	private Color color;
+	@XmlAttribute(name = "Enabled")
+	private boolean enabled;
 
-	@Override
-	public Color getColor() {
-		return color;
+	@XmlAttribute(name = "Offset")
+	private Integer offset;
+
+	public Action() {
+		setEnabled(true);
+		setOffset(0);
 	}
 
 	@Override
-	public void setColor(Color color) {
-		firePropertyChange(PROPERTY_COLOR, this.color, this.color = color);
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 	@Override
-	public IDurationAction createNewAction() {
-		return new DurationAction();
+	public void setEnabled(boolean enabled) {
+		firePropertyChange(PROPERTY_ENABLED, this.enabled, this.enabled = enabled);
+	}
+
+	@Override
+	public Integer getOffset() {
+		return offset;
+	}
+
+	@Override
+	public void setOffset(Integer offset) {
+		firePropertyChange(PROPERTY_OFFSET, this.offset, this.offset = offset);
+	}
+
+	@Override
+	public void addOffset(Integer offset) {
+		firePropertyChange(PROPERTY_OFFSET, this.offset, this.offset += offset);
 	}
 
 }

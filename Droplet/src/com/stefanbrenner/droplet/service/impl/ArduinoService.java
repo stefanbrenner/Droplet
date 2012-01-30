@@ -34,6 +34,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.TooManyListenersException;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.stefanbrenner.droplet.service.ISerialCommService;
 
 /**
@@ -63,26 +65,14 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 	/** flag that indicates if the service is currently connected to a port **/
 	private boolean connected = false;
 
-	/**
-	 * Tries to open a serial communication to the given port.
-	 */
-	@Override
-	// TODO brenner: refactor: bei auswahl aus cb sofort verbinden zu port und
-	// status setzen. so wie es jetzt ist, bekomm ich probleme wenn ich in dem
-	// moment wo diese methode aufgerufen wird connecten will
-	// current fix: synchronized methods
-	public synchronized boolean isOnline(CommPortIdentifier portId) {
-		SerialPort port = null;
-		try {
-			port = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
-			return true;
-		} catch (PortInUseException e) {
-		} finally {
-			if (port != null) {
-				port.close();
-			}
-		}
-		return false;
+	private static final ArduinoService instance = new ArduinoService();
+
+	private ArduinoService() {
+
+	}
+
+	public static ArduinoService getInstance() {
+		return instance;
 	}
 
 	@Override
@@ -103,7 +93,7 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 	}
 
 	@Override
-	public synchronized void connect(CommPortIdentifier portId) {
+	public synchronized boolean connect(CommPortIdentifier portId) {
 		try {
 			connPortId = portId;
 			// try to open a connection to the serial port
@@ -138,6 +128,7 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 			e.printStackTrace();
 		}
 
+		return isConnected();
 	}
 
 	@Override
@@ -166,7 +157,9 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 				input.read(chunk, 0, available);
 
 				// TODO brenner: handle resultMessage to UI
-				String resultMessage = new String(chunk);
+				String resultMessage = StringUtils.chomp(new String(chunk));
+				System.out.print(resultMessage);
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -191,7 +184,7 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 	}
 
 	@Override
-	public boolean isConnected() {
+	public synchronized boolean isConnected() {
 		return connected;
 	}
 

@@ -26,31 +26,87 @@ import gnu.io.CommPortIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 
+@XmlRootElement(name = "Droplet")
 public class Droplet extends AbstractModelObject implements IDroplet {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlTransient
 	private CommPortIdentifier port;
 
+	@XmlAttribute(name = "Name")
+	private String name;
+
+	@XmlElement(name = "Description")
+	private String description;
+
+	@XmlElement(name = "Valve", type = Valve.class)
+	@XmlElementWrapper(name = "Valves")
 	private List<IValve> valves = new ArrayList<IValve>();
 
+	@XmlElement(name = "Flash", type = Flash.class)
+	@XmlElementWrapper(name = "Flashes")
 	private List<IFlash> flashes = new ArrayList<IFlash>();
 
+	@XmlElement(name = "Camera", type = Camera.class)
+	@XmlElementWrapper(name = "Cameras")
 	private List<ICamera> cameras = new ArrayList<ICamera>();
 
 	private static final IDroplet instance = new Droplet();
 
 	private Droplet() {
-
+		// add 3 valves
+		for (int i = 0; i < 3; i++) {
+			IValve valve = new Valve();
+			valve.setName("Valve " + (i + 1));
+			valve.addAction(valve.createNewAction());
+			valves.add(valve);
+		}
+		// add one flash
+		Flash flash = new Flash();
+		flash.setName("580EX");
+		flash.addAction(flash.createNewAction());
+		flashes.add(flash);
+		// add one camera
+		Camera camera = new Camera();
+		camera.setName("EOS 7D");
+		camera.addAction(camera.createNewAction());
+		cameras.add(camera);
 	}
 
 	public static IDroplet getInstance() {
 		return instance;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

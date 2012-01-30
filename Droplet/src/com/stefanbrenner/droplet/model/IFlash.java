@@ -21,24 +21,12 @@ package com.stefanbrenner.droplet.model;
 
 import java.awt.Color;
 
-public interface IFlash {
+public interface IFlash extends IActionDevice<IAction> {
 
-	public static final String PROPERTY_NAME = "Flash.Name";
-
-	public static final String PROPERTY_DESCRIPTION = "Flash.Description";
-
-	public static final String PROPERTY_COLOR = "Flash.Color";
+	public static final String PROPERTY_COLOR = "color";
 
 	public abstract void setColor(Color color);
 
 	public abstract Color getColor();
-
-	public abstract void setDescription(String description);
-
-	public abstract String getDescription();
-
-	public abstract void setName(String name);
-
-	public abstract String getName();
 
 }

@@ -19,12 +19,18 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-public interface IOffsetAction {
+public interface IDevice extends INotificationSupport {
 
-	public static final String PROPERTY_OFFSET = "OffsetAction.Offset";
+	public static final String PROPERTY_NAME = "name";
 
-	public abstract void setOffset(Integer offset);
+	public static final String PROPERTY_DESCRIPTION = "description";
 
-	public abstract Integer getOffset();
+	public abstract String getName();
+
+	public abstract void setName(String name);
+
+	public abstract void setDescription(String description);
+
+	public abstract String getDescription();
 
 }

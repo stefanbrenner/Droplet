@@ -19,10 +19,19 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import java.awt.FlowLayout;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IFlash;
+import com.stefanbrenner.droplet.model.IValve;
+import com.stefanbrenner.droplet.model.internal.Droplet;
 
 public class ConfigurationPanel extends JPanel {
 
@@ -33,8 +42,33 @@ public class ConfigurationPanel extends JPanel {
 	 */
 	public ConfigurationPanel() {
 
-		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createTitledBorder("Configuration"));
+		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+		IDroplet droplet = Droplet.getInstance();
+
+		add(Box.createRigidArea(new Dimension(10, 0)));
+		// add valve panels
+		for (IValve valve : droplet.getValves()) {
+			ActionDevicePanel valvePanel = new ActionDevicePanel(valve);
+			add(valvePanel);
+			add(Box.createRigidArea(new Dimension(10, 0)));
+		}
+		// add flash panels
+		for (IFlash flash : droplet.getFlashes()) {
+			ActionDevicePanel flashPanel = new ActionDevicePanel(flash);
+			add(flashPanel);
+			add(Box.createRigidArea(new Dimension(10, 0)));
+		}
+		// add camera panels
+		for (ICamera camera : droplet.getCameras()) {
+			ActionDevicePanel cameraPanel = new ActionDevicePanel(camera);
+			add(cameraPanel);
+			add(Box.createRigidArea(new Dimension(10, 0)));
+		}
+
+		add(Box.createHorizontalGlue());
 
 	}
 

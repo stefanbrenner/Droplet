@@ -19,12 +19,6 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-public interface ICamera {
-
-	public static final String PROPERY_NAME = "Camera.Name";
-
-	public abstract String getName();
-
-	public abstract void setName(String name);
+public interface ICamera extends IActionDevice<IDurationAction> {
 
 }

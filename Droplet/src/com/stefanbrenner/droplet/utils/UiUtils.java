@@ -22,9 +22,11 @@ package com.stefanbrenner.droplet.utils;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.util.Arrays;
 
 import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -33,6 +35,10 @@ import javax.swing.text.JTextComponent;
  * @author Stefan Brenner
  */
 public class UiUtils {
+
+	public static KeyStroke getAccelerator(int key) {
+		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+	}
 
 	/**
 	 * Enables/Disables a component and all its children recursively
@@ -64,6 +70,14 @@ public class UiUtils {
 	public static void disableTab(JTextComponent txtComp) {
 		txtComp.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		txtComp.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
+	}
+
+	/**
+	 * Creates a new {@link GridBagConstraints} with all parameters set to their
+	 * standard value
+	 */
+	public static GridBagConstraints createGridBagConstraints() {
+		return createGridBagConstraints(0, 0);
 	}
 
 	/**

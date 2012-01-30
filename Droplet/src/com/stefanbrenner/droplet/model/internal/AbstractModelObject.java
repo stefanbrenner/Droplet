@@ -19,11 +19,14 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import com.jgoodies.binding.beans.Model;
 
 /**
- * @author brenner
+ * @author Stefan Brenner
  */
+@XmlAccessorType(javax.xml.bind.annotation.XmlAccessType.FIELD)
 public abstract class AbstractModelObject extends Model {
 
 	private static final long serialVersionUID = 1L;

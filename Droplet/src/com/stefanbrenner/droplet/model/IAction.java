@@ -19,6 +19,24 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-public interface IFlashAction extends IOffsetAction, INotificationSupport {
+
+/**
+ * @author Stefan Brenner
+ */
+public interface IAction extends INotificationSupport {
+
+	public static final String PROPERTY_ENABLED = "enabled";
+
+	public static final String PROPERTY_OFFSET = "offset";
+
+	public abstract boolean isEnabled();
+
+	public abstract void setEnabled(boolean enabled);
+
+	public abstract void setOffset(Integer offset);
+
+	public abstract Integer getOffset();
+
+	public abstract void addOffset(Integer offset);
 
 }

@@ -19,36 +19,19 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.stefanbrenner.droplet.model.ICamera;
-import com.stefanbrenner.droplet.model.ICameraAction;
+import com.stefanbrenner.droplet.model.IDurationAction;
 
-public class Camera extends AbstractModelObject implements ICamera {
+@XmlRootElement(name = "Camera")
+public class Camera extends AbstractActionDevice<IDurationAction> implements ICamera {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-
-	private List<ICameraAction> actions = new ArrayList<ICameraAction>();
-
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		firePropertyChange(PROPERY_NAME, this.name, this.name = name);
-	}
-
-	public List<ICameraAction> getActions() {
-		return actions;
-	}
-
-	public void setActions(List<ICameraAction> actions) {
-		this.actions = actions;
+	public IDurationAction createNewAction() {
+		return new DurationAction();
 	}
 
 }

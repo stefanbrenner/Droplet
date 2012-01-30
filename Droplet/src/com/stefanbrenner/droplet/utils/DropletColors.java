@@ -17,24 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model.internal;
+package com.stefanbrenner.droplet.utils;
 
-import com.stefanbrenner.droplet.model.IOffsetAction;
+import java.awt.Color;
 
-public abstract class AbstractOffsetModelObject extends AbstractModelObject implements IOffsetAction {
+import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDevice;
+import com.stefanbrenner.droplet.model.IFlash;
+import com.stefanbrenner.droplet.model.IValve;
 
-	private static final long serialVersionUID = 1L;
+/**
+ * @author Stefan Brenner
+ */
+public class DropletColors {
 
-	private Integer offset;
+	public static final Color BG_VALVE = new Color(204, 255, 204, 255);
 
-	@Override
-	public Integer getOffset() {
-		return offset;
-	}
+	public static final Color BG_FLASH = new Color(204, 255, 255, 255);
 
-	@Override
-	public void setOffset(Integer offset) {
-		firePropertyChange(PROPERTY_OFFSET, this.offset, this.offset = offset);
+	public static final Color BG_CAMERA = new Color(254, 255, 204, 255);
+
+	public static Color getBackgroundColor(IDevice device) {
+		if (device instanceof IValve) {
+			return BG_VALVE;
+		} else if (device instanceof IFlash) {
+			return BG_FLASH;
+		} else if (device instanceof ICamera) {
+			return BG_CAMERA;
+		}
+		return Color.GRAY;
 	}
 
 }

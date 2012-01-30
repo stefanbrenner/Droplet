@@ -17,40 +17,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model.internal;
+package com.stefanbrenner.droplet.xml;
 
 import java.awt.Color;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import com.stefanbrenner.droplet.model.IDurationAction;
-import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.xml.ColorAdapter;
-
-@XmlRootElement(name = "Valve")
-public class Valve extends AbstractActionDevice<IDurationAction> implements IValve {
-
-	private static final long serialVersionUID = 1L;
-
-	@XmlAttribute(name = "Color")
-	@XmlJavaTypeAdapter(ColorAdapter.class)
-	private Color color;
+/**
+ * @author Stefan Brenner
+ */
+public class ColorAdapter extends XmlAdapter<Integer, Color> {
 
 	@Override
-	public Color getColor() {
-		return color;
+	public Integer marshal(Color color) throws Exception {
+		return color.getRGB();
 	}
 
 	@Override
-	public void setColor(Color color) {
-		firePropertyChange(PROPERTY_COLOR, this.color, this.color = color);
-	}
-
-	@Override
-	public IDurationAction createNewAction() {
-		return new DurationAction();
+	public Color unmarshal(Integer value) throws Exception {
+		return new Color(value);
 	}
 
 }

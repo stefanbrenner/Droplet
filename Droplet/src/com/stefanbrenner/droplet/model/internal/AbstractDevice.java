@@ -19,38 +19,44 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import java.awt.Color;
-
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlElement;
 
-import com.stefanbrenner.droplet.model.IDurationAction;
-import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.xml.ColorAdapter;
+import com.stefanbrenner.droplet.model.IDevice;
 
-@XmlRootElement(name = "Valve")
-public class Valve extends AbstractActionDevice<IDurationAction> implements IValve {
+/**
+ * Base class for all devices. They can have a name and a description.
+ * 
+ * @author Stefan Brenner
+ */
+public abstract class AbstractDevice extends AbstractModelObject implements IDevice {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlAttribute(name = "Color")
-	@XmlJavaTypeAdapter(ColorAdapter.class)
-	private Color color;
+	@XmlAttribute(name = "Name")
+	private String name;
+
+	@XmlElement(name = "Description")
+	private String description;
 
 	@Override
-	public Color getColor() {
-		return color;
+	public String getName() {
+		return name;
 	}
 
 	@Override
-	public void setColor(Color color) {
-		firePropertyChange(PROPERTY_COLOR, this.color, this.color = color);
+	public void setName(String name) {
+		firePropertyChange(PROPERTY_NAME, this.name, this.name = name);
 	}
 
 	@Override
-	public IDurationAction createNewAction() {
-		return new DurationAction();
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public void setDescription(String description) {
+		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
 
 }

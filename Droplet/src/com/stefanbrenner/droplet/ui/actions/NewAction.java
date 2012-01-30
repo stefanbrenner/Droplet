@@ -17,40 +17,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.ui;
+package com.stefanbrenner.droplet.ui.actions;
 
-import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.AbstractAction;
 
-public class ValveActionPanel extends JPanel {
+import com.stefanbrenner.droplet.utils.UiUtils;
 
-	private static final long serialVersionUID = 1L;
+/**
+ * @author Stefan Brenner
+ */
+@SuppressWarnings("serial")
+public class NewAction extends AbstractAction {
 
-	// UI components
-	private final JSpinner spOffset;
-	private final JSpinner spDuration;
+	public NewAction() {
+		super("New");
 
-	private SpinnerNumberModel spOffsetModel;
-	private SpinnerNumberModel spDurationModel;
+		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
+		putValue(SHORT_DESCRIPTION, "New Droplet Configuration");
 
-	/**
-	 * Create the panel.
-	 */
-	public ValveActionPanel() {
-		setLayout(new BorderLayout(0, 0));
+	}
 
-		spOffset = new JSpinner();
-		spOffsetModel = new SpinnerNumberModel(0, 0, 10000, 1);
-		spOffset.setModel(spOffsetModel);
-		add(spOffset, BorderLayout.WEST);
-
-		spDuration = new JSpinner();
-		spDurationModel = new SpinnerNumberModel(0, 0, 10000, 1);
-		spDuration.setModel(spDurationModel);
-		add(spDuration, BorderLayout.EAST);
+	@Override
+	public void actionPerformed(ActionEvent event) {
 
 	}
 

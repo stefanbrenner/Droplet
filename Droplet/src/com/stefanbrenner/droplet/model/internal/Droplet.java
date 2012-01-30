@@ -96,7 +96,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void setName(String name) {
-		this.name = name;
+		firePropertyChange(PROPERTY_NAME, this.name, this.name = name);
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void setDescription(String description) {
-		this.description = description;
+		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
 
 	@Override
@@ -126,7 +126,23 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void setValves(List<IValve> valves) {
-		this.valves = valves;
+		firePropertyChange(ASSOCIATION_VALVES, this.valves, this.valves = valves);
+	}
+
+	@Override
+	public void addValve(IValve valve) {
+		List<IValve> oldValue = valves;
+		valves = new ArrayList<IValve>(this.valves);
+		valves.add(valve);
+		firePropertyChange(ASSOCIATION_VALVES, oldValue, valves);
+	}
+
+	@Override
+	public void removeValve(IValve valve) {
+		List<IValve> oldValue = valves;
+		valves = new ArrayList<IValve>(this.valves);
+		valves.remove(valve);
+		firePropertyChange(ASSOCIATION_VALVES, oldValue, valves);
 	}
 
 	@Override
@@ -135,8 +151,24 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	}
 
 	@Override
+	public void addFlash(IFlash flash) {
+		List<IFlash> oldValue = flashes;
+		flashes = new ArrayList<IFlash>(this.flashes);
+		flashes.add(flash);
+		firePropertyChange(ASSOCIATION_FLASHES, oldValue, flashes);
+	}
+
+	@Override
+	public void removeFlash(IFlash flash) {
+		List<IFlash> oldValue = flashes;
+		flashes = new ArrayList<IFlash>(this.flashes);
+		flashes.remove(flash);
+		firePropertyChange(ASSOCIATION_FLASHES, oldValue, flashes);
+	}
+
+	@Override
 	public void setFlashes(List<IFlash> flashes) {
-		this.flashes = flashes;
+		firePropertyChange(ASSOCIATION_FLASHES, this.flashes, this.flashes = flashes);
 	}
 
 	@Override
@@ -146,7 +178,23 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void setCameras(List<ICamera> cameras) {
-		this.cameras = cameras;
+		firePropertyChange(ASSOCIATION_CAMERAS, this.cameras, this.cameras = cameras);
+	}
+
+	@Override
+	public void addCamera(ICamera camera) {
+		List<ICamera> oldValue = cameras;
+		cameras = new ArrayList<ICamera>(this.cameras);
+		cameras.add(camera);
+		firePropertyChange(ASSOCIATION_CAMERAS, oldValue, cameras);
+	}
+
+	@Override
+	public void removeCamera(ICamera camera) {
+		List<ICamera> oldValue = cameras;
+		cameras = new ArrayList<ICamera>(this.cameras);
+		cameras.remove(camera);
+		firePropertyChange(ASSOCIATION_CAMERAS, oldValue, cameras);
 	}
 
 }

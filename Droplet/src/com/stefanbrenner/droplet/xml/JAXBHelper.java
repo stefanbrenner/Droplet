@@ -109,7 +109,7 @@ public class JAXBHelper {
 		String xml = jaxbHelper.toXml(droplet);
 		System.out.println(xml);
 
-		Droplet droplet2 = (Droplet) jaxbHelper.fromXml(xml);
+		IDroplet droplet2 = (IDroplet) jaxbHelper.fromXml(xml);
 		String xml2 = jaxbHelper.toXml(droplet2);
 		System.out.println(xml2);
 

@@ -27,8 +27,10 @@ Release 0.1b
 	- Open/Close Valves for water release
 	- Start one round
 	- Simple Logging of photo number combined with the current configuration
-* Implement UI with Java Swing and any binding framework
+
 * Add Key Shortcuts for the main actions
+* Only fire association changed event if object was added/removed?
+
 
 
 NEW FEATURES:

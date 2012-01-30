@@ -23,11 +23,32 @@ import gnu.io.CommPortIdentifier;
 
 import java.util.List;
 
+/**
+ * @author Stefan Brenner
+ */
 public interface IDroplet {
+
+	public static final String PROPERTY_NAME = "name";
+
+	public static final String PROPERTY_DESCRIPTION = "description";
+
+	public static final String ASSOCIATION_VALVES = "valves";
+
+	public static final String ASSOCIATION_FLASHES = "flashes";
+
+	public static final String ASSOCIATION_CAMERAS = "cameras";
 
 	public abstract void setPort(CommPortIdentifier port);
 
 	public abstract CommPortIdentifier getPort();
+
+	public abstract void setName(String name);
+
+	public abstract String getName();
+
+	public abstract void setDescription(String description);
+
+	public abstract String getDescription();
 
 	public abstract void setCameras(List<ICamera> cameras);
 
@@ -41,12 +62,16 @@ public interface IDroplet {
 
 	public abstract List<IValve> getValves();
 
-	public abstract void setDescription(String description);
+	public abstract void removeCamera(ICamera camera);
 
-	public abstract String getDescription();
+	public abstract void addCamera(ICamera camera);
 
-	public abstract void setName(String name);
+	public abstract void removeFlash(IFlash flash);
 
-	public abstract String getName();
+	public abstract void addFlash(IFlash flash);
+
+	public abstract void removeValve(IValve valve);
+
+	public abstract void addValve(IValve valve);
 
 }

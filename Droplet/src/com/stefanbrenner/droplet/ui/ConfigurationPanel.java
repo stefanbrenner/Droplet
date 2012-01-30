@@ -31,23 +31,32 @@ import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.model.internal.Droplet;
 
 public class ConfigurationPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private IDroplet droplet;
+
 	/**
 	 * Create the panel.
 	 */
-	public ConfigurationPanel() {
+	public ConfigurationPanel(IDroplet droplet) {
 
+		// configure ui appearance and behavior
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createTitledBorder("Configuration"));
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-		IDroplet droplet = Droplet.getInstance();
+		// set model object
+		setDroplet(droplet);
 
+	}
+
+	private void updatePanels() {
+		// remove previous components
+		removeAll();
+		// add components
 		add(Box.createRigidArea(new Dimension(10, 0)));
 		// add valve panels
 		for (IValve valve : droplet.getValves()) {
@@ -70,6 +79,17 @@ public class ConfigurationPanel extends JPanel {
 
 		add(Box.createHorizontalGlue());
 
+		revalidate();
+		repaint();
+	}
+
+	public IDroplet getDroplet() {
+		return droplet;
+	}
+
+	public void setDroplet(IDroplet droplet) {
+		this.droplet = droplet;
+		updatePanels();
 	}
 
 }

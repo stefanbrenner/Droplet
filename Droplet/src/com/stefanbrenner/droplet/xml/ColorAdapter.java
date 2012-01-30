@@ -30,12 +30,18 @@ public class ColorAdapter extends XmlAdapter<Integer, Color> {
 
 	@Override
 	public Integer marshal(Color color) throws Exception {
-		return color.getRGB();
+		if (color != null) {
+			return color.getRGB();
+		}
+		return null;
 	}
 
 	@Override
 	public Color unmarshal(Integer value) throws Exception {
-		return new Color(value);
+		if (value != null) {
+			return new Color(value);
+		}
+		return null;
 	}
 
 }

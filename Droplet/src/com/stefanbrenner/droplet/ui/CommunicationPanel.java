@@ -35,13 +35,15 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import com.stefanbrenner.droplet.model.internal.Droplet;
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.ISerialCommService;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 
 public class CommunicationPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	private final IDropletContext dropletContext;
 
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
@@ -51,7 +53,9 @@ public class CommunicationPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CommunicationPanel() {
+	public CommunicationPanel(IDropletContext context) {
+
+		this.dropletContext = context;
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
 		setBorder(BorderFactory.createTitledBorder("Communication"));
@@ -124,7 +128,7 @@ public class CommunicationPanel extends JPanel {
 		Object selectedItem = cmbPort.getSelectedItem();
 		if (selectedItem instanceof CommPortIdentifier) {
 			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
-			Droplet.getInstance().setPort(portId);
+			dropletContext.setPort(portId);
 			connected = commService.connect(portId);
 		}
 

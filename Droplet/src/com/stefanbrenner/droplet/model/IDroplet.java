@@ -19,14 +19,12 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-import gnu.io.CommPortIdentifier;
-
 import java.util.List;
 
 /**
  * @author Stefan Brenner
  */
-public interface IDroplet {
+public interface IDroplet extends INotificationSupport {
 
 	public static final String PROPERTY_NAME = "name";
 
@@ -37,10 +35,6 @@ public interface IDroplet {
 	public static final String ASSOCIATION_FLASHES = "flashes";
 
 	public static final String ASSOCIATION_CAMERAS = "cameras";
-
-	public abstract void setPort(CommPortIdentifier port);
-
-	public abstract CommPortIdentifier getPort();
 
 	public abstract void setName(String name);
 

@@ -21,9 +21,7 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
-import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletParser;
 
@@ -31,19 +29,16 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class SendAction extends AbstractAction {
+public class SendAction extends AbstractDropletAction {
 
-	private final IDroplet droplet;
-
-	public SendAction(IDroplet droplet) {
-		super("Send");
-		this.droplet = droplet;
+	public SendAction(IDropletContext dropletContext) {
+		super(dropletContext, "Send");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		System.out.println("send");
-		DropletParser.sendConfiguration(droplet, ArduinoService.getInstance());
+		DropletParser.sendConfiguration(getDropletContext().getDroplet(), ArduinoService.getInstance());
 	}
 
 }

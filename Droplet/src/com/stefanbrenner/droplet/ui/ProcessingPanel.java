@@ -37,6 +37,7 @@ import javax.swing.event.ChangeListener;
 
 import com.stefanbrenner.droplet.utils.UiUtils;
 
+// TODO brenner: bind to some model object
 public class ProcessingPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;

@@ -22,18 +22,18 @@ package com.stefanbrenner.droplet.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-
+import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class NewAction extends AbstractAction {
+public class NewAction extends AbstractDropletAction {
 
-	public NewAction() {
-		super("New");
+	public NewAction(IDropletContext dropletContext) {
+		super(dropletContext, "New");
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
 		putValue(SHORT_DESCRIPTION, "New Droplet Configuration");
@@ -42,7 +42,11 @@ public class NewAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-
+		// TODO brenner: warn that information gets lost
+		Droplet droplet = new Droplet();
+		// TODO brenner: remove this initialization
+		droplet.initializeWithDefaults();
+		getDropletContext().setDroplet(droplet);
 	}
 
 }

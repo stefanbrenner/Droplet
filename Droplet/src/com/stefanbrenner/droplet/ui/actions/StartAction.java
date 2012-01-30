@@ -21,8 +21,7 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletParser;
 
@@ -30,10 +29,10 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class StartAction extends AbstractAction {
+public class StartAction extends AbstractDropletAction {
 
-	public StartAction() {
-		super("Start");
+	public StartAction(IDropletContext dropletContext) {
+		super(dropletContext, "Start");
 	}
 
 	@Override

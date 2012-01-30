@@ -21,8 +21,6 @@ import com.stefanbrenner.droplet.model.IValve;
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import gnu.io.CommPortIdentifier;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
@@ -41,9 +38,6 @@ import com.stefanbrenner.droplet.model.IValve;
 public class Droplet extends AbstractModelObject implements IDroplet {
 
 	private static final long serialVersionUID = 1L;
-
-	@XmlTransient
-	private CommPortIdentifier port;
 
 	@XmlAttribute(name = "Name")
 	private String name;
@@ -63,9 +57,11 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@XmlElementWrapper(name = "Cameras")
 	private List<ICamera> cameras = new ArrayList<ICamera>();
 
-	private static final IDroplet instance = new Droplet();
+	public Droplet() {
 
-	private Droplet() {
+	}
+
+	public void initializeWithDefaults() {
 		// add 3 valves
 		for (int i = 0; i < 3; i++) {
 			IValve valve = new Valve();
@@ -75,18 +71,14 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		}
 		// add one flash
 		Flash flash = new Flash();
-		flash.setName("580EX");
+		flash.setName("Flash");
 		flash.addAction(flash.createNewAction());
 		flashes.add(flash);
 		// add one camera
 		Camera camera = new Camera();
-		camera.setName("EOS 7D");
+		camera.setName("Camera");
 		camera.addAction(camera.createNewAction());
 		cameras.add(camera);
-	}
-
-	public static IDroplet getInstance() {
-		return instance;
 	}
 
 	@Override
@@ -107,16 +99,6 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@Override
 	public void setDescription(String description) {
 		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
-	}
-
-	@Override
-	public CommPortIdentifier getPort() {
-		return port;
-	}
-
-	@Override
-	public void setPort(CommPortIdentifier port) {
-		this.port = port;
 	}
 
 	@Override

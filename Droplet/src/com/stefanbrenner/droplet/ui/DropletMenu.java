@@ -23,13 +23,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.ui.actions.AbstractDropletAction;
 import com.stefanbrenner.droplet.ui.actions.NewAction;
 import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveAsFileAction;
@@ -42,6 +43,9 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
+	// model object
+	private final IDropletContext dropletContext;
+
 	// menues
 	private JMenu fileMenu;
 	private JMenu helpMenu;
@@ -52,10 +56,17 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 	private JMenuItem saveMenuItem;
 	private JMenuItem saveAsMenuItem;
 	private JMenuItem exitMenuItem;
-
 	private JMenuItem aboutMenuItem;
 
-	public DropletMenu() {
+	// actions
+	private AbstractDropletAction newAction;
+	private AbstractDropletAction openAction;
+	private AbstractDropletAction saveAction;
+	private AbstractDropletAction saveAsAction;
+
+	public DropletMenu(IDropletContext dropletContext) {
+		super();
+		this.dropletContext = dropletContext;
 		build();
 	}
 
@@ -70,17 +81,17 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 
 	private void buildNewMenu() {
 
-		// Create a file chooser
+		// create file chooser
 		String filename = File.separator + "drp";
-		final JFileChooser chooser = new JFileChooser(new File(filename));
+		final JFileChooser fileChooser = new JFileChooser(new File(filename));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Droplets", "drp");
-		chooser.setFileFilter(filter);
+		fileChooser.setFileFilter(filter);
 
-		// Create the actions
-		Action newAction = new NewAction();
-		Action openAction = new OpenFileAction(this, chooser);
-		Action saveAction = new SaveFileAction();
-		Action saveAsAction = new SaveAsFileAction(this, chooser);
+		// create actions
+		newAction = new NewAction(dropletContext);
+		openAction = new OpenFileAction(this, fileChooser, dropletContext);
+		saveAction = new SaveFileAction(dropletContext);
+		saveAsAction = new SaveAsFileAction(this, fileChooser, dropletContext);
 
 		// create menu items
 		newMenuItem = new JMenuItem("New");
@@ -110,7 +121,7 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO brenner: implement
+		// TODO brenner: use actions instead
 	}
 
 }

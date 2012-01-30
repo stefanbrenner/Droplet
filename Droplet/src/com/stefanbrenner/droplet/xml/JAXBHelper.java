@@ -93,7 +93,8 @@ public class JAXBHelper {
 	}
 
 	public static void main(String[] args) throws JAXBException {
-		IDroplet droplet = Droplet.getInstance();
+		Droplet droplet = new Droplet();
+		droplet.initializeWithDefaults();
 
 		droplet.setName("My first Configuration");
 		droplet.setDescription("This is my first configuration with Droplet");

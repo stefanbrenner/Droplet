@@ -25,6 +25,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -34,8 +36,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
-import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Droplet;
+import com.stefanbrenner.droplet.model.internal.DropletContext;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
@@ -43,8 +46,8 @@ public class DropletMainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	// TODO brenner: don't use singleton due to bad design
-	private final IDroplet droplet = Droplet.getInstance();
+	// model objects
+	private final IDropletContext dropletContext;
 
 	// ui components
 	private final DropletMenu dropletMenu;
@@ -89,6 +92,14 @@ public class DropletMainFrame extends JFrame {
 	 */
 	public DropletMainFrame() {
 
+		// create new context
+		dropletContext = new DropletContext();
+
+		// create new droplet model and add to context
+		Droplet droplet = new Droplet();
+		droplet.initializeWithDefaults();
+		dropletContext.setDroplet(droplet);
+
 		// basic frame setup
 		setTitle("Droplet - Toolkit for Liquid Art Photographers");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,10 +112,10 @@ public class DropletMainFrame extends JFrame {
 		setContentPane(contentPane);
 
 		// create menu
-		dropletMenu = new DropletMenu();
+		dropletMenu = new DropletMenu(dropletContext);
 		setJMenuBar(dropletMenu);
 
-		commPanel = new CommunicationPanel();
+		commPanel = new CommunicationPanel(dropletContext);
 		contentPane.add(commPanel, BorderLayout.NORTH);
 
 		{
@@ -115,7 +126,7 @@ public class DropletMainFrame extends JFrame {
 			GridBagConstraints gbc = UiUtils.createGridBagConstraints();
 			gbc.fill = GridBagConstraints.BOTH;
 
-			configPanel = new ConfigurationPanel();
+			configPanel = new ConfigurationPanel(dropletContext.getDroplet());
 			UiUtils.editGridBagConstraints(gbc, 0, 0, 1, 1);
 			mainPanel.add(configPanel, gbc);
 
@@ -128,7 +139,7 @@ public class DropletMainFrame extends JFrame {
 			mainPanel.add(loggingPanel, gbc);
 		}
 
-		toolbarPanel = new DropletToolbar(droplet);
+		toolbarPanel = new DropletToolbar(dropletContext);
 		contentPane.add(toolbarPanel, BorderLayout.SOUTH);
 
 		// make frame as small as possible
@@ -147,9 +158,17 @@ public class DropletMainFrame extends JFrame {
 
 		// register action shortcuts
 		// TODO brenner: don't consume keys in JTextComponents
-		contentPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("F4"),
-				"start");
-		contentPane.getActionMap().put("start", new StartAction());
+		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start");
+		contentPane.getActionMap().put("start", new StartAction(dropletContext));
+
+		// add listener
+		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				// TODO brenner: inform panels that droplet model changed
+				configPanel.setDroplet(dropletContext.getDroplet());
+			}
+		});
 
 	}
 

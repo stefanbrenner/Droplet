@@ -21,25 +21,33 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
-import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
+import org.apache.commons.io.IOUtils;
+
+import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.UiUtils;
+import com.stefanbrenner.droplet.xml.JAXBHelper;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class OpenFileAction extends AbstractAction {
+public class OpenFileAction extends AbstractDropletAction {
 
 	private final JComponent parent;
 	private final JFileChooser fileChooser;
 
-	public OpenFileAction(JComponent parent, JFileChooser fileChooser) {
-		super("Open...");
+	public OpenFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
+		super(dropletContext, "Open...");
 
 		this.fileChooser = fileChooser;
 		this.parent = parent;
@@ -54,17 +62,26 @@ public class OpenFileAction extends AbstractAction {
 		int returnVal = fileChooser.showOpenDialog(parent);
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			try {
+				File file = fileChooser.getSelectedFile();
 
-			// Get the selected file
-			File file = fileChooser.getSelectedFile();
+				BufferedReader in = new BufferedReader(new FileReader(file));
+				String xml = IOUtils.toString(in);
+				in.close();
 
-			// TODO brenner: open conf file
+				JAXBHelper jaxbHelper = new JAXBHelper();
+				IDroplet droplet = jaxbHelper.fromXml(xml, IDroplet.class);
 
-			System.out.println("Opening: " + file.getName());
-		} else {
-			System.out.println("Open command cancelled by user");
+				// set droplet to context
+				getDropletContext().setDroplet(droplet);
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
-
 	}
 
 };

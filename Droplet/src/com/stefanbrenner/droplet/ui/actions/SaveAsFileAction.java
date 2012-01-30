@@ -25,6 +25,8 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
+import com.stefanbrenner.droplet.model.IDropletContext;
+
 /**
  * @author Stefan Brenner
  */
@@ -34,8 +36,8 @@ public class SaveAsFileAction extends SaveFileAction {
 	private final JComponent parent;
 	private final JFileChooser fileChooser;
 
-	public SaveAsFileAction(JComponent parent, JFileChooser fileChooser) {
-		super("Save As...");
+	public SaveAsFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
+		super(dropletContext, "Save As...");
 
 		this.fileChooser = fileChooser;
 		this.parent = parent;
@@ -47,17 +49,15 @@ public class SaveAsFileAction extends SaveFileAction {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		int returnVal = fileChooser.showSaveDialog(parent);
-
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 			// Get the selected file
 			File file = fileChooser.getSelectedFile();
 
-			// TODO brenner: save conf file
+			// TODO brenner: automatically add file extension
+			// TODO brenner: warn before overwrite
+			saveFile(file);
 
-			System.out.println("Opening: " + file.getName());
-		} else {
-			System.out.println("Open command cancelled by user");
 		}
 	}
 

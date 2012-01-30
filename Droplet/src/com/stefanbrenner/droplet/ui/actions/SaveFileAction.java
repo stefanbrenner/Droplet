@@ -21,35 +21,63 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
-import javax.swing.AbstractAction;
+import javax.xml.bind.JAXBException;
 
+import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.UiUtils;
+import com.stefanbrenner.droplet.xml.JAXBHelper;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class SaveFileAction extends AbstractAction {
+public class SaveFileAction extends AbstractDropletAction {
 
-	public SaveFileAction() {
-		this("Save");
+	public SaveFileAction(IDropletContext dropletContext) {
+		this(dropletContext, "Save");
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration");
 	}
 
-	public SaveFileAction(String name) {
-		super(name);
+	public SaveFileAction(IDropletContext dropletContext, String name) {
+		super(dropletContext, name);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 
-		// TODO brenner: save conf file
+		// TODO brenner: where do we store the file information?
+		// TODO brenner: show file chooser if we don't already have a file
+		// information
+		File file = new File("test.drp");
+		saveFile(file);
 
-		System.out.println("save file");
+	}
 
+	protected void saveFile(File file) {
+		try {
+
+			IDroplet droplet = getDropletContext().getDroplet();
+
+			JAXBHelper jaxbHelper = new JAXBHelper();
+			String xml = jaxbHelper.toXml(droplet);
+
+			BufferedWriter out = new BufferedWriter(new FileWriter(file));
+			out.write(xml);
+			out.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 	}
 
 };

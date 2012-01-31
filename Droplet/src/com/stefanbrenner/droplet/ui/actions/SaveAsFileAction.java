@@ -39,6 +39,7 @@ public class SaveAsFileAction extends SaveFileAction {
 		super("Save As...", parent, fileChooser, dropletContext);
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
+		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration in new file");
 	}
 

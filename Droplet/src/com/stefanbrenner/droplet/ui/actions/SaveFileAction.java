@@ -50,6 +50,7 @@ public class SaveFileAction extends AbstractDropletAction {
 		this("Save", parent, fileChooser, dropletContext);
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
+		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration");
 	}
 

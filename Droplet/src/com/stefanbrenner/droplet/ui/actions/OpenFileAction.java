@@ -51,6 +51,7 @@ public class OpenFileAction extends AbstractDropletAction {
 		this.fileChooser = fileChooser;
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_O));
+		putValue(MNEMONIC_KEY, KeyEvent.VK_O);
 		putValue(SHORT_DESCRIPTION, "Open Droplet Configuration");
 	}
 

@@ -39,6 +39,7 @@ public class NewAction extends AbstractDropletAction {
 		super(parent, dropletContext, "New");
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
+		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 		putValue(SHORT_DESCRIPTION, "New Droplet Configuration");
 
 	}

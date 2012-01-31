@@ -73,9 +73,11 @@ public class DropletMenu extends JMenuBar {
 	private void build() {
 		// file menu
 		fileMenu = add(new JMenu("File"));
+		fileMenu.setMnemonic('f');
 		buildNewMenu();
 		// help menu
 		helpMenu = add(new JMenu("Help"));
+		helpMenu.setMnemonic('h');
 		buildHelpMenu();
 	}
 
@@ -108,6 +110,7 @@ public class DropletMenu extends JMenuBar {
 		fileMenu.add(saveAsMenuItem);
 		fileMenu.addSeparator();
 		exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.setMnemonic('x');
 		// TODO brenner implement action
 		fileMenu.add(exitMenuItem);
 
@@ -115,6 +118,7 @@ public class DropletMenu extends JMenuBar {
 
 	private void buildHelpMenu() {
 		aboutMenuItem = new JMenuItem("About");
+		aboutMenuItem.setMnemonic('a');
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

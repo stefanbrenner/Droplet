@@ -21,6 +21,8 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JComponent;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletParser;
@@ -31,8 +33,9 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
 @SuppressWarnings("serial")
 public class ShowAction extends AbstractDropletAction {
 
-	public ShowAction(IDropletContext dropletContext) {
-		super(dropletContext, "Show");
+	public ShowAction(JComponent parent, IDropletContext dropletContext) {
+		super(parent, dropletContext, "Show");
+		putValue(SHORT_DESCRIPTION, "Show actual configuration on microcontroller");
 	}
 
 	@Override

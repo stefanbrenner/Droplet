@@ -34,27 +34,23 @@ public class DropletToolbar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final IDropletContext dropletContext;
-
 	/**
 	 * Create the panel.
 	 */
 	public DropletToolbar(IDropletContext dropletContext) {
 
-		this.dropletContext = dropletContext;
-
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		// show button
-		JButton btnShow = new JButton(new ShowAction(dropletContext));
+		JButton btnShow = new JButton(new ShowAction(this, dropletContext));
 		add(btnShow);
 
 		// send button
-		JButton btnSend = new JButton(new SendAction(dropletContext));
+		JButton btnSend = new JButton(new SendAction(this, dropletContext));
 		add(btnSend);
 
 		// start button
-		JButton btnStart = new JButton(new StartAction(dropletContext));
+		JButton btnStart = new JButton(new StartAction(this, dropletContext));
 		add(btnStart);
 
 	}

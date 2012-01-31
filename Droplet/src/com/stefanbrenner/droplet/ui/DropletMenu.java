@@ -39,7 +39,7 @@ import com.stefanbrenner.droplet.ui.actions.SaveFileAction;
 /**
  * @author Stefan Brenner
  */
-public class DropletMenu extends JMenuBar implements ActionListener {
+public class DropletMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
 
@@ -88,7 +88,7 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 		fileChooser.setFileFilter(filter);
 
 		// create actions
-		newAction = new NewAction(dropletContext);
+		newAction = new NewAction(this, dropletContext);
 		openAction = new OpenFileAction(this, fileChooser, dropletContext);
 		saveAction = new SaveFileAction(this, fileChooser, dropletContext);
 		saveAsAction = new SaveAsFileAction(this, fileChooser, dropletContext);
@@ -108,20 +108,20 @@ public class DropletMenu extends JMenuBar implements ActionListener {
 		fileMenu.add(saveAsMenuItem);
 		fileMenu.addSeparator();
 		exitMenuItem = new JMenuItem("Exit");
-		exitMenuItem.addActionListener(this);
+		// TODO brenner implement action
 		fileMenu.add(exitMenuItem);
 
 	}
 
 	private void buildHelpMenu() {
 		aboutMenuItem = new JMenuItem("About");
-		aboutMenuItem.addActionListener(this);
+		aboutMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO show about dialog
+			}
+		});
 		helpMenu.add(aboutMenuItem);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		// TODO brenner: use actions instead
 	}
 
 }

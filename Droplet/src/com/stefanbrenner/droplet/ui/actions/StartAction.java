@@ -21,6 +21,8 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JComponent;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletParser;
@@ -31,8 +33,9 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
 @SuppressWarnings("serial")
 public class StartAction extends AbstractDropletAction {
 
-	public StartAction(IDropletContext dropletContext) {
-		super(dropletContext, "Start");
+	public StartAction(JComponent parent, IDropletContext dropletContext) {
+		super(parent, dropletContext, "Start");
+		putValue(SHORT_DESCRIPTION, "Send actual configuration to microcontroller and start one cycle");
 	}
 
 	@Override

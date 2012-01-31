@@ -28,7 +28,10 @@ import java.io.IOException;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -41,7 +44,6 @@ import com.stefanbrenner.droplet.xml.JAXBHelper;
 @SuppressWarnings("serial")
 public class SaveFileAction extends AbstractDropletAction {
 
-	private final JComponent parent;
 	private final JFileChooser fileChooser;
 
 	public SaveFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
@@ -52,8 +54,7 @@ public class SaveFileAction extends AbstractDropletAction {
 	}
 
 	public SaveFileAction(String name, JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(dropletContext, name);
-		this.parent = parent;
+		super(parent, dropletContext, name);
 		this.fileChooser = fileChooser;
 	}
 
@@ -68,18 +69,43 @@ public class SaveFileAction extends AbstractDropletAction {
 	}
 
 	protected void showFileChooser() {
-		int returnVal = fileChooser.showSaveDialog(parent);
+		int returnVal = fileChooser.showSaveDialog(getParent());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 			// Get the selected file
 			File file = fileChooser.getSelectedFile();
 
-			// add file to context
-			getDropletContext().setFile(file);
+			// check if file extension fits
+			if (StringUtils.containsIgnoreCase(file.getName(), ".")
+					&& !(StringUtils.endsWithIgnoreCase(file.getName(), IDropletContext.DROPLET_FILE_EXTENSION))) {
+				JOptionPane.showMessageDialog(getParent(), "File Extension not allowed", "Wrong file extension",
+						JOptionPane.ERROR_MESSAGE);
+				showFileChooser();
+				return;
+			}
+			// automatically add droplet file extension
+			else {
+				if (!StringUtils.endsWithIgnoreCase(file.getName(), IDropletContext.DROPLET_FILE_EXTENSION)) {
+					String newPath = StringUtils.join(file.getPath(), IDropletContext.DROPLET_FILE_EXTENSION);
+					file = new File(newPath);
+				}
+			}
 
-			// TODO brenner: automatically add file extension
-			// TODO brenner: warn before overwrite
+			// check if file already exists
+			if (file.exists()) {
+				int retVal = JOptionPane.showConfirmDialog(getParent(), "Overwrite existing file?", "Droplet",
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+				if (retVal == JOptionPane.NO_OPTION) {
+					showFileChooser();
+					return;
+				}
+			}
+
 			saveFile(file);
+
+			// set file to context
+			getDropletContext().setFile(file);
 
 		}
 	}

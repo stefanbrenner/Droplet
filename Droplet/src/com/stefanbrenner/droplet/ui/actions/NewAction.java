@@ -22,6 +22,9 @@ package com.stefanbrenner.droplet.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.utils.UiUtils;
@@ -32,8 +35,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 @SuppressWarnings("serial")
 public class NewAction extends AbstractDropletAction {
 
-	public NewAction(IDropletContext dropletContext) {
-		super(dropletContext, "New");
+	public NewAction(JComponent parent, IDropletContext dropletContext) {
+		super(parent, dropletContext, "New");
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
 		putValue(SHORT_DESCRIPTION, "New Droplet Configuration");
@@ -42,12 +45,16 @@ public class NewAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO brenner: warn that information gets lost
-		Droplet droplet = new Droplet();
-		// TODO brenner: remove this initialization
-		droplet.initializeWithDefaults();
-		getDropletContext().setDroplet(droplet);
-		getDropletContext().setFile(null);
+		int retVal = JOptionPane.showConfirmDialog(getParent(), "Unsaved changes will be lost", "Droplet",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+
+		if (retVal == JOptionPane.OK_OPTION) {
+			Droplet droplet = new Droplet();
+			droplet.initializeWithDefaults();
+			getDropletContext().setDroplet(droplet);
+			getDropletContext().setFile(null);
+		}
+
 	}
 
 }

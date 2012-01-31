@@ -20,6 +20,7 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
 
@@ -27,13 +28,20 @@ import com.stefanbrenner.droplet.model.IDropletContext;
  * @author Stefan Brenner
  * 
  */
+@SuppressWarnings("serial")
 public abstract class AbstractDropletAction extends AbstractAction {
 
 	private final IDropletContext dropletContext;
+	private final JComponent parent;
 
-	public AbstractDropletAction(IDropletContext dropletContext, String title) {
+	public AbstractDropletAction(JComponent parent, IDropletContext dropletContext, String title) {
 		super(title);
+		this.parent = parent;
 		this.dropletContext = dropletContext;
+	}
+
+	protected JComponent getParent() {
+		return parent;
 	}
 
 	protected IDropletContext getDropletContext() {

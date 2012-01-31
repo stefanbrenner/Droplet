@@ -19,12 +19,15 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
+import java.awt.Event;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * @author Stefan Brenner
@@ -35,8 +38,8 @@ public class SaveAsFileAction extends SaveFileAction {
 	public SaveAsFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
 		super("Save As...", parent, fileChooser, dropletContext);
 
+		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration in new file");
-
 	}
 
 	@Override

@@ -43,23 +43,20 @@ import com.stefanbrenner.droplet.xml.JAXBHelper;
 @SuppressWarnings("serial")
 public class OpenFileAction extends AbstractDropletAction {
 
-	private final JComponent parent;
 	private final JFileChooser fileChooser;
 
 	public OpenFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(dropletContext, "Open...");
+		super(parent, dropletContext, "Open...");
 
 		this.fileChooser = fileChooser;
-		this.parent = parent;
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_O));
 		putValue(SHORT_DESCRIPTION, "Open Droplet Configuration");
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		int returnVal = fileChooser.showOpenDialog(parent);
+		int returnVal = fileChooser.showOpenDialog(getParent());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {

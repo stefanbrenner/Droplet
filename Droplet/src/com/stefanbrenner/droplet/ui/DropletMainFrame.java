@@ -171,7 +171,7 @@ public class DropletMainFrame extends JFrame {
 		// register action shortcuts
 		// TODO brenner: don't consume keys in JTextComponents
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start");
-		contentPane.getActionMap().put("start", new StartAction(dropletContext));
+		contentPane.getActionMap().put("start", new StartAction(contentPane, dropletContext));
 
 		// add listener
 		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {

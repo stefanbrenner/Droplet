@@ -36,8 +36,20 @@ import javax.swing.text.JTextComponent;
  */
 public class UiUtils {
 
+	/**
+	 * Returns the KeyStroke for a key combined with the platform dependent menu
+	 * shortcut key
+	 */
 	public static KeyStroke getAccelerator(int key) {
 		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+	}
+
+	/**
+	 * Returns the KeyStroke for a key combined with the platform dependent menu
+	 * shortcut key and another key
+	 */
+	public static KeyStroke getAccelerator(int key, int combinator) {
+		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | combinator);
 	}
 
 	/**

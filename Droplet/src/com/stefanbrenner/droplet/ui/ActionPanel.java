@@ -22,6 +22,7 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -67,6 +68,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 
 		GridBagConstraints gbc = UiUtils.createGridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(2, 2, 2, 2);
 
 		BeanAdapter<IAction> adapter = new BeanAdapter<IAction>(action, true);
 

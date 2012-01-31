@@ -33,9 +33,9 @@ public class DropletDimensions {
 
 	public static final int WIDTH_ACTION = 180;
 
-	public static final int WIDTH_DURATION_ACTION = 250;
+	public static final int WIDTH_DURATION_ACTION = 290;
 
-	public static final int HEIGHT_MIN = 200;
+	public static final int HEIGHT_MIN = 220;
 
 	public static Dimension getDimension(IDevice device) {
 		if (device instanceof IValve) {

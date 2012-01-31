@@ -66,19 +66,27 @@ public class MouseWheelSpinner extends JSpinner {
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent event) {
-				try {
-					SpinnerModel model = getModel();
-					int add = -(event.getWheelRotation());
-					for (int i = 0; i < Math.abs(add); i++) {
-						if (add > 0) {
-							model.setValue(model.getNextValue());
-						} else {
-							model.setValue(model.getPreviousValue());
+				final JFormattedTextField textField = ((JSpinner.DefaultEditor) getEditor()).getTextField();
+				if (textField.hasFocus()) {
+					try {
+						SpinnerModel model = getModel();
+						int add = -(event.getWheelRotation());
+						for (int i = 0; i < Math.abs(add); i++) {
+							if (add > 0) {
+								model.setValue(model.getNextValue());
+							} else {
+								model.setValue(model.getPreviousValue());
+							}
 						}
+					} catch (IllegalArgumentException e) {
+						// thrown if we try to set a value that is not allowed
+						// in the model
 					}
-				} catch (IllegalArgumentException e) {
-					// thrown if we try to set a value that is not allowed in
-					// the model
+				} else {
+					// we don't consume the event, so handle it to the parent
+					if (getParent() != null) {
+						getParent().dispatchEvent(event);
+					}
 				}
 			}
 		});

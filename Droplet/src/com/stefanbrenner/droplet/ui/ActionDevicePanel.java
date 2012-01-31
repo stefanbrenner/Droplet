@@ -32,6 +32,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -78,7 +79,12 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 		actionsPanel = new JPanel();
 		actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
 		actionsPanel.setBackground(getBackground());
-		add(actionsPanel, BorderLayout.CENTER);
+		// add(actionsPanel, BorderLayout.CENTER);
+
+		JScrollPane scrollPane = new JScrollPane(actionsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		add(scrollPane, BorderLayout.CENTER);
 
 		// add button
 		JButton btnAdd = new JButton("Add");

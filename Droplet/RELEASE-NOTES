@@ -29,6 +29,8 @@ Release 0.1b
 * Only fire association changed event if object was added/removed?
 * Set Description and Color per Device
 * Mark Device Type with Icons
+* Add Tests to the most important services and util methods
+* Create Custom L&F with Synth or Nimbus
 
 ================================================================================
  I D E A S

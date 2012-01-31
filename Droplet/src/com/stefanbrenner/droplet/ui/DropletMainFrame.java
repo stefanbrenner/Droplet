@@ -33,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
@@ -72,8 +73,18 @@ public class DropletMainFrame extends JFrame {
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		// set application name
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Droplet");
-		// use nativ look and feel
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		// set look and feel
+		try {
+			// use nimbus L&F if available
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

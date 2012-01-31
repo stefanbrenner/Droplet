@@ -30,18 +30,32 @@ public interface IDropletContext extends INotificationSupport {
 
 	public static final String PROPERTY_PORT = "port";
 
+	public static final String PROPERTY_FILE = "file";
+
 	public static final String PROPERTY_DROPLET = "droplet";
 
+	/**
+	 * Sets the port to be used for serial communication
+	 */
 	public abstract void setPort(CommPortIdentifier port);
 
+	/**
+	 * Returns the port to be used for serial communication
+	 */
 	public abstract CommPortIdentifier getPort();
+
+	/**
+	 * Sets the file that is used to save the current droplet setup
+	 */
+	public abstract void setFile(File file);
+
+	/**
+	 * Returns the file that is used to save the droplet setup
+	 */
+	public abstract File getFile();
 
 	public abstract void setDroplet(IDroplet droplet);
 
 	public abstract IDroplet getDroplet();
-
-	public abstract void setFile(File file);
-
-	public abstract File getFile();
 
 }

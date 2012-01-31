@@ -53,7 +53,7 @@ public class DropletMainFrame extends JFrame {
 	private final DropletMenu dropletMenu;
 	private final JPanel contentPane;
 	private final CommunicationPanel commPanel;
-	private final ConfigurationPanel configPanel;
+	private final DeviceSetupPanel configPanel;
 	private final ProcessingPanel processingPanel;
 	private final LoggingPanel loggingPanel;
 	private final DropletToolbar toolbarPanel;
@@ -104,7 +104,8 @@ public class DropletMainFrame extends JFrame {
 		setTitle("Droplet - Toolkit for Liquid Art Photographers");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		// TODO setIconImage(new ImageIcon("icons/icon.gif").getImage());
+		// TODO brenner: setIconImage(new
+		// ImageIcon("icons/icon.gif").getImage());
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -126,7 +127,7 @@ public class DropletMainFrame extends JFrame {
 			GridBagConstraints gbc = UiUtils.createGridBagConstraints();
 			gbc.fill = GridBagConstraints.BOTH;
 
-			configPanel = new ConfigurationPanel(dropletContext.getDroplet());
+			configPanel = new DeviceSetupPanel(dropletContext.getDroplet());
 			UiUtils.editGridBagConstraints(gbc, 0, 0, 1, 1);
 			mainPanel.add(configPanel, gbc);
 

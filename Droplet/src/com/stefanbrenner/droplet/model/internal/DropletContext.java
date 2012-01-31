@@ -45,7 +45,7 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	@Override
 	public void setFile(File file) {
-		this.file = file;
+		firePropertyChange(PROPERTY_FILE, this.file, this.file = file);
 	}
 
 	@Override

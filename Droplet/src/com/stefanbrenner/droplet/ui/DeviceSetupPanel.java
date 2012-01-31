@@ -32,7 +32,7 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 
-public class ConfigurationPanel extends JPanel {
+public class DeviceSetupPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,11 +41,11 @@ public class ConfigurationPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ConfigurationPanel(IDroplet droplet) {
+	public DeviceSetupPanel(IDroplet droplet) {
 
 		// configure ui appearance and behavior
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createTitledBorder("Configuration"));
+		setBorder(BorderFactory.createTitledBorder("Device Setup"));
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 		// set model object

@@ -32,6 +32,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -90,6 +91,9 @@ public class DropletMainFrame extends JFrame {
 			public void run() {
 				try {
 					DropletMainFrame frame = new DropletMainFrame();
+					// update ui for nimbus component resizing
+					SwingUtilities.updateComponentTreeUI(frame);
+					// show frame
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

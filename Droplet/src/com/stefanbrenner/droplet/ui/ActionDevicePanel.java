@@ -63,7 +63,7 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 
 		setDevice(device);
 
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(0, 5));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		setBackground(DropletColors.getBackgroundColor(getDevice()));
@@ -72,17 +72,21 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 
 		BeanAdapter<T> adapter = new BeanAdapter<T>(device, true);
 
+		// device name textfield
 		txtName = BasicComponentFactory.createTextField(adapter.getValueModel(IValve.PROPERTY_NAME));
 		txtName.setHorizontalAlignment(SwingConstants.CENTER);
 		add(txtName, BorderLayout.NORTH);
 
+		// actions panel with scroll pane
 		actionsPanel = new JPanel();
 		actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
 		actionsPanel.setBackground(getBackground());
-		// add(actionsPanel, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane(actionsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		// resize vertical scrollbar
+		scrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		// we need no border
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		add(scrollPane, BorderLayout.CENTER);
 

@@ -20,7 +20,9 @@
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -91,9 +93,6 @@ public class DropletMainFrame extends JFrame {
 			public void run() {
 				try {
 					DropletMainFrame frame = new DropletMainFrame();
-					// update ui for nimbus component resizing
-					SwingUtilities.updateComponentTreeUI(frame);
-					// show frame
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -158,11 +157,6 @@ public class DropletMainFrame extends JFrame {
 		toolbarPanel = new DropletToolbar(dropletContext);
 		contentPane.add(toolbarPanel, BorderLayout.SOUTH);
 
-		// make frame as small as possible
-		pack();
-		// set minimum size to packed size
-		setMinimumSize(getSize());
-
 		// remove focus from text components if user clicks outside
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -186,6 +180,15 @@ public class DropletMainFrame extends JFrame {
 			}
 		});
 
-	}
+		// finishing frame settings
+		// make frame as small as possible
+		// pack();
+		// set to full screen mode
+		setExtendedState(Frame.MAXIMIZED_BOTH);
+		// set minimum size to packed size
+		setMinimumSize(new Dimension(300, 100));
+		// update ui for nimbus component resizing
+		SwingUtilities.updateComponentTreeUI(this);
 
+	}
 }

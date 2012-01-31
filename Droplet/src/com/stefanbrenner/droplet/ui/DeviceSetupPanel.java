@@ -19,6 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
+import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 
@@ -26,6 +27,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
@@ -38,15 +40,27 @@ public class DeviceSetupPanel extends JPanel {
 
 	private IDroplet droplet;
 
+	private final JPanel container;
+
 	/**
 	 * Create the panel.
 	 */
 	public DeviceSetupPanel(IDroplet droplet) {
 
+		setLayout(new BorderLayout());
+
+		container = new JPanel();
+
 		// configure ui appearance and behavior
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createTitledBorder("Device Setup"));
-		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+		container.setBorder(BorderFactory.createTitledBorder("Device Setup"));
+		container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+		JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		// resize vertical scrollbar
+		scrollPane.getHorizontalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		add(scrollPane, BorderLayout.CENTER);
 
 		// set model object
 		setDroplet(droplet);
@@ -55,32 +69,32 @@ public class DeviceSetupPanel extends JPanel {
 
 	private void updatePanels() {
 		// remove previous components
-		removeAll();
+		container.removeAll();
 		// add components
-		add(Box.createRigidArea(new Dimension(10, 0)));
+		container.add(Box.createRigidArea(new Dimension(10, 0)));
 		// add valve panels
 		for (IValve valve : droplet.getValves()) {
-			ActionDevicePanel valvePanel = new ActionDevicePanel(valve);
-			add(valvePanel);
-			add(Box.createRigidArea(new Dimension(10, 0)));
+			ActionDevicePanel<?> valvePanel = new ActionDevicePanel(valve);
+			container.add(valvePanel);
+			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
 		// add flash panels
 		for (IFlash flash : droplet.getFlashes()) {
 			ActionDevicePanel flashPanel = new ActionDevicePanel(flash);
-			add(flashPanel);
-			add(Box.createRigidArea(new Dimension(10, 0)));
+			container.add(flashPanel);
+			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
 		// add camera panels
 		for (ICamera camera : droplet.getCameras()) {
 			ActionDevicePanel cameraPanel = new ActionDevicePanel(camera);
-			add(cameraPanel);
-			add(Box.createRigidArea(new Dimension(10, 0)));
+			container.add(cameraPanel);
+			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
 
-		add(Box.createHorizontalGlue());
+		container.add(Box.createHorizontalGlue());
 
-		revalidate();
-		repaint();
+		container.revalidate();
+		container.repaint();
 	}
 
 	public IDroplet getDroplet() {

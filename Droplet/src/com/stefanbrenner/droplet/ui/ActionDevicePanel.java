@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -86,6 +87,7 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		// resize vertical scrollbar
 		scrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		SwingUtilities.updateComponentTreeUI(scrollPane);
 		// we need no border
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		add(scrollPane, BorderLayout.CENTER);

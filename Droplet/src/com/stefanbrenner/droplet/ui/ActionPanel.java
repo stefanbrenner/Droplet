@@ -81,7 +81,8 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		spOffset = new MouseWheelSpinner(true);
 		spOffset.setModel(SpinnerAdapterFactory.createNumberAdapter(adapter.getValueModel(IAction.PROPERTY_OFFSET), 0,
 				0, 1000, 1));
-		UiUtils.editGridBagConstraints(gbc, 1, 0, 1, 1);
+		((JSpinner.DefaultEditor) spOffset.getEditor()).getTextField().setColumns(4);
+		UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
 		add(spOffset, gbc);
 
 		// duration spinner
@@ -89,7 +90,8 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		if (action instanceof IDurationAction) {
 			spDuration.setModel(SpinnerAdapterFactory.createNumberAdapter(
 					adapter.getValueModel(IDurationAction.PROPERTY_DURATION), 0, 0, 1000, 1));
-			UiUtils.editGridBagConstraints(gbc, 2, 0, 1, 1);
+			((JSpinner.DefaultEditor) spDuration.getEditor()).getTextField().setColumns(4);
+			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
 			add(spDuration, gbc);
 		}
 

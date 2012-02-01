@@ -35,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 // TODO brenner: bind to some model object
@@ -79,7 +80,11 @@ public class ProcessingPanel extends JPanel {
 			JPanel watchFolderPanel = new JPanel();
 			watchFolderPanel.setLayout(new BorderLayout());
 			UiUtils.editGridBagConstraints(gbc, 1, 1, 1, 0);
+			gbc.gridwidth = GridBagConstraints.REMAINDER;
 			add(watchFolderPanel, gbc);
+
+			// reset gridwidth
+			gbc.gridwidth = 1;
 
 			// watch folder textbox
 			JTextField txtWatchFolder = new JTextField();
@@ -89,7 +94,6 @@ public class ProcessingPanel extends JPanel {
 			// watch folder button
 			JButton btnWatchFolder = new JButton("...");
 			watchFolderPanel.add(btnWatchFolder, BorderLayout.EAST);
-
 		}
 
 		// comments label
@@ -97,12 +101,13 @@ public class ProcessingPanel extends JPanel {
 		add(new JLabel("Comments"), gbc);
 
 		// comments textarea
-		JTextArea txtComments = new JTextArea(4, 20);
-		txtComments.setMargin(new Insets(5, 5, 5, 5));
+		JTextArea txtComments = new JTextArea(4, 40);
+		txtComments.setFont(DropletFonts.FONT_STANDARD_SMALL);
 		txtComments.setLineWrap(true);
 		UiUtils.disableTab(txtComments);
 		JScrollPane commentsScrollPane = new JScrollPane(txtComments);
 		UiUtils.editGridBagConstraints(gbc, 1, 2, 1, 1);
+		commentsScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
 		add(commentsScrollPane, gbc);
 
 		// tag label
@@ -110,12 +115,13 @@ public class ProcessingPanel extends JPanel {
 		add(new JLabel("Tags"), gbc);
 
 		// tag textarea
-		JTextArea txtTag = new JTextArea(4, 20);
-		txtTag.setMargin(new Insets(5, 5, 5, 5));
+		JTextArea txtTag = new JTextArea(4, 30);
+		txtComments.setFont(DropletFonts.FONT_STANDARD_SMALL);
 		txtTag.setLineWrap(true);
 		UiUtils.disableTab(txtTag);
 		JScrollPane tagScrollPane = new JScrollPane(txtTag);
 		UiUtils.editGridBagConstraints(gbc, 3, 2, 1, 1, GridBagConstraints.EAST);
+		tagScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
 		add(tagScrollPane, gbc);
 
 		updateUi();

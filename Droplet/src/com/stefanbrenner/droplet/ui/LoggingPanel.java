@@ -20,7 +20,6 @@
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Insets;
 import java.text.DateFormat;
 import java.util.Date;
@@ -32,6 +31,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.stefanbrenner.droplet.utils.DropletFonts;
 
 /**
  * @author Stefan Brenner
@@ -54,7 +55,7 @@ public class LoggingPanel extends JPanel {
 		txtMessages.setFocusable(false);
 		txtMessages.setFocusTraversalKeysEnabled(true);
 		txtMessages.setMargin(new Insets(10, 10, 10, 10));
-		txtMessages.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		txtMessages.setFont(DropletFonts.FONT_LOGGING_SMALL);
 		txtMessages.setEditable(false);
 		JScrollPane loggingScrollPane = new JScrollPane(txtMessages);
 		add(loggingScrollPane, BorderLayout.CENTER);

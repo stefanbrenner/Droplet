@@ -43,7 +43,6 @@ import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.utils.DropletColors;
-import com.stefanbrenner.droplet.utils.DropletDimensions;
 
 public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel {
 
@@ -66,10 +65,7 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 
 		setLayout(new BorderLayout(0, 5));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 		setBackground(DropletColors.getBackgroundColor(getDevice()));
-		setPreferredSize(DropletDimensions.getDimension(getDevice()));
-		setMinimumSize(getPreferredSize());
 
 		BeanAdapter<T> adapter = new BeanAdapter<T>(device, true);
 

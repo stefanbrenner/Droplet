@@ -27,6 +27,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Enumeration;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -43,6 +44,7 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.model.internal.DropletContext;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
+import com.stefanbrenner.droplet.utils.DropletFonts;
 
 public class DropletMainFrame extends JFrame {
 
@@ -173,6 +175,16 @@ public class DropletMainFrame extends JFrame {
 				configPanel.setDroplet(dropletContext.getDroplet());
 			}
 		});
+
+		// set default fonts
+		Enumeration<Object> keys = UIManager.getDefaults().keys();
+		while (keys.hasMoreElements()) {
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if (value instanceof javax.swing.plaf.FontUIResource) {
+				UIManager.put(key, DropletFonts.FONT_STANDARD_SMALL);
+			}
+		}
 
 		// finishing frame settings
 		// make frame as small as possible

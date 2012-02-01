@@ -31,9 +31,13 @@ import com.stefanbrenner.droplet.model.IValve;
  */
 public class DropletDimensions {
 
+	public static final int WIDTH_MAX = Short.MAX_VALUE;
+
 	public static final int WIDTH_ACTION = 180;
 
 	public static final int WIDTH_DURATION_ACTION = 290;
+
+	public static final int HEIGHT_MAX = Short.MAX_VALUE;
 
 	public static final int HEIGHT_MIN = 220;
 

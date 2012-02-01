@@ -83,7 +83,7 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 		actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
 		actionsPanel.setBackground(getBackground());
 
-		JScrollPane scrollPane = new JScrollPane(actionsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		JScrollPane scrollPane = new JScrollPane(actionsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		// resize vertical scrollbar
 		scrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");

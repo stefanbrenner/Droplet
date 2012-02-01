@@ -19,9 +19,8 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.DateFormat;
 import java.util.Date;
@@ -33,8 +32,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * @author Stefan Brenner
@@ -50,21 +47,17 @@ public class LoggingPanel extends JPanel {
 	 */
 	public LoggingPanel() {
 
-		setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Logging"));
 
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-
-		txtMessages = new JTextArea(5, 50);
+		txtMessages = new JTextArea();
 		txtMessages.setFocusable(false);
 		txtMessages.setFocusTraversalKeysEnabled(true);
 		txtMessages.setMargin(new Insets(10, 10, 10, 10));
 		txtMessages.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		txtMessages.setEditable(false);
 		JScrollPane loggingScrollPane = new JScrollPane(txtMessages);
-		UiUtils.editGridBagConstraints(gbc, 0, 0, 1, 0);
-		add(loggingScrollPane, gbc);
+		add(loggingScrollPane, BorderLayout.CENTER);
 
 	}
 

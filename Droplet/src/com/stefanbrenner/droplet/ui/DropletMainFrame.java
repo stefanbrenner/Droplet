@@ -23,8 +23,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -33,6 +31,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -44,7 +43,6 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.model.internal.DropletContext;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
-import com.stefanbrenner.droplet.utils.UiUtils;
 
 public class DropletMainFrame extends JFrame {
 
@@ -134,24 +132,20 @@ public class DropletMainFrame extends JFrame {
 		contentPane.add(commPanel, BorderLayout.NORTH);
 
 		{
-			JPanel mainPanel = new JPanel();
-			mainPanel.setLayout(new GridBagLayout());
-			contentPane.add(mainPanel, BorderLayout.CENTER);
-
-			GridBagConstraints gbc = UiUtils.createGridBagConstraints();
-			gbc.fill = GridBagConstraints.BOTH;
-
 			configPanel = new DeviceSetupPanel(dropletContext.getDroplet());
-			UiUtils.editGridBagConstraints(gbc, 0, 0, 1, 1);
-			mainPanel.add(configPanel, gbc);
-
 			processingPanel = new ProcessingPanel();
-			UiUtils.editGridBagConstraints(gbc, 0, 1, 1, 0);
-			mainPanel.add(processingPanel, gbc);
-
 			loggingPanel = new LoggingPanel();
-			UiUtils.editGridBagConstraints(gbc, 0, 2, 1, 0);
-			mainPanel.add(loggingPanel, gbc);
+
+			JSplitPane splitPaneBottom = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, processingPanel, loggingPanel);
+			splitPaneBottom.setOneTouchExpandable(true);
+			splitPaneBottom.setDividerLocation(0.5d);
+			splitPaneBottom.setResizeWeight(0.0d);
+
+			JSplitPane splitPaneMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, configPanel, splitPaneBottom);
+			splitPaneMain.setOneTouchExpandable(true);
+			splitPaneMain.setDividerLocation(0.5d);
+			splitPaneMain.setResizeWeight(1.0d);
+			contentPane.add(splitPaneMain, BorderLayout.CENTER);
 		}
 
 		toolbarPanel = new DropletToolbar(dropletContext);

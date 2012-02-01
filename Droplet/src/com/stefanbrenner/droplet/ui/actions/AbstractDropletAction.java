@@ -20,8 +20,9 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import javax.swing.AbstractAction;
-import javax.swing.JComponent;
+import javax.swing.JFrame;
 
+import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 
 /**
@@ -32,20 +33,24 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 public abstract class AbstractDropletAction extends AbstractAction {
 
 	private final IDropletContext dropletContext;
-	private final JComponent parent;
+	private final JFrame frame;
 
-	public AbstractDropletAction(JComponent parent, IDropletContext dropletContext, String title) {
+	public AbstractDropletAction(JFrame parent, IDropletContext dropletContext, String title) {
 		super(title);
-		this.parent = parent;
+		this.frame = parent;
 		this.dropletContext = dropletContext;
 	}
 
-	protected JComponent getParent() {
-		return parent;
+	protected JFrame getFrame() {
+		return frame;
 	}
 
 	protected IDropletContext getDropletContext() {
 		return dropletContext;
+	}
+
+	protected IDroplet getDroplet() {
+		return dropletContext.getDroplet();
 	}
 
 }

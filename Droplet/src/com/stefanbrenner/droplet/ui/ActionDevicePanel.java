@@ -22,6 +22,7 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -31,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -41,6 +43,7 @@ import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.utils.DropletColors;
 
@@ -59,13 +62,13 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 	/**
 	 * Create the panel.
 	 */
-	public ActionDevicePanel(T device) {
+	public ActionDevicePanel(final IDroplet droplet, final T device) {
 
 		setDevice(device);
 
 		setLayout(new BorderLayout(0, 5));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		setBackground(DropletColors.getBackgroundColor(getDevice()));
+		setBackground(DropletColors.getBackgroundColor(device));
 
 		BeanAdapter<T> adapter = new BeanAdapter<T>(device, true);
 
@@ -88,15 +91,36 @@ public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel 
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		add(scrollPane, BorderLayout.CENTER);
 
-		// add button
-		JButton btnAdd = new JButton("Add");
-		btnAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent action) {
-				addAction(getDevice().createNewAction());
-			}
-		});
-		add(btnAdd, BorderLayout.SOUTH);
+		{
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+
+			// add button
+			JButton btnAdd = new JButton("Add Action");
+			btnAdd.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent action) {
+					addAction(getDevice().createNewAction());
+				}
+			});
+			panel.add(btnAdd);
+
+			// remove button
+			JButton btnRemove = new JButton("Remove");
+			btnRemove.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent action) {
+					int retVal = JOptionPane.showConfirmDialog(ActionDevicePanel.this, "Remove '" + device.getName()
+							+ "'?", "", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (retVal == JOptionPane.YES_OPTION) {
+						droplet.removeDevice(device);
+					}
+				}
+			});
+			panel.add(btnRemove);
+
+			add(panel, BorderLayout.SOUTH);
+		}
 
 		updateActionsPanel();
 

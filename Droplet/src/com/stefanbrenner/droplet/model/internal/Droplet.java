@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
@@ -177,6 +178,17 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		cameras = new ArrayList<ICamera>(this.cameras);
 		cameras.remove(camera);
 		firePropertyChange(ASSOCIATION_CAMERAS, oldValue, cameras);
+	}
+
+	@Override
+	public void removeDevice(IDevice device) {
+		if (device instanceof IValve) {
+			removeValve((IValve) device);
+		} else if (device instanceof IFlash) {
+			removeFlash((IFlash) device);
+		} else if (device instanceof ICamera) {
+			removeCamera((ICamera) device);
+		}
 	}
 
 }

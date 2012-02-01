@@ -26,8 +26,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 
@@ -46,16 +46,16 @@ public class SaveFileAction extends AbstractDropletAction {
 
 	private final JFileChooser fileChooser;
 
-	public SaveFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
-		this("Save", parent, fileChooser, dropletContext);
+	public SaveFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+		this("Save", frame, fileChooser, dropletContext);
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration");
 	}
 
-	public SaveFileAction(String name, JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(parent, dropletContext, name);
+	public SaveFileAction(String name, JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+		super(frame, dropletContext, name);
 		this.fileChooser = fileChooser;
 	}
 
@@ -70,7 +70,7 @@ public class SaveFileAction extends AbstractDropletAction {
 	}
 
 	protected void showFileChooser() {
-		int returnVal = fileChooser.showSaveDialog(getParent());
+		int returnVal = fileChooser.showSaveDialog(getFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 			// Get the selected file
@@ -79,7 +79,7 @@ public class SaveFileAction extends AbstractDropletAction {
 			// check if file extension fits
 			if (StringUtils.containsIgnoreCase(file.getName(), ".")
 					&& !(StringUtils.endsWithIgnoreCase(file.getName(), IDropletContext.DROPLET_FILE_EXTENSION))) {
-				JOptionPane.showMessageDialog(getParent(), "File Extension not allowed", "Wrong file extension",
+				JOptionPane.showMessageDialog(getFrame(), "File Extension not allowed", "Wrong file extension",
 						JOptionPane.ERROR_MESSAGE);
 				showFileChooser();
 				return;
@@ -94,7 +94,7 @@ public class SaveFileAction extends AbstractDropletAction {
 
 			// check if file already exists
 			if (file.exists()) {
-				int retVal = JOptionPane.showConfirmDialog(getParent(), "Overwrite existing file?", "Droplet",
+				int retVal = JOptionPane.showConfirmDialog(getFrame(), "Overwrite existing file?", "Droplet",
 						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 				if (retVal == JOptionPane.NO_OPTION) {

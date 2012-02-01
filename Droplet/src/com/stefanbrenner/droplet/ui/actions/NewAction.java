@@ -22,7 +22,7 @@ package com.stefanbrenner.droplet.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -35,8 +35,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 @SuppressWarnings("serial")
 public class NewAction extends AbstractDropletAction {
 
-	public NewAction(JComponent parent, IDropletContext dropletContext) {
-		super(parent, dropletContext, "New");
+	public NewAction(JFrame frame, IDropletContext dropletContext) {
+		super(frame, dropletContext, "New");
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
@@ -46,7 +46,7 @@ public class NewAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		int retVal = JOptionPane.showConfirmDialog(getParent(), "Unsaved changes will be lost", "Droplet",
+		int retVal = JOptionPane.showConfirmDialog(getFrame(), "Unsaved changes will be lost", "Droplet",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (retVal == JOptionPane.OK_OPTION) {

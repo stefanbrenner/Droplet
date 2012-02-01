@@ -22,6 +22,8 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -75,19 +77,19 @@ public class DeviceSetupPanel extends JPanel {
 		container.add(Box.createRigidArea(new Dimension(10, 0)));
 		// add valve panels
 		for (IValve valve : droplet.getValves()) {
-			ActionDevicePanel<?> valvePanel = new ActionDevicePanel(valve);
+			ActionDevicePanel<?> valvePanel = new ActionDevicePanel(droplet, valve);
 			container.add(valvePanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
 		// add flash panels
 		for (IFlash flash : droplet.getFlashes()) {
-			ActionDevicePanel flashPanel = new ActionDevicePanel(flash);
+			ActionDevicePanel flashPanel = new ActionDevicePanel(droplet, flash);
 			container.add(flashPanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
 		// add camera panels
 		for (ICamera camera : droplet.getCameras()) {
-			ActionDevicePanel cameraPanel = new ActionDevicePanel(camera);
+			ActionDevicePanel cameraPanel = new ActionDevicePanel(droplet, camera);
 			container.add(cameraPanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
@@ -102,9 +104,34 @@ public class DeviceSetupPanel extends JPanel {
 		return droplet;
 	}
 
+	private PropertyChangeListener updateListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			updatePanels();
+		}
+	};
+
 	public void setDroplet(IDroplet droplet) {
+
+		unregisterListener();
 		this.droplet = droplet;
+		registerListener();
+
 		updatePanels();
+	}
+
+	private void registerListener() {
+		if (droplet != null) {
+			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_VALVES, updateListener);
+			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_FLASHES, updateListener);
+			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_CAMERAS, updateListener);
+		}
+	}
+
+	private void unregisterListener() {
+		if (droplet != null) {
+			droplet.removePropertyChangeListener(updateListener);
+		}
 	}
 
 }

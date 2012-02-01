@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,6 +32,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.actions.AbstractDropletAction;
+import com.stefanbrenner.droplet.ui.actions.AddDeviceAction;
 import com.stefanbrenner.droplet.ui.actions.NewAction;
 import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveAsFileAction;
@@ -43,11 +45,14 @@ public class DropletMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
 
+	private final JFrame frame;
+
 	// model object
 	private final IDropletContext dropletContext;
 
 	// menues
 	private JMenu fileMenu;
+	private JMenu editMenu;
 	private JMenu helpMenu;
 
 	// menu items
@@ -56,6 +61,7 @@ public class DropletMenu extends JMenuBar {
 	private JMenuItem saveMenuItem;
 	private JMenuItem saveAsMenuItem;
 	private JMenuItem exitMenuItem;
+	private JMenuItem addDeviceMenuItem;
 	private JMenuItem aboutMenuItem;
 
 	// actions
@@ -63,9 +69,11 @@ public class DropletMenu extends JMenuBar {
 	private AbstractDropletAction openAction;
 	private AbstractDropletAction saveAction;
 	private AbstractDropletAction saveAsAction;
+	private AbstractDropletAction addDeviceAction;
 
-	public DropletMenu(IDropletContext dropletContext) {
+	public DropletMenu(JFrame frame, IDropletContext dropletContext) {
 		super();
+		this.frame = frame;
 		this.dropletContext = dropletContext;
 		build();
 	}
@@ -75,6 +83,10 @@ public class DropletMenu extends JMenuBar {
 		fileMenu = add(new JMenu("File"));
 		fileMenu.setMnemonic('f');
 		buildNewMenu();
+		// edit menu
+		editMenu = add(new JMenu("Edit"));
+		editMenu.setMnemonic('e');
+		buildEditMenu();
 		// help menu
 		helpMenu = add(new JMenu("Help"));
 		helpMenu.setMnemonic('h');
@@ -90,10 +102,10 @@ public class DropletMenu extends JMenuBar {
 		fileChooser.setFileFilter(filter);
 
 		// create actions
-		newAction = new NewAction(this, dropletContext);
-		openAction = new OpenFileAction(this, fileChooser, dropletContext);
-		saveAction = new SaveFileAction(this, fileChooser, dropletContext);
-		saveAsAction = new SaveAsFileAction(this, fileChooser, dropletContext);
+		newAction = new NewAction(frame, dropletContext);
+		openAction = new OpenFileAction(frame, fileChooser, dropletContext);
+		saveAction = new SaveFileAction(frame, fileChooser, dropletContext);
+		saveAsAction = new SaveAsFileAction(frame, fileChooser, dropletContext);
 
 		// create menu items
 		newMenuItem = new JMenuItem("New");
@@ -114,6 +126,16 @@ public class DropletMenu extends JMenuBar {
 		// TODO brenner implement action
 		fileMenu.add(exitMenuItem);
 
+	}
+
+	private void buildEditMenu() {
+
+		addDeviceAction = new AddDeviceAction(frame, dropletContext);
+
+		// create menu items
+		addDeviceMenuItem = new JMenuItem("Add Device");
+		addDeviceMenuItem.setAction(addDeviceAction);
+		editMenu.add(addDeviceMenuItem);
 	}
 
 	private void buildHelpMenu() {

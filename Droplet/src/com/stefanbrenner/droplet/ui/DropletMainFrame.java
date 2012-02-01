@@ -127,7 +127,7 @@ public class DropletMainFrame extends JFrame {
 		setContentPane(contentPane);
 
 		// create menu
-		dropletMenu = new DropletMenu(dropletContext);
+		dropletMenu = new DropletMenu(this, dropletContext);
 		setJMenuBar(dropletMenu);
 
 		commPanel = new CommunicationPanel(dropletContext);
@@ -150,7 +150,7 @@ public class DropletMainFrame extends JFrame {
 			contentPane.add(splitPaneMain, BorderLayout.CENTER);
 		}
 
-		toolbarPanel = new DropletToolbar(dropletContext);
+		toolbarPanel = new DropletToolbar(this, dropletContext);
 		contentPane.add(toolbarPanel, BorderLayout.SOUTH);
 
 		// remove focus from text components if user clicks outside
@@ -165,7 +165,7 @@ public class DropletMainFrame extends JFrame {
 		// register action shortcuts
 		// TODO brenner: don't consume keys in JTextComponents
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start");
-		contentPane.getActionMap().put("start", new StartAction(contentPane, dropletContext));
+		contentPane.getActionMap().put("start", new StartAction(this, dropletContext));
 
 		// add listener
 		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {

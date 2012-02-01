@@ -27,8 +27,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 import org.apache.commons.io.IOUtils;
 
@@ -45,8 +45,8 @@ public class OpenFileAction extends AbstractDropletAction {
 
 	private final JFileChooser fileChooser;
 
-	public OpenFileAction(JComponent parent, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(parent, dropletContext, "Open...");
+	public OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+		super(frame, dropletContext, "Open...");
 
 		this.fileChooser = fileChooser;
 
@@ -57,7 +57,7 @@ public class OpenFileAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		int returnVal = fileChooser.showOpenDialog(getParent());
+		int returnVal = fileChooser.showOpenDialog(getFrame());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {

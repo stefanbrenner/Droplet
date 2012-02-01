@@ -22,6 +22,7 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -37,20 +38,20 @@ public class DropletToolbar extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public DropletToolbar(IDropletContext dropletContext) {
+	public DropletToolbar(JFrame frame, IDropletContext dropletContext) {
 
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		// show button
-		JButton btnShow = new JButton(new ShowAction(this, dropletContext));
+		JButton btnShow = new JButton(new ShowAction(frame, dropletContext));
 		add(btnShow);
 
 		// send button
-		JButton btnSend = new JButton(new SendAction(this, dropletContext));
+		JButton btnSend = new JButton(new SendAction(frame, dropletContext));
 		add(btnSend);
 
 		// start button
-		JButton btnStart = new JButton(new StartAction(this, dropletContext));
+		JButton btnStart = new JButton(new StartAction(frame, dropletContext));
 		add(btnStart);
 
 	}

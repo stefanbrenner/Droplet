@@ -19,33 +19,30 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
-import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
-import com.stefanbrenner.droplet.utils.UiUtils;
+import com.stefanbrenner.droplet.ui.AddDeviceDialog;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class SaveAsFileAction extends SaveFileAction {
+public class AddDeviceAction extends AbstractDropletAction {
 
-	public SaveAsFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super("Save As...", frame, fileChooser, dropletContext);
+	public AddDeviceAction(JFrame frame, IDropletContext dropletContext) {
+		super(frame, dropletContext, "Add device");
 
-		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration in new file");
+		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		showFileChooser();
+		AddDeviceDialog dialog = new AddDeviceDialog(getFrame(), getDropletContext());
+		dialog.setVisible(true);
 	}
-
-};
+}

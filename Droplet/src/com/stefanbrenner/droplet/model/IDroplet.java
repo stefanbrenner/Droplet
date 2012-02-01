@@ -68,4 +68,6 @@ public interface IDroplet extends INotificationSupport {
 
 	public abstract void addValve(IValve valve);
 
+	public abstract void removeDevice(IDevice device);
+
 }

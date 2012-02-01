@@ -58,6 +58,7 @@ public class DeviceSetupPanel extends JPanel {
 
 		JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		// resize vertical scrollbar
 		scrollPane.getHorizontalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
 		add(scrollPane, BorderLayout.CENTER);

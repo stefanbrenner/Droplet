@@ -25,7 +25,6 @@ Release 0.1b
 	- Configure 0..n Devices (Valve, Flash, Camera)
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
-	- Refine panels and use split/scroll panes
 * Only fire association changed event if object was added/removed?
 * Set Description and Color per Device
 * Mark Device Type with Icons

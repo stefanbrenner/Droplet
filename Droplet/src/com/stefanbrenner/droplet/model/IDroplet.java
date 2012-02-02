@@ -30,11 +30,7 @@ public interface IDroplet extends INotificationSupport {
 
 	public static final String PROPERTY_DESCRIPTION = "description";
 
-	public static final String ASSOCIATION_VALVES = "valves";
-
-	public static final String ASSOCIATION_FLASHES = "flashes";
-
-	public static final String ASSOCIATION_CAMERAS = "cameras";
+	public static final String ASSOCIATION_DEVICES = "devices";
 
 	public abstract void setName(String name);
 
@@ -44,33 +40,15 @@ public interface IDroplet extends INotificationSupport {
 
 	public abstract String getDescription();
 
-	public abstract void setCameras(List<ICamera> cameras);
+	public abstract <T extends IDevice> List<T> getDevices(Class<T> type);
 
-	public abstract List<ICamera> getCameras();
+	public abstract void setDevices(List<IDevice> devices);
 
-	public abstract void setFlashes(List<IFlash> flashes);
+	public abstract List<IDevice> getDevices();
 
-	public abstract List<IFlash> getFlashes();
-
-	public abstract void setValves(List<IValve> valves);
-
-	public abstract List<IValve> getValves();
-
-	public abstract void removeCamera(ICamera camera);
-
-	public abstract void addCamera(ICamera camera);
-
-	public abstract void removeFlash(IFlash flash);
-
-	public abstract void addFlash(IFlash flash);
-
-	public abstract void removeValve(IValve valve);
-
-	public abstract void addValve(IValve valve);
+	public abstract void addDevice(IDevice device);
 
 	public abstract void removeDevice(IDevice device);
-
-	public abstract <T extends IDevice> List<T> getAllDevices(Class<T> type);
 
 	public abstract void reset();
 

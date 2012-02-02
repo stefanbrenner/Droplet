@@ -31,10 +31,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.model.IFlash;
-import com.stefanbrenner.droplet.model.IValve;
 
 public class DeviceSetupPanel extends JPanel {
 
@@ -76,22 +74,10 @@ public class DeviceSetupPanel extends JPanel {
 		container.removeAll();
 		// add components
 		container.add(Box.createRigidArea(new Dimension(10, 0)));
-		// add valve panels
-		for (IValve valve : droplet.getValves()) {
-			ActionDevicePanel<?> valvePanel = new ActionDevicePanel(droplet, valve);
-			container.add(valvePanel);
-			container.add(Box.createRigidArea(new Dimension(10, 0)));
-		}
-		// add flash panels
-		for (IFlash flash : droplet.getFlashes()) {
-			ActionDevicePanel flashPanel = new ActionDevicePanel(droplet, flash);
-			container.add(flashPanel);
-			container.add(Box.createRigidArea(new Dimension(10, 0)));
-		}
-		// add camera panels
-		for (ICamera camera : droplet.getCameras()) {
-			ActionDevicePanel cameraPanel = new ActionDevicePanel(droplet, camera);
-			container.add(cameraPanel);
+		// add devices panels
+		for (IActionDevice<?> device : droplet.getDevices(IActionDevice.class)) {
+			ActionDevicePanel devicePanel = new ActionDevicePanel(droplet, device);
+			container.add(devicePanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
 
@@ -126,9 +112,7 @@ public class DeviceSetupPanel extends JPanel {
 
 	private void registerListener() {
 		if (droplet != null) {
-			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_VALVES, updateListener);
-			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_FLASHES, updateListener);
-			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_CAMERAS, updateListener);
+			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_DEVICES, updateListener);
 		}
 	}
 

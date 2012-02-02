@@ -28,16 +28,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.model.IFlash;
-import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.model.internal.Action;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.model.internal.DurationAction;
 import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
-import com.stefanbrenner.droplet.utils.DropletColors;
 
 /**
  * @author Stefan Brenner
@@ -90,30 +86,6 @@ public class JAXBHelper {
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public static void main(String[] args) throws JAXBException {
-		Droplet droplet = new Droplet();
-		droplet.initializeWithDefaults();
-
-		droplet.setName("My first Configuration");
-		droplet.setDescription("This is my first configuration with Droplet");
-
-		for (IValve v : droplet.getValves()) {
-			v.setColor(DropletColors.getBackgroundColor(v));
-		}
-		for (IFlash v : droplet.getFlashes()) {
-			v.setColor(DropletColors.getBackgroundColor(v));
-		}
-
-		JAXBHelper jaxbHelper = new JAXBHelper();
-		String xml = jaxbHelper.toXml(droplet);
-		System.out.println(xml);
-
-		IDroplet droplet2 = (IDroplet) jaxbHelper.fromXml(xml);
-		String xml2 = jaxbHelper.toXml(droplet2);
-		System.out.println(xml2);
-
 	}
 
 }

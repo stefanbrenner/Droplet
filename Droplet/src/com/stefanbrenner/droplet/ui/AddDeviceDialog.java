@@ -86,11 +86,11 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if (ObjectUtils.equals(btnValve, source)) {
-			dropletContext.getDroplet().addValve(new Valve());
+			dropletContext.getDroplet().addDevice(new Valve());
 		} else if (ObjectUtils.equals(btnFlash, source)) {
-			dropletContext.getDroplet().addFlash(new Flash());
+			dropletContext.getDroplet().addDevice(new Flash());
 		} else if (ObjectUtils.equals(btnCamera, source)) {
-			dropletContext.getDroplet().addCamera(new Camera());
+			dropletContext.getDroplet().addDevice(new Camera());
 		} else if (ObjectUtils.equals(btnClose, source)) {
 			setVisible(false);
 		}

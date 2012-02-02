@@ -19,11 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.model.IDurationAction;
-import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.service.ISerialCommService;
 
 /**
@@ -42,34 +38,36 @@ public class DropletParser {
 	// TODO brenner: REMOVE this stupid silly parser
 	public static void sendConfiguration(IDroplet droplet, ISerialCommService commService) {
 
-		String message = "set";
-
-		IValve valve1 = droplet.getValves().get(0);
-
-		IDurationAction action1 = valve1.getActions().get(0);
-
-		int dur1 = action1.getDuration();
-
-		IDurationAction action2 = valve1.getActions().get(1);
-
-		int del1 = Math.abs(action2.getOffset() - action1.getOffset());
-		int dur2 = action2.getDuration();
-
-		IDurationAction action3 = valve1.getActions().get(2);
-
-		int del2 = Math.abs(action3.getOffset() - action2.getOffset());
-		int dur3 = action3.getDuration();
-
-		int delCam = Math.abs(droplet.getCameras().get(0).getActions().get(0).getOffset() - action3.getOffset());
-
-		message += StringUtils.leftPad(String.valueOf(dur1), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(del1), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(dur2), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(del2), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(dur3), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(delCam), 3, "0");
-
-		commService.sendData(message + "\n");
+		// String message = "set";
+		//
+		// IValve valve1 = droplet.getValves().get(0);
+		//
+		// IDurationAction action1 = valve1.getActions().get(0);
+		//
+		// int dur1 = action1.getDuration();
+		//
+		// IDurationAction action2 = valve1.getActions().get(1);
+		//
+		// int del1 = Math.abs(action2.getOffset() - action1.getOffset());
+		// int dur2 = action2.getDuration();
+		//
+		// IDurationAction action3 = valve1.getActions().get(2);
+		//
+		// int del2 = Math.abs(action3.getOffset() - action2.getOffset());
+		// int dur3 = action3.getDuration();
+		//
+		// int delCam =
+		// Math.abs(droplet.getCameras().get(0).getActions().get(0).getOffset()
+		// - action3.getOffset());
+		//
+		// message += StringUtils.leftPad(String.valueOf(dur1), 3, "0");
+		// message += StringUtils.leftPad(String.valueOf(del1), 3, "0");
+		// message += StringUtils.leftPad(String.valueOf(dur2), 3, "0");
+		// message += StringUtils.leftPad(String.valueOf(del2), 3, "0");
+		// message += StringUtils.leftPad(String.valueOf(dur3), 3, "0");
+		// message += StringUtils.leftPad(String.valueOf(delCam), 3, "0");
+		//
+		// commService.sendData(message + "\n");
 
 	}
 

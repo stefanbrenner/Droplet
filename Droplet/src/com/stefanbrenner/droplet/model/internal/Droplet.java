@@ -22,7 +22,6 @@ import com.stefanbrenner.droplet.model.IValve;
 package com.stefanbrenner.droplet.model.internal;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -30,10 +29,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 
 @XmlRootElement(name = "Droplet")
@@ -47,17 +44,9 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@XmlElement(name = "Description")
 	private String description;
 
-	@XmlElement(name = "Valve", type = Valve.class)
-	@XmlElementWrapper(name = "Valves")
-	private List<IValve> valves = new ArrayList<IValve>();
-
-	@XmlElement(name = "Flash", type = Flash.class)
-	@XmlElementWrapper(name = "Flashes")
-	private List<IFlash> flashes = new ArrayList<IFlash>();
-
-	@XmlElement(name = "Camera", type = Camera.class)
-	@XmlElementWrapper(name = "Cameras")
-	private List<ICamera> cameras = new ArrayList<ICamera>();
+	@XmlElement(name = "Device", type = AbstractDevice.class)
+	@XmlElementWrapper(name = "Devices")
+	private List<IDevice> devices = new ArrayList<IDevice>();
 
 	public Droplet() {
 
@@ -69,18 +58,18 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 			IValve valve = new Valve();
 			valve.setName("Valve " + (i + 1));
 			valve.addAction(valve.createNewAction());
-			valves.add(valve);
+			devices.add(valve);
 		}
 		// add one flash
 		Flash flash = new Flash();
 		flash.setName("Flash");
 		flash.addAction(flash.createNewAction());
-		flashes.add(flash);
+		devices.add(flash);
 		// add one camera
 		Camera camera = new Camera();
 		camera.setName("Camera");
 		camera.addAction(camera.createNewAction());
-		cameras.add(camera);
+		devices.add(camera);
 	}
 
 	@Override
@@ -104,108 +93,43 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	}
 
 	@Override
-	public List<IValve> getValves() {
-		return valves;
-	}
-
-	@Override
-	public void setValves(List<IValve> valves) {
-		firePropertyChange(ASSOCIATION_VALVES, this.valves, this.valves = valves);
-	}
-
-	@Override
-	public void addValve(IValve valve) {
-		List<IValve> oldValue = valves;
-		valves = new ArrayList<IValve>(this.valves);
-		valves.add(valve);
-		firePropertyChange(ASSOCIATION_VALVES, oldValue, valves);
-	}
-
-	@Override
-	public void removeValve(IValve valve) {
-		List<IValve> oldValue = valves;
-		valves = new ArrayList<IValve>(this.valves);
-		valves.remove(valve);
-		firePropertyChange(ASSOCIATION_VALVES, oldValue, valves);
-	}
-
-	@Override
-	public List<IFlash> getFlashes() {
-		return flashes;
-	}
-
-	@Override
-	public void addFlash(IFlash flash) {
-		List<IFlash> oldValue = flashes;
-		flashes = new ArrayList<IFlash>(this.flashes);
-		flashes.add(flash);
-		firePropertyChange(ASSOCIATION_FLASHES, oldValue, flashes);
-	}
-
-	@Override
-	public void removeFlash(IFlash flash) {
-		List<IFlash> oldValue = flashes;
-		flashes = new ArrayList<IFlash>(this.flashes);
-		flashes.remove(flash);
-		firePropertyChange(ASSOCIATION_FLASHES, oldValue, flashes);
-	}
-
-	@Override
-	public void setFlashes(List<IFlash> flashes) {
-		firePropertyChange(ASSOCIATION_FLASHES, this.flashes, this.flashes = flashes);
-	}
-
-	@Override
-	public List<ICamera> getCameras() {
-		return cameras;
-	}
-
-	@Override
-	public void setCameras(List<ICamera> cameras) {
-		firePropertyChange(ASSOCIATION_CAMERAS, this.cameras, this.cameras = cameras);
-	}
-
-	@Override
-	public void addCamera(ICamera camera) {
-		List<ICamera> oldValue = cameras;
-		cameras = new ArrayList<ICamera>(this.cameras);
-		cameras.add(camera);
-		firePropertyChange(ASSOCIATION_CAMERAS, oldValue, cameras);
-	}
-
-	@Override
-	public void removeCamera(ICamera camera) {
-		List<ICamera> oldValue = cameras;
-		cameras = new ArrayList<ICamera>(this.cameras);
-		cameras.remove(camera);
-		firePropertyChange(ASSOCIATION_CAMERAS, oldValue, cameras);
-	}
-
-	@Override
 	public void removeDevice(IDevice device) {
-		if (device instanceof IValve) {
-			removeValve((IValve) device);
-		} else if (device instanceof IFlash) {
-			removeFlash((IFlash) device);
-		} else if (device instanceof ICamera) {
-			removeCamera((ICamera) device);
-		}
+		List<IDevice> oldValue = devices;
+		devices = new ArrayList<IDevice>(this.devices);
+		devices.remove(device);
+		firePropertyChange(ASSOCIATION_DEVICES, oldValue, devices);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends IDevice> List<T> getAllDevices(Class<T> type) {
-		List<T> devices = new ArrayList<T>();
-		if (type.isAssignableFrom(IValve.class)) {
-			devices.addAll((Collection<? extends T>) valves);
+	public void addDevice(IDevice device) {
+		List<IDevice> oldValue = devices;
+		devices = new ArrayList<IDevice>(this.devices);
+		devices.add(device);
+		firePropertyChange(ASSOCIATION_DEVICES, oldValue, devices);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T extends IDevice> List<T> getDevices(Class<T> type) {
+		List<T> devicesT = new ArrayList<T>();
+
+		for (IDevice device : devices) {
+			if (type.isAssignableFrom(device.getClass())) {
+				devicesT.add((T) device);
+			}
 		}
-		if (type.isAssignableFrom(IFlash.class)) {
-			devices.addAll((Collection<? extends T>) flashes);
-		}
-		if (type.isAssignableFrom(ICamera.class)) {
-			devices.addAll((Collection<? extends T>) cameras);
-		}
+
+		return devicesT;
+	}
+
+	@Override
+	public List<IDevice> getDevices() {
 		return devices;
+	}
+
+	@Override
+	public void setDevices(List<IDevice> devices) {
+		firePropertyChange(ASSOCIATION_DEVICES, this.devices, this.devices = devices);
 	}
 
 	@Override
@@ -213,7 +137,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		setName("");
 		setDescription("");
 		// reset all devices
-		for (IDevice device : getAllDevices(IDevice.class)) {
+		for (IDevice device : getDevices(IDevice.class)) {
 			device.reset();
 		}
 	}

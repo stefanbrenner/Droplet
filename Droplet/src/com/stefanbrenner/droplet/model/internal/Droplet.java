@@ -28,10 +28,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
+import com.stefanbrenner.droplet.service.DropletDeviceComparator;
 
 @XmlRootElement(name = "Droplet")
 public class Droplet extends AbstractModelObject implements IDroplet {
@@ -47,6 +49,9 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@XmlElement(name = "Device", type = AbstractDevice.class)
 	@XmlElementWrapper(name = "Devices")
 	private List<IDevice> devices = new ArrayList<IDevice>();
+
+	@XmlTransient
+	private final DropletDeviceComparator comparator = new DropletDeviceComparator();
 
 	public Droplet() {
 
@@ -141,4 +146,10 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 			device.reset();
 		}
 	}
+
+	@Override
+	public DropletDeviceComparator getDeviceComparator() {
+		return comparator;
+	}
+
 }

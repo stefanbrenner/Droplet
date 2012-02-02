@@ -19,7 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-public interface IDevice extends INotificationSupport, Comparable<IDevice> {
+public interface IDevice extends INotificationSupport {
 
 	public static final String PROPERTY_NAME = "name";
 

@@ -26,10 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.stefanbrenner.droplet.model.IAction;
-import com.stefanbrenner.droplet.model.ICamera;
-import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IFlash;
-import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
 @XmlRootElement(name = "Flash")
@@ -59,20 +56,6 @@ public class Flash extends AbstractActionDevice implements IFlash {
 	@Override
 	public IAction createNewAction() {
 		return new Action();
-	}
-
-	@Override
-	public int compareTo(IDevice o) {
-		if (o instanceof IValve) {
-			return 1;
-		}
-		if (o instanceof ICamera) {
-			return -1;
-		}
-		if (o instanceof IFlash) {
-			return 0;
-		}
-		return -o.compareTo(this);
 	}
 
 }

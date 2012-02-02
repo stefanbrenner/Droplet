@@ -21,6 +21,8 @@ package com.stefanbrenner.droplet.model;
 
 import java.util.List;
 
+import com.stefanbrenner.droplet.service.DropletDeviceComparator;
+
 /**
  * @author Stefan Brenner
  */
@@ -51,5 +53,7 @@ public interface IDroplet extends INotificationSupport {
 	public abstract void removeDevice(IDevice device);
 
 	public abstract void reset();
+
+	public abstract DropletDeviceComparator getDeviceComparator();
 
 }

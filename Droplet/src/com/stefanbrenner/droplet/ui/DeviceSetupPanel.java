@@ -79,7 +79,7 @@ public class DeviceSetupPanel extends JPanel {
 		// add devices panels
 		List<IActionDevice> devices = droplet.getDevices(IActionDevice.class);
 		// sort devices
-		Collections.sort(devices);
+		Collections.sort(devices, droplet.getDeviceComparator());
 		for (IActionDevice device : devices) {
 			ActionDevicePanel<IActionDevice> devicePanel = new ActionDevicePanel<IActionDevice>(droplet, device);
 			container.add(devicePanel);

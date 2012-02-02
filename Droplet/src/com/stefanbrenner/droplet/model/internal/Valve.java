@@ -25,10 +25,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.stefanbrenner.droplet.model.ICamera;
-import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDurationAction;
-import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
@@ -59,17 +56,6 @@ public class Valve extends AbstractActionDevice implements IValve {
 	@Override
 	public IDurationAction createNewAction() {
 		return new DurationAction();
-	}
-
-	@Override
-	public int compareTo(IDevice o) {
-		if (o instanceof IFlash || o instanceof ICamera) {
-			return -1;
-		}
-		if (o instanceof IValve) {
-			return 0;
-		}
-		return -o.compareTo(this);
 	}
 
 }

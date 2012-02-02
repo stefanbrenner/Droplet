@@ -46,7 +46,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	// model objects
-	private IActionDevice<T> device;
+	private IActionDevice device;
 	private T action;
 
 	// UI components
@@ -58,7 +58,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ActionPanel(IActionDevice<T> device, T action) {
+	public ActionPanel(IActionDevice device, T action) {
 
 		setDevice(device);
 		setAction(action);
@@ -119,11 +119,11 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		return size;
 	}
 
-	public IActionDevice<T> getDevice() {
+	public IActionDevice getDevice() {
 		return device;
 	}
 
-	public void setDevice(IActionDevice<T> device) {
+	public void setDevice(IActionDevice device) {
 		this.device = device;
 	}
 

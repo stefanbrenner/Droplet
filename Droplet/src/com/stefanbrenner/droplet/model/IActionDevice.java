@@ -24,18 +24,16 @@ import java.util.List;
 /**
  * @author Stefan Brenner
  */
-public interface IActionDevice<T extends IAction> extends IDevice {
+public interface IActionDevice extends IDevice {
 
 	public static final String ASSOCIATION_ACTIONS = "actions";
 
-	public abstract void setActions(List<T> actions);
+	public abstract void setActions(List<IAction> actions);
 
-	public abstract List<T> getActions();
+	public abstract List<IAction> getActions();
 
-	public abstract void removeAction(T action);
+	public abstract void removeAction(IAction action);
 
-	public abstract void addAction(T action);
-
-	public abstract T createNewAction();
+	public abstract void addAction(IAction action);
 
 }

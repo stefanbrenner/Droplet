@@ -22,12 +22,20 @@ package com.stefanbrenner.droplet.model.internal;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDurationAction;
+import com.stefanbrenner.droplet.model.IFlash;
+import com.stefanbrenner.droplet.model.IValve;
 
 @XmlRootElement(name = "Camera")
-public class Camera extends AbstractActionDevice<IDurationAction> implements ICamera {
+public class Camera extends AbstractActionDevice implements ICamera {
 
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected String getDeviceType() {
+		return "Camera";
+	}
 
 	@Override
 	public IDurationAction createNewAction() {
@@ -35,8 +43,14 @@ public class Camera extends AbstractActionDevice<IDurationAction> implements ICa
 	}
 
 	@Override
-	protected String getDeviceType() {
-		return "Camera";
+	public int compareTo(IDevice o) {
+		if (o instanceof IValve || o instanceof IFlash) {
+			return 1;
+		}
+		if (o instanceof ICamera) {
+			return 0;
+		}
+		return -o.compareTo(this);
 	}
 
 }

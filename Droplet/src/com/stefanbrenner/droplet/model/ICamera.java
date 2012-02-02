@@ -19,6 +19,6 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-public interface ICamera extends IActionDevice<IDurationAction> {
+public interface ICamera extends IActionDevice {
 
 }

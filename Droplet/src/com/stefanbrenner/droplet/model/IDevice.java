@@ -19,7 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-public interface IDevice extends INotificationSupport {
+public interface IDevice extends INotificationSupport, Comparable<IDevice> {
 
 	public static final String PROPERTY_NAME = "name";
 
@@ -34,5 +34,7 @@ public interface IDevice extends INotificationSupport {
 	public abstract String getDescription();
 
 	public abstract void reset();
+
+	public abstract IAction createNewAction();
 
 }

@@ -47,7 +47,7 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.utils.DropletColors;
 
-public class ActionDevicePanel<T extends IActionDevice<IAction>> extends JPanel {
+public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 

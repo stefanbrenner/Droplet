@@ -28,6 +28,7 @@ Release 0.1b
 * Implement simple About dialog
 * Fix UI Layout Issues
 * Load as template
+* Compare objects who's classes are not known at compile time
 
 ================================================================================
  I D E A S

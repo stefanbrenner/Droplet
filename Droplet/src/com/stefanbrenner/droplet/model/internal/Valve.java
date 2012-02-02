@@ -25,12 +25,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDurationAction;
+import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
 @XmlRootElement(name = "Valve")
-public class Valve extends AbstractActionDevice<IDurationAction> implements IValve {
+public class Valve extends AbstractActionDevice implements IValve {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,13 +52,24 @@ public class Valve extends AbstractActionDevice<IDurationAction> implements IVal
 	}
 
 	@Override
+	protected String getDeviceType() {
+		return "Valve";
+	}
+
+	@Override
 	public IDurationAction createNewAction() {
 		return new DurationAction();
 	}
 
 	@Override
-	protected String getDeviceType() {
-		return "Valve";
+	public int compareTo(IDevice o) {
+		if (o instanceof IFlash || o instanceof ICamera) {
+			return -1;
+		}
+		if (o instanceof IValve) {
+			return 0;
+		}
+		return -o.compareTo(this);
 	}
 
 }

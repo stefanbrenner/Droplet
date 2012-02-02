@@ -24,6 +24,8 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -75,8 +77,11 @@ public class DeviceSetupPanel extends JPanel {
 		// add components
 		container.add(Box.createRigidArea(new Dimension(10, 0)));
 		// add devices panels
-		for (IActionDevice<?> device : droplet.getDevices(IActionDevice.class)) {
-			ActionDevicePanel devicePanel = new ActionDevicePanel(droplet, device);
+		List<IActionDevice> devices = droplet.getDevices(IActionDevice.class);
+		// sort devices
+		Collections.sort(devices);
+		for (IActionDevice device : devices) {
+			ActionDevicePanel<IActionDevice> devicePanel = new ActionDevicePanel<IActionDevice>(droplet, device);
 			container.add(devicePanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}

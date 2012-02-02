@@ -21,7 +21,7 @@ package com.stefanbrenner.droplet.model;
 
 import java.awt.Color;
 
-public interface IFlash extends IActionDevice<IAction> {
+public interface IFlash extends IActionDevice {
 
 	public static final String PROPERTY_COLOR = "color";
 

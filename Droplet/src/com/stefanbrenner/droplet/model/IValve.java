@@ -21,7 +21,7 @@ package com.stefanbrenner.droplet.model;
 
 import java.awt.Color;
 
-public interface IValve extends IActionDevice<IDurationAction> {
+public interface IValve extends IActionDevice {
 
 	public static final String PROPERTY_COLOR = "color";
 

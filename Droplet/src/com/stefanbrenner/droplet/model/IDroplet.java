@@ -70,4 +70,8 @@ public interface IDroplet extends INotificationSupport {
 
 	public abstract void removeDevice(IDevice device);
 
+	public abstract <T extends IDevice> List<T> getAllDevices(Class<T> type);
+
+	public abstract void reset();
+
 }

@@ -46,7 +46,11 @@ public class OpenFileAction extends AbstractDropletAction {
 	private final JFileChooser fileChooser;
 
 	public OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Open...");
+		this(frame, fileChooser, dropletContext, "Open...");
+	}
+
+	protected OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext, String title) {
+		super(frame, dropletContext, title);
 
 		this.fileChooser = fileChooser;
 
@@ -57,6 +61,10 @@ public class OpenFileAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		open(false);
+	}
+
+	protected void open(boolean asTemplate) {
 		int returnVal = fileChooser.showOpenDialog(getFrame());
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -70,9 +78,16 @@ public class OpenFileAction extends AbstractDropletAction {
 				JAXBHelper jaxbHelper = new JAXBHelper();
 				IDroplet droplet = jaxbHelper.fromXml(xml, IDroplet.class);
 
+				if (asTemplate) {
+					// reset droplet
+					droplet.reset();
+					getDropletContext().setFile(null);
+				} else {
+					getDropletContext().setFile(file);
+				}
+
 				// set droplet to context
 				getDropletContext().setDroplet(droplet);
-				getDropletContext().setFile(file);
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

@@ -22,6 +22,7 @@ import com.stefanbrenner.droplet.model.IValve;
 package com.stefanbrenner.droplet.model.internal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -191,4 +192,29 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends IDevice> List<T> getAllDevices(Class<T> type) {
+		List<T> devices = new ArrayList<T>();
+		if (type.isAssignableFrom(IValve.class)) {
+			devices.addAll((Collection<? extends T>) valves);
+		}
+		if (type.isAssignableFrom(IFlash.class)) {
+			devices.addAll((Collection<? extends T>) flashes);
+		}
+		if (type.isAssignableFrom(ICamera.class)) {
+			devices.addAll((Collection<? extends T>) cameras);
+		}
+		return devices;
+	}
+
+	@Override
+	public void reset() {
+		setName("");
+		setDescription("");
+		// reset all devices
+		for (IDevice device : getAllDevices(IDevice.class)) {
+			device.reset();
+		}
+	}
 }

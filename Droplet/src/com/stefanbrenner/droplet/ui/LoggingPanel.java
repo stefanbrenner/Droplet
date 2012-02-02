@@ -20,6 +20,7 @@
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.text.DateFormat;
 import java.util.Date;
@@ -50,6 +51,7 @@ public class LoggingPanel extends JPanel {
 
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Logging"));
+		setMinimumSize(new Dimension(400, 200));
 
 		txtMessages = new JTextArea();
 		txtMessages.setFocusable(false);

@@ -51,13 +51,13 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 	private final JButton btnClose;
 
 	public AddDeviceDialog(JFrame frame, IDropletContext dropletContext) {
-		super(frame, "Add Device", true);
+		super(frame, "Add Device", false);
 
 		this.dropletContext = dropletContext;
 
 		JPanel panel = new JPanel();
 
-		panel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(1, 0, 7, 7));
 
 		btnValve = new JButton("Valve");

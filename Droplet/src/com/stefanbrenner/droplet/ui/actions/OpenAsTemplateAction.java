@@ -17,26 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model.internal;
+package com.stefanbrenner.droplet.ui.actions;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
-import com.stefanbrenner.droplet.model.ICamera;
-import com.stefanbrenner.droplet.model.IDurationAction;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
-@XmlRootElement(name = "Camera")
-public class Camera extends AbstractActionDevice<IDurationAction> implements ICamera {
+import com.stefanbrenner.droplet.model.IDropletContext;
 
-	private static final long serialVersionUID = 1L;
+/**
+ * @author Stefan Brenner
+ */
+@SuppressWarnings("serial")
+public class OpenAsTemplateAction extends OpenFileAction {
 
-	@Override
-	public IDurationAction createNewAction() {
-		return new DurationAction();
+	public OpenAsTemplateAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+		super(frame, fileChooser, dropletContext, "Open as Template...");
+
+		putValue(ACCELERATOR_KEY, null);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
+		putValue(SHORT_DESCRIPTION, "Open Droplet Configuration as Template");
 	}
 
 	@Override
-	protected String getDeviceType() {
-		return "Camera";
+	public void actionPerformed(ActionEvent event) {
+		open(true);
 	}
 
 }

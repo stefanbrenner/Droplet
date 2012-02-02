@@ -65,4 +65,11 @@ public abstract class AbstractActionDevice<T extends IAction> extends AbstractDe
 		firePropertyChange(ASSOCIATION_ACTIONS, oldValue, actions);
 	}
 
+	@Override
+	public void reset() {
+		super.reset();
+		// remove all actions
+		setActions(new ArrayList<T>());
+	}
+
 }

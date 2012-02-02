@@ -53,4 +53,9 @@ public class Flash extends AbstractActionDevice<IAction> implements IFlash {
 		return new Action();
 	}
 
+	@Override
+	protected String getDeviceType() {
+		return "Flash";
+	}
+
 }

@@ -33,4 +33,6 @@ public interface IDevice extends INotificationSupport {
 
 	public abstract String getDescription();
 
+	public abstract void reset();
+
 }

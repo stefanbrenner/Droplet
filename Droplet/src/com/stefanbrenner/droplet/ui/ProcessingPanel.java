@@ -20,6 +20,7 @@
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -52,6 +53,7 @@ public class ProcessingPanel extends JPanel {
 
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createTitledBorder("Processing"));
+		setMinimumSize(new Dimension(400, 200));
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(2, 2, 2, 2);

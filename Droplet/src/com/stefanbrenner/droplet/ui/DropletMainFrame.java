@@ -141,12 +141,14 @@ public class DropletMainFrame extends JFrame {
 			JSplitPane splitPaneBottom = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, processingPanel, loggingPanel);
 			splitPaneBottom.setOneTouchExpandable(true);
 			splitPaneBottom.setDividerLocation(0.5d);
-			splitPaneBottom.setResizeWeight(0.0d);
+			// splitPaneBottom.setResizeWeight(0.1d);
+			splitPaneBottom.setContinuousLayout(true);
 
 			JSplitPane splitPaneMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, configPanel, splitPaneBottom);
 			splitPaneMain.setOneTouchExpandable(true);
 			splitPaneMain.setDividerLocation(0.5d);
-			splitPaneMain.setResizeWeight(1.0d);
+			splitPaneMain.setResizeWeight(0.85d);
+			splitPaneMain.setContinuousLayout(true);
 			contentPane.add(splitPaneMain, BorderLayout.CENTER);
 		}
 
@@ -192,7 +194,7 @@ public class DropletMainFrame extends JFrame {
 		// set to full screen mode
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		// set minimum size to packed size
-		setMinimumSize(new Dimension(300, 100));
+		setMinimumSize(new Dimension(300, 200));
 		// update ui for nimbus component resizing
 		SwingUtilities.updateComponentTreeUI(this);
 

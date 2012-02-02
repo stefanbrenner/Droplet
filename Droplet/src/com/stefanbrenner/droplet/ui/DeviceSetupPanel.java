@@ -50,6 +50,7 @@ public class DeviceSetupPanel extends JPanel {
 	public DeviceSetupPanel(IDroplet droplet) {
 
 		setLayout(new BorderLayout());
+		setMinimumSize(new Dimension(Short.MIN_VALUE, 200));
 
 		container = new JPanel();
 
@@ -96,8 +97,11 @@ public class DeviceSetupPanel extends JPanel {
 
 		container.add(Box.createHorizontalGlue());
 
-		container.revalidate();
-		container.repaint();
+		// container.revalidate();
+		// container.repaint();
+
+		revalidate();
+		repaint();
 	}
 
 	public IDroplet getDroplet() {

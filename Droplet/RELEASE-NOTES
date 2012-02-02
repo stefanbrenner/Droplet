@@ -22,19 +22,20 @@ Release 0.1b
 * Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
 * Implement Java Service that speaks DMF
 * Implement Basic UI with the following functionality:
-	- Configure 0..n Devices (Valve, Flash, Camera)
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
-* Only fire association changed event if object was added/removed?
-* Set Description and Color per Device
-* Mark Device Type with Icons
 * Add Tests to the most important services and util methods
-* Create Custom L&F with Synth or Nimbus
 * Implement simple About dialog
+* Fix UI Layout Issues
+* Load as template
 
 ================================================================================
  I D E A S
 ================================================================================
+* Create Custom L&F with Synth or Nimbus
+* Only fire association changed event if object was added/removed?
+* Set Description and Color per Device
+* Mark Device Type with Icons
 * Internationalization
 * Sensors
 	- Sensor Setup Panel
@@ -64,6 +65,7 @@ Release 0.1b
 NEW FEATURES:
 * Connect to serial port and show connection status
 * Devices: Valve, Flash, Camera
+* Setup 0..n Devices
 * Actions: Offset Action, Duration Action
 * Define 0..n Actions per Device
 * Start one Cycle

@@ -22,6 +22,8 @@ package com.stefanbrenner.droplet.model.internal;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.stefanbrenner.droplet.model.IDevice;
 
 /**
@@ -34,10 +36,10 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute(name = "Name")
-	private String name;
+	private String name = StringUtils.EMPTY;
 
 	@XmlElement(name = "Description")
-	private String description;
+	private String description = StringUtils.EMPTY;
 
 	@Override
 	public String getName() {
@@ -57,6 +59,14 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	@Override
 	public void setDescription(String description) {
 		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
+	}
+
+	protected abstract String getDeviceType();
+
+	@Override
+	public void reset() {
+		setName(getDeviceType());
+		setDescription("");
 	}
 
 }

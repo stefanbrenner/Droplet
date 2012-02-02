@@ -53,4 +53,9 @@ public class Valve extends AbstractActionDevice<IDurationAction> implements IVal
 		return new DurationAction();
 	}
 
+	@Override
+	protected String getDeviceType() {
+		return "Valve";
+	}
+
 }

@@ -33,7 +33,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.actions.AbstractDropletAction;
 import com.stefanbrenner.droplet.ui.actions.AddDeviceAction;
+import com.stefanbrenner.droplet.ui.actions.ExitAction;
 import com.stefanbrenner.droplet.ui.actions.NewAction;
+import com.stefanbrenner.droplet.ui.actions.OpenAsTemplateAction;
 import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveAsFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveFileAction;
@@ -58,6 +60,7 @@ public class DropletMenu extends JMenuBar {
 	// menu items
 	private JMenuItem newMenuItem;
 	private JMenuItem openMenuItem;
+	private JMenuItem openTemplateMenuItem;
 	private JMenuItem saveMenuItem;
 	private JMenuItem saveAsMenuItem;
 	private JMenuItem exitMenuItem;
@@ -67,9 +70,11 @@ public class DropletMenu extends JMenuBar {
 	// actions
 	private AbstractDropletAction newAction;
 	private AbstractDropletAction openAction;
+	private AbstractDropletAction openTemplateAction;
 	private AbstractDropletAction saveAction;
 	private AbstractDropletAction saveAsAction;
 	private AbstractDropletAction addDeviceAction;
+	private AbstractDropletAction exitAction;
 
 	public DropletMenu(JFrame frame, IDropletContext dropletContext) {
 		super();
@@ -104,26 +109,24 @@ public class DropletMenu extends JMenuBar {
 		// create actions
 		newAction = new NewAction(frame, dropletContext);
 		openAction = new OpenFileAction(frame, fileChooser, dropletContext);
+		openTemplateAction = new OpenAsTemplateAction(frame, fileChooser, dropletContext);
 		saveAction = new SaveFileAction(frame, fileChooser, dropletContext);
 		saveAsAction = new SaveAsFileAction(frame, fileChooser, dropletContext);
+		exitAction = new ExitAction(frame, dropletContext);
 
 		// create menu items
-		newMenuItem = new JMenuItem("New");
-		newMenuItem.setAction(newAction);
+		newMenuItem = new JMenuItem(newAction);
 		fileMenu.add(newMenuItem);
-		openMenuItem = new JMenuItem("Open");
-		openMenuItem.setAction(openAction);
+		openMenuItem = new JMenuItem(openAction);
 		fileMenu.add(openMenuItem);
-		saveMenuItem = new JMenuItem("Save");
-		saveMenuItem.setAction(saveAction);
+		openTemplateMenuItem = new JMenuItem(openTemplateAction);
+		fileMenu.add(openTemplateMenuItem);
+		saveMenuItem = new JMenuItem(saveAction);
 		fileMenu.add(saveMenuItem);
-		saveAsMenuItem = new JMenuItem("Save As...");
-		saveAsMenuItem.setAction(saveAsAction);
+		saveAsMenuItem = new JMenuItem(saveAsAction);
 		fileMenu.add(saveAsMenuItem);
 		fileMenu.addSeparator();
-		exitMenuItem = new JMenuItem("Exit");
-		exitMenuItem.setMnemonic('x');
-		// TODO brenner implement action
+		exitMenuItem = new JMenuItem(exitAction);
 		fileMenu.add(exitMenuItem);
 
 	}

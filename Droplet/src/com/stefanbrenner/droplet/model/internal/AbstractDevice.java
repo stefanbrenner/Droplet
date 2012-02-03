@@ -66,7 +66,7 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	@Override
 	public void reset() {
 		setName(getDeviceType());
-		setDescription("");
+		setDescription(StringUtils.EMPTY);
 	}
 
 }

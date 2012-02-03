@@ -51,7 +51,7 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 	private final JButton btnClose;
 
 	public AddDeviceDialog(JFrame frame, IDropletContext dropletContext) {
-		super(frame, "Add Device", false);
+		super(frame, Messages.getString("AddDeviceDialog.title"), false); //$NON-NLS-1$
 
 		this.dropletContext = dropletContext;
 
@@ -60,16 +60,16 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(1, 0, 7, 7));
 
-		btnValve = new JButton("Valve");
+		btnValve = new JButton(Messages.getString("AddDeviceDialog.valve")); //$NON-NLS-1$
 		btnValve.addActionListener(this);
 		panel.add(btnValve);
-		btnFlash = new JButton("Flash");
+		btnFlash = new JButton(Messages.getString("AddDeviceDialog.flash")); //$NON-NLS-1$
 		btnFlash.addActionListener(this);
 		panel.add(btnFlash);
-		btnCamera = new JButton("Camera");
+		btnCamera = new JButton(Messages.getString("AddDeviceDialog.camera")); //$NON-NLS-1$
 		btnCamera.addActionListener(this);
 		panel.add(btnCamera);
-		btnClose = new JButton("Close");
+		btnClose = new JButton(Messages.getString("AddDeviceDialog.close")); //$NON-NLS-1$
 		btnClose.addActionListener(this);
 		panel.add(btnClose);
 

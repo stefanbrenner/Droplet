@@ -36,17 +36,18 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 public class NewAction extends AbstractDropletAction {
 
 	public NewAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "New");
+		super(frame, dropletContext, Messages.getString("NewAction.title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
-		putValue(SHORT_DESCRIPTION, "New Droplet Configuration");
+		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("NewAction.mnemonic"))); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("NewAction.description")); //$NON-NLS-1$
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		int retVal = JOptionPane.showConfirmDialog(getFrame(), "Unsaved changes will be lost", "Droplet",
+		int retVal = JOptionPane.showConfirmDialog(getFrame(),
+				Messages.getString("NewAction.unsavedChanges"), Messages.getString("NewAction.1"), //$NON-NLS-1$ //$NON-NLS-2$
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (retVal == JOptionPane.OK_OPTION) {

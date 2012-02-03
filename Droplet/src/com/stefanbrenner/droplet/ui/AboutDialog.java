@@ -54,24 +54,24 @@ public class AboutDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		JLabel lbTitle = new JLabel("Droplet - Toolkit for Liquid Art Photographers");
+		JLabel lbTitle = new JLabel(Messages.getString("AboutDialog.title")); //$NON-NLS-1$
 		lbTitle.setFont(DropletFonts.FONT_HEADER_LARGE);
 		panel.add(lbTitle);
 
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
-		panel.add(new JLabel("Version 0.1b"));
+		panel.add(new JLabel(Messages.getString("AboutDialog.version"))); //$NON-NLS-1$
 		panel.add(Box.createRigidArea(new Dimension(0, 20)));
-		panel.add(new JLabel("Open Source Project written, debugged and supported by Stefan Brenner."));
+		panel.add(new JLabel(Messages.getString("AboutDialog.credentials"))); //$NON-NLS-1$
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		JLabel lbVisit = new JLabel("Visit http://www.droplet.at");
+		JLabel lbVisit = new JLabel(Messages.getString("AboutDialog.link")); //$NON-NLS-1$
 		lbVisit.setForeground(Color.BLUE);
 		lbVisit.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		lbVisit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					open(new URI("http://www.droplet.at"));
+					open(new URI("http://www.droplet.at")); //$NON-NLS-1$
 				} catch (URISyntaxException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

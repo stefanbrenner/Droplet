@@ -34,13 +34,13 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
 public class SendAction extends AbstractDropletAction {
 
 	public SendAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Send");
-		putValue(SHORT_DESCRIPTION, "Send actual configuration to microcontroller");
+		super(frame, dropletContext, Messages.getString("SendAction.title")); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println("send");
+		System.out.println("send"); //$NON-NLS-1$
 		DropletParser.sendConfiguration(getDropletContext().getDroplet(), ArduinoService.getInstance());
 	}
 

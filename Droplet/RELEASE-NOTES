@@ -25,10 +25,7 @@ Release 0.1b
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
 * Add Tests to the most important services and util methods
-* Implement simple About dialog
 * Fix UI Layout Issues
-* Load as template
-* Compare objects who's classes are not known at compile time
 
 ================================================================================
  I D E A S
@@ -73,6 +70,8 @@ NEW FEATURES:
 * Begin New Droplet Setup
 * Open/Save Droplet Setup
 * Simple Logging
+* Load as Template
+* German translation
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX

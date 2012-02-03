@@ -39,6 +39,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IAction;
@@ -85,7 +87,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(actionsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		// resize vertical scrollbar
-		scrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		scrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		SwingUtilities.updateComponentTreeUI(scrollPane);
 		// we need no border
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -96,7 +98,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 			panel.setLayout(new GridLayout(0, 1));
 
 			// add button
-			JButton btnAdd = new JButton("Add Action");
+			JButton btnAdd = new JButton(Messages.getString("ActionDevicePanel.addAction")); //$NON-NLS-1$
 			btnAdd.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent action) {
@@ -106,12 +108,14 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 			panel.add(btnAdd);
 
 			// remove button
-			JButton btnRemove = new JButton("Remove");
+			JButton btnRemove = new JButton(Messages.getString("ActionDevicePanel.removeDevice")); //$NON-NLS-1$
 			btnRemove.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent action) {
-					int retVal = JOptionPane.showConfirmDialog(ActionDevicePanel.this, "Remove '" + device.getName()
-							+ "'?", "", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					int retVal = JOptionPane.showConfirmDialog(
+							ActionDevicePanel.this,
+							Messages.getString("ActionDevicePanel.removeDevice") + " '" + device.getName() + "'?", StringUtils.EMPTY, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (retVal == JOptionPane.YES_OPTION) {
 						droplet.removeDevice(device);
 					}

@@ -28,11 +28,11 @@ import com.stefanbrenner.droplet.service.DropletDeviceComparator;
  */
 public interface IDroplet extends INotificationSupport {
 
-	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_NAME = "name"; //$NON-NLS-1$
 
-	public static final String PROPERTY_DESCRIPTION = "description";
+	public static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
 
-	public static final String ASSOCIATION_DEVICES = "devices";
+	public static final String ASSOCIATION_DEVICES = "devices"; //$NON-NLS-1$
 
 	public abstract void setName(String name);
 

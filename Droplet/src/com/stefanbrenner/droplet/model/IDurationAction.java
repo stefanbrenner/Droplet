@@ -21,7 +21,7 @@ package com.stefanbrenner.droplet.model;
 
 public interface IDurationAction extends IAction {
 
-	public static final String PROPERTY_DURATION = "duration";
+	public static final String PROPERTY_DURATION = "duration"; //$NON-NLS-1$
 
 	public abstract void setDuration(Integer duration);
 

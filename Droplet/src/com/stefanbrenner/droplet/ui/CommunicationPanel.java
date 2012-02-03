@@ -58,7 +58,7 @@ public class CommunicationPanel extends JPanel {
 		this.dropletContext = context;
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
-		setBorder(BorderFactory.createTitledBorder("Communication"));
+		setBorder(BorderFactory.createTitledBorder(Messages.getString("CommunicationPanel.title"))); //$NON-NLS-1$
 
 		// port selection combo box
 		cmbPort = new JComboBox(commService.getPorts());
@@ -89,8 +89,8 @@ public class CommunicationPanel extends JPanel {
 		add(cmbPort);
 
 		// status label
-		add(new JLabel("Status:"));
-		lblStatus = new JLabel("Offline");
+		add(new JLabel(Messages.getString("CommunicationPanel.status"))); //$NON-NLS-1$
+		lblStatus = new JLabel(Messages.getString("CommunicationPanel.notConnected")); //$NON-NLS-1$
 		lblStatus.setForeground(Color.RED);
 		add(lblStatus);
 
@@ -139,10 +139,10 @@ public class CommunicationPanel extends JPanel {
 
 	private void updateStatus(boolean connected) {
 		if (connected) {
-			lblStatus.setText("Connected");
+			lblStatus.setText(Messages.getString("CommunicationPanel.connected")); //$NON-NLS-1$
 			lblStatus.setForeground(Color.GREEN);
 		} else {
-			lblStatus.setText("Not Connected");
+			lblStatus.setText(Messages.getString("CommunicationPanel.notConnected")); //$NON-NLS-1$
 			lblStatus.setForeground(Color.RED);
 		}
 	}

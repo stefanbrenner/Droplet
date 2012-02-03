@@ -21,9 +21,9 @@ package com.stefanbrenner.droplet.model;
 
 public interface IDevice extends INotificationSupport {
 
-	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_NAME = "name"; //$NON-NLS-1$
 
-	public static final String PROPERTY_DESCRIPTION = "description";
+	public static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
 
 	public abstract String getName();
 

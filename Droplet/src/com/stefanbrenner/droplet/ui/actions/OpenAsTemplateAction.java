@@ -20,12 +20,12 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * @author Stefan Brenner
@@ -34,11 +34,11 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 public class OpenAsTemplateAction extends OpenFileAction {
 
 	public OpenAsTemplateAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super(frame, fileChooser, dropletContext, "Open as Template...");
+		super(frame, fileChooser, dropletContext, Messages.getString("OpenAsTemplateAction.title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, null);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-		putValue(SHORT_DESCRIPTION, "Open Droplet Configuration as Template");
+		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("OpenAsTemplateAction.mnemonic"))); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("OpenAsTemplateAction.description")); //$NON-NLS-1$
 	}
 
 	@Override

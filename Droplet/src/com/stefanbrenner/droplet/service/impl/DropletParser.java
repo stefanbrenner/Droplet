@@ -43,7 +43,7 @@ public class DropletParser {
 	// TODO brenner: REMOVE this stupid silly parser
 	public static void sendConfiguration(IDroplet droplet, ISerialCommService commService) {
 
-		String message = "set";
+		String message = "set"; //$NON-NLS-1$
 
 		IValve valve1 = droplet.getDevices(IValve.class).get(0);
 
@@ -64,23 +64,23 @@ public class DropletParser {
 		int delCam = Math.abs(droplet.getDevices(ICamera.class).get(0).getActions().get(0).getOffset()
 				- action3.getOffset());
 
-		message += StringUtils.leftPad(String.valueOf(dur1), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(del1), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(dur2), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(del2), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(dur3), 3, "0");
-		message += StringUtils.leftPad(String.valueOf(delCam), 3, "0");
+		message += StringUtils.leftPad(String.valueOf(dur1), 3, "0"); //$NON-NLS-1$
+		message += StringUtils.leftPad(String.valueOf(del1), 3, "0"); //$NON-NLS-1$
+		message += StringUtils.leftPad(String.valueOf(dur2), 3, "0"); //$NON-NLS-1$
+		message += StringUtils.leftPad(String.valueOf(del2), 3, "0"); //$NON-NLS-1$
+		message += StringUtils.leftPad(String.valueOf(dur3), 3, "0"); //$NON-NLS-1$
+		message += StringUtils.leftPad(String.valueOf(delCam), 3, "0"); //$NON-NLS-1$
 
-		commService.sendData(message + "\n");
+		commService.sendData(message + "\n"); //$NON-NLS-1$
 
 	}
 
 	public static void start(ISerialCommService commService) {
-		commService.sendData("run\n");
+		commService.sendData("run\n"); //$NON-NLS-1$
 	}
 
 	public static void show(ISerialCommService commService) {
-		commService.sendData("show\n");
+		commService.sendData("show\n"); //$NON-NLS-1$
 	}
 
 }

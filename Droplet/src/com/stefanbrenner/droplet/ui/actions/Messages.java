@@ -17,16 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.model;
+package com.stefanbrenner.droplet.ui.actions;
 
-import java.awt.Color;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-public interface IValve extends IActionDevice {
+/**
+ * @author Stefan Brenner
+ *
+ */
+public class Messages {
+	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.actions.messages"; //$NON-NLS-1$
 
-	public static final String PROPERTY_COLOR = "color"; //$NON-NLS-1$
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-	public abstract void setColor(Color color);
+	private Messages() {
+	}
 
-	public abstract Color getColor();
-
+	public static String getString(String key) {
+		try {
+			return RESOURCE_BUNDLE.getString(key);
+		} catch (MissingResourceException e) {
+			return '!' + key + '!';
+		}
+	}
 }

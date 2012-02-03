@@ -52,14 +52,14 @@ public class ProcessingPanel extends JPanel {
 	public ProcessingPanel() {
 
 		setLayout(new GridBagLayout());
-		setBorder(BorderFactory.createTitledBorder("Processing"));
+		setBorder(BorderFactory.createTitledBorder(Messages.getString("ProcessingPanel.title"))); //$NON-NLS-1$
 		setMinimumSize(new Dimension(400, 200));
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(2, 2, 2, 2);
 		gbc.fill = GridBagConstraints.BOTH;
 
-		cbEnable = new JCheckBox("Write Metadata to EXIF");
+		cbEnable = new JCheckBox(Messages.getString("ProcessingPanel.writeMetadata")); //$NON-NLS-1$
 		cbEnable.setSelected(false);
 		cbEnable.addChangeListener(new ChangeListener() {
 			@Override
@@ -76,7 +76,7 @@ public class ProcessingPanel extends JPanel {
 
 		// watch folder label
 		UiUtils.editGridBagConstraints(gbc, 0, 1, 0, 0, GridBagConstraints.WEST);
-		add(new JLabel("Watch Folder"), gbc);
+		add(new JLabel(Messages.getString("ProcessingPanel.watchFolder")), gbc); //$NON-NLS-1$
 
 		{
 			JPanel watchFolderPanel = new JPanel();
@@ -94,13 +94,13 @@ public class ProcessingPanel extends JPanel {
 			watchFolderPanel.add(txtWatchFolder, BorderLayout.CENTER);
 
 			// watch folder button
-			JButton btnWatchFolder = new JButton("...");
+			JButton btnWatchFolder = new JButton("..."); //$NON-NLS-1$
 			watchFolderPanel.add(btnWatchFolder, BorderLayout.EAST);
 		}
 
 		// comments label
 		UiUtils.editGridBagConstraints(gbc, 0, 2, 0, 1, GridBagConstraints.NORTHEAST);
-		add(new JLabel("Comments"), gbc);
+		add(new JLabel(Messages.getString("ProcessingPanel.comments")), gbc); //$NON-NLS-1$
 
 		// comments textarea
 		JTextArea txtComments = new JTextArea(4, 40);
@@ -109,12 +109,12 @@ public class ProcessingPanel extends JPanel {
 		UiUtils.disableTab(txtComments);
 		JScrollPane commentsScrollPane = new JScrollPane(txtComments);
 		UiUtils.editGridBagConstraints(gbc, 1, 2, 1, 1);
-		commentsScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		commentsScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(commentsScrollPane, gbc);
 
 		// tag label
 		UiUtils.editGridBagConstraints(gbc, 2, 2, 0, 1, GridBagConstraints.NORTHEAST);
-		add(new JLabel("Tags"), gbc);
+		add(new JLabel(Messages.getString("ProcessingPanel.tags")), gbc); //$NON-NLS-1$
 
 		// tag textarea
 		JTextArea txtTag = new JTextArea(4, 30);
@@ -123,7 +123,7 @@ public class ProcessingPanel extends JPanel {
 		UiUtils.disableTab(txtTag);
 		JScrollPane tagScrollPane = new JScrollPane(txtTag);
 		UiUtils.editGridBagConstraints(gbc, 3, 2, 1, 1, GridBagConstraints.EAST);
-		tagScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		tagScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(tagScrollPane, gbc);
 
 		updateUi();

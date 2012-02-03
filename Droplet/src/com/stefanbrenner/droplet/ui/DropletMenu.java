@@ -39,6 +39,7 @@ import com.stefanbrenner.droplet.ui.actions.OpenAsTemplateAction;
 import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveAsFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveFileAction;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * @author Stefan Brenner
@@ -85,25 +86,26 @@ public class DropletMenu extends JMenuBar {
 
 	private void build() {
 		// file menu
-		fileMenu = add(new JMenu("File"));
-		fileMenu.setMnemonic('f');
+		fileMenu = add(new JMenu(Messages.getString("DropletMenu.file"))); //$NON-NLS-1$
+		fileMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.fileMnemonic"))); //$NON-NLS-1$
 		buildNewMenu();
 		// edit menu
-		editMenu = add(new JMenu("Edit"));
-		editMenu.setMnemonic('e');
+		editMenu = add(new JMenu(Messages.getString("DropletMenu.edit"))); //$NON-NLS-1$
+		editMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.editMnemonic"))); //$NON-NLS-1$
 		buildEditMenu();
 		// help menu
-		helpMenu = add(new JMenu("Help"));
-		helpMenu.setMnemonic('h');
+		helpMenu = add(new JMenu(Messages.getString("DropletMenu.help"))); //$NON-NLS-1$
+		helpMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.helpMnemonic"))); //$NON-NLS-1$
 		buildHelpMenu();
 	}
 
 	private void buildNewMenu() {
 
 		// create file chooser
-		String filename = File.separator + "drp";
+		String filename = File.separator + IDropletContext.DROPLET_FILE_EXTENSION;
 		final JFileChooser fileChooser = new JFileChooser(new File(filename));
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Droplets", "drp");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				Messages.getString("DropletMenu.fileNameFilterTitle"), IDropletContext.DROPLET_FILE_EXTENSION); //$NON-NLS-1$
 		fileChooser.setFileFilter(filter);
 
 		// create actions
@@ -136,14 +138,14 @@ public class DropletMenu extends JMenuBar {
 		addDeviceAction = new AddDeviceAction(frame, dropletContext);
 
 		// create menu items
-		addDeviceMenuItem = new JMenuItem("Add Device");
+		addDeviceMenuItem = new JMenuItem(Messages.getString("DropletMenu.addDevice")); //$NON-NLS-1$
 		addDeviceMenuItem.setAction(addDeviceAction);
 		editMenu.add(addDeviceMenuItem);
 	}
 
 	private void buildHelpMenu() {
-		aboutMenuItem = new JMenuItem("About");
-		aboutMenuItem.setMnemonic('a');
+		aboutMenuItem = new JMenuItem(Messages.getString("DropletMenu.about")); //$NON-NLS-1$
+		aboutMenuItem.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.aboutMnemonic"))); //$NON-NLS-1$
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

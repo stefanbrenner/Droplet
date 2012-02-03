@@ -41,7 +41,7 @@ import com.stefanbrenner.droplet.model.internal.Valve;
 public class JAXBHelper {
 
 	/** Output encoding of marshalled XML data. */
-	private static final String ENCODING = "UTF-8";
+	private static final String ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	private static JAXBContext getJAXBContext() throws JAXBException {
 		// TODO brenner: can we make this with reflection

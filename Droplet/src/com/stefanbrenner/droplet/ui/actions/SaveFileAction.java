@@ -47,11 +47,11 @@ public class SaveFileAction extends AbstractDropletAction {
 	private final JFileChooser fileChooser;
 
 	public SaveFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
-		this("Save", frame, fileChooser, dropletContext);
+		this(Messages.getString("SaveFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration");
+		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("SaveFileAction.mnemonic"))); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("SaveFileAction.description")); //$NON-NLS-1$
 	}
 
 	public SaveFileAction(String name, JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
@@ -77,10 +77,13 @@ public class SaveFileAction extends AbstractDropletAction {
 			File file = fileChooser.getSelectedFile();
 
 			// check if file extension fits
-			if (StringUtils.containsIgnoreCase(file.getName(), ".")
+			if (StringUtils.containsIgnoreCase(file.getName(), ".") //$NON-NLS-1$
 					&& !(StringUtils.endsWithIgnoreCase(file.getName(), IDropletContext.DROPLET_FILE_EXTENSION))) {
-				JOptionPane.showMessageDialog(getFrame(), "File Extension not allowed", "Wrong file extension",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane
+						.showMessageDialog(
+								getFrame(),
+								Messages.getString("SaveFileAction.extensionNotAllowed"), Messages.getString("SaveFileAction.wrongExtension"), //$NON-NLS-1$ //$NON-NLS-2$
+								JOptionPane.ERROR_MESSAGE);
 				showFileChooser();
 				return;
 			}
@@ -94,7 +97,8 @@ public class SaveFileAction extends AbstractDropletAction {
 
 			// check if file already exists
 			if (file.exists()) {
-				int retVal = JOptionPane.showConfirmDialog(getFrame(), "Overwrite existing file?", "Droplet",
+				int retVal = JOptionPane.showConfirmDialog(getFrame(),
+						Messages.getString("SaveFileAction.overwriteFile"), Messages.getString("SaveFileAction.1"), //$NON-NLS-1$ //$NON-NLS-2$
 						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 				if (retVal == JOptionPane.NO_OPTION) {

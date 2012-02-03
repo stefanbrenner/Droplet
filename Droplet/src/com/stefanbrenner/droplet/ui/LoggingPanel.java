@@ -50,7 +50,7 @@ public class LoggingPanel extends JPanel {
 	public LoggingPanel() {
 
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder("Logging"));
+		setBorder(BorderFactory.createTitledBorder(Messages.getString("LoggingPanel.title"))); //$NON-NLS-1$
 		setMinimumSize(new Dimension(400, 200));
 
 		txtMessages = new JTextArea();
@@ -71,11 +71,12 @@ public class LoggingPanel extends JPanel {
 		// TODO brenner: make locale configurable in settings
 		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
 		String timestamp = format.format(new Date(System.currentTimeMillis()));
-		String logEntry = timestamp + ": " + message;
+		String logEntry = timestamp + ": " + message; //$NON-NLS-1$
 		if (txtMessages.getText().isEmpty()) {
 			txtMessages.setText(logEntry);
 		} else {
-			txtMessages.setText(StringUtils.join(txtMessages.getText(), "\n", logEntry));
+			txtMessages
+					.setText(StringUtils.join(txtMessages.getText(), System.getProperty("line.separator"), logEntry)); //$NON-NLS-1$
 		}
 	}
 }

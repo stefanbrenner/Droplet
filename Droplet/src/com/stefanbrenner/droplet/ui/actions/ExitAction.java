@@ -20,11 +20,11 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * @author Stefan Brenner
@@ -33,9 +33,9 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 public class ExitAction extends AbstractDropletAction {
 
 	public ExitAction(JFrame parent, IDropletContext dropletContext) {
-		super(parent, dropletContext, "Exit");
+		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
 
-		putValue(MNEMONIC_KEY, KeyEvent.VK_X);
+		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("ExitAction.mnemonic"))); //$NON-NLS-1$
 	}
 
 	@Override

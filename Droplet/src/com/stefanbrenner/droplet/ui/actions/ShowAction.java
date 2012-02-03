@@ -34,13 +34,13 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
 public class ShowAction extends AbstractDropletAction {
 
 	public ShowAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Show");
-		putValue(SHORT_DESCRIPTION, "Show actual configuration on microcontroller");
+		super(frame, dropletContext, Messages.getString("ShowAction.title")); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("ShowAction.description")); //$NON-NLS-1$
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println("show");
+		System.out.println("show"); //$NON-NLS-1$
 		DropletParser.show(ArduinoService.getInstance());
 	}
 

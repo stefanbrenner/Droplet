@@ -26,7 +26,7 @@ import java.util.List;
  */
 public interface IActionDevice extends IDevice {
 
-	public static final String ASSOCIATION_ACTIONS = "actions";
+	public static final String ASSOCIATION_ACTIONS = "actions"; //$NON-NLS-1$
 
 	public abstract void setActions(List<IAction> actions);
 

@@ -30,6 +30,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
@@ -139,8 +141,8 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void reset() {
-		setName("");
-		setDescription("");
+		setName(StringUtils.EMPTY);
+		setDescription(StringUtils.EMPTY);
 		// reset all devices
 		for (IDevice device : getDevices(IDevice.class)) {
 			device.reset();

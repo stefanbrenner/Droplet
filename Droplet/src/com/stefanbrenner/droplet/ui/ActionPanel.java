@@ -31,6 +31,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -73,7 +75,8 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		BeanAdapter<IAction> adapter = new BeanAdapter<IAction>(action, true);
 
 		// enabled checkbox
-		cbEnable = BasicComponentFactory.createCheckBox(adapter.getValueModel(IAction.PROPERTY_ENABLED), "");
+		cbEnable = BasicComponentFactory.createCheckBox(adapter.getValueModel(IAction.PROPERTY_ENABLED),
+				StringUtils.EMPTY);
 		UiUtils.editGridBagConstraints(gbc, 0, 0, 0, 0);
 		add(cbEnable, gbc);
 
@@ -96,7 +99,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		}
 
 		// remove button
-		btnRemove = new JButton("X");
+		btnRemove = new JButton(Messages.getString("ActionPanel.removeAction")); //$NON-NLS-1$
 		btnRemove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

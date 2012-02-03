@@ -36,11 +36,10 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 public class SaveAsFileAction extends SaveFileAction {
 
 	public SaveAsFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
-		super("Save As...", frame, fileChooser, dropletContext);
+		super(Messages.getString("SaveAsFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-		putValue(SHORT_DESCRIPTION, "Save Droplet Configuration in new file");
+		putValue(SHORT_DESCRIPTION, Messages.getString("SaveAsFileAction.description")); //$NON-NLS-1$
 	}
 
 	@Override

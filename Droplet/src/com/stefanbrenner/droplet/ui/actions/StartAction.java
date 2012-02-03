@@ -34,13 +34,13 @@ import com.stefanbrenner.droplet.service.impl.DropletParser;
 public class StartAction extends AbstractDropletAction {
 
 	public StartAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Start");
-		putValue(SHORT_DESCRIPTION, "Send actual configuration to microcontroller and start one cycle");
+		super(frame, dropletContext, Messages.getString("StartAction.title")); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("StartAction.description")); //$NON-NLS-1$
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println("start");
+		System.out.println("start"); //$NON-NLS-1$
 		DropletParser.start(ArduinoService.getInstance());
 	}
 

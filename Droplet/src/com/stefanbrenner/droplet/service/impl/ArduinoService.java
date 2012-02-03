@@ -175,7 +175,7 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 				output.write(message.getBytes());
 				output.flush();
 			} else {
-				throw new RuntimeException("Not connected to a port!");
+				throw new RuntimeException("Not connected to a port!"); //$NON-NLS-1$
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

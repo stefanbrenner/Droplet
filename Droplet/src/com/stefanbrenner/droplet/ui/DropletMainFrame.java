@@ -28,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Enumeration;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -68,19 +69,22 @@ public class DropletMainFrame extends JFrame {
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException {
 
+		Locale.setDefault(Locale.GERMAN);
+
 		// TODO brenner: identify that we run on a mac
 		// String lcOSName = System.getProperty("os.name").toLowerCase();
 		// boolean IS_MAC = lcOSName.startsWith("mac os x");
 
 		// put jmenubar on mac menu bar
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		// set application name
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Droplet");
+		System.setProperty(
+				"com.apple.mrj.application.apple.menu.about.name", Messages.getString("DropletMainFrame.about")); //$NON-NLS-1$ //$NON-NLS-2$
 		// set look and feel
 		try {
 			// use nimbus L&F if available
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
+				if ("Nimbus".equals(info.getName())) { //$NON-NLS-1$
 					UIManager.setLookAndFeel(info.getClassName());
 					break;
 				}
@@ -115,7 +119,7 @@ public class DropletMainFrame extends JFrame {
 		dropletContext.setDroplet(droplet);
 
 		// basic frame setup
-		setTitle("Droplet - Toolkit for Liquid Art Photographers");
+		setTitle(Messages.getString("DropletMainFrame.title")); //$NON-NLS-1$
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		// TODO brenner: setIconImage(new
@@ -166,8 +170,8 @@ public class DropletMainFrame extends JFrame {
 
 		// register action shortcuts
 		// TODO brenner: don't consume keys in JTextComponents
-		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start");
-		contentPane.getActionMap().put("start", new StartAction(this, dropletContext));
+		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
+		contentPane.getActionMap().put("start", new StartAction(this, dropletContext)); //$NON-NLS-1$
 
 		// add listener
 		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {

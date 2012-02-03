@@ -36,6 +36,10 @@ import javax.swing.text.JTextComponent;
  */
 public class UiUtils {
 
+	public static int getMnemonic(String key) {
+		return KeyStroke.getKeyStroke(key).getKeyCode();
+	}
+
 	/**
 	 * Returns the KeyStroke for a key combined with the platform dependent menu
 	 * shortcut key

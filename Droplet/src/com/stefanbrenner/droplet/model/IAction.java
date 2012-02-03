@@ -25,9 +25,9 @@ package com.stefanbrenner.droplet.model;
  */
 public interface IAction extends INotificationSupport {
 
-	public static final String PROPERTY_ENABLED = "enabled";
+	public static final String PROPERTY_ENABLED = "enabled"; //$NON-NLS-1$
 
-	public static final String PROPERTY_OFFSET = "offset";
+	public static final String PROPERTY_OFFSET = "offset"; //$NON-NLS-1$
 
 	public abstract boolean isEnabled();
 

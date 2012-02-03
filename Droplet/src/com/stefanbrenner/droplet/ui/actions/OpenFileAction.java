@@ -46,7 +46,7 @@ public class OpenFileAction extends AbstractDropletAction {
 	private final JFileChooser fileChooser;
 
 	public OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
-		this(frame, fileChooser, dropletContext, "Open...");
+		this(frame, fileChooser, dropletContext, Messages.getString("OpenFileAction.title")); //$NON-NLS-1$
 	}
 
 	protected OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext, String title) {
@@ -55,8 +55,8 @@ public class OpenFileAction extends AbstractDropletAction {
 		this.fileChooser = fileChooser;
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_O));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_O);
-		putValue(SHORT_DESCRIPTION, "Open Droplet Configuration");
+		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("OpenFileAction.mnemonic"))); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("OpenFileAction.description")); //$NON-NLS-1$
 	}
 
 	@Override

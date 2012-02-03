@@ -56,14 +56,14 @@ public class DeviceSetupPanel extends JPanel {
 
 		// configure ui appearance and behavior
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
-		container.setBorder(BorderFactory.createTitledBorder("Device Setup"));
+		container.setBorder(BorderFactory.createTitledBorder(Messages.getString("DeviceSetupPanel.title"))); //$NON-NLS-1$
 		container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 		JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		// resize vertical scrollbar
-		scrollPane.getHorizontalScrollBar().putClientProperty("JComponent.sizeVariant", "mini");
+		scrollPane.getHorizontalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(scrollPane, BorderLayout.CENTER);
 
 		// set model object

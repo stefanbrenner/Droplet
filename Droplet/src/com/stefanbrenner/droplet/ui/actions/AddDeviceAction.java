@@ -35,7 +35,7 @@ import com.stefanbrenner.droplet.ui.AddDeviceDialog;
 public class AddDeviceAction extends AbstractDropletAction {
 
 	public AddDeviceAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Add device");
+		super(frame, dropletContext, Messages.getString("AddDeviceAction.title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 	}

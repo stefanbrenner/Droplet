@@ -28,13 +28,13 @@ import java.io.File;
  */
 public interface IDropletContext extends INotificationSupport {
 
-	public static final String DROPLET_FILE_EXTENSION = ".drp";
+	public static final String DROPLET_FILE_EXTENSION = ".drp"; //$NON-NLS-1$
 
-	public static final String PROPERTY_PORT = "port";
+	public static final String PROPERTY_PORT = "port"; //$NON-NLS-1$
 
-	public static final String PROPERTY_FILE = "file";
+	public static final String PROPERTY_FILE = "file"; //$NON-NLS-1$
 
-	public static final String PROPERTY_DROPLET = "droplet";
+	public static final String PROPERTY_DROPLET = "droplet"; //$NON-NLS-1$
 
 	/**
 	 * Sets the port to be used for serial communication

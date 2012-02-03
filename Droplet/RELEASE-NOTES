@@ -34,11 +34,10 @@ Release 0.1b
 * Only fire association changed event if object was added/removed?
 * Set Description and Color per Device
 * Mark Device Type with Icons
-* Internationalization
 * Sensors
 	- Sensor Setup Panel
 	- SensorAction starts when sensor fires (with offset and/or duration)
-* Open/Close Panels, Scroll Panels
+* Open/Close Panels
 * Move logging to own window?
 * Tabbed View (Setup, Shooting, Finish/Clean)
 * Only send data if something changed since last send
@@ -69,8 +68,8 @@ NEW FEATURES:
 * Start one Cycle
 * Begin New Droplet Setup
 * Open/Save Droplet Setup
-* Simple Logging
 * Load as Template
+* Simple Logging
 * German translation
 
 NOTES:

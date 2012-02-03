@@ -28,7 +28,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Enumeration;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -69,7 +68,9 @@ public class DropletMainFrame extends JFrame {
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException {
 
-		Locale.setDefault(Locale.GERMAN);
+		// TODO brenner: make language editable in configurations
+		// only for testing purposes
+		// Locale.setDefault(Locale.GERMAN);
 
 		// TODO brenner: identify that we run on a mac
 		// String lcOSName = System.getProperty("os.name").toLowerCase();

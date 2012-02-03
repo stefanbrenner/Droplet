@@ -88,11 +88,9 @@ public class DeviceSetupPanel extends JPanel {
 
 		container.add(Box.createHorizontalGlue());
 
-		// container.revalidate();
-		// container.repaint();
+		container.revalidate();
+		container.repaint();
 
-		revalidate();
-		repaint();
 	}
 
 	public IDroplet getDroplet() {

@@ -29,8 +29,11 @@ import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.model.IValve;
 
 /**
- * @author Stefan Brenner
+ * Comparator for Droplet devices. Since we don't know all our Subclasses of
+ * IDevice yet, we need some dynamic way to determine the absolute order of
+ * devices. Therefore nested comparators can be registered and consulted.
  * 
+ * @author Stefan Brenner
  */
 public class DropletDeviceComparator implements Comparator<IDevice> {
 
@@ -77,8 +80,8 @@ public class DropletDeviceComparator implements Comparator<IDevice> {
 				return GREATER;
 			}
 		}
-		// ask comparators for proper comparation
-		// combine result of all comparator results
+		// ask comparators for proper comparison, combine result of all
+		// comparator results and calculate a weighted order
 		int result = UNDEFINED_ORDER;
 		for (DropletDeviceComparator comparator : comparators) {
 			result += Math.signum(comparator.compare(device1, device2));

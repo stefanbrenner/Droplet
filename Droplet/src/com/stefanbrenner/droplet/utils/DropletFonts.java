@@ -28,6 +28,10 @@ public class DropletFonts {
 
 	private static final String FONT_FACE = Font.SANS_SERIF;
 
+	private static final int SIZE_XLARGE = 15;
+
+	private static final int SIZE_LARGE = 14;
+
 	private static final int SIZE_STANDARD = 13;
 
 	private static final int SIZE_SMALL = 12;
@@ -41,5 +45,7 @@ public class DropletFonts {
 	public static final Font FONT_STANDARD_MINI = new Font(FONT_FACE, Font.PLAIN, SIZE_MINI);
 
 	public static final Font FONT_LOGGING_SMALL = new Font(Font.MONOSPACED, Font.PLAIN, SIZE_SMALL);
+
+	public static final Font FONT_HEADER_LARGE = new Font(FONT_FACE, Font.BOLD, SIZE_LARGE);
 
 }

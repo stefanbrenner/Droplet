@@ -147,7 +147,7 @@ public class DropletMenu extends JMenuBar {
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO show about dialog
+				new AboutDialog(frame).setVisible(true);
 			}
 		});
 		helpMenu.add(aboutMenuItem);

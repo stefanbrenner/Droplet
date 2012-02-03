@@ -77,8 +77,8 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 
 		setAlwaysOnTop(true);
 		setResizable(false);
-		setLocationRelativeTo(null);
 		pack();
+		setLocationRelativeTo(frame);
 
 	}
 

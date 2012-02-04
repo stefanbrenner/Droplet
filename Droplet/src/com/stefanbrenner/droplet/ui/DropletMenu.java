@@ -37,6 +37,7 @@ import com.stefanbrenner.droplet.ui.actions.ExitAction;
 import com.stefanbrenner.droplet.ui.actions.NewAction;
 import com.stefanbrenner.droplet.ui.actions.OpenAsTemplateAction;
 import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
+import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.SaveAsFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveFileAction;
 import com.stefanbrenner.droplet.utils.UiUtils;
@@ -66,6 +67,7 @@ public class DropletMenu extends JMenuBar {
 	private JMenuItem saveAsMenuItem;
 	private JMenuItem exitMenuItem;
 	private JMenuItem addDeviceMenuItem;
+	private JMenuItem preferencesMenuItem;
 	private JMenuItem aboutMenuItem;
 
 	// actions
@@ -75,6 +77,7 @@ public class DropletMenu extends JMenuBar {
 	private AbstractDropletAction saveAction;
 	private AbstractDropletAction saveAsAction;
 	private AbstractDropletAction addDeviceAction;
+	private AbstractDropletAction preferencesAction;
 	private AbstractDropletAction exitAction;
 
 	public DropletMenu(JFrame frame, IDropletContext dropletContext) {
@@ -136,11 +139,16 @@ public class DropletMenu extends JMenuBar {
 	private void buildEditMenu() {
 
 		addDeviceAction = new AddDeviceAction(frame, dropletContext);
+		preferencesAction = new PreferencesAction(frame, dropletContext);
 
 		// create menu items
 		addDeviceMenuItem = new JMenuItem(Messages.getString("DropletMenu.addDevice")); //$NON-NLS-1$
 		addDeviceMenuItem.setAction(addDeviceAction);
 		editMenu.add(addDeviceMenuItem);
+		preferencesMenuItem = new JMenuItem("Preferences..."); //$NON-NLS-1$
+		preferencesMenuItem.setAction(preferencesAction);
+		editMenu.add(preferencesMenuItem);
+
 	}
 
 	private void buildHelpMenu() {

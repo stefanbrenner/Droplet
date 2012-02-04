@@ -29,6 +29,11 @@ import gnu.io.CommPortIdentifier;
 public interface ISerialCommService {
 
 	/**
+	 * Returns the name of the provider used for selection in the ui.
+	 */
+	String getName();
+
+	/**
 	 * Returns all available serial ports.
 	 * 
 	 * @return Array of available serial ports

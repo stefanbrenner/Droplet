@@ -3,37 +3,44 @@ Droplet Serial Communication Protocol
 ================================================================================
 Title:		Release Notes
 Version:	0.1b
-Date:		2012/01/25
+Date:		2012/02/04
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
+
++++ THIS IS A FIRST DRAFT +++
+// TODO add command to open/close devices (i.e. valves for cleaning purposes)
 
 
 Purpose of this document
 --------------------------------------------------------------------------------
 This document describes the communication protocol that is used in Droplet for
-the serial communication with an Arduino microcontroller. It's intention is to
-be very flexible for as many devices and configurations as possible. 
+the serial communication with an microcontroller. It's intention is to be very 
+flexible for as many devices and configurations as possible. The only limitation 
+is size of the microcontrollers internal memory.
 
 
 
 Droplet Message Format (DMF) in EBNF
 --------------------------------------------------------------------------------
-Protocol			= SetCommand | "I" | "R" ;
+Protocol			= SetCommand | ReleaseCommand | OpenCommand 
+						| CloseCommand | "I" ;
 
-SetCommand			= "S" DeviceConfig { DeviceConfig } ;
-DeviceConfig		= Device DeviceNumber FieldSeperator Times BlockSeperator
+SetCommand			= "S" FieldSeparator DeviceConfig { DeviceConfig } ;
+DeviceConfig		= Device DeviceNumber FieldSeparator Times BlockSeparator
+
+ReleaseCommand		= "R" Number FieldSeparator Number ;
 
 Device 				= "V" | "F" | "C" ;
 DeviceNumber		= DigitWithoutZero ;
 
-Times				= Time { FieldSeperator Time } ;
-Time				= Offset FieldSeperator Duration ;
+Times				= Time { FieldSeparator Time } ;
+Time				= Offset FieldSeparator Duration ;
 
 Offset				= Number ;
 Duration			= Number ;
 
-FieldSeperator		= ";" ;
-BlockSeperator		= "^" ;
+FieldSeparator		= ";" ;
+BlockSeparator		= "^" ;
 
 Number				= DigitWithoutZero { Digit } ;
 DigitWithoutZero  	= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
@@ -54,18 +61,16 @@ TODO: We don't need a duration for flashes
 
 Example2:
 ---------
-R
+R;10;5
 
-"Start one round"
-
-TODO: Add number of rounds with a defined delay between them (i.e. R5;500 - 5 rounds with 500ms delay)
+"Start 10 rounds with 5 seconds delay"
 
 
 Example3:
 ---------
 I
 
-"Return some information about the current configuration on the arduino" 
+"Return some information about the current configuration on the microcontroller" 
 
 
 

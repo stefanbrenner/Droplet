@@ -20,29 +20,32 @@
 package com.stefanbrenner.droplet.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 
 /**
- * @author stefan
- * 
+ * @author Stefan Brenner
  */
-public class DropletParser {
+@ProviderFor(IDropletMessageProtocol.class)
+public class SimpleMessageProtocol implements IDropletMessageProtocol {
 
-	/*
-	 * Process a given command. run - start one run set111222333444555666 - set
-	 * times in ms 111 ... duration 1 222 ... delay 1 333 ... duration 2 444 ...
-	 * delay 2 555 ... duration 3 666 ... delay camera show - show time settings
-	 * open - open valve 1 close - close valve 1
-	 */
+	@Override
+	public String getName() {
+		return "Simple Message Protocol";
+	}
 
-	// TODO brenner: REMOVE this stupid silly parser
-	public static void sendConfiguration(IDroplet droplet, ISerialCommService commService) {
+	@Override
+	public String createStartMessage(int rounds, int delay) {
+		return "run";
+	}
 
+	@Override
+	public String createSendMessage(IDroplet droplet) {
 		String message = "set"; //$NON-NLS-1$
 
 		IValve valve1 = droplet.getDevices(IValve.class).get(0);
@@ -71,16 +74,12 @@ public class DropletParser {
 		message += StringUtils.leftPad(String.valueOf(dur3), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(delCam), 3, "0"); //$NON-NLS-1$
 
-		commService.sendData(message + "\n"); //$NON-NLS-1$
-
+		return message + "\n"; //$NON-NLS-1$
 	}
 
-	public static void start(ISerialCommService commService) {
-		commService.sendData("run\n"); //$NON-NLS-1$
-	}
-
-	public static void show(ISerialCommService commService) {
-		commService.sendData("show\n"); //$NON-NLS-1$
+	@Override
+	public String createInfoMessage() {
+		return "show";
 	}
 
 }

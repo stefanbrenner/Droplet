@@ -17,23 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.suite;
+package com.stefanbrenner.droplet.ui.actions;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
-import com.stefanbrenner.droplet.model.DeviceComperationTest;
-import com.stefanbrenner.droplet.utils.PluginProviderTest;
-import com.stefanbrenner.droplet.utils.UiUtilsTest;
+import javax.swing.JFrame;
+
+import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.ui.PreferencesDialog;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
- * Test Suite for all Droplet Tests.
- * 
  * @author Stefan Brenner
  */
-@RunWith(Suite.class)
-@SuiteClasses({ UiUtilsTest.class, PluginProviderTest.class, DeviceComperationTest.class })
-public class DropletTestSuite {
+@SuppressWarnings("serial")
+public class PreferencesAction extends AbstractDropletAction {
 
+	public PreferencesAction(JFrame frame, IDropletContext dropletContext) {
+		super(frame, dropletContext, "Preferences");
+
+		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_COMMA));
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		PreferencesDialog dialog = new PreferencesDialog(getFrame(), getDropletContext());
+		dialog.setVisible(true);
+	}
 }

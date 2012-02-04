@@ -25,7 +25,7 @@ import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
-import com.stefanbrenner.droplet.service.impl.DropletParser;
+import com.stefanbrenner.droplet.service.impl.SimpleMessageProtocol;
 
 /**
  * @author Stefan Brenner
@@ -40,8 +40,11 @@ public class SendAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println("send"); //$NON-NLS-1$
-		DropletParser.sendConfiguration(getDropletContext().getDroplet(), ArduinoService.getInstance());
+		// TODO brenner: use selected ISerialCommunicationService
+		// TODO brenner: use selected IDropletMessageProtocol
+		String message = new SimpleMessageProtocol().createSendMessage(getDroplet());
+		System.out.println(message);
+		ArduinoService.getInstance().sendData(message);
 	}
 
 }

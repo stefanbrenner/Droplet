@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.TooManyListenersException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.service.ISerialCommService;
 
@@ -46,6 +47,7 @@ import com.stefanbrenner.droplet.service.ISerialCommService;
  * 
  * @author Stefan Brenner
  */
+@ProviderFor(ISerialCommService.class)
 public class ArduinoService implements ISerialCommService, SerialPortEventListener {
 
 	/** Milliseconds to block while waiting for port open */
@@ -67,12 +69,18 @@ public class ArduinoService implements ISerialCommService, SerialPortEventListen
 
 	private static final ArduinoService instance = new ArduinoService();
 
-	private ArduinoService() {
+	public ArduinoService() {
 
 	}
 
+	// TODO brenner: can't use singleton with service providers
 	public static ArduinoService getInstance() {
 		return instance;
+	}
+
+	@Override
+	public String getName() {
+		return "Arduino Service";
 	}
 
 	@Override

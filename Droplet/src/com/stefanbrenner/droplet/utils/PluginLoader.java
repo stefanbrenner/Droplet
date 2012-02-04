@@ -17,23 +17,34 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.suite;
+package com.stefanbrenner.droplet.utils;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
-import com.stefanbrenner.droplet.model.DeviceComperationTest;
-import com.stefanbrenner.droplet.utils.PluginProviderTest;
-import com.stefanbrenner.droplet.utils.UiUtilsTest;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ServiceLoader;
 
 /**
- * Test Suite for all Droplet Tests.
+ * Simple plugin-loader based on Java's {@link ServiceLoader}.
  * 
  * @author Stefan Brenner
+ * @see http://java.sun.com/developer/technicalArticles/javase/extensible/
  */
-@RunWith(Suite.class)
-@SuiteClasses({ UiUtilsTest.class, PluginProviderTest.class, DeviceComperationTest.class })
-public class DropletTestSuite {
+public class PluginLoader {
+
+	private PluginLoader() {
+	}
+
+	public static <T> List<T> getPlugins(Class<T> serviceInterface) {
+		List<T> providers = new ArrayList<T>();
+
+		ServiceLoader<T> load = ServiceLoader.load(serviceInterface);
+		Iterator<T> iterator = load.iterator();
+		while (iterator.hasNext()) {
+			providers.add(iterator.next());
+		}
+
+		return providers;
+	}
 
 }

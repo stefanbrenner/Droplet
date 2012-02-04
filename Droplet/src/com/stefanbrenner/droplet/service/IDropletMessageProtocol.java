@@ -17,23 +17,42 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.suite;
+package com.stefanbrenner.droplet.service;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
-import com.stefanbrenner.droplet.model.DeviceComperationTest;
-import com.stefanbrenner.droplet.utils.PluginProviderTest;
-import com.stefanbrenner.droplet.utils.UiUtilsTest;
+import com.stefanbrenner.droplet.model.IDroplet;
 
 /**
- * Test Suite for all Droplet Tests.
+ * Service Interface for the Droplet Message Protocol.
  * 
  * @author Stefan Brenner
  */
-@RunWith(Suite.class)
-@SuiteClasses({ UiUtilsTest.class, PluginProviderTest.class, DeviceComperationTest.class })
-public class DropletTestSuite {
+// TODO add methods for opening and closing devices (i.e. for cleaning valves)
+public interface IDropletMessageProtocol {
+
+	/**
+	 * Returns the name of the service provider used for service selection on
+	 * the user interface.
+	 */
+	String getName();
+
+	/**
+	 * Returns a message to start droplet
+	 * 
+	 * @param rounds
+	 *            number of rounds to execute
+	 * @param delay
+	 *            delay between rounds in seconds
+	 */
+	String createStartMessage(int rounds, int delay);
+
+	/**
+	 * Returns a message containing the device configurations
+	 */
+	String createSendMessage(IDroplet droplet);
+
+	/**
+	 * Returns a message to retrieve the current device configurations
+	 */
+	String createInfoMessage();
 
 }

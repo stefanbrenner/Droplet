@@ -21,11 +21,17 @@ Release 0.1b
 * Draw Arduino Layout in Fritzing
 * Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
 * Implement Java Service that speaks DMF
+
 * Implement Basic UI with the following functionality:
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
+
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
+* Plugin mechanism for Arduino Parser
+* Plugin mechanism for Devices and Actions
+* Add Preferences
+
 
 ================================================================================
  I D E A S
@@ -57,6 +63,7 @@ Release 0.1b
 	o Factor that adapts the action times of devices
 * How to handle different raw formats in aspect of EXIF ???
 * Add Key Shortcuts for the main actions
+* Make language configurable
 
 
 NEW FEATURES:

@@ -24,8 +24,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
-import com.stefanbrenner.droplet.service.impl.ArduinoService;
-import com.stefanbrenner.droplet.service.impl.SimpleMessageProtocol;
+import com.stefanbrenner.droplet.model.internal.Configuration;
+import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
+import com.stefanbrenner.droplet.service.ISerialCommService;
 
 /**
  * @author Stefan Brenner
@@ -40,11 +41,12 @@ public class ShowAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO brenner: use selected ISerialCommunicationService
-		// TODO brenner: use selected IDropletMessageProtocol
-		String message = new SimpleMessageProtocol().createInfoMessage();
+		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
+		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
+
+		String message = messageProtocolProvider.createInfoMessage();
 		System.out.println(message);
-		ArduinoService.getInstance().sendData(message);
+		serialCommProvider.sendData(message);
 	}
 
 }

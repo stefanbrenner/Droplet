@@ -34,8 +34,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 
-import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommService;
 import com.stefanbrenner.droplet.utils.PluginLoader;
@@ -46,54 +47,40 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
 @SuppressWarnings("serial")
 public class PreferencesDialog extends JDialog {
 
-	private final IDropletContext context;
+	private final JComboBox cmbCommService;
+	private final JComboBox cmbMsgProtocol;
 
-	private JComboBox cmbCommService;
-	private JComboBox cmbMsgProtocol;
-
-	public PreferencesDialog(JFrame frame, IDropletContext context) {
+	public PreferencesDialog(JFrame frame) {
 		super(frame, true);
-
-		this.context = context;
 
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(0, 1));
 
-		// TODO brenner: bind to some model object
 		panel.add(new JLabel("Serial Communication Service:"));
+		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
 		List<ISerialCommService> commProviders = PluginLoader.getPlugins(ISerialCommService.class);
-		cmbCommService = new JComboBox(commProviders.toArray());
-		cmbCommService.setRenderer(new DefaultListCellRenderer() {
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-				if (comp instanceof JLabel && value instanceof ISerialCommService) {
-					((JLabel) comp).setText(((ISerialCommService) value).getName());
-				}
-				return comp;
+		cmbCommService = new JComboBox();
+		for (ISerialCommService s : commProviders) {
+			cmbCommService.addItem(s);
+			if (s.getClass().equals(serialCommProvider.getClass())) {
+				cmbCommService.setSelectedItem(s);
 			}
-
-		});
+		}
+		cmbCommService.setRenderer(renderer);
 		panel.add(cmbCommService);
 
-		// TODO brenner: bind to some model object
 		panel.add(new JLabel("Droplet Message Protocol:"));
+		cmbMsgProtocol = new JComboBox();
+		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 		List<IDropletMessageProtocol> messageProviders = PluginLoader.getPlugins(IDropletMessageProtocol.class);
-		cmbMsgProtocol = new JComboBox(messageProviders.toArray());
-		cmbMsgProtocol.setRenderer(new DefaultListCellRenderer() {
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-				if (comp instanceof JLabel && value instanceof IDropletMessageProtocol) {
-					((JLabel) comp).setText(((IDropletMessageProtocol) value).getName());
-				}
-				return comp;
+		for (IDropletMessageProtocol p : messageProviders) {
+			cmbMsgProtocol.addItem(p);
+			if (p.getClass().equals(messageProtocolProvider.getClass())) {
+				cmbMsgProtocol.setSelectedItem(p);
 			}
-
-		});
+		}
+		cmbMsgProtocol.setRenderer(renderer);
 		panel.add(cmbMsgProtocol);
 
 		// toolbar panel
@@ -130,12 +117,41 @@ public class PreferencesDialog extends JDialog {
 
 	}
 
+	/**
+	 * {@link ListCellRenderer} for {@link ISerialCommService} and
+	 * {@link IDropletMessageProtocol}.
+	 */
+	private ListCellRenderer renderer = new DefaultListCellRenderer() {
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+			if (comp instanceof JLabel) {
+				JLabel label = (JLabel) comp;
+				if (value instanceof ISerialCommService) {
+					label.setText(((ISerialCommService) value).getName());
+				}
+				if (value instanceof IDropletMessageProtocol) {
+					label.setText(((IDropletMessageProtocol) value).getName());
+				}
+			}
+			return comp;
+		}
+	};
+
 	private void saveAndClose() {
 
-		// TODO brenner: save to configuration
+		// save to configuration
+		Object selectedItem = cmbCommService.getSelectedItem();
+		if (selectedItem instanceof ISerialCommService) {
+			Configuration.setSerialCommProvider((ISerialCommService) selectedItem);
+		}
+		selectedItem = cmbMsgProtocol.getSelectedItem();
+		if (selectedItem instanceof IDropletMessageProtocol) {
+			Configuration.setMessageProtocolProvider((IDropletMessageProtocol) selectedItem);
+		}
 
 		setVisible(false);
 		dispose();
 	}
-
 }

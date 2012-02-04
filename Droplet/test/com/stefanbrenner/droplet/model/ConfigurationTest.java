@@ -17,36 +17,47 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.ui.actions;
+package com.stefanbrenner.droplet.model;
 
-import java.awt.event.ActionEvent;
+import static junit.framework.Assert.assertEquals;
 
-import javax.swing.JFrame;
+import org.junit.Test;
 
-import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.impl.ArduinoService;
+import com.stefanbrenner.droplet.service.impl.DropletMessageProtocol;
 
 /**
  * @author Stefan Brenner
  */
-@SuppressWarnings("serial")
-public class SendAction extends AbstractDropletAction {
+public class ConfigurationTest {
 
-	public SendAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, Messages.getString("SendAction.title")); //$NON-NLS-1$
-		putValue(SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
+	@Test
+	public void testSerialCommunicationPrefs() {
+
+		ISerialCommService arduinoService = new ArduinoService();
+
+		Configuration.setSerialCommProvider(arduinoService);
+
+		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
+
+		assertEquals(arduinoService.getClass(), serialCommProvider.getClass());
+
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
-		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
+	@Test
+	public void testMessageProtocolPrefs() {
 
-		String message = messageProtocolProvider.createSendMessage(getDroplet());
-		System.out.println(message);
-		serialCommProvider.sendData(message);
+		IDropletMessageProtocol messageProtocol = new DropletMessageProtocol();
+
+		Configuration.setMessageProtocolProvider(messageProtocol);
+
+		IDropletMessageProtocol msgProtocolProvider = Configuration.getMessageProtocolProvider();
+
+		assertEquals(messageProtocol.getClass(), msgProtocolProvider.getClass());
+
 	}
 
 }

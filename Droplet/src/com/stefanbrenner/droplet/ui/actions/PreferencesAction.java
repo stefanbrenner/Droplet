@@ -42,7 +42,7 @@ public class PreferencesAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		PreferencesDialog dialog = new PreferencesDialog(getFrame(), getDropletContext());
+		PreferencesDialog dialog = new PreferencesDialog(getFrame());
 		dialog.setVisible(true);
 	}
 }

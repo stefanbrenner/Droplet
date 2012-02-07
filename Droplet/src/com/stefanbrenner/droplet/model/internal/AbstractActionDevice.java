@@ -45,6 +45,17 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 	}
 
 	@Override
+	public List<IAction> getEnabledActions() {
+		List<IAction> enabledActions = new ArrayList<IAction>();
+		for (IAction action : getActions()) {
+			if (action.isEnabled()) {
+				enabledActions.add(action);
+			}
+		}
+		return enabledActions;
+	}
+
+	@Override
 	public void setActions(List<IAction> actions) {
 		firePropertyChange(ASSOCIATION_ACTIONS, this.actions, this.actions = actions);
 	}

@@ -20,6 +20,7 @@
 package com.stefanbrenner.droplet.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,7 @@ import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.internal.Camera;
@@ -102,12 +104,14 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 	private String marshalDevices(IDroplet droplet) {
 		String result = "";
-		Map<Class<?>, Integer> counters = new HashMap<Class<?>, Integer>();
+		Map<Class<? extends IDevice>, Integer> counters = new HashMap<Class<? extends IDevice>, Integer>();
 
 		for (IActionDevice d : droplet.getDevices(IActionDevice.class)) {
 
+			Class<? extends IActionDevice> deviceClass = d.getClass();
+
 			// get counter for device
-			Integer counter = counters.get(d.getClass());
+			Integer counter = counters.get(deviceClass);
 
 			// add counter for new device
 			if (counter == null) {
@@ -117,15 +121,17 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 			// update counter
 			counter++;
-			counters.put(d.getClass(), counter);
+			counters.put(deviceClass, counter);
 
-			if (d.getActions().isEmpty()) {
+			// don't add device with no actions defined
+			List<IAction> enabledActions = d.getEnabledActions();
+			if (enabledActions.isEmpty()) {
 				continue;
 			}
 
-			result += DEVICE_SHORTS.get(d.getClass()) + counter;
+			result += DEVICE_SHORTS.get(deviceClass) + counter;
 
-			for (IAction a : d.getActions()) {
+			for (IAction a : enabledActions) {
 				result += FIELD_SEPARATOR + a.getOffset();
 				if (a instanceof IDurationAction) {
 					result += TIME_SEPARATOR + ((IDurationAction) a).getDuration();

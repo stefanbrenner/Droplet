@@ -32,6 +32,8 @@ public interface IActionDevice extends IDevice {
 
 	public abstract List<IAction> getActions();
 
+	public abstract List<IAction> getEnabledActions();
+
 	public abstract void removeAction(IAction action);
 
 	public abstract void addAction(IAction action);

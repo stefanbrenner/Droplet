@@ -139,6 +139,11 @@ public class DropletMessageProtocolTest {
 		assertEquals("S;V1;0|20;20|40;80|100^V2;80|100;20|40^F2;5;105^C1;20|40^C2;0|20;105^",
 				protocol.createSetMessage(droplet));
 
+		// test disabled actions
+		action2.setEnabled(false);
+
+		assertEquals("S;V1;0|20;80|100^V2;80|100^F2;5;105^C2;0|20;105^", protocol.createSetMessage(droplet));
+
 	}
 
 }

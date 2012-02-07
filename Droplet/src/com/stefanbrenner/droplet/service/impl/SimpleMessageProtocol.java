@@ -40,12 +40,17 @@ public class SimpleMessageProtocol implements IDropletMessageProtocol {
 	}
 
 	@Override
-	public String createStartMessage(int rounds, int delay) {
+	public String createStartMessage() {
 		return "run";
 	}
 
 	@Override
-	public String createSendMessage(IDroplet droplet) {
+	public String createStartMessage(int rounds, int delay) {
+		return createStartMessage();
+	}
+
+	@Override
+	public String createSetMessage(IDroplet droplet) {
 		String message = "set"; //$NON-NLS-1$
 
 		IValve valve1 = droplet.getDevices(IValve.class).get(0);

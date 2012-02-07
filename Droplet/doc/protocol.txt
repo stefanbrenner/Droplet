@@ -25,22 +25,23 @@ Droplet Message Format (DMF) in EBNF
 Protocol			= SetCommand | ReleaseCommand | OpenCommand 
 						| CloseCommand | "I" ;
 
-SetCommand			= "S" FieldSeparator DeviceConfig { DeviceConfig } ;
-DeviceConfig		= Device DeviceNumber FieldSeparator Times BlockSeparator
+SetCommand			= "S" [ FieldSeparator DeviceConfig { DeviceConfig } ] ;
+DeviceConfig		= Device DeviceNumber FieldSeparator Times DeviceSeparator
 
-ReleaseCommand		= "R" Number FieldSeparator Number ;
+ReleaseCommand		= "R" Number [ FieldSeparator Number ] ;
 
 Device 				= "V" | "F" | "C" ;
 DeviceNumber		= DigitWithoutZero ;
 
 Times				= Time { FieldSeparator Time } ;
-Time				= Offset FieldSeparator Duration ;
+Time				= Offset TimeSeparator Duration ;
 
 Offset				= Number ;
 Duration			= Number ;
 
 FieldSeparator		= ";" ;
-BlockSeparator		= "^" ;
+DeviceSeparator		= "^" ;
+TimeSeperator		= "|"
 
 Number				= DigitWithoutZero { Digit } ;
 DigitWithoutZero  	= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
@@ -49,7 +50,7 @@ Digit				= "0" | DigitWithoutZero ;
 
 Example1:
 ---------
-S;V1;300;50;370;20^V2;220;20^F1;350;10^C1;500;10
+S;V1;300|50;370|20^V2;220|20^F1;350^C1;500|10^
 
 "Open Valve1 Open at 300ms for 50ms and at 370ms for 20ms
  Open Valve2 at 220ms for 20ms
@@ -64,6 +65,10 @@ Example2:
 R;10;5
 
 "Start 10 rounds with 5 seconds delay"
+
+R;1
+
+"Start 1 round"
 
 
 Example3:

@@ -19,9 +19,19 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
 
+import com.stefanbrenner.droplet.model.IAction;
+import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IDurationAction;
+import com.stefanbrenner.droplet.model.internal.Camera;
+import com.stefanbrenner.droplet.model.internal.Flash;
+import com.stefanbrenner.droplet.model.internal.Valve;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 
 /**
@@ -34,12 +44,27 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 	// meta characters
 	public static final String FIELD_SEPARATOR = ";";
-	public static final String BLOCK_SEPARATOR = "^";
+	public static final String DEVICE_SEPARATOR = "^";
+	public static final String TIME_SEPARATOR = "|";
 
 	// commands
 	public static final String COMMAND_RELEASE = "R";
 	public static final String COMMAND_SEND = "S";
 	public static final String COMMAND_INFO = "I";
+
+	// devices
+	public static final String DEVICE_VALVE = "V";
+	public static final String DEVICE_FLASH = "F";
+	public static final String DEVICE_CAMERA = "C";
+
+	// mapping for devices and shortcuts
+	public static final HashMap<Class<?>, String> DEVICE_SHORTS = new HashMap<Class<?>, String>();
+
+	static {
+		DEVICE_SHORTS.put(Valve.class, DEVICE_VALVE);
+		DEVICE_SHORTS.put(Flash.class, DEVICE_FLASH);
+		DEVICE_SHORTS.put(Camera.class, DEVICE_CAMERA);
+	}
 
 	@Override
 	public String getName() {
@@ -47,14 +72,70 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	}
 
 	@Override
-	public String createStartMessage(int rounds, int delay) {
-		return COMMAND_RELEASE + FIELD_SEPARATOR + rounds + FIELD_SEPARATOR + delay;
+	public String createStartMessage() {
+		return createStartMessage(1, 0);
 	}
 
 	@Override
-	public String createSendMessage(IDroplet droplet) {
-		// TODO brenner implement
-		return null;
+	public String createStartMessage(int rounds, int delay) {
+		String result = COMMAND_RELEASE + FIELD_SEPARATOR + rounds;
+
+		if (rounds > 1 && delay > 0) {
+			result += FIELD_SEPARATOR + delay;
+		}
+
+		return result;
+	}
+
+	@Override
+	public String createSetMessage(IDroplet droplet) {
+
+		String result = COMMAND_SEND;
+
+		String devices = marshalDevices(droplet);
+		if (StringUtils.isNotBlank(devices)) {
+			result += FIELD_SEPARATOR + devices;
+		}
+
+		return result;
+	}
+
+	private String marshalDevices(IDroplet droplet) {
+		String result = "";
+		Map<Class<?>, Integer> counters = new HashMap<Class<?>, Integer>();
+
+		for (IActionDevice d : droplet.getDevices(IActionDevice.class)) {
+
+			// get counter for device
+			Integer counter = counters.get(d.getClass());
+
+			// add counter for new device
+			if (counter == null) {
+				counter = 0;
+
+			}
+
+			// update counter
+			counter++;
+			counters.put(d.getClass(), counter);
+
+			if (d.getActions().isEmpty()) {
+				continue;
+			}
+
+			result += DEVICE_SHORTS.get(d.getClass()) + counter;
+
+			for (IAction a : d.getActions()) {
+				result += FIELD_SEPARATOR + a.getOffset();
+				if (a instanceof IDurationAction) {
+					result += TIME_SEPARATOR + ((IDurationAction) a).getDuration();
+				}
+			}
+
+			result += DEVICE_SEPARATOR;
+		}
+
+		return result;
 	}
 
 	@Override

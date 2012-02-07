@@ -36,6 +36,11 @@ public interface IDropletMessageProtocol {
 	String getName();
 
 	/**
+	 * Returns a message to start droplet for one round
+	 */
+	String createStartMessage();
+
+	/**
 	 * Returns a message to start droplet
 	 * 
 	 * @param rounds
@@ -48,7 +53,14 @@ public interface IDropletMessageProtocol {
 	/**
 	 * Returns a message containing the device configurations
 	 */
-	String createSendMessage(IDroplet droplet);
+	String createSetMessage(IDroplet droplet);
+
+	/**
+	 * Creates a list of messages containing the device configuration of exactly
+	 * one device. Used to save memory on micro controllers with small internal
+	 * memory.
+	 */
+	// TODO List<String> createSingleSetMessages();
 
 	/**
 	 * Returns a message to retrieve the current device configurations

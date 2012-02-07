@@ -28,6 +28,7 @@ Release 0.1b
 
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
+* Split marshaling of device configs for memory performance on microcontrollers
 
 
 ================================================================================
@@ -75,8 +76,8 @@ NEW FEATURES:
 * Load as Template
 * Simple Logging
 * German translation
-* Plugin mechanism for Serial Communication Providers
-* Plugin mechanism for Droplet Message Protocol Providers
+* Change Serial Communication Provider at runtime
+* Change Droplet Message Protocol Provider at runtime
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX

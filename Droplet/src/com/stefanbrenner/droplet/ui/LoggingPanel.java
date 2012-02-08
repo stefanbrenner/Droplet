@@ -68,7 +68,6 @@ public class LoggingPanel extends JPanel {
 	 * Add a message to the logging text area.
 	 */
 	public void addMessage(String message) {
-		// TODO brenner: make locale configurable in settings
 		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
 		String timestamp = format.format(new Date(System.currentTimeMillis()));
 		String logEntry = timestamp + ": " + message; //$NON-NLS-1$

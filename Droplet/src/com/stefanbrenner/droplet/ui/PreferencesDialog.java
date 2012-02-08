@@ -38,7 +38,7 @@ import javax.swing.ListCellRenderer;
 
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.utils.PluginLoader;
 
 /**
@@ -58,10 +58,10 @@ public class PreferencesDialog extends JDialog {
 		panel.setLayout(new GridLayout(0, 1));
 
 		panel.add(new JLabel("Serial Communication Service:"));
-		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
-		List<ISerialCommService> commProviders = PluginLoader.getPlugins(ISerialCommService.class);
+		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
+		List<ISerialCommunicationService> commProviders = PluginLoader.getPlugins(ISerialCommunicationService.class);
 		cmbCommService = new JComboBox();
-		for (ISerialCommService s : commProviders) {
+		for (ISerialCommunicationService s : commProviders) {
 			cmbCommService.addItem(s);
 			if (s.getClass().equals(serialCommProvider.getClass())) {
 				cmbCommService.setSelectedItem(s);
@@ -118,7 +118,7 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	/**
-	 * {@link ListCellRenderer} for {@link ISerialCommService} and
+	 * {@link ListCellRenderer} for {@link ISerialCommunicationService} and
 	 * {@link IDropletMessageProtocol}.
 	 */
 	private ListCellRenderer renderer = new DefaultListCellRenderer() {
@@ -128,8 +128,8 @@ public class PreferencesDialog extends JDialog {
 			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			if (comp instanceof JLabel) {
 				JLabel label = (JLabel) comp;
-				if (value instanceof ISerialCommService) {
-					label.setText(((ISerialCommService) value).getName());
+				if (value instanceof ISerialCommunicationService) {
+					label.setText(((ISerialCommunicationService) value).getName());
 				}
 				if (value instanceof IDropletMessageProtocol) {
 					label.setText(((IDropletMessageProtocol) value).getName());
@@ -143,8 +143,8 @@ public class PreferencesDialog extends JDialog {
 
 		// save to configuration
 		Object selectedItem = cmbCommService.getSelectedItem();
-		if (selectedItem instanceof ISerialCommService) {
-			Configuration.setSerialCommProvider((ISerialCommService) selectedItem);
+		if (selectedItem instanceof ISerialCommunicationService) {
+			Configuration.setSerialCommProvider((ISerialCommunicationService) selectedItem);
 		}
 		selectedItem = cmbMsgProtocol.getSelectedItem();
 		if (selectedItem instanceof IDropletMessageProtocol) {

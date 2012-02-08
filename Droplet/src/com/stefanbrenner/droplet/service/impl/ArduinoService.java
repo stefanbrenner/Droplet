@@ -37,7 +37,7 @@ import java.util.TooManyListenersException;
 import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
 
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
  * <p>
@@ -47,8 +47,8 @@ import com.stefanbrenner.droplet.service.ISerialCommService;
  * 
  * @author Stefan Brenner
  */
-@ProviderFor(ISerialCommService.class)
-public class ArduinoService implements ISerialCommService, SerialPortEventListener {
+@ProviderFor(ISerialCommunicationService.class)
+public class ArduinoService implements ISerialCommunicationService, SerialPortEventListener {
 
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;

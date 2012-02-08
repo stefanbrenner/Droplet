@@ -19,13 +19,15 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.prefs.Preferences;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletMessageProtocol;
 import com.stefanbrenner.droplet.utils.PluginLoader;
@@ -37,16 +39,24 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
  */
 public class Configuration {
 
+	public static final String CONF_SERIAL_COMM_PROVIDER = "Configuration.SerialCommProvider";
+
+	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider";
+
 	private static final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
 
 	private static final String PREF_SERIAL_COMM_PROVIDER = "Droplet.SerialCommunicationProvider";
 
-	private static final ISerialCommService DEFAULT_SERIAL_COMM_PROVIDER = new ArduinoService();
+	private static final ISerialCommunicationService DEFAULT_SERIAL_COMM_PROVIDER = new ArduinoService();
 
-	public static ISerialCommService getSerialCommProvider() {
+	private Configuration() {
+		// no need to instantiate this class
+	}
+
+	public static ISerialCommunicationService getSerialCommProvider() {
 		String string = prefs.get(PREF_SERIAL_COMM_PROVIDER, null);
-		List<ISerialCommService> plugins = PluginLoader.getPlugins(ISerialCommService.class);
-		for (ISerialCommService commService : plugins) {
+		List<ISerialCommunicationService> plugins = PluginLoader.getPlugins(ISerialCommunicationService.class);
+		for (ISerialCommunicationService commService : plugins) {
 			if (StringUtils.equals(commService.getClass().getCanonicalName(), string)) {
 				return commService;
 			}
@@ -55,8 +65,10 @@ public class Configuration {
 		return DEFAULT_SERIAL_COMM_PROVIDER;
 	}
 
-	public static void setSerialCommProvider(ISerialCommService commService) {
+	public static void setSerialCommProvider(ISerialCommunicationService commService) {
+		ISerialCommunicationService oldService = getSerialCommProvider();
 		prefs.put(PREF_SERIAL_COMM_PROVIDER, commService.getClass().getCanonicalName());
+		support.firePropertyChange(CONF_SERIAL_COMM_PROVIDER, oldService, commService);
 	}
 
 	private static final String PREF_MESSAGE_PROTOCOL = "Droplet.MessageProtocolProvider";
@@ -76,7 +88,21 @@ public class Configuration {
 	}
 
 	public static void setMessageProtocolProvider(IDropletMessageProtocol messageProtocol) {
+		IDropletMessageProtocol oldProtocol = getMessageProtocolProvider();
 		prefs.put(PREF_MESSAGE_PROTOCOL, messageProtocol.getClass().getCanonicalName());
+		support.firePropertyChange(CONF_MESSAGE_PROTOCOL_PROVIDER, oldProtocol, messageProtocol);
+	}
+
+	// simple notification support
+
+	private static PropertyChangeSupport support = new PropertyChangeSupport(new Configuration());
+
+	public static void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		support.addPropertyChangeListener(propertyName, listener);
+	}
+
+	public static void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		support.removePropertyChangeListener(propertyName, listener);
 	}
 
 }

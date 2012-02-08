@@ -26,7 +26,6 @@ import com.stefanbrenner.droplet.model.IDroplet;
  * 
  * @author Stefan Brenner
  */
-// TODO add methods for opening and closing devices (i.e. for cleaning valves)
 public interface IDropletMessageProtocol {
 
 	/**
@@ -60,7 +59,17 @@ public interface IDropletMessageProtocol {
 	 * one device. Used to save memory on micro controllers with small internal
 	 * memory.
 	 */
-	// TODO List<String> createSingleSetMessages();
+	// TODO brenner: List<String> createSingleSetMessages();
+
+	/**
+	 * Returns a message for opening a special valve (i.e. for cleaning).
+	 */
+	// TODO brenner: String createOpenValveMessage(int number);
+
+	/**
+	 * Returns a message for closing a special valve.
+	 */
+	// TODO brenner: String createCloseValveMessage(int number);
 
 	/**
 	 * Returns a message to retrieve the current device configurations

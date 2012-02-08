@@ -26,13 +26,13 @@ import javax.swing.JFrame;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class StartAction extends AbstractDropletAction {
+public class StartAction extends AbstractSerialAction {
 
 	public StartAction(JFrame frame, IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("StartAction.title")); //$NON-NLS-1$
@@ -41,7 +41,7 @@ public class StartAction extends AbstractDropletAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
+		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
 		String message = messageProtocolProvider.createStartMessage(1, 0);

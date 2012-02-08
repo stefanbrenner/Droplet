@@ -29,6 +29,8 @@ import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 
 /**
+ * Simple message protocol for sketch_droplet_v0_2.
+ * 
  * @author Stefan Brenner
  */
 @ProviderFor(IDropletMessageProtocol.class)

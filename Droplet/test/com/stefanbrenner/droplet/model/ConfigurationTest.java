@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletMessageProtocol;
 
@@ -37,11 +37,11 @@ public class ConfigurationTest {
 	@Test
 	public void testSerialCommunicationPrefs() {
 
-		ISerialCommService arduinoService = new ArduinoService();
+		ISerialCommunicationService arduinoService = new ArduinoService();
 
 		Configuration.setSerialCommProvider(arduinoService);
 
-		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
+		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 
 		assertEquals(arduinoService.getClass(), serialCommProvider.getClass());
 

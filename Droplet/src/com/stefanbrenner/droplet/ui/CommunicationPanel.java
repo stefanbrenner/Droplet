@@ -26,6 +26,8 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -36,8 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
-import com.stefanbrenner.droplet.service.ISerialCommService;
-import com.stefanbrenner.droplet.service.impl.ArduinoService;
+import com.stefanbrenner.droplet.model.internal.Configuration;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 public class CommunicationPanel extends JPanel {
 
@@ -48,7 +50,7 @@ public class CommunicationPanel extends JPanel {
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
 
-	private final ISerialCommService commService = ArduinoService.getInstance();
+	private ISerialCommunicationService commService = Configuration.getSerialCommProvider();
 
 	/**
 	 * Create the panel.
@@ -94,30 +96,36 @@ public class CommunicationPanel extends JPanel {
 		lblStatus.setForeground(Color.RED);
 		add(lblStatus);
 
-		// TODO brenner: update port list periodically
-		// new Thread(new Runnable() {
-		// @Override
-		// public void run() {
-		// while (!Thread.interrupted()) {
-		// updatePorts();
-		// try {
-		// Thread.sleep(2000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// }).start();
+		// add listener to selected communication provider
+		Configuration.addPropertyChangeListener(Configuration.CONF_SERIAL_COMM_PROVIDER, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				// disconnect old service provider
+				Object oldValue = event.getOldValue();
+				if (oldValue instanceof ISerialCommunicationService) {
+					((ISerialCommunicationService) oldValue).close();
+				}
+				cmbPort.removeAllItems();
+				Object newValue = event.getNewValue();
+				if (newValue instanceof ISerialCommunicationService) {
+					CommPortIdentifier[] ports = ((ISerialCommunicationService) newValue).getPorts();
+					if (ports.length == 0) {
+						cmbPort.addItem("<< No port available >>");
+					} else {
+						for (CommPortIdentifier port : ports) {
+							cmbPort.addItem(port);
+						}
+					}
+				}
+				selectPort();
+			}
+		});
 
 		selectPort();
 
 	}
 
 	private void selectPort() {
-		// TODO brenner: run in thread
-		// new Thread(new Runnable() {
-		// @Override
-		// public void run() {
 		boolean connected = false;
 
 		// close previous connection
@@ -133,8 +141,6 @@ public class CommunicationPanel extends JPanel {
 		}
 
 		updateStatus(connected);
-		// }
-		// }).start();
 	}
 
 	private void updateStatus(boolean connected) {

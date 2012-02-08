@@ -20,20 +20,22 @@ Release 0.1b
 ================================================================================
 * Draw Arduino Layout in Fritzing
 * Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
-* Implement Java Service that speaks DMF
 
+* Receive messages from Arduino and shown in LoggingPanel
 * Implement Basic UI with the following functionality:
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
+* Disable Serial Communication Actions if No Connection is established
 
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
-* Split marshaling of device configs for memory performance on microcontrollers
+
 
 
 ================================================================================
  I D E A S
 ================================================================================
+* Split marshaling of device configs for memory performance on microcontrollers
 * Create Custom L&F with Synth or Nimbus
 * Only fire association changed event if object was added/removed?
 * Set Description and Color per Device
@@ -78,6 +80,7 @@ NEW FEATURES:
 * German translation
 * Change Serial Communication Provider at runtime
 * Change Droplet Message Protocol Provider at runtime
+* Droplet Message Format Service
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX

@@ -26,7 +26,7 @@ import gnu.io.CommPortIdentifier;
  * 
  * @author Stefan Brenner
  */
-public interface ISerialCommService {
+public interface ISerialCommunicationService {
 
 	/**
 	 * Returns the name of the provider used for selection in the ui.

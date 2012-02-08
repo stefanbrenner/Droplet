@@ -20,33 +20,77 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
-import com.stefanbrenner.droplet.service.ISerialCommService;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class SendAction extends AbstractDropletAction {
+public class SendAction extends AbstractSerialAction {
 
 	public SendAction(JFrame frame, IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("SendAction.title")); //$NON-NLS-1$
 		putValue(SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
+
+		initListener();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ISerialCommService serialCommProvider = Configuration.getSerialCommProvider();
+
+		// cannot send no devices
+		if (getDroplet().getDevices().isEmpty()) {
+			JOptionPane.showMessageDialog(getFrame(), "There are no devices defined", "No devices",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		// cannot send if no enabled actions were found
+		boolean foundAction = false;
+		for (IActionDevice device : getDroplet().getDevices(IActionDevice.class)) {
+			if (!device.getEnabledActions().isEmpty()) {
+				foundAction = true;
+				break;
+			}
+		}
+		if (!foundAction) {
+			JOptionPane.showMessageDialog(getFrame(), "There are no enabled actions", "No actions",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
 		String message = messageProtocolProvider.createSetMessage(getDroplet());
 		System.out.println(message);
 		serialCommProvider.sendData(message);
+	}
+
+	// TODO brenner: add listener to actions
+	private void initListener() {
+		PropertyChangeListener listener = new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				updateVisibility();
+			}
+		};
+		getDroplet().addPropertyChangeListener(IDroplet.ASSOCIATION_DEVICES, listener);
+	}
+
+	private void updateVisibility() {
+		setEnabled(!getDroplet().getDevices(IActionDevice.class).isEmpty());
 	}
 
 }

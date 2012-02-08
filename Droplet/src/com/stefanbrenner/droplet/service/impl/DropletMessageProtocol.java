@@ -37,7 +37,8 @@ import com.stefanbrenner.droplet.model.internal.Valve;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 
 /**
- * This class implements the Droplet Serial Message Protocol.
+ * This class implements the Droplet Serial Communication Protocol (see
+ * doc/dsc-protocol.txt for more information).
  * 
  * @author Stefan Brenner
  */

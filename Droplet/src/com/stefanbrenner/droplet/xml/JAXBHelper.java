@@ -44,7 +44,8 @@ public class JAXBHelper {
 	private static final String ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	private static JAXBContext getJAXBContext() throws JAXBException {
-		// TODO brenner: can we make this with reflection
+		// TODO brenner: use reflection to retrieve all instances of IAction and
+		// IDevice
 		JAXBContext newInstance = JAXBContext.newInstance(Droplet.class, Valve.class, Flash.class, Camera.class,
 				Action.class, DurationAction.class);
 		return newInstance;

@@ -19,34 +19,23 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
-import java.awt.event.ActionEvent;
-
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
-import com.stefanbrenner.droplet.model.internal.Configuration;
-import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
-import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
+ * Base class for all actions that interact with some serial device.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class ShowAction extends AbstractSerialAction {
+public abstract class AbstractSerialAction extends AbstractDropletAction {
 
-	public ShowAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, Messages.getString("ShowAction.title")); //$NON-NLS-1$
-		putValue(SHORT_DESCRIPTION, Messages.getString("ShowAction.description")); //$NON-NLS-1$
-	}
+	public AbstractSerialAction(JFrame parent, IDropletContext dropletContext, String title) {
+		super(parent, dropletContext, title);
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
-		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
+		// TODO brenner: add listener to serial port connection state
 
-		String message = messageProtocolProvider.createInfoMessage();
-		System.out.println(message);
-		serialCommProvider.sendData(message);
 	}
 
 }

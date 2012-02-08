@@ -178,7 +178,7 @@ public class DropletMainFrame extends JFrame {
 		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO brenner: inform panels that droplet model changed
+				// TODO brenner: use listener instead
 				configPanel.setDroplet(dropletContext.getDroplet());
 			}
 		});

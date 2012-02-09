@@ -39,13 +39,13 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
  */
 public class Configuration {
 
-	public static final String CONF_SERIAL_COMM_PROVIDER = "Configuration.SerialCommProvider";
+	public static final String CONF_SERIAL_COMM_PROVIDER = "Configuration.SerialCommProvider"; //$NON-NLS-1$
 
-	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider";
+	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider"; //$NON-NLS-1$
 
 	private static final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
 
-	private static final String PREF_SERIAL_COMM_PROVIDER = "Droplet.SerialCommunicationProvider";
+	private static final String PREF_SERIAL_COMM_PROVIDER = "Droplet.SerialCommunicationProvider"; //$NON-NLS-1$
 
 	private static final ISerialCommunicationService DEFAULT_SERIAL_COMM_PROVIDER = new ArduinoService();
 
@@ -71,7 +71,7 @@ public class Configuration {
 		support.firePropertyChange(CONF_SERIAL_COMM_PROVIDER, oldService, commService);
 	}
 
-	private static final String PREF_MESSAGE_PROTOCOL = "Droplet.MessageProtocolProvider";
+	private static final String PREF_MESSAGE_PROTOCOL = "Droplet.MessageProtocolProvider"; //$NON-NLS-1$
 
 	private static final IDropletMessageProtocol DEFAULT_MESSAGE_PROTOCOL_PROVIDER = new DropletMessageProtocol();
 

@@ -110,7 +110,7 @@ public class CommunicationPanel extends JPanel {
 				if (newValue instanceof ISerialCommunicationService) {
 					CommPortIdentifier[] ports = ((ISerialCommunicationService) newValue).getPorts();
 					if (ports.length == 0) {
-						cmbPort.addItem("<< No port available >>");
+						cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
 					} else {
 						for (CommPortIdentifier port : ports) {
 							cmbPort.addItem(port);

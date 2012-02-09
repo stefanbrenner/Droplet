@@ -43,7 +43,7 @@ public class SimpleMessageProtocol implements IDropletMessageProtocol {
 
 	@Override
 	public String createStartMessage() {
-		return "run";
+		return "run"; //$NON-NLS-1$
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class SimpleMessageProtocol implements IDropletMessageProtocol {
 
 	@Override
 	public String createInfoMessage() {
-		return "show";
+		return "show"; //$NON-NLS-1$
 	}
 
 }

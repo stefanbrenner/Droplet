@@ -46,19 +46,19 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 	// meta characters
-	public static final String FIELD_SEPARATOR = ";";
-	public static final String DEVICE_SEPARATOR = "^";
-	public static final String TIME_SEPARATOR = "|";
+	public static final String FIELD_SEPARATOR = ";"; //$NON-NLS-1$
+	public static final String DEVICE_SEPARATOR = "^"; //$NON-NLS-1$
+	public static final String TIME_SEPARATOR = "|"; //$NON-NLS-1$
 
 	// commands
-	public static final String COMMAND_RELEASE = "R";
-	public static final String COMMAND_SEND = "S";
-	public static final String COMMAND_INFO = "I";
+	public static final String COMMAND_RELEASE = "R"; //$NON-NLS-1$
+	public static final String COMMAND_SEND = "S"; //$NON-NLS-1$
+	public static final String COMMAND_INFO = "I"; //$NON-NLS-1$
 
 	// devices
-	public static final String DEVICE_VALVE = "V";
-	public static final String DEVICE_FLASH = "F";
-	public static final String DEVICE_CAMERA = "C";
+	public static final String DEVICE_VALVE = "V"; //$NON-NLS-1$
+	public static final String DEVICE_FLASH = "F"; //$NON-NLS-1$
+	public static final String DEVICE_CAMERA = "C"; //$NON-NLS-1$
 
 	// mapping for devices and shortcuts
 	public static final HashMap<Class<?>, String> DEVICE_SHORTS = new HashMap<Class<?>, String>();
@@ -104,7 +104,7 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	}
 
 	private String marshalDevices(IDroplet droplet) {
-		String result = "";
+		String result = StringUtils.EMPTY;
 		Map<Class<? extends IDevice>, Integer> counters = new HashMap<Class<? extends IDevice>, Integer>();
 
 		for (IActionDevice d : droplet.getDevices(IActionDevice.class)) {

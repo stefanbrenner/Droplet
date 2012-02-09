@@ -33,6 +33,7 @@ Release 0.1b
 * Analyse Heap Dump with lots of devices and actions
 
 
+
 ================================================================================
  I D E A S
 ================================================================================
@@ -93,6 +94,7 @@ BUG FIXES:
 
 KNOWN ISSUES:
 * Open non-existing file leads to FileNotFOundException
+* UI problems with SplitPanes and ScrollPanes
 
 
 ==EOF===========================================================================

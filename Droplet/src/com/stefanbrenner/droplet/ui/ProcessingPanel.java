@@ -61,6 +61,8 @@ public class ProcessingPanel extends JPanel {
 
 		cbEnable = new JCheckBox(Messages.getString("ProcessingPanel.writeMetadata")); //$NON-NLS-1$
 		cbEnable.setSelected(false);
+		// TODO brenner: enabled
+		cbEnable.setEnabled(false);
 		cbEnable.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent event) {

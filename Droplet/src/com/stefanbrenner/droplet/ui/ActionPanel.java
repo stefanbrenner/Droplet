@@ -82,6 +82,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 
 		// offset spinner
 		spOffset = new MouseWheelSpinner(true);
+		spOffset.setToolTipText(Messages.getString("ActionPanel.Offset.Tooltip")); //$NON-NLS-1$
 		spOffset.setModel(SpinnerAdapterFactory.createNumberAdapter(adapter.getValueModel(IAction.PROPERTY_OFFSET), 0,
 				0, 1000, 1));
 		((JSpinner.DefaultEditor) spOffset.getEditor()).getTextField().setColumns(4);
@@ -90,6 +91,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 
 		// duration spinner
 		spDuration = new MouseWheelSpinner(true);
+		spDuration.setToolTipText(Messages.getString("ActionPanel.Duration.Tooltip")); //$NON-NLS-1$
 		if (action instanceof IDurationAction) {
 			spDuration.setModel(SpinnerAdapterFactory.createNumberAdapter(
 					adapter.getValueModel(IDurationAction.PROPERTY_DURATION), 0, 0, 1000, 1));

@@ -35,7 +35,7 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 public class PreferencesAction extends AbstractDropletAction {
 
 	public PreferencesAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Preferences");
+		super(frame, dropletContext, Messages.getString("PreferencesAction.Title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_COMMA));
 	}

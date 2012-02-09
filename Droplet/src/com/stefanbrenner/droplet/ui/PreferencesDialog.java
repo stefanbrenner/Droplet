@@ -57,7 +57,7 @@ public class PreferencesDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(0, 1));
 
-		panel.add(new JLabel("Serial Communication Service:"));
+		panel.add(new JLabel(Messages.getString("PreferencesDialog.SerialCommunicationService"))); //$NON-NLS-1$
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		List<ISerialCommunicationService> commProviders = PluginLoader.getPlugins(ISerialCommunicationService.class);
 		cmbCommService = new JComboBox();
@@ -70,7 +70,7 @@ public class PreferencesDialog extends JDialog {
 		cmbCommService.setRenderer(renderer);
 		panel.add(cmbCommService);
 
-		panel.add(new JLabel("Droplet Message Protocol:"));
+		panel.add(new JLabel(Messages.getString("PreferencesDialog.DropletMessageProtocol"))); //$NON-NLS-1$
 		cmbMsgProtocol = new JComboBox();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 		List<IDropletMessageProtocol> messageProviders = PluginLoader.getPlugins(IDropletMessageProtocol.class);
@@ -113,7 +113,7 @@ public class PreferencesDialog extends JDialog {
 		pack();
 		setLocationRelativeTo(frame);
 		setResizable(false);
-		setTitle("Preferences");
+		setTitle(Messages.getString("PreferencesDialog.Title")); //$NON-NLS-1$
 
 	}
 

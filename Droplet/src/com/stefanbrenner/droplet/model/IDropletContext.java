@@ -28,7 +28,7 @@ import java.io.File;
  */
 public interface IDropletContext extends INotificationSupport {
 
-	public static final String DROPLET_FILE_EXTENSION = ".drp"; //$NON-NLS-1$
+	public static final String DROPLET_FILE_EXTENSION = "drp"; //$NON-NLS-1$
 
 	public static final String PROPERTY_PORT = "port"; //$NON-NLS-1$
 

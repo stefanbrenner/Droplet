@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1b
-Date:		2012/01/25
+Date:		2012/02/09
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -21,21 +21,23 @@ Release 0.1b
 * Draw Arduino Layout in Fritzing
 * Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
 
+* Logging of exceptions/errors/informations/...
 * Receive messages from Arduino and shown in LoggingPanel
 * Implement Basic UI with the following functionality:
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
-* Disable Serial Communication Actions if No Connection is established
 
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
-
+* Test on Windows and/or Linux
+* Analyse Heap Dump with lots of devices and actions
 
 
 ================================================================================
  I D E A S
 ================================================================================
 * Split marshaling of device configs for memory performance on microcontrollers
+* Disable Serial Communication Actions if No Connection is established
 * Create Custom L&F with Synth or Nimbus
 * Only fire association changed event if object was added/removed?
 * Set Description and Color per Device
@@ -90,6 +92,7 @@ CHANGES:
 BUG FIXES:
 
 KNOWN ISSUES:
+* Open non-existing file leads to FileNotFOundException
 
 
 ==EOF===========================================================================

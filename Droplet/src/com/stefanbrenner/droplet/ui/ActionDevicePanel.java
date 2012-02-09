@@ -32,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,6 +46,7 @@ import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.utils.DropletColors;
@@ -57,6 +59,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 	private T device;
 
 	// UI components
+	private final JComponent parent;
 	private final JTextField txtName;
 
 	private JPanel actionsPanel;
@@ -64,7 +67,9 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ActionDevicePanel(final IDroplet droplet, final T device) {
+	public ActionDevicePanel(final JComponent parent, final IDroplet droplet, final T device) {
+
+		this.parent = parent;
 
 		setDevice(device);
 
@@ -77,6 +82,14 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		// device name textfield
 		txtName = BasicComponentFactory.createTextField(adapter.getValueModel(IValve.PROPERTY_NAME));
 		txtName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtName.setColumns(1);
+		txtName.setToolTipText(device.getName());
+		adapter.addBeanPropertyChangeListener(IDevice.PROPERTY_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				txtName.setToolTipText(device.getName());
+			}
+		});
 		add(txtName, BorderLayout.NORTH);
 
 		// actions panel with scroll pane
@@ -158,6 +171,11 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		// redraw panel
 		actionsPanel.revalidate();
 		actionsPanel.repaint();
+		// update parent if we add the first action or remove the last action
+		if (device.getActions().size() < 2) {
+			parent.revalidate();
+			parent.repaint();
+		}
 	}
 
 	@Override

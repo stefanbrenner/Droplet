@@ -51,15 +51,11 @@ public interface IDropletMessageProtocol {
 
 	/**
 	 * Returns a message containing the device configurations
+	 * 
+	 * If message contains newline characters ('\n') the message is split up and
+	 * sent one by one.
 	 */
 	String createSetMessage(IDroplet droplet);
-
-	/**
-	 * Creates a list of messages containing the device configuration of exactly
-	 * one device. Used to save memory on micro controllers with small internal
-	 * memory.
-	 */
-	// TODO brenner: List<String> createSingleSetMessages();
 
 	/**
 	 * Returns a message for opening a special valve (i.e. for cleaning).

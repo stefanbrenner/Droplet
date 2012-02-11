@@ -34,26 +34,26 @@ public interface IDroplet extends INotificationSupport {
 
 	public static final String ASSOCIATION_DEVICES = "devices"; //$NON-NLS-1$
 
-	public abstract void setName(String name);
+	void setName(String name);
 
-	public abstract String getName();
+	String getName();
 
-	public abstract void setDescription(String description);
+	void setDescription(String description);
 
-	public abstract String getDescription();
+	String getDescription();
 
-	public abstract <T extends IDevice> List<T> getDevices(Class<T> type);
+	<T extends IDevice> List<T> getDevices(Class<T> type);
 
-	public abstract void setDevices(List<IDevice> devices);
+	void setDevices(List<IDevice> devices);
 
-	public abstract List<IDevice> getDevices();
+	List<IDevice> getDevices();
 
-	public abstract void addDevice(IDevice device);
+	void addDevice(IDevice device);
 
-	public abstract void removeDevice(IDevice device);
+	void removeDevice(IDevice device);
 
-	public abstract void reset();
+	void reset();
 
-	public abstract DropletDeviceComparator getDeviceComparator();
+	DropletDeviceComparator getDeviceComparator();
 
 }

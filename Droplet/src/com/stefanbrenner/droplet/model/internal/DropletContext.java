@@ -22,6 +22,13 @@ package com.stefanbrenner.droplet.model.internal;
 import gnu.io.CommPortIdentifier;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -38,13 +45,15 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	private IDroplet droplet;
 
+	private List<String> loggingMessages = new ArrayList<String>();
+
 	@Override
 	public File getFile() {
 		return file;
 	}
 
 	@Override
-	public void setFile(File file) {
+	public void setFile(final File file) {
 		firePropertyChange(PROPERTY_FILE, this.file, this.file = file);
 	}
 
@@ -54,7 +63,7 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	}
 
 	@Override
-	public void setPort(CommPortIdentifier port) {
+	public void setPort(final CommPortIdentifier port) {
 		firePropertyChange(PROPERTY_PORT, this.port, this.port = port);
 	}
 
@@ -64,8 +73,35 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	}
 
 	@Override
-	public void setDroplet(IDroplet droplet) {
+	public void setDroplet(final IDroplet droplet) {
 		firePropertyChange(PROPERTY_DROPLET, this.droplet, this.droplet = droplet);
+	}
+
+	@Override
+	public String getLoggingMessages() {
+		return StringUtils.join(loggingMessages, '\n');
+	}
+
+	@Override
+	public void addLoggingMessage(final String message) {
+		String oldValue = getLoggingMessages();
+		loggingMessages = new ArrayList<String>(loggingMessages);
+
+		// add timestamp to message
+		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
+		String timestamp = format.format(new Date(System.currentTimeMillis()));
+		String logEntry = timestamp + ": " + message; //$NON-NLS-1$
+
+		loggingMessages.add(logEntry);
+
+		firePropertyChange(PROPERTY_LOGGING, oldValue, getLoggingMessages());
+	}
+
+	@Override
+	public void clearLoggingMessages() {
+		String oldValue = getLoggingMessages();
+		loggingMessages = new ArrayList<String>();
+		firePropertyChange(PROPERTY_LOGGING, oldValue, getLoggingMessages());
 	}
 
 }

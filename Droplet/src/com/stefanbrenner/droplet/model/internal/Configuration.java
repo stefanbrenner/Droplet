@@ -93,7 +93,7 @@ public class Configuration {
 		support.firePropertyChange(CONF_MESSAGE_PROTOCOL_PROVIDER, oldProtocol, messageProtocol);
 	}
 
-	// simple notification support
+	// simple static notification support
 
 	private static PropertyChangeSupport support = new PropertyChangeSupport(new Configuration());
 

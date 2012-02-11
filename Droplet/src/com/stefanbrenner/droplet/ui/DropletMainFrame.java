@@ -141,7 +141,7 @@ public class DropletMainFrame extends JFrame {
 		{
 			configPanel = new DeviceSetupPanel(dropletContext.getDroplet());
 			processingPanel = new ProcessingPanel();
-			loggingPanel = new LoggingPanel();
+			loggingPanel = new LoggingPanel(dropletContext);
 
 			JSplitPane splitPaneBottom = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, processingPanel, loggingPanel);
 			splitPaneBottom.setOneTouchExpandable(true);
@@ -202,6 +202,9 @@ public class DropletMainFrame extends JFrame {
 		setMinimumSize(new Dimension(300, 200));
 		// update ui for nimbus component resizing
 		SwingUtilities.updateComponentTreeUI(this);
+
+		// add welcome message to logging panel
+		dropletContext.addLoggingMessage("Welcome to Droplet!");
 
 	}
 }

@@ -37,6 +37,8 @@ Release 0.1b
 ================================================================================
  I D E A S
 ================================================================================
+* Add colored logging messages
+* Make logging level editable
 * Split marshaling of device configs for memory performance on microcontrollers
 * Disable Serial Communication Actions if No Connection is established
 * Create Custom L&F with Synth or Nimbus

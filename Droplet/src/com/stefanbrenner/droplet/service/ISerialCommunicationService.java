@@ -21,6 +21,8 @@ package com.stefanbrenner.droplet.service;
 
 import gnu.io.CommPortIdentifier;
 
+import com.stefanbrenner.droplet.model.IDropletContext;
+
 /**
  * Interface for Serial Communication.
  * 
@@ -38,7 +40,7 @@ public interface ISerialCommunicationService {
 	 * 
 	 * @return Array of available serial ports
 	 */
-	public abstract CommPortIdentifier[] getPorts();
+	CommPortIdentifier[] getPorts();
 
 	/**
 	 * Indicates if the service is currently connected to a serial port.
@@ -46,7 +48,7 @@ public interface ISerialCommunicationService {
 	 * @return <code>true</code> if the serivce is connected, otherwise
 	 *         <code>false</code>
 	 */
-	public abstract boolean isConnected();
+	boolean isConnected();
 
 	/**
 	 * Send a message to the receiver.
@@ -54,13 +56,13 @@ public interface ISerialCommunicationService {
 	 * @param message
 	 *            message to send
 	 */
-	public abstract void sendData(String message);
+	void sendData(String message);
 
 	/**
 	 * This should be called when you stop using the port. This will prevent
 	 * port locking on platforms like Linux.
 	 */
-	public abstract void close();
+	void close();
 
 	/**
 	 * Connect to a given serial port.
@@ -68,6 +70,6 @@ public interface ISerialCommunicationService {
 	 * @param portId
 	 *            port identifier to connect to
 	 */
-	public abstract boolean connect(CommPortIdentifier portId);
+	boolean connect(CommPortIdentifier portId, IDropletContext context);
 
 }

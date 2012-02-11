@@ -22,17 +22,19 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.commons.lang3.StringUtils;
-
+import com.jgoodies.binding.adapter.BasicComponentFactory;
+import com.jgoodies.binding.beans.BeanAdapter;
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 
 /**
@@ -47,35 +49,40 @@ public class LoggingPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LoggingPanel() {
+	public LoggingPanel(final IDropletContext context) {
 
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(Messages.getString("LoggingPanel.title"))); //$NON-NLS-1$
 		setMinimumSize(new Dimension(400, 200));
 
-		txtMessages = new JTextArea();
-		txtMessages.setFocusable(false);
+		BeanAdapter<IDropletContext> adapter = new BeanAdapter<IDropletContext>(context, true);
+
+		txtMessages = BasicComponentFactory.createTextArea(adapter.getValueModel(IDropletContext.PROPERTY_LOGGING));
+		txtMessages.setFocusable(true);
 		txtMessages.setFocusTraversalKeysEnabled(true);
-		txtMessages.setMargin(new Insets(10, 10, 10, 10));
+		txtMessages.setMargin(new Insets(0, 10, 0, 10));
 		txtMessages.setFont(DropletFonts.FONT_LOGGING_SMALL);
 		txtMessages.setEditable(false);
 		JScrollPane loggingScrollPane = new JScrollPane(txtMessages);
+		loggingScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent event) {
+				// event.getAdjustable().setValue(event.getAdjustable().getMaximum());
+				txtMessages.setCaretPosition(txtMessages.getText().length() - 1);
+			}
+		});
 		add(loggingScrollPane, BorderLayout.CENTER);
 
+		txtMessages.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.VK_DELETE || event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					context.clearLoggingMessages();
+				}
+				super.keyPressed(event);
+			}
+		});
+
 	}
 
-	/**
-	 * Add a message to the logging text area.
-	 */
-	public void addMessage(String message) {
-		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
-		String timestamp = format.format(new Date(System.currentTimeMillis()));
-		String logEntry = timestamp + ": " + message; //$NON-NLS-1$
-		if (txtMessages.getText().isEmpty()) {
-			txtMessages.setText(logEntry);
-		} else {
-			txtMessages
-					.setText(StringUtils.join(txtMessages.getText(), System.getProperty("line.separator"), logEntry)); //$NON-NLS-1$
-		}
-	}
 }

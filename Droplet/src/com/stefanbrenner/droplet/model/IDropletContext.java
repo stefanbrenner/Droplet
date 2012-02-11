@@ -36,28 +36,36 @@ public interface IDropletContext extends INotificationSupport {
 
 	public static final String PROPERTY_DROPLET = "droplet"; //$NON-NLS-1$
 
+	public static final String PROPERTY_LOGGING = "loggingMessages"; //$NON-NLS-1$
+
 	/**
 	 * Sets the port to be used for serial communication
 	 */
-	public abstract void setPort(CommPortIdentifier port);
+	void setPort(CommPortIdentifier port);
 
 	/**
 	 * Returns the port to be used for serial communication
 	 */
-	public abstract CommPortIdentifier getPort();
+	CommPortIdentifier getPort();
 
 	/**
 	 * Sets the file that is used to save the current droplet setup
 	 */
-	public abstract void setFile(File file);
+	void setFile(File file);
 
 	/**
 	 * Returns the file that is used to save the droplet setup
 	 */
-	public abstract File getFile();
+	File getFile();
 
-	public abstract void setDroplet(IDroplet droplet);
+	void setDroplet(IDroplet droplet);
 
-	public abstract IDroplet getDroplet();
+	IDroplet getDroplet();
+
+	void addLoggingMessage(String message);
+
+	String getLoggingMessages();
+
+	void clearLoggingMessages();
 
 }

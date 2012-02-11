@@ -23,10 +23,10 @@ public interface IDurationAction extends IAction {
 
 	public static final String PROPERTY_DURATION = "duration"; //$NON-NLS-1$
 
-	public abstract void setDuration(Integer duration);
+	void setDuration(Integer duration);
 
-	public abstract Integer getDuration();
+	Integer getDuration();
 
-	public abstract void addDuration(Integer duration);
+	void addDuration(Integer duration);
 
 }

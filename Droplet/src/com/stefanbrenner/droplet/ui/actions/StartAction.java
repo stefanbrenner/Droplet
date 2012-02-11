@@ -45,7 +45,6 @@ public class StartAction extends AbstractSerialAction {
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
 		String message = messageProtocolProvider.createStartMessage(1, 0);
-		System.out.println(message);
 		serialCommProvider.sendData(message);
 	}
 

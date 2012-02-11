@@ -25,8 +25,8 @@ public interface IFlash extends IActionDevice {
 
 	public static final String PROPERTY_COLOR = "color"; //$NON-NLS-1$
 
-	public abstract void setColor(Color color);
+	void setColor(Color color);
 
-	public abstract Color getColor();
+	Color getColor();
 
 }

@@ -137,7 +137,7 @@ public class CommunicationPanel extends JPanel {
 		if (selectedItem instanceof CommPortIdentifier) {
 			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
 			dropletContext.setPort(portId);
-			connected = commService.connect(portId);
+			connected = commService.connect(portId, dropletContext);
 		}
 
 		updateStatus(connected);

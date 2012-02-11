@@ -25,16 +25,16 @@ public interface IDevice extends INotificationSupport {
 
 	public static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
 
-	public abstract String getName();
+	String getName();
 
-	public abstract void setName(String name);
+	void setName(String name);
 
-	public abstract void setDescription(String description);
+	void setDescription(String description);
 
-	public abstract String getDescription();
+	String getDescription();
 
-	public abstract void reset();
+	void reset();
 
-	public abstract IAction createNewAction();
+	IAction createNewAction();
 
 }

@@ -45,7 +45,6 @@ public class ShowAction extends AbstractSerialAction {
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
 		String message = messageProtocolProvider.createInfoMessage();
-		System.out.println(message);
 		serialCommProvider.sendData(message);
 	}
 

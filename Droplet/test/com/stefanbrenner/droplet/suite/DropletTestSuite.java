@@ -26,6 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.stefanbrenner.droplet.model.ConfigurationTest;
 import com.stefanbrenner.droplet.model.DeviceComperationTest;
 import com.stefanbrenner.droplet.service.impl.DropletMessageProtocolTest;
+import com.stefanbrenner.droplet.service.impl.DropletMessageProtocolV2Test;
 import com.stefanbrenner.droplet.utils.PluginProviderTest;
 import com.stefanbrenner.droplet.utils.UiUtilsTest;
 
@@ -36,7 +37,7 @@ import com.stefanbrenner.droplet.utils.UiUtilsTest;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ UiUtilsTest.class, PluginProviderTest.class, DeviceComperationTest.class, ConfigurationTest.class,
-		DropletMessageProtocolTest.class })
+		DropletMessageProtocolTest.class, DropletMessageProtocolV2Test.class })
 public class DropletTestSuite {
 
 }

@@ -19,7 +19,6 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-
 /**
  * @author Stefan Brenner
  */
@@ -29,14 +28,14 @@ public interface IAction extends INotificationSupport {
 
 	public static final String PROPERTY_OFFSET = "offset"; //$NON-NLS-1$
 
-	public abstract boolean isEnabled();
+	boolean isEnabled();
 
-	public abstract void setEnabled(boolean enabled);
+	void setEnabled(boolean enabled);
 
-	public abstract void setOffset(Integer offset);
+	void setOffset(Integer offset);
 
-	public abstract Integer getOffset();
+	Integer getOffset();
 
-	public abstract void addOffset(Integer offset);
+	void addOffset(Integer offset);
 
 }

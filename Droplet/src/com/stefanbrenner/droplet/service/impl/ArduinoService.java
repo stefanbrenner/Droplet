@@ -34,9 +34,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.TooManyListenersException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
 
+import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
@@ -56,27 +56,18 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	private static final int DATA_RATE = 9600;
 
 	/** connected port information **/
-	private CommPortIdentifier connPortId = null;
-	private SerialPort connSerialPort = null;
+	private static CommPortIdentifier connPortId = null;
+	private static SerialPort connSerialPort = null;
 
 	/** input stream for sending data **/
-	private InputStream input = null;
+	private static InputStream input = null;
 	/** output streams for receiving data **/
-	private OutputStream output = null;
+	private static OutputStream output = null;
 
 	/** flag that indicates if the service is currently connected to a port **/
-	private boolean connected = false;
+	private static boolean connected = false;
 
-	private static final ArduinoService instance = new ArduinoService();
-
-	public ArduinoService() {
-
-	}
-
-	// TODO brenner: can't use singleton with service providers
-	public static ArduinoService getInstance() {
-		return instance;
-	}
+	private static IDropletContext dropletContext;
 
 	@Override
 	public String getName() {
@@ -101,18 +92,16 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	}
 
 	@Override
-	public synchronized boolean connect(CommPortIdentifier portId) {
+	public synchronized boolean connect(CommPortIdentifier portId, IDropletContext context) {
 		try {
 			connPortId = portId;
+			dropletContext = context;
 			// try to open a connection to the serial port
 			connSerialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 
 			// set port parameters
 			connSerialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 					SerialPort.PARITY_NONE);
-
-			// set connected flag
-			setConnected(true);
 
 			// open the streams
 			input = connSerialPort.getInputStream();
@@ -121,6 +110,12 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			// add event listeners
 			connSerialPort.addEventListener(this);
 			connSerialPort.notifyOnDataAvailable(true);
+			connSerialPort.notifyOnCarrierDetect(true);
+
+			// set connected flag
+			setConnected(true);
+
+			return true;
 
 		} catch (PortInUseException e) {
 			// TODO Auto-generated catch block
@@ -136,7 +131,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			e.printStackTrace();
 		}
 
-		return isConnected();
+		setConnected(false);
+		return false;
 	}
 
 	@Override
@@ -156,18 +152,20 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	}
 
 	@Override
-	// TODO brenner: move listener directly to UI ?
 	public void serialEvent(SerialPortEvent event) {
 		if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+			int data;
+			byte[] buffer = new byte[1024];
 			try {
-				int available = input.available();
-				byte chunk[] = new byte[available];
-				input.read(chunk, 0, available);
-
-				// TODO brenner: handle resultMessage to UI
-				String resultMessage = StringUtils.chomp(new String(chunk));
-				System.out.print(resultMessage);
-
+				int len = 0;
+				while ((data = input.read()) > -1) {
+					if (data == '\n') {
+						break;
+					}
+					buffer[len++] = (byte) data;
+				}
+				// add message to model
+				dropletContext.addLoggingMessage(new String(buffer, 0, len));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -197,7 +195,7 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	}
 
 	private void setConnected(boolean connected) {
-		this.connected = connected;
+		ArduinoService.connected = connected;
 	}
 
 }

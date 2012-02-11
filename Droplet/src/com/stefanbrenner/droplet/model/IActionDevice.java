@@ -28,14 +28,14 @@ public interface IActionDevice extends IDevice {
 
 	public static final String ASSOCIATION_ACTIONS = "actions"; //$NON-NLS-1$
 
-	public abstract void setActions(List<IAction> actions);
+	void setActions(List<IAction> actions);
 
-	public abstract List<IAction> getActions();
+	List<IAction> getActions();
 
-	public abstract List<IAction> getEnabledActions();
+	List<IAction> getEnabledActions();
 
-	public abstract void removeAction(IAction action);
+	void removeAction(IAction action);
 
-	public abstract void addAction(IAction action);
+	void addAction(IAction action);
 
 }

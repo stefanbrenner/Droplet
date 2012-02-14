@@ -78,7 +78,7 @@ public class SaveFileAction extends AbstractDropletAction {
 
 			// check if file extension fits
 			if (StringUtils.containsIgnoreCase(file.getName(), ".") //$NON-NLS-1$
-					&& !(StringUtils.endsWithIgnoreCase(file.getName(), IDropletContext.DROPLET_FILE_EXTENSION))) {
+					&& !(StringUtils.endsWithIgnoreCase(file.getName(), "." + IDropletContext.DROPLET_FILE_EXTENSION))) {
 				JOptionPane
 						.showMessageDialog(
 								getFrame(),
@@ -89,8 +89,8 @@ public class SaveFileAction extends AbstractDropletAction {
 			}
 			// automatically add droplet file extension
 			else {
-				if (!StringUtils.endsWithIgnoreCase(file.getName(), IDropletContext.DROPLET_FILE_EXTENSION)) {
-					String newPath = StringUtils.join(file.getPath(), IDropletContext.DROPLET_FILE_EXTENSION);
+				if (!StringUtils.endsWithIgnoreCase(file.getName(), "." + IDropletContext.DROPLET_FILE_EXTENSION)) {
+					String newPath = StringUtils.join(file.getPath(), "." + IDropletContext.DROPLET_FILE_EXTENSION);
 					file = new File(newPath);
 				}
 			}

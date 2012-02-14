@@ -64,6 +64,9 @@ public class CommunicationPanel extends JPanel {
 
 		// port selection combo box
 		cmbPort = new JComboBox(commService.getPorts());
+		if (commService.getPorts().length == 0) {
+			cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
+		}
 		cmbPort.setRenderer(new ListCellRenderer() {
 
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();

@@ -68,7 +68,9 @@ public class LoggingPanel extends JPanel {
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent event) {
 				// event.getAdjustable().setValue(event.getAdjustable().getMaximum());
-				txtMessages.setCaretPosition(txtMessages.getText().length() - 1);
+				if (txtMessages.getText().length() > 1) {
+					txtMessages.setCaretPosition(txtMessages.getText().length() - 1);
+				}
 			}
 		});
 		add(loggingScrollPane, BorderLayout.CENTER);

@@ -23,11 +23,17 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -80,6 +86,22 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 		pack();
 		setLocationRelativeTo(frame);
 
+	}
+
+	@Override
+	protected JRootPane createRootPane() {
+		JRootPane rootPane = new JRootPane();
+		KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+		Action actionListener = new AbstractAction() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				setVisible(false);
+			}
+		};
+		InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(stroke, "ESCAPE");
+		rootPane.getActionMap().put("ESCAPE", actionListener);
+
+		return rootPane;
 	}
 
 	@Override

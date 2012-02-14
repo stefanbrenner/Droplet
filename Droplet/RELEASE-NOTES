@@ -22,21 +22,22 @@ Release 0.1b
 * Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
 
 * Logging of exceptions/errors/informations/...
-* Receive messages from Arduino and shown in LoggingPanel
 * Implement Basic UI with the following functionality:
 	- Open/Close Valves for water release
 	- Simple Logging of photo number combined with the current configuration
 
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
-* Test on Windows and/or Linux
+* Test on Windows and/or Linux especially RxTx
 * Analyse Heap Dump with lots of devices and actions
+* correct dsc-protocol.txt
 
 
 
 ================================================================================
  I D E A S
 ================================================================================
+* Drag&Drop Device Panels and Actions
 * Add colored logging messages
 * Make logging level editable
 * Split marshaling of device configs for memory performance on microcontrollers
@@ -86,6 +87,7 @@ NEW FEATURES:
 * Change Serial Communication Provider at runtime
 * Change Droplet Message Protocol Provider at runtime
 * Droplet Message Format Service
+* Receive messages from Arduino and shown in LoggingPanel
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX

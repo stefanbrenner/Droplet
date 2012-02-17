@@ -72,4 +72,14 @@ public interface IDropletMessageProtocol {
 	 */
 	String createInfoMessage();
 
+	/**
+	 * Returns a message to reset the microcontroller
+	 */
+	String createResetMessage();
+
+	/**
+	 * Returns a message to cancel the current execution on the microcontroller
+	 */
+	String createCancelMessage();
+
 }

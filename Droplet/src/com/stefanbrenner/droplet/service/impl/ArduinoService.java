@@ -34,6 +34,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.TooManyListenersException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -164,8 +165,13 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 					}
 					buffer[len++] = (byte) data;
 				}
+
+				// TODO brenner: integrate message protocol to parse result
+				// message
+
 				// add message to model
-				dropletContext.addLoggingMessage(new String(buffer, 0, len));
+				String message = new String(buffer, 0, len);
+				dropletContext.addLoggingMessage(message);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -178,8 +184,37 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	public void sendData(String message) {
 		try {
 			if (output != null) {
-				output.write(message.getBytes());
-				output.flush();
+
+				// split message by newline
+				for (String msg : StringUtils.split(message, '\n')) {
+
+					// send byte by byte
+					for (byte b : msg.getBytes()) {
+						output.write(b);
+						output.flush();
+					}
+
+					// finally send newline
+					output.write('\n');
+					output.flush();
+
+					// wait for Arduino to process input before we send next
+					// message
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+					}
+
+				}
+
+				// remove control characters
+				// message = StringUtils.trim(message);
+				// output.write(message.getBytes());
+				// append newline
+				// if (!message.endsWith("\n")) {
+				// output.write('\n');
+				// }
+				// output.flush();
 			} else {
 				throw new RuntimeException("Not connected to a port!"); //$NON-NLS-1$
 			}

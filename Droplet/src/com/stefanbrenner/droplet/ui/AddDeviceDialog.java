@@ -23,17 +23,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.KeyStroke;
 
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -47,9 +40,7 @@ import com.stefanbrenner.droplet.model.internal.Valve;
  * 
  */
 @SuppressWarnings("serial")
-public class AddDeviceDialog extends JDialog implements ActionListener {
-
-	private final IDropletContext dropletContext;
+public class AddDeviceDialog extends AbstractDropletDialog implements ActionListener {
 
 	private final JButton btnValve;
 	private final JButton btnFlash;
@@ -57,9 +48,7 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 	private final JButton btnClose;
 
 	public AddDeviceDialog(JFrame frame, IDropletContext dropletContext) {
-		super(frame, Messages.getString("AddDeviceDialog.title"), false); //$NON-NLS-1$
-
-		this.dropletContext = dropletContext;
+		super(frame, dropletContext, Messages.getString("AddDeviceDialog.title")); //$NON-NLS-1$
 
 		JPanel panel = new JPanel();
 
@@ -89,30 +78,14 @@ public class AddDeviceDialog extends JDialog implements ActionListener {
 	}
 
 	@Override
-	protected JRootPane createRootPane() {
-		JRootPane rootPane = new JRootPane();
-		KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
-		Action actionListener = new AbstractAction() {
-			public void actionPerformed(ActionEvent actionEvent) {
-				setVisible(false);
-			}
-		};
-		InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		inputMap.put(stroke, "ESCAPE");
-		rootPane.getActionMap().put("ESCAPE", actionListener);
-
-		return rootPane;
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if (ObjectUtils.equals(btnValve, source)) {
-			dropletContext.getDroplet().addDevice(new Valve());
+			getDropletContext().getDroplet().addDevice(new Valve());
 		} else if (ObjectUtils.equals(btnFlash, source)) {
-			dropletContext.getDroplet().addDevice(new Flash());
+			getDropletContext().getDroplet().addDevice(new Flash());
 		} else if (ObjectUtils.equals(btnCamera, source)) {
-			dropletContext.getDroplet().addDevice(new Camera());
+			getDropletContext().getDroplet().addDevice(new Camera());
 		} else if (ObjectUtils.equals(btnClose, source)) {
 			setVisible(false);
 		}

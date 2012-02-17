@@ -29,6 +29,7 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
 
@@ -70,6 +71,16 @@ public class OpenFileAction extends AbstractDropletAction {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				File file = fileChooser.getSelectedFile();
+
+				if (!file.exists()) {
+					JOptionPane
+							.showMessageDialog(
+									getFrame(),
+									Messages.getString("SaveFileAction.fileNotFound"), Messages.getString("SaveFileAction.fileNotFound"), //$NON-NLS-1$ //$NON-NLS-2$
+									JOptionPane.ERROR_MESSAGE);
+					open(false);
+					return;
+				}
 
 				BufferedReader in = new BufferedReader(new FileReader(file));
 				String xml = IOUtils.toString(in);

@@ -47,6 +47,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	private List<String> loggingMessages = new ArrayList<String>();
 
+	private String lastSetMessage = StringUtils.EMPTY;
+
 	@Override
 	public File getFile() {
 		return file;
@@ -102,6 +104,16 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 		String oldValue = getLoggingMessages();
 		loggingMessages = new ArrayList<String>();
 		firePropertyChange(PROPERTY_LOGGING, oldValue, getLoggingMessages());
+	}
+
+	@Override
+	public String getLastSetMessage() {
+		return lastSetMessage;
+	}
+
+	@Override
+	public void setLastSetMessage(String lastSetMessage) {
+		this.lastSetMessage = lastSetMessage;
 	}
 
 }

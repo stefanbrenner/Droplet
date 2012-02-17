@@ -68,4 +68,8 @@ public interface IDropletContext extends INotificationSupport {
 
 	void clearLoggingMessages();
 
+	void setLastSetMessage(String lastSetMessage);
+
+	String getLastSetMessage();
+
 }

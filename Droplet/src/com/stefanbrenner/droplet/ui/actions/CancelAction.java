@@ -32,11 +32,11 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class StartAction extends AbstractSerialAction {
+public class CancelAction extends AbstractSerialAction {
 
-	public StartAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, Messages.getString("StartAction.title")); //$NON-NLS-1$
-		putValue(SHORT_DESCRIPTION, Messages.getString("StartAction.description")); //$NON-NLS-1$
+	public CancelAction(JFrame frame, IDropletContext dropletContext) {
+		super(frame, dropletContext, Messages.getString("CancelAction.title")); //$NON-NLS-1$
+		putValue(SHORT_DESCRIPTION, Messages.getString("CancelAction.description")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -44,13 +44,7 @@ public class StartAction extends AbstractSerialAction {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
-		// TODO brenner: create send message and compare with lastSendMessage
-		// from context
-
-		Integer rounds = getDroplet().getRounds();
-		Integer roundDelay = getDroplet().getRoundDelay();
-
-		String message = messageProtocolProvider.createStartMessage(rounds, roundDelay);
+		String message = messageProtocolProvider.createCancelMessage();
 		serialCommProvider.sendData(message);
 	}
 

@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1b
-Date:		2012/02/09
+Date:		2012/02/14
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -18,20 +18,20 @@ Release 0.1b
 ================================================================================
  T O D O S
 ================================================================================
-* Draw Arduino Layout in Fritzing
-* Implement Arduino Sketch that understands and executes the Droplet Message Format (DMF)
-
-* Logging of exceptions/errors/informations/...
 * Implement Basic UI with the following functionality:
-	- Open/Close Valves for water release
-	- Simple Logging of photo number combined with the current configuration
+	- Open/Close Valves for water release	
+* Test on Windows and/or Linux especially RxTx
+* build bundles
+* correct dsc-protocol.txt
+* make devices moveable
+* map device numbers to pins on MC, make configurable
 
+* Draw Arduino Layout in Fritzing
+* Simple Logging of photo number combined with the current configuration
+* Logging of exceptions/errors/informations/...
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
-* Test on Windows and/or Linux especially RxTx
 * Analyse Heap Dump with lots of devices and actions
-* correct dsc-protocol.txt
-
 
 
 ================================================================================
@@ -88,17 +88,24 @@ NEW FEATURES:
 * Change Droplet Message Protocol Provider at runtime
 * Droplet Message Format Service
 * Receive messages from Arduino and shown in LoggingPanel
+* Arduino Sketch that understands and executes the Droplet Message Format (DMF)
+
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX
+* A maximum of 11 Actions per Device can be used with the arduino
+* The maximum amount of devices and actions depends on the amount of memory of the arduino
+
 
 CHANGES:
 
+
 BUG FIXES:
 
+
 KNOWN ISSUES:
-* Open non-existing file leads to FileNotFOundException
 * UI problems with SplitPanes and ScrollPanes
+
 
 
 ==EOF===========================================================================

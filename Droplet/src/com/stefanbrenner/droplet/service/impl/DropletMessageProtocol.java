@@ -150,4 +150,14 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 		return COMMAND_INFO;
 	}
 
+	@Override
+	public String createResetMessage() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public String createCancelMessage() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
 }

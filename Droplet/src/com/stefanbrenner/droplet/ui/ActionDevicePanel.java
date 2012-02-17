@@ -84,6 +84,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		txtName.setHorizontalAlignment(SwingConstants.CENTER);
 		txtName.setColumns(1);
 		txtName.setToolTipText(device.getName());
+		txtName.setFocusable(false);
 		adapter.addBeanPropertyChangeListener(IDevice.PROPERTY_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -118,6 +119,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 					addAction(getDevice().createNewAction());
 				}
 			});
+			btnAdd.setFocusable(false);
 			panel.add(btnAdd);
 
 			// remove button
@@ -134,6 +136,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 					}
 				}
 			});
+			btnRemove.setFocusable(false);
 			panel.add(btnRemove);
 
 			add(panel, BorderLayout.SOUTH);

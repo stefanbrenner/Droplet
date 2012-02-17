@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -28,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -154,6 +156,7 @@ public class DropletMenu extends JMenuBar {
 	private void buildHelpMenu() {
 		aboutMenuItem = new JMenuItem(Messages.getString("DropletMenu.about")); //$NON-NLS-1$
 		aboutMenuItem.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.aboutMnemonic"))); //$NON-NLS-1$
+		aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

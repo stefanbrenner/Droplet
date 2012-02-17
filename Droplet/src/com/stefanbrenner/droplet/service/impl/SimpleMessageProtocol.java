@@ -89,4 +89,14 @@ public class SimpleMessageProtocol implements IDropletMessageProtocol {
 		return "show"; //$NON-NLS-1$
 	}
 
+	@Override
+	public String createResetMessage() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public String createCancelMessage() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
 }

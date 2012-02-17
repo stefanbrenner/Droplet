@@ -75,8 +75,15 @@ public class SendAction extends AbstractSerialAction {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
-		String message = messageProtocolProvider.createSetMessage(getDroplet());
-		System.out.println(message);
+		// first reset actions
+		String message = messageProtocolProvider.createResetMessage();
+		serialCommProvider.sendData(message);
+
+		message = messageProtocolProvider.createSetMessage(getDroplet());
+
+		// save message to context
+		getDropletContext().setLastSetMessage(message);
+
 		serialCommProvider.sendData(message);
 	}
 

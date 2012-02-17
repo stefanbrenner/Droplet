@@ -32,6 +32,10 @@ public interface IDroplet extends INotificationSupport {
 
 	public static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
 
+	public static final String PROPERTY_ROUNDS = "rounds"; //$NON-NLS-1$
+
+	public static final String PROPERTY_ROUND_DELAY = "roundDelay"; //$NON-NLS-1$
+
 	public static final String ASSOCIATION_DEVICES = "devices"; //$NON-NLS-1$
 
 	void setName(String name);
@@ -55,5 +59,13 @@ public interface IDroplet extends INotificationSupport {
 	void reset();
 
 	DropletDeviceComparator getDeviceComparator();
+
+	Integer getRounds();
+
+	void setRounds(Integer rounds);
+
+	Integer getRoundDelay();
+
+	void setRoundDelay(Integer delay);
 
 }

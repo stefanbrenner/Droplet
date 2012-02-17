@@ -9,6 +9,8 @@ Author:		Stefan Brenner
 
 +++ THIS IS A FIRST DRAFT +++
 // TODO add command to open/close devices (i.e. valves for cleaning purposes)
+// add modifications for nico (absolute device number, checksum, newline)
+// S;1;V;300|50;370|20^740\nS;2;V;220|20^240\nS;3;F;350^350\nS;4;C;500|10^510\n
 
 
 Purpose of this document
@@ -23,7 +25,7 @@ is size of the microcontrollers internal memory.
 Droplet Message Format (DMF) in EBNF
 --------------------------------------------------------------------------------
 Protocol			= SetCommand | ReleaseCommand | OpenCommand 
-						| CloseCommand | "I" ;
+						| CloseCommand | "I" | "X" ;
 
 SetCommand			= "S" [ FieldSeparator DeviceConfig { DeviceConfig } ] ;
 DeviceConfig		= Device DeviceNumber FieldSeparator Times DeviceSeparator

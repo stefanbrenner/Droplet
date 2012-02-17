@@ -34,6 +34,9 @@ import javax.swing.SpinnerModel;
  * 
  * @author Stefan Brenner
  */
+// TODO brenner: only allow numeric input
+// TODO brenner: add keylistener cmd+UP/DOWN = +/-10ms
+// TODO brenner: select all on focus gained
 public class MouseWheelSpinner extends JSpinner {
 
 	private static final long serialVersionUID = 1L;
@@ -51,6 +54,7 @@ public class MouseWheelSpinner extends JSpinner {
 	}
 
 	// TODO brenner: not working as intended
+	// need to implement own editor to be able to listen to events
 	private void registerFocusListener() {
 		final JFormattedTextField textField = ((JSpinner.DefaultEditor) getEditor()).getTextField();
 		textField.addFocusListener(new FocusAdapter() {

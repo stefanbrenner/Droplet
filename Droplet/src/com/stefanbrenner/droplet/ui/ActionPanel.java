@@ -77,6 +77,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		// enabled checkbox
 		cbEnable = BasicComponentFactory.createCheckBox(adapter.getValueModel(IAction.PROPERTY_ENABLED),
 				StringUtils.EMPTY);
+		cbEnable.setFocusable(false);
 		UiUtils.editGridBagConstraints(gbc, 0, 0, 0, 0);
 		add(cbEnable, gbc);
 
@@ -108,6 +109,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 				remove();
 			}
 		});
+		btnRemove.setFocusable(false);
 		UiUtils.editGridBagConstraints(gbc, 3, 0, 0, 0);
 		add(btnRemove, gbc);
 

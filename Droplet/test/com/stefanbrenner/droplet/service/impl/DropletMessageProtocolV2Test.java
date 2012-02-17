@@ -44,11 +44,11 @@ public class DropletMessageProtocolV2Test {
 	@Test
 	public void testCreateStartMessage() {
 		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
-		assertEquals("R;1", protocol.createStartMessage());
-		assertEquals("R;1", protocol.createStartMessage(1, 0));
-		assertEquals("R;1", protocol.createStartMessage(1, 250));
-		assertEquals("R;5", protocol.createStartMessage(5, 0));
-		assertEquals("R;5;250", protocol.createStartMessage(5, 250));
+		assertEquals("R;1^1", protocol.createStartMessage());
+		assertEquals("R;1^1", protocol.createStartMessage(1, 0));
+		assertEquals("R;1^1", protocol.createStartMessage(1, 250));
+		assertEquals("R;5^5", protocol.createStartMessage(5, 0));
+		assertEquals("R;5;250^255", protocol.createStartMessage(5, 250));
 	}
 
 	@Test
@@ -57,7 +57,12 @@ public class DropletMessageProtocolV2Test {
 		assertEquals("I", protocol.createInfoMessage());
 	}
 
-	// TODO test single device messages
+	@Test
+	public void testCreateResetMessage() {
+		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		assertEquals("X", protocol.createResetMessage());
+	}
+
 	@Test
 	public void testCreateSetMessage() {
 		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();

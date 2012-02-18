@@ -12,5 +12,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.stefanbrenner.droplet.ui.DropletMainFrame"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Droplet"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-d32 -Xmx256M"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M&#13;&#10;-Djava.library.path=${project_loc}\lib"/>
 </launchConfiguration>

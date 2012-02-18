@@ -84,7 +84,6 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		txtName.setHorizontalAlignment(SwingConstants.CENTER);
 		txtName.setColumns(1);
 		txtName.setToolTipText(device.getName());
-		txtName.setFocusable(false);
 		adapter.addBeanPropertyChangeListener(IDevice.PROPERTY_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {

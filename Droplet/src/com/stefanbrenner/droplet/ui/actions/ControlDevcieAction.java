@@ -17,23 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.ui;
+package com.stefanbrenner.droplet.ui.actions;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.ui.ControlDevicesDialog;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class OpenCloseValvesDialog extends AbstractDropletDialog {
+public class ControlDevcieAction extends AbstractDropletAction {
 
-	public OpenCloseValvesDialog(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "");
-
-		// TODO add row for each valve to open and close valve for cleaning
-
+	public ControlDevcieAction(JFrame frame, IDropletContext dropletContext) {
+		super(frame, dropletContext, "Control Devices");
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		JDialog dialog = new ControlDevicesDialog(getFrame(), getDropletContext());
+		dialog.setVisible(true);
+	}
 }

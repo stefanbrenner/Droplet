@@ -58,14 +58,14 @@ public interface IDropletMessageProtocol {
 	String createSetMessage(IDroplet droplet);
 
 	/**
-	 * Returns a message for opening a special valve (i.e. for cleaning).
+	 * Returns a message for sending an ON signal to a device
 	 */
-	// TODO brenner: String createOpenValveMessage(int number);
+	String createDeviceOffMessage(int deviceNumber);
 
 	/**
-	 * Returns a message for closing a special valve.
+	 * Returns a message for sending an OFF signal to a device
 	 */
-	// TODO brenner: String createCloseValveMessage(int number);
+	String createDeviceOnMessage(int deviceNumber);
 
 	/**
 	 * Returns a message to retrieve the current device configurations

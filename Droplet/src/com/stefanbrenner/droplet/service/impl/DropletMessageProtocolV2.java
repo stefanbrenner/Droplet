@@ -55,6 +55,8 @@ public class DropletMessageProtocolV2 implements IDropletMessageProtocol {
 	public static final String COMMAND_INFO = "I"; //$NON-NLS-1$
 	public static final String COMMAND_RESET = "X"; //$NON-NLS-1$
 	public static final String COMMAND_CANCEL = "C"; //$NON-NLS-1$
+	public static final String COMMAND_HIGH = "H"; //$NON-NLS-1$
+	public static final String COMMAND_LOW = "L"; //$NON-NLS-1$
 
 	// devices
 	public static final String DEVICE_VALVE = "V"; //$NON-NLS-1$
@@ -146,6 +148,16 @@ public class DropletMessageProtocolV2 implements IDropletMessageProtocol {
 	@Override
 	public String createCancelMessage() {
 		return COMMAND_CANCEL;
+	}
+
+	@Override
+	public String createDeviceOffMessage(int deviceNumber) {
+		return COMMAND_LOW + FIELD_SEPARATOR + deviceNumber;
+	}
+
+	@Override
+	public String createDeviceOnMessage(int deviceNumber) {
+		return COMMAND_HIGH + FIELD_SEPARATOR + deviceNumber;
 	}
 
 }

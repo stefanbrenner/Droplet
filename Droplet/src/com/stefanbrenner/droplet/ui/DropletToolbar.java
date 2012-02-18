@@ -34,6 +34,7 @@ import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.actions.CancelAction;
+import com.stefanbrenner.droplet.ui.actions.ControlDevcieAction;
 import com.stefanbrenner.droplet.ui.actions.SendAction;
 import com.stefanbrenner.droplet.ui.actions.ShowAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
@@ -44,7 +45,9 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * 
  * @author Stefan Brenner
  */
-// TODO brenner: use JToolBar?
+// TODO brenner: use JToolBar? and make alwaysontop to be able to control
+// droplet
+// at any time
 public class DropletToolbar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -63,6 +66,10 @@ public class DropletToolbar extends JPanel {
 		this.dropletContext = dropletContext;
 
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+		// show button
+		JButton btnDirect = new JButton(new ControlDevcieAction(frame, dropletContext));
+		add(btnDirect);
 
 		// show button
 		JButton btnShow = new JButton(new ShowAction(frame, dropletContext));

@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1b
-Date:		2012/02/14
+Date:		2012/02/18
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -20,12 +20,13 @@ Release 0.1b
 ================================================================================
 * Implement Basic UI with the following functionality:
 	- Open/Close Valves for water release	
+* make devices moveable
+  or map device numbers to pins on MC, make configurable
+  
 * Test on Windows and/or Linux especially RxTx
 * build bundles
-* correct dsc-protocol.txt
-* make devices moveable
-* map device numbers to pins on MC, make configurable
 
+* correct dsc-protocol.txt
 * Draw Arduino Layout in Fritzing
 * Simple Logging of photo number combined with the current configuration
 * Logging of exceptions/errors/informations/...

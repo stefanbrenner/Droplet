@@ -20,30 +20,35 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.KeyStroke;
 
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDropletContext;
-import com.stefanbrenner.droplet.ui.AddDeviceDialog;
+import com.stefanbrenner.droplet.model.internal.Configuration;
+import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class AddDeviceAction extends AbstractDropletAction {
+public class DeviceOffAction extends AbstractSerialAction {
 
-	public AddDeviceAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, Messages.getString("AddDeviceAction.title")); //$NON-NLS-1$
+	private final IDevice device;
 
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+	public DeviceOffAction(JFrame frame, IDropletContext dropletContext, IDevice device) {
+		super(frame, dropletContext, Messages.getString("DeviceOffAction.title")); //$NON-NLS-1$
+		this.device = device;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		JDialog dialog = new AddDeviceDialog(getFrame(), getDropletContext());
-		dialog.setVisible(true);
+		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
+		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
+
+		String message = messageProtocolProvider.createDeviceOffMessage(getDroplet().getDevices().indexOf(device) + 1);
+		serialCommProvider.sendData(message);
 	}
+
 }

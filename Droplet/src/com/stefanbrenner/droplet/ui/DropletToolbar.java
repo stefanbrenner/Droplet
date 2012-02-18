@@ -20,6 +20,8 @@
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.FlowLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,16 +38,29 @@ import com.stefanbrenner.droplet.ui.actions.SendAction;
 import com.stefanbrenner.droplet.ui.actions.ShowAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.ui.components.MouseWheelSpinner;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
-// TODO brenner: use JToolBar
+/**
+ * 
+ * @author Stefan Brenner
+ */
+// TODO brenner: use JToolBar?
 public class DropletToolbar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private final IDropletContext dropletContext;
+
+	// ui components
+	private final JSpinner spRoundDelay;
+	private final JSpinner spRounds;
+
 	/**
 	 * Create the panel.
 	 */
-	public DropletToolbar(JFrame frame, IDropletContext dropletContext) {
+	public DropletToolbar(final JFrame frame, final IDropletContext dropletContext) {
+
+		this.dropletContext = dropletContext;
 
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
 
@@ -61,18 +76,26 @@ public class DropletToolbar extends JPanel {
 
 		// rounds spinner
 		add(new JLabel(Messages.getString("DropletToolbar.rounds"))); //$NON-NLS-1$
-		JSpinner spRounds = new MouseWheelSpinner(true);
+		spRounds = new MouseWheelSpinner(true);
 		spRounds.setModel(SpinnerAdapterFactory.createNumberAdapter(adapter.getValueModel(IDroplet.PROPERTY_ROUNDS), 1,
 				1, 9999, 1));
 		((JSpinner.DefaultEditor) spRounds.getEditor()).getTextField().setColumns(4);
 		add(spRounds);
 
-		// rounds spinner
+		// round delay spinner
 		add(new JLabel(Messages.getString("DropletToolbar.delay"))); //$NON-NLS-1$
-		JSpinner spRoundDelay = new MouseWheelSpinner(true);
+		spRoundDelay = new MouseWheelSpinner(true);
 		spRoundDelay.setModel(SpinnerAdapterFactory.createNumberAdapter(
-				adapter.getValueModel(IDroplet.PROPERTY_ROUND_DELAY), 1000, 1, 999999, 1));
-		((JSpinner.DefaultEditor) spRoundDelay.getEditor()).getTextField().setColumns(6);
+				adapter.getValueModel(IDroplet.PROPERTY_ROUND_DELAY), 1000, 0, 99999999, 1));
+		((JSpinner.DefaultEditor) spRoundDelay.getEditor()).getTextField().setColumns(8);
+		spRoundDelay.setEnabled(dropletContext.getDroplet().getRounds() > 1);
+		updateTooltip();
+		adapter.addBeanPropertyChangeListener(IDroplet.PROPERTY_ROUND_DELAY, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				updateTooltip();
+			}
+		});
 		add(spRoundDelay);
 
 		// start button
@@ -83,6 +106,18 @@ public class DropletToolbar extends JPanel {
 		JButton btnCancel = new JButton(new CancelAction(frame, dropletContext));
 		add(btnCancel);
 
+		dropletContext.getDroplet().addPropertyChangeListener(IDroplet.PROPERTY_ROUNDS, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				spRoundDelay.setEnabled(dropletContext.getDroplet().getRounds() > 1);
+			}
+		});
+
+	}
+
+	private void updateTooltip() {
+		Integer roundDelay = dropletContext.getDroplet().getRoundDelay();
+		spRoundDelay.setToolTipText(UiUtils.formatMillis(roundDelay));
 	}
 
 }

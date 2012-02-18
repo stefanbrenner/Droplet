@@ -167,7 +167,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void setRounds(Integer rounds) {
-		this.rounds = rounds;
+		firePropertyChange(PROPERTY_ROUNDS, this.rounds, this.rounds = rounds);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 
 	@Override
 	public void setRoundDelay(Integer roundDelay) {
-		this.roundDelay = roundDelay;
+		firePropertyChange(PROPERTY_ROUND_DELAY, this.roundDelay, this.roundDelay = roundDelay);
 	}
 
 }

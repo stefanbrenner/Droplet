@@ -41,6 +41,25 @@ import org.junit.Test;
 public class UiUtilsTest {
 
 	@Test
+	public void testFormatMillis() {
+		assertEquals("0h 0min 1sec 0ms", UiUtils.formatMillis(1000));
+		assertEquals("0h 0min 1sec 1ms", UiUtils.formatMillis(1001));
+		assertEquals("0h 0min 1sec 999ms", UiUtils.formatMillis(1999));
+		assertEquals("0h 0min 59sec 999ms", UiUtils.formatMillis(59999));
+
+		assertEquals("0h 1min 0sec 0ms", UiUtils.formatMillis(60000));
+		assertEquals("0h 1min 0sec 1ms", UiUtils.formatMillis(60001));
+		assertEquals("0h 1min 1sec 1ms", UiUtils.formatMillis(61001));
+		assertEquals("0h 1min 59sec 999ms", UiUtils.formatMillis(119999));
+		assertEquals("0h 59min 59sec 999ms", UiUtils.formatMillis(3599999));
+
+		assertEquals("1h 0min 0sec 0ms", UiUtils.formatMillis(3600000));
+		assertEquals("1h 1min 1sec 1ms", UiUtils.formatMillis(3661001));
+		assertEquals("1h 59min 59sec 999ms", UiUtils.formatMillis(7199999));
+		assertEquals("24h 59min 59sec 999ms", UiUtils.formatMillis(89999999));
+	}
+
+	@Test
 	public void testSetEnabledRecursive() {
 		JPanel testPanel = new JPanel();
 

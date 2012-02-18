@@ -24,6 +24,7 @@ import java.awt.GridBagConstraints;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
@@ -35,6 +36,20 @@ import javax.swing.text.JTextComponent;
  * @author Stefan Brenner
  */
 public class UiUtils {
+
+	/**
+	 * Returns a string representing the time in millis in the format h min sec
+	 * ms.
+	 */
+	public static String formatMillis(long millis) {
+
+		long hours = TimeUnit.MILLISECONDS.toHours(millis);
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % 60;
+		long _millis = millis % 1000;
+
+		return String.format("%dh %dmin %dsec %dms", hours, minutes, seconds, _millis);
+	}
 
 	public static int getMnemonic(String key) {
 		return KeyStroke.getKeyStroke(key).getKeyCode();

@@ -37,6 +37,7 @@ Release 0.1b
 ================================================================================
  I D E A S
 ================================================================================
+* Create own Spinner for easier round delay input
 * Drag&Drop Device Panels and Actions
 * Add colored logging messages
 * Make logging level editable
@@ -78,7 +79,8 @@ NEW FEATURES:
 * Setup 0..n Devices
 * Actions: Offset Action, Duration Action
 * Define 0..n Actions per Device
-* Start one Cycle
+* Start 1..9999 cycles with defined delay 0..99999999 (ms) (ca.27,7h)
+* Cancel cycle execution
 * Begin New Droplet Setup
 * Open/Save Droplet Setup
 * Load as Template

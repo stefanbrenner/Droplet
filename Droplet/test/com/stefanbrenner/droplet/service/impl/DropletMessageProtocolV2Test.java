@@ -156,4 +156,51 @@ public class DropletMessageProtocolV2Test {
 
 	}
 
+	@Test
+	public void testCreateOnMessage() {
+		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+
+		IDroplet droplet = new Droplet();
+
+		// devices
+		IValve valve1 = new Valve();
+		IValve valve2 = new Valve();
+		IFlash flash1 = new Flash();
+		ICamera camera1 = new Camera();
+
+		droplet.addDevice(valve1);
+		droplet.addDevice(valve2);
+		droplet.addDevice(flash1);
+		droplet.addDevice(camera1);
+
+		assertEquals("H;1", protocol.createDeviceOnMessage(droplet, valve1));
+		assertEquals("H;2", protocol.createDeviceOnMessage(droplet, valve2));
+		assertEquals("H;3", protocol.createDeviceOnMessage(droplet, flash1));
+		assertEquals("H;4", protocol.createDeviceOnMessage(droplet, camera1));
+
+	}
+
+	@Test
+	public void testCreateOffMessage() {
+		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+
+		IDroplet droplet = new Droplet();
+
+		// devices
+		IValve valve1 = new Valve();
+		IValve valve2 = new Valve();
+		IFlash flash1 = new Flash();
+		ICamera camera1 = new Camera();
+
+		droplet.addDevice(valve1);
+		droplet.addDevice(valve2);
+		droplet.addDevice(flash1);
+		droplet.addDevice(camera1);
+
+		assertEquals("L;1", protocol.createDeviceOffMessage(droplet, valve1));
+		assertEquals("L;2", protocol.createDeviceOffMessage(droplet, valve2));
+		assertEquals("L;3", protocol.createDeviceOffMessage(droplet, flash1));
+		assertEquals("L;4", protocol.createDeviceOffMessage(droplet, camera1));
+	}
+
 }

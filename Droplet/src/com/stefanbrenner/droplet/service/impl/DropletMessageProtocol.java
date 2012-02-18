@@ -161,12 +161,12 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	}
 
 	@Override
-	public String createDeviceOffMessage(int deviceNumber) {
+	public String createDeviceOffMessage(IDroplet droplet, IDevice device) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
-	public String createDeviceOnMessage(int deviceNumber) {
+	public String createDeviceOnMessage(IDroplet droplet, IDevice device) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

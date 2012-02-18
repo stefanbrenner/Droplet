@@ -27,6 +27,7 @@ import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.internal.Camera;
@@ -151,12 +152,14 @@ public class DropletMessageProtocolV2 implements IDropletMessageProtocol {
 	}
 
 	@Override
-	public String createDeviceOffMessage(int deviceNumber) {
+	public String createDeviceOffMessage(IDroplet droplet, IDevice device) {
+		int deviceNumber = droplet.getDevices().indexOf(device) + 1;
 		return COMMAND_LOW + FIELD_SEPARATOR + deviceNumber;
 	}
 
 	@Override
-	public String createDeviceOnMessage(int deviceNumber) {
+	public String createDeviceOnMessage(IDroplet droplet, IDevice device) {
+		int deviceNumber = droplet.getDevices().indexOf(device) + 1;
 		return COMMAND_HIGH + FIELD_SEPARATOR + deviceNumber;
 	}
 

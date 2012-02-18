@@ -47,7 +47,7 @@ public class DeviceOnAction extends AbstractSerialAction {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 
-		String message = messageProtocolProvider.createDeviceOnMessage(getDroplet().getDevices().indexOf(device) + 1);
+		String message = messageProtocolProvider.createDeviceOnMessage(getDroplet(), device);
 		serialCommProvider.sendData(message);
 	}
 

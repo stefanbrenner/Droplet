@@ -19,6 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.service;
 
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 
 /**
@@ -60,12 +61,12 @@ public interface IDropletMessageProtocol {
 	/**
 	 * Returns a message for sending an ON signal to a device
 	 */
-	String createDeviceOffMessage(int deviceNumber);
+	String createDeviceOffMessage(IDroplet droplet, IDevice device);
 
 	/**
 	 * Returns a message for sending an OFF signal to a device
 	 */
-	String createDeviceOnMessage(int deviceNumber);
+	String createDeviceOnMessage(IDroplet droplet, IDevice device);
 
 	/**
 	 * Returns a message to retrieve the current device configurations

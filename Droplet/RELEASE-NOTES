@@ -18,8 +18,6 @@ Release 0.1b
 ================================================================================
  T O D O S
 ================================================================================
-* Implement Basic UI with the following functionality:
-	- Open/Close Valves for water release	
 * make devices moveable
   or map device numbers to pins on MC, make configurable
   
@@ -82,6 +80,7 @@ NEW FEATURES:
 * Define 0..n Actions per Device
 * Start 1..9999 cycles with defined delay 0..99999999 (ms) (ca.27,7h)
 * Cancel cycle execution
+* Direct device control: send ON/OFF signal to devices (i.e. for cleaning valves)
 * Begin New Droplet Setup
 * Open/Save Droplet Setup
 * Load as Template

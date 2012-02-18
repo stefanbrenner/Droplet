@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.ICamera;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.IValve;
@@ -100,12 +101,12 @@ public class SimpleMessageProtocol implements IDropletMessageProtocol {
 	}
 
 	@Override
-	public String createDeviceOffMessage(int deviceNumber) {
+	public String createDeviceOffMessage(IDroplet droplet, IDevice device) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
-	public String createDeviceOnMessage(int deviceNumber) {
+	public String createDeviceOnMessage(IDroplet droplet, IDevice device) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

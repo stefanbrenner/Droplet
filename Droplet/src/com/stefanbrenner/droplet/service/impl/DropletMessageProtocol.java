@@ -21,7 +21,6 @@ package com.stefanbrenner.droplet.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
@@ -47,13 +46,18 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 	// meta characters
 	public static final String FIELD_SEPARATOR = ";"; //$NON-NLS-1$
-	public static final String DEVICE_SEPARATOR = "^"; //$NON-NLS-1$
+	public static final String CHKSUM_SEPARATOR = "^"; //$NON-NLS-1$
 	public static final String TIME_SEPARATOR = "|"; //$NON-NLS-1$
+	public static final String DEVICE_SEPARATOR = "\n"; //$NON-NLS-1$
 
 	// commands
 	public static final String COMMAND_RELEASE = "R"; //$NON-NLS-1$
 	public static final String COMMAND_SEND = "S"; //$NON-NLS-1$
 	public static final String COMMAND_INFO = "I"; //$NON-NLS-1$
+	public static final String COMMAND_RESET = "X"; //$NON-NLS-1$
+	public static final String COMMAND_CANCEL = "C"; //$NON-NLS-1$
+	public static final String COMMAND_HIGH = "H"; //$NON-NLS-1$
+	public static final String COMMAND_LOW = "L"; //$NON-NLS-1$
 
 	// devices
 	public static final String DEVICE_VALVE = "V"; //$NON-NLS-1$
@@ -83,9 +87,14 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	public String createStartMessage(int rounds, int delay) {
 		String result = COMMAND_RELEASE + FIELD_SEPARATOR + rounds;
 
+		int chksum = rounds;
+
 		if (rounds > 1 && delay > 0) {
+			chksum += delay;
 			result += FIELD_SEPARATOR + delay;
 		}
+
+		result += CHKSUM_SEPARATOR + chksum;
 
 		return result;
 	}
@@ -93,36 +102,11 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	@Override
 	public String createSetMessage(IDroplet droplet) {
 
-		String result = COMMAND_SEND;
-
-		String devices = marshalDevices(droplet);
-		if (StringUtils.isNotBlank(devices)) {
-			result += FIELD_SEPARATOR + devices;
-		}
-
-		return result;
-	}
-
-	private String marshalDevices(IDroplet droplet) {
 		String result = StringUtils.EMPTY;
-		Map<Class<? extends IDevice>, Integer> counters = new HashMap<Class<? extends IDevice>, Integer>();
 
 		for (IActionDevice d : droplet.getDevices(IActionDevice.class)) {
 
 			Class<? extends IActionDevice> deviceClass = d.getClass();
-
-			// get counter for device
-			Integer counter = counters.get(deviceClass);
-
-			// add counter for new device
-			if (counter == null) {
-				counter = 0;
-
-			}
-
-			// update counter
-			counter++;
-			counters.put(deviceClass, counter);
 
 			// don't add device with no actions defined
 			List<IAction> enabledActions = d.getEnabledActions();
@@ -130,16 +114,23 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 				continue;
 			}
 
-			result += DEVICE_SHORTS.get(deviceClass) + counter;
+			result += COMMAND_SEND + FIELD_SEPARATOR;
 
+			// get absolute position
+			result += (droplet.getDevices(IActionDevice.class).indexOf(d) + 1) + FIELD_SEPARATOR;
+
+			result += DEVICE_SHORTS.get(deviceClass);
+
+			int chksum = 0;
 			for (IAction a : enabledActions) {
+				chksum += a.getOffset();
 				result += FIELD_SEPARATOR + a.getOffset();
 				if (a instanceof IDurationAction) {
+					chksum += ((IDurationAction) a).getDuration();
 					result += TIME_SEPARATOR + ((IDurationAction) a).getDuration();
 				}
 			}
-
-			result += DEVICE_SEPARATOR;
+			result += CHKSUM_SEPARATOR + chksum + DEVICE_SEPARATOR;
 		}
 
 		return result;
@@ -152,22 +143,24 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 	@Override
 	public String createResetMessage() {
-		throw new UnsupportedOperationException("Not implemented");
+		return COMMAND_RESET;
 	}
 
 	@Override
 	public String createCancelMessage() {
-		throw new UnsupportedOperationException("Not implemented");
+		return COMMAND_CANCEL;
 	}
 
 	@Override
 	public String createDeviceOffMessage(IDroplet droplet, IDevice device) {
-		throw new UnsupportedOperationException("Not implemented");
+		int deviceNumber = droplet.getDevices().indexOf(device) + 1;
+		return COMMAND_LOW + FIELD_SEPARATOR + deviceNumber;
 	}
 
 	@Override
 	public String createDeviceOnMessage(IDroplet droplet, IDevice device) {
-		throw new UnsupportedOperationException("Not implemented");
+		int deviceNumber = droplet.getDevices().indexOf(device) + 1;
+		return COMMAND_HIGH + FIELD_SEPARATOR + deviceNumber;
 	}
 
 }

@@ -43,7 +43,7 @@ public class DropletMessageProtocolV2Test {
 
 	@Test
 	public void testCreateStartMessage() {
-		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 		assertEquals("R;1^1", protocol.createStartMessage());
 		assertEquals("R;1^1", protocol.createStartMessage(1, 0));
 		assertEquals("R;1^1", protocol.createStartMessage(1, 250));
@@ -53,19 +53,19 @@ public class DropletMessageProtocolV2Test {
 
 	@Test
 	public void testCreateInfoMessage() {
-		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 		assertEquals("I", protocol.createInfoMessage());
 	}
 
 	@Test
 	public void testCreateResetMessage() {
-		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 		assertEquals("X", protocol.createResetMessage());
 	}
 
 	@Test
 	public void testCreateSetMessage() {
-		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 
 		IDroplet droplet = new Droplet();
 
@@ -158,7 +158,7 @@ public class DropletMessageProtocolV2Test {
 
 	@Test
 	public void testCreateOnMessage() {
-		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 
 		IDroplet droplet = new Droplet();
 
@@ -182,7 +182,7 @@ public class DropletMessageProtocolV2Test {
 
 	@Test
 	public void testCreateOffMessage() {
-		IDropletMessageProtocol protocol = new DropletMessageProtocolV2();
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 
 		IDroplet droplet = new Droplet();
 

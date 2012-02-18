@@ -20,7 +20,6 @@
 package com.stefanbrenner.droplet.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDevice;
@@ -34,7 +33,7 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
  * 
  * @author Stefan Brenner
  */
-@ProviderFor(IDropletMessageProtocol.class)
+// @ProviderFor(IDropletMessageProtocol.class)
 public class SimpleMessageProtocol implements IDropletMessageProtocol {
 
 	@Override

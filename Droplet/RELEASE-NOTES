@@ -20,8 +20,6 @@ Release 0.1b
 ================================================================================
 * make devices moveable
   or map device numbers to pins on MC, make configurable
-  
-* Test on Windows and/or Linux especially RxTx
 * build bundles
 
 * correct dsc-protocol.txt
@@ -31,6 +29,7 @@ Release 0.1b
 * Add Tests to the most important services and util methods
 * Fix UI Layout Issues
 * Analyse Heap Dump with lots of devices and actions
+* Test on Linux especially RxTx
 
 
 ================================================================================
@@ -97,6 +96,7 @@ NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX
 * A maximum of 11 Actions per Device can be used with the arduino
 * The maximum amount of devices and actions depends on the amount of memory of the arduino
+* Tested on Windows 7 and Mac OSX 10.6.8
 
 
 CHANGES:

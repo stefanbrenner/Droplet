@@ -40,13 +40,19 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.apple.mrj.MRJAboutHandler;
+import com.apple.mrj.MRJApplicationUtils;
+import com.apple.mrj.MRJPrefsHandler;
+import com.apple.mrj.MRJQuitHandler;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.model.internal.DropletContext;
+import com.stefanbrenner.droplet.ui.actions.ExitAction;
+import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 
-public class DropletMainFrame extends JFrame {
+public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuitHandler, MRJPrefsHandler {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,6 +67,8 @@ public class DropletMainFrame extends JFrame {
 	private final ProcessingPanel processingPanel;
 	private final LoggingPanel loggingPanel;
 	private final DropletToolbar toolbarPanel;
+
+	private static boolean macOS = System.getProperty("mrj.version") != null;
 
 	/**
 	 * Launch the application.
@@ -193,6 +201,13 @@ public class DropletMainFrame extends JFrame {
 			}
 		}
 
+		// register handlers for mac events
+		MRJApplicationUtils.registerAboutHandler(this);
+		MRJApplicationUtils.registerQuitHandler(this);
+		if (macOS) {
+			MRJApplicationUtils.registerPrefsHandler(this);
+		}
+
 		// finishing frame settings
 		// make frame as small as possible
 		// pack();
@@ -207,4 +222,20 @@ public class DropletMainFrame extends JFrame {
 		dropletContext.addLoggingMessage("Welcome to Droplet!");
 
 	}
+
+	@Override
+	public void handlePrefs() throws IllegalStateException {
+		new PreferencesAction(this, dropletContext).actionPerformed(null);
+	}
+
+	@Override
+	public void handleQuit() {
+		new ExitAction(this, dropletContext).actionPerformed(null);
+	}
+
+	@Override
+	public void handleAbout() {
+		new AboutDialog(this).setVisible(true);
+	}
+
 }

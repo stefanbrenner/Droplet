@@ -51,6 +51,7 @@ import com.stefanbrenner.droplet.ui.actions.ExitAction;
 import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.utils.DropletFonts;
+import com.stefanbrenner.droplet.utils.UiUtils;
 
 public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuitHandler, MRJPrefsHandler {
 
@@ -67,8 +68,6 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 	private final ProcessingPanel processingPanel;
 	private final LoggingPanel loggingPanel;
 	private final DropletToolbar toolbarPanel;
-
-	private static boolean macOS = System.getProperty("mrj.version") != null;
 
 	/**
 	 * Launch the application.
@@ -202,9 +201,9 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		}
 
 		// register handlers for mac events
-		MRJApplicationUtils.registerAboutHandler(this);
-		MRJApplicationUtils.registerQuitHandler(this);
-		if (macOS) {
+		if (UiUtils.isMacOS()) {
+			MRJApplicationUtils.registerAboutHandler(this);
+			MRJApplicationUtils.registerQuitHandler(this);
 			MRJApplicationUtils.registerPrefsHandler(this);
 		}
 

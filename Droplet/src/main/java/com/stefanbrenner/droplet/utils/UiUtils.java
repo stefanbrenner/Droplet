@@ -37,6 +37,12 @@ import javax.swing.text.JTextComponent;
  */
 public class UiUtils {
 
+	private static boolean macOS = System.getProperty("mrj.version") != null;
+
+	public static boolean isMacOS() {
+		return macOS;
+	}
+
 	/**
 	 * Returns a string representing the time in millis in the format h min sec
 	 * ms.

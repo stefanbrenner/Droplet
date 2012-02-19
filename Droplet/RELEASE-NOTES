@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1b
-Date:		2012/02/18
+Date:		2012/02/19
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -34,6 +34,7 @@ Release 0.1b
 ================================================================================
  I D E A S
 ================================================================================
+* use ant for build process (jarbuilder)
 * direct device control: send OFF to all that are ON when closing
 * make devices moveable
   or map device numbers to pins on MC, make configurable

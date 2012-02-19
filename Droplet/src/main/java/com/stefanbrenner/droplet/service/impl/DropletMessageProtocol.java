@@ -117,7 +117,9 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 			result += COMMAND_SEND + FIELD_SEPARATOR;
 
 			// get absolute position
-			result += (droplet.getDevices(IActionDevice.class).indexOf(d) + 1) + FIELD_SEPARATOR;
+			// result += (droplet.getDevices(IActionDevice.class).indexOf(d) +
+			// 1) + FIELD_SEPARATOR;
+			result += d.getNumber() + FIELD_SEPARATOR;
 
 			result += DEVICE_SHORTS.get(deviceClass);
 
@@ -153,14 +155,14 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 	@Override
 	public String createDeviceOffMessage(IDroplet droplet, IDevice device) {
-		int deviceNumber = droplet.getDevices().indexOf(device) + 1;
-		return COMMAND_LOW + FIELD_SEPARATOR + deviceNumber;
+		// int deviceNumber = droplet.getDevices().indexOf(device) + 1;
+		return COMMAND_LOW + FIELD_SEPARATOR + device.getNumber();
 	}
 
 	@Override
 	public String createDeviceOnMessage(IDroplet droplet, IDevice device) {
-		int deviceNumber = droplet.getDevices().indexOf(device) + 1;
-		return COMMAND_HIGH + FIELD_SEPARATOR + deviceNumber;
+		// int deviceNumber = droplet.getDevices().indexOf(device) + 1;
+		return COMMAND_HIGH + FIELD_SEPARATOR + device.getNumber();
 	}
 
 }

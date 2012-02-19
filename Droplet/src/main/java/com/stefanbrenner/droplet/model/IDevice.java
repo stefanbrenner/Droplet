@@ -21,9 +21,15 @@ package com.stefanbrenner.droplet.model;
 
 public interface IDevice extends INotificationSupport {
 
+	public static final String PROPERTY_NUMBER = "number"; //$NON-NLS-1$
+
 	public static final String PROPERTY_NAME = "name"; //$NON-NLS-1$
 
 	public static final String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
+
+	String getNumber();
+
+	void setNumber(String number);
 
 	String getName();
 

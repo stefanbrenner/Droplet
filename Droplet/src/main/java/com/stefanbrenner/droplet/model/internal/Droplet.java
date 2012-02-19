@@ -71,18 +71,18 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 			IValve valve = new Valve();
 			valve.setName("Valve " + (i + 1));
 			valve.addAction(valve.createNewAction());
-			devices.add(valve);
+			addDevice(valve);
 		}
 		// add one flash
 		Flash flash = new Flash();
 		flash.setName("Flash");
 		flash.addAction(flash.createNewAction());
-		devices.add(flash);
+		addDevice(flash);
 		// add one camera
 		Camera camera = new Camera();
 		camera.setName("Camera");
 		camera.addAction(camera.createNewAction());
-		devices.add(camera);
+		addDevice(camera);
 	}
 
 	@Override
@@ -117,6 +117,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	public void addDevice(IDevice device) {
 		List<IDevice> oldValue = devices;
 		devices = new ArrayList<IDevice>(this.devices);
+		device.setNumber(String.valueOf(devices.size() + 1));
 		devices.add(device);
 		firePropertyChange(ASSOCIATION_DEVICES, oldValue, devices);
 	}

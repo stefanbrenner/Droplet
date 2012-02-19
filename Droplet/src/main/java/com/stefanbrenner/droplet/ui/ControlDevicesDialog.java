@@ -29,7 +29,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import com.jgoodies.binding.adapter.BasicComponentFactory;
+import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.actions.DeviceOffAction;
@@ -68,6 +71,7 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 
 	class DevicePanel extends JPanel {
 
+		private final JTextField txtDeviceNumber;
 		private final JLabel lbDeviceName;
 		private final JButton btnHigh;
 		private final JButton btnLow;
@@ -81,18 +85,26 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 			GridBagConstraints gbc = UiUtils.createGridBagConstraints(0, 0, 1, 0);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 
+			BeanAdapter<IDevice> adapter = new BeanAdapter<IDevice>(device, true);
+
+			txtDeviceNumber = BasicComponentFactory.createTextField(adapter.getValueModel(IDevice.PROPERTY_NUMBER));
+			txtDeviceNumber.setColumns(3);
+			txtDeviceNumber.setHorizontalAlignment(JTextField.CENTER);
+			add(txtDeviceNumber, gbc);
+
 			lbDeviceName = new JLabel(device.getName());
 			lbDeviceName.setPreferredSize(new Dimension(200, 30));
+			UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
 			add(lbDeviceName, gbc);
 
 			btnHigh = new JButton(new DeviceOnAction(frame, getDropletContext(), device));
-			UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
+			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
 			add(btnHigh, gbc);
 
 			// TODO brenner: add input for offset and duration
 
 			btnLow = new JButton(new DeviceOffAction(frame, getDropletContext(), device));
-			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
+			UiUtils.editGridBagConstraints(gbc, 3, 0, 0, 0);
 			add(btnLow, gbc);
 
 		}

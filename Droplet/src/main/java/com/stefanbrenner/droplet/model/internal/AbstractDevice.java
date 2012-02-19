@@ -35,11 +35,24 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlAttribute(name = "Number")
+	private String number = StringUtils.EMPTY;
+
 	@XmlAttribute(name = "Name")
 	private String name = StringUtils.EMPTY;
 
 	@XmlElement(name = "Description")
 	private String description = StringUtils.EMPTY;
+
+	@Override
+	public String getNumber() {
+		return number;
+	}
+
+	@Override
+	public void setNumber(String number) {
+		firePropertyChange(PROPERTY_NUMBER, this.number, this.number = number);
+	}
 
 	@Override
 	public String getName() {

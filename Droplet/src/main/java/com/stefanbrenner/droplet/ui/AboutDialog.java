@@ -71,7 +71,7 @@ public class AboutDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					open(new URI("http://www.stefanbrenner.com")); //$NON-NLS-1$
+					open(new URI("http://www.droplet.at")); //$NON-NLS-1$
 				} catch (URISyntaxException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1b
-Date:		2012/02/18
+Date:		2012/02/19
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -18,8 +18,6 @@ Release 0.1b
 ================================================================================
  T O D O S
 ================================================================================
-* make devices moveable
-  or map device numbers to pins on MC, make configurable
 * build bundles
 
 * correct dsc-protocol.txt
@@ -30,11 +28,16 @@ Release 0.1b
 * Fix UI Layout Issues
 * Analyse Heap Dump with lots of devices and actions
 * Test on Linux especially RxTx
+* Exception handling for RxTx
 
 
 ================================================================================
  I D E A S
 ================================================================================
+* use ant for build process (jarbuilder)
+* direct device control: send OFF to all that are ON when closing
+* make devices moveable
+  or map device numbers to pins on MC, make configurable
 * Create own Spinner for easier round delay input
 * Drag&Drop Device Panels and Actions
 * Add colored logging messages
@@ -94,6 +97,8 @@ NEW FEATURES:
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX
+* had to use librxtxSerial.jnilib from http://blog.iharder.net/2009/08/18/rxtx-java-6-and-librxtxserial-jnilib-on-intel-mac-os-x/
+  due to problems with 32/64bit on mac
 * A maximum of 11 Actions per Device can be used with the arduino
 * The maximum amount of devices and actions depends on the amount of memory of the arduino
 * Tested on Windows 7 and Mac OSX 10.6.8

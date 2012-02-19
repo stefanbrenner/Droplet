@@ -46,4 +46,5 @@ public class AddDeviceAction extends AbstractDropletAction {
 		JDialog dialog = new AddDeviceDialog(getFrame(), getDropletContext());
 		dialog.setVisible(true);
 	}
+
 }

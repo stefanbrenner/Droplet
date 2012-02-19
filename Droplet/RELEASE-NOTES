@@ -18,8 +18,6 @@ Release 0.1b
 ================================================================================
  T O D O S
 ================================================================================
-* make devices moveable
-  or map device numbers to pins on MC, make configurable
 * build bundles
 
 * correct dsc-protocol.txt
@@ -35,6 +33,9 @@ Release 0.1b
 ================================================================================
  I D E A S
 ================================================================================
+* direct device control: send OFF to all that are ON when closing
+* make devices moveable
+  or map device numbers to pins on MC, make configurable
 * Create own Spinner for easier round delay input
 * Drag&Drop Device Panels and Actions
 * Add colored logging messages

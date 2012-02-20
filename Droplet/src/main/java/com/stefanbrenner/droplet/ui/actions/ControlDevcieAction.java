@@ -34,7 +34,7 @@ import com.stefanbrenner.droplet.ui.ControlDevicesDialog;
 public class ControlDevcieAction extends AbstractDropletAction {
 
 	public ControlDevcieAction(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Control Devices");
+		super(frame, dropletContext, Messages.getString("ControlDevcieAction.controlDevices")); //$NON-NLS-1$
 	}
 
 	@Override

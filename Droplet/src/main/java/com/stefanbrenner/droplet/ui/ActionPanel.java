@@ -77,6 +77,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		// enabled checkbox
 		cbEnable = BasicComponentFactory.createCheckBox(adapter.getValueModel(IAction.PROPERTY_ENABLED),
 				StringUtils.EMPTY);
+		cbEnable.setToolTipText(Messages.getString("ActionPanel.enableAction.tooltip")); //$NON-NLS-1$
 		cbEnable.setFocusable(false);
 		UiUtils.editGridBagConstraints(gbc, 0, 0, 0, 0);
 		add(cbEnable, gbc);
@@ -109,6 +110,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 				remove();
 			}
 		});
+		btnRemove.setToolTipText(Messages.getString("ActionPanel.removeAction.tooltip")); //$NON-NLS-1$
 		btnRemove.setFocusable(false);
 		UiUtils.editGridBagConstraints(gbc, 3, 0, 0, 0);
 		add(btnRemove, gbc);

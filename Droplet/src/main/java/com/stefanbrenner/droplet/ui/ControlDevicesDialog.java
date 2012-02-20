@@ -51,7 +51,7 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 public class ControlDevicesDialog extends AbstractDropletDialog {
 
 	public ControlDevicesDialog(JFrame frame, IDropletContext dropletContext) {
-		super(frame, dropletContext, "Direct Device Control");
+		super(frame, dropletContext, Messages.getString("ControlDevicesDialog.deviceControl")); //$NON-NLS-1$
 
 		setLayout(new GridLayout(0, 1));
 		setModal(true);

@@ -34,6 +34,7 @@ Release 0.1b
 ================================================================================
  I D E A S
 ================================================================================
+* Internationalize Messages from Arduino
 * use ant for build process (jarbuilder)
 * direct device control: send OFF to all that are ON when closing
 * make devices moveable

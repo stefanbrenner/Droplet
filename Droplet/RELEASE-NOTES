@@ -38,12 +38,10 @@ Release 0.1b
 * use ant for build process (jarbuilder)
 * direct device control: send OFF to all that are ON when closing
 * make devices moveable
-  or map device numbers to pins on MC, make configurable
 * Create own Spinner for easier round delay input
 * Drag&Drop Device Panels and Actions
 * Add colored logging messages
 * Make logging level editable
-* Split marshaling of device configs for memory performance on microcontrollers
 * Disable Serial Communication Actions if No Connection is established
 * Create Custom L&F with Synth or Nimbus
 * Only fire association changed event if object was added/removed?
@@ -71,7 +69,6 @@ Release 0.1b
 * Viscosity Factor:
 	o Factor that adapts the action times of devices
 * How to handle different raw formats in aspect of EXIF ???
-* Add Key Shortcuts for the main actions
 * Make language configurable
 
 

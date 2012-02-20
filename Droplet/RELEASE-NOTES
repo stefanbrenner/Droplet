@@ -97,8 +97,6 @@ NEW FEATURES:
 
 NOTES:
 * Had to use RXTX-2.1.7 due to compatibility problems on OSX
-* had to use librxtxSerial.jnilib from http://blog.iharder.net/2009/08/18/rxtx-java-6-and-librxtxserial-jnilib-on-intel-mac-os-x/
-  due to problems with 32/64bit on mac
 * A maximum of 11 Actions per Device can be used with the arduino
 * The maximum amount of devices and actions depends on the amount of memory of the arduino
 * Tested on Windows 7 and Mac OSX 10.6.8

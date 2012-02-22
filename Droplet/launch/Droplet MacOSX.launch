@@ -14,5 +14,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.stefanbrenner.droplet.ui.DropletMainFrame"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Droplet"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-d32 -Xmx256M -Djava.library.path=lib/macosx"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M -Djava.library.path=lib/macosx"/>
 </launchConfiguration>

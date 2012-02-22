@@ -20,11 +20,6 @@
   		<version>2.0.6</version>
   	</dependency>
   	<dependency>
-  		<groupId>org.rxtx</groupId>
-  		<artifactId>rxtx</artifactId>
-  		<version>2.1.7</version>
-  	</dependency>
-  	<dependency>
   		<groupId>mrj</groupId>
   		<artifactId>MRJToolkitStubs</artifactId>
   		<version>1.0</version>

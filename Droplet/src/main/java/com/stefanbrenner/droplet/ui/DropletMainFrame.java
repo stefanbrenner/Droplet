@@ -30,6 +30,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -130,8 +131,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		setTitle(Messages.getString("DropletMainFrame.title")); //$NON-NLS-1$
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		// TODO brenner: setIconImage(new
-		// ImageIcon("icons/icon.gif").getImage());
+		setIconImage(new ImageIcon("icons/droplet_icon_48x48.png").getImage());
 
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

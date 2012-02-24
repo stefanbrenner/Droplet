@@ -113,6 +113,7 @@ public class DropletToolbar extends JPanel {
 		JButton btnCancel = new JButton(new CancelAction(frame, dropletContext));
 		add(btnCancel);
 
+		// TODO brenner: droplet may change on load/save
 		dropletContext.getDroplet().addPropertyChangeListener(IDroplet.PROPERTY_ROUNDS, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {

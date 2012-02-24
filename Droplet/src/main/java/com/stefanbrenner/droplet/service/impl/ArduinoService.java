@@ -36,6 +36,8 @@ import java.util.TooManyListenersException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mangosdk.spi.ProviderFor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
@@ -50,6 +52,8 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  */
 @ProviderFor(ISerialCommunicationService.class)
 public class ArduinoService implements ISerialCommunicationService, SerialPortEventListener {
+
+	private static final Logger logger = LoggerFactory.getLogger(ArduinoService.class);
 
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
@@ -97,6 +101,9 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 		try {
 			connPortId = portId;
 			dropletContext = context;
+
+			logger.debug("Connect to port: " + portId.getName());
+
 			// try to open a connection to the serial port
 			connSerialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 
@@ -116,20 +123,18 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			// set connected flag
 			setConnected(true);
 
+			logger.info("Connection to port " + portId.getName() + " successful established");
+
 			return true;
 
 		} catch (PortInUseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error connecting to port {}", portId.getName(), e);
 		} catch (UnsupportedCommOperationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error connecting to port {}", portId.getName(), e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error connecting to port {}", portId.getName(), e);
 		} catch (TooManyListenersException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error connecting to port {}", portId.getName(), e);
 		}
 
 		setConnected(false);
@@ -140,15 +145,19 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	public synchronized void close() {
 		try {
 			if (connSerialPort != null) {
+
+				logger.debug("close connection to port {}", connSerialPort.getName());
+
 				connSerialPort.removeEventListener();
 				connSerialPort.close();
+
 				input.close();
 				output.close();
+
 				setConnected(false);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error closing connection to port {}", connSerialPort.getName(), e);
 		}
 	}
 
@@ -171,10 +180,12 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 
 				// add message to model
 				String message = new String(buffer, 0, len);
+
+				logger.debug("Received message: {}", message);
+
 				dropletContext.addLoggingMessage(message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Error receiving data", e);
 			}
 		}
 	}
@@ -187,6 +198,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 
 				// split message by newline
 				for (String msg : StringUtils.split(message, '\n')) {
+
+					logger.debug("send message: {}", msg);
 
 					// send byte by byte
 					for (byte b : msg.getBytes()) {
@@ -219,8 +232,7 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 				throw new RuntimeException("Not connected to a port!"); //$NON-NLS-1$
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error sending data", e);
 		}
 	}
 

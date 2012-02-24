@@ -18,7 +18,13 @@ Release 0.1b
 ================================================================================
  T O D O S
 ================================================================================
-* build bundles
+* droplet in context may change due to load
+* add logging
+* problems with data send and arduino uno
+
+* create sexy icons
+* build installers
+* use maven and/or ant for build process
 
 * correct dsc-protocol.txt
 * Draw Arduino Layout in Fritzing

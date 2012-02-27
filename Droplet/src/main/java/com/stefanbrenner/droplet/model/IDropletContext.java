@@ -36,6 +36,10 @@ public interface IDropletContext extends INotificationSupport {
 
 	public static final String PROPERTY_DROPLET = "droplet"; //$NON-NLS-1$
 
+	public static final String PROPERTY_ROUNDS = "rounds"; //$NON-NLS-1$
+
+	public static final String PROPERTY_ROUND_DELAY = "roundDelay"; //$NON-NLS-1$
+
 	public static final String PROPERTY_LOGGING = "loggingMessages"; //$NON-NLS-1$
 
 	/**
@@ -71,5 +75,13 @@ public interface IDropletContext extends INotificationSupport {
 	void setLastSetMessage(String lastSetMessage);
 
 	String getLastSetMessage();
+
+	Integer getRounds();
+
+	void setRounds(Integer rounds);
+
+	Integer getRoundDelay();
+
+	void setRoundDelay(Integer delay);
 
 }

@@ -44,17 +44,23 @@ public class DropletMessageProtocolTest {
 	@Test
 	public void testCreateStartMessage() {
 		IDropletMessageProtocol protocol = new DropletMessageProtocol();
-		assertEquals("R;1", protocol.createStartMessage());
-		assertEquals("R;1", protocol.createStartMessage(1, 0));
-		assertEquals("R;1", protocol.createStartMessage(1, 250));
-		assertEquals("R;5", protocol.createStartMessage(5, 0));
-		assertEquals("R;5;250", protocol.createStartMessage(5, 250));
+		assertEquals("R;1^1", protocol.createStartMessage());
+		assertEquals("R;1^1", protocol.createStartMessage(1, 0));
+		assertEquals("R;1^1", protocol.createStartMessage(1, 250));
+		assertEquals("R;5^5", protocol.createStartMessage(5, 0));
+		assertEquals("R;5;250^255", protocol.createStartMessage(5, 250));
 	}
 
 	@Test
 	public void testCreateInfoMessage() {
 		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 		assertEquals("I", protocol.createInfoMessage());
+	}
+
+	@Test
+	public void testCreateResetMessage() {
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
+		assertEquals("X", protocol.createResetMessage());
 	}
 
 	@Test
@@ -79,46 +85,47 @@ public class DropletMessageProtocolTest {
 		Action action5 = new Action();
 
 		// empty droplet
-		assertEquals("S", protocol.createSetMessage(droplet));
+		assertEquals("", protocol.createSetMessage(droplet));
 
 		droplet.addDevice(valve1);
 		droplet.addDevice(valve2);
 
 		// droplet with empty valves
-		assertEquals("S", protocol.createSetMessage(droplet));
+		assertEquals("", protocol.createSetMessage(droplet));
 
 		droplet.addDevice(flash1);
 		droplet.addDevice(flash2);
 
 		// droplet with empty flashes
-		assertEquals("S", protocol.createSetMessage(droplet));
+		assertEquals("", protocol.createSetMessage(droplet));
 
 		droplet.addDevice(camera1);
 		droplet.addDevice(camera2);
 
 		// droplet with empty cameras
-		assertEquals("S", protocol.createSetMessage(droplet));
+		assertEquals("", protocol.createSetMessage(droplet));
 
 		valve1.addAction(action1);
 		valve1.addAction(action2);
 		valve1.addAction(action3);
 
-		assertEquals("S;V1;0|0;0|0;0|0^", protocol.createSetMessage(droplet));
+		assertEquals("S;1;V;0|0;0|0;0|0^0\n", protocol.createSetMessage(droplet));
 
 		valve2.addAction(action3);
 		valve2.addAction(action2);
 
-		assertEquals("S;V1;0|0;0|0;0|0^V2;0|0;0|0^", protocol.createSetMessage(droplet));
+		assertEquals("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\n", protocol.createSetMessage(droplet));
 
 		flash2.addAction(action4);
 		flash2.addAction(action5);
 
-		assertEquals("S;V1;0|0;0|0;0|0^V2;0|0;0|0^F2;0;0^", protocol.createSetMessage(droplet));
+		assertEquals("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\nS;4;F;0;0^0\n", protocol.createSetMessage(droplet));
 
 		camera1.addAction(action2);
 
 		// droplet with actions that have no times
-		assertEquals("S;V1;0|0;0|0;0|0^V2;0|0;0|0^F2;0;0^C1;0|0^", protocol.createSetMessage(droplet));
+		assertEquals("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\nS;4;F;0;0^0\nS;5;C;0|0^0\n",
+				protocol.createSetMessage(droplet));
 
 		action1.setOffset(0);
 		action1.setDuration(20);
@@ -130,20 +137,70 @@ public class DropletMessageProtocolTest {
 		action5.setOffset(105);
 
 		// droplet with actions that have times
-		assertEquals("S;V1;0|20;20|40;80|100^V2;80|100;20|40^F2;5;105^C1;20|40^", protocol.createSetMessage(droplet));
+		assertEquals("S;1;V;0|20;20|40;80|100^260\nS;2;V;80|100;20|40^240\nS;4;F;5;105^110\nS;5;C;20|40^60\n",
+				protocol.createSetMessage(droplet));
 
 		// devices can have all types of actions
 		camera2.addAction(action1);
 		camera2.addAction(action5);
 
-		assertEquals("S;V1;0|20;20|40;80|100^V2;80|100;20|40^F2;5;105^C1;20|40^C2;0|20;105^",
+		assertEquals(
+				"S;1;V;0|20;20|40;80|100^260\nS;2;V;80|100;20|40^240\nS;4;F;5;105^110\nS;5;C;20|40^60\nS;6;C;0|20;105^125\n",
 				protocol.createSetMessage(droplet));
 
 		// test disabled actions
 		action2.setEnabled(false);
 
-		assertEquals("S;V1;0|20;80|100^V2;80|100^F2;5;105^C2;0|20;105^", protocol.createSetMessage(droplet));
+		assertEquals("S;1;V;0|20;80|100^200\nS;2;V;80|100^180\nS;4;F;5;105^110\nS;6;C;0|20;105^125\n",
+				protocol.createSetMessage(droplet));
 
+	}
+
+	@Test
+	public void testCreateOnMessage() {
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
+
+		IDroplet droplet = new Droplet();
+
+		// devices
+		IValve valve1 = new Valve();
+		IValve valve2 = new Valve();
+		IFlash flash1 = new Flash();
+		ICamera camera1 = new Camera();
+
+		droplet.addDevice(valve1);
+		droplet.addDevice(valve2);
+		droplet.addDevice(flash1);
+		droplet.addDevice(camera1);
+
+		assertEquals("H;1", protocol.createDeviceOnMessage(droplet, valve1));
+		assertEquals("H;2", protocol.createDeviceOnMessage(droplet, valve2));
+		assertEquals("H;3", protocol.createDeviceOnMessage(droplet, flash1));
+		assertEquals("H;4", protocol.createDeviceOnMessage(droplet, camera1));
+
+	}
+
+	@Test
+	public void testCreateOffMessage() {
+		IDropletMessageProtocol protocol = new DropletMessageProtocol();
+
+		IDroplet droplet = new Droplet();
+
+		// devices
+		IValve valve1 = new Valve();
+		IValve valve2 = new Valve();
+		IFlash flash1 = new Flash();
+		ICamera camera1 = new Camera();
+
+		droplet.addDevice(valve1);
+		droplet.addDevice(valve2);
+		droplet.addDevice(flash1);
+		droplet.addDevice(camera1);
+
+		assertEquals("L;1", protocol.createDeviceOffMessage(droplet, valve1));
+		assertEquals("L;2", protocol.createDeviceOffMessage(droplet, valve2));
+		assertEquals("L;3", protocol.createDeviceOffMessage(droplet, flash1));
+		assertEquals("L;4", protocol.createDeviceOffMessage(droplet, camera1));
 	}
 
 }

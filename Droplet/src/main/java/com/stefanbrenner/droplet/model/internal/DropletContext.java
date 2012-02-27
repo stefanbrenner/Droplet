@@ -45,6 +45,10 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	private IDroplet droplet;
 
+	private Integer rounds = 1;
+
+	private Integer roundDelay = 1000;
+
 	private List<String> loggingMessages = new ArrayList<String>();
 
 	private String lastSetMessage = StringUtils.EMPTY;
@@ -114,6 +118,26 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	@Override
 	public void setLastSetMessage(String lastSetMessage) {
 		this.lastSetMessage = lastSetMessage;
+	}
+
+	@Override
+	public Integer getRounds() {
+		return rounds;
+	}
+
+	@Override
+	public void setRounds(Integer rounds) {
+		firePropertyChange(PROPERTY_ROUNDS, this.rounds, this.rounds = rounds);
+	}
+
+	@Override
+	public Integer getRoundDelay() {
+		return roundDelay;
+	}
+
+	@Override
+	public void setRoundDelay(Integer roundDelay) {
+		firePropertyChange(PROPERTY_ROUND_DELAY, this.roundDelay, this.roundDelay = roundDelay);
 	}
 
 }

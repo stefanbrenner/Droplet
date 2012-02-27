@@ -48,12 +48,6 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@XmlElement(name = "Description")
 	private String description;
 
-	@XmlElement(name = "Rounds")
-	private Integer rounds = 1;
-
-	@XmlElement(name = "RoundDelay")
-	private Integer roundDelay = 1000;
-
 	@XmlElement(name = "Device", type = AbstractDevice.class)
 	@XmlElementWrapper(name = "Devices")
 	private List<IDevice> devices = new ArrayList<IDevice>();
@@ -159,26 +153,6 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@Override
 	public DropletDeviceComparator getDeviceComparator() {
 		return comparator;
-	}
-
-	@Override
-	public Integer getRounds() {
-		return rounds;
-	}
-
-	@Override
-	public void setRounds(Integer rounds) {
-		firePropertyChange(PROPERTY_ROUNDS, this.rounds, this.rounds = rounds);
-	}
-
-	@Override
-	public Integer getRoundDelay() {
-		return roundDelay;
-	}
-
-	@Override
-	public void setRoundDelay(Integer roundDelay) {
-		firePropertyChange(PROPERTY_ROUND_DELAY, this.roundDelay, this.roundDelay = roundDelay);
 	}
 
 }

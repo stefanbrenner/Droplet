@@ -47,8 +47,8 @@ public class StartAction extends AbstractSerialAction {
 		// TODO brenner: create send message and compare with lastSendMessage
 		// from context
 
-		Integer rounds = getDroplet().getRounds();
-		Integer roundDelay = getDroplet().getRoundDelay();
+		Integer rounds = getDropletContext().getRounds();
+		Integer roundDelay = getDropletContext().getRoundDelay();
 
 		String message = messageProtocolProvider.createStartMessage(rounds, roundDelay);
 		serialCommProvider.sendData(message);

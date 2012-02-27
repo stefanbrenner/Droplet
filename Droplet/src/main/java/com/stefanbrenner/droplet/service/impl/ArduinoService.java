@@ -26,9 +26,9 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -55,6 +55,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 
 	private static final Logger logger = LoggerFactory.getLogger(ArduinoService.class);
 
+	private static final char NEWLINE = '\n';
+
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port */
@@ -65,9 +67,9 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	private static SerialPort connSerialPort = null;
 
 	/** input stream for sending data **/
-	private static InputStream input = null;
+	private static DataInputStream input = null;
 	/** output streams for receiving data **/
-	private static OutputStream output = null;
+	private static DataOutputStream output = null;
 
 	/** flag that indicates if the service is currently connected to a port **/
 	private static boolean connected = false;
@@ -112,8 +114,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 					SerialPort.PARITY_NONE);
 
 			// open the streams
-			input = connSerialPort.getInputStream();
-			output = connSerialPort.getOutputStream();
+			input = new DataInputStream(connSerialPort.getInputStream());
+			output = new DataOutputStream(connSerialPort.getOutputStream());
 
 			// add event listeners
 			connSerialPort.addEventListener(this);
@@ -169,7 +171,7 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			try {
 				int len = 0;
 				while ((data = input.read()) > -1) {
-					if (data == '\n') {
+					if (data == NEWLINE) {
 						break;
 					}
 					buffer[len++] = (byte) data;
@@ -197,18 +199,19 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			if (output != null) {
 
 				// split message by newline
-				for (String msg : StringUtils.split(message, '\n')) {
+				for (String msg : StringUtils.split(message, NEWLINE)) {
 
 					logger.debug("send message: {}", msg);
 
 					// send byte by byte
-					for (byte b : msg.getBytes()) {
-						output.write(b);
-						output.flush();
-					}
+					// for (byte b : msg.getBytes()) {
+					// output.write(b);
+					// output.flush();
+					// }
+					output.write(msg.getBytes());
 
 					// finally send newline
-					output.write('\n');
+					output.write(NEWLINE);
 					output.flush();
 
 					// wait for Arduino to process input before we send next

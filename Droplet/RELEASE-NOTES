@@ -24,6 +24,7 @@ Release 0.1
 * create sexy icons
 * build installers
 * use maven and/or ant for build process
+* remove beta state
 
 * correct dsc-protocol.txt
 * Draw Arduino Layout in Fritzing

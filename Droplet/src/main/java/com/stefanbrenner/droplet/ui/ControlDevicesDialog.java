@@ -61,7 +61,7 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 			add(new DevicePanel(frame, device));
 		}
 
-		// setAlwaysOnTop(true);
+		setAlwaysOnTop(true);
 		// setResizable(false);
 
 		pack();

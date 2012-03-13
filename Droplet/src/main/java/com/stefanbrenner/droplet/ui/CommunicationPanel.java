@@ -28,6 +28,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -50,7 +53,8 @@ public class CommunicationPanel extends JPanel {
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
 
-	private ISerialCommunicationService commService = Configuration.getSerialCommProvider();
+	private ISerialCommunicationService commService;
+	private List<CommPortIdentifier> ports;
 
 	/**
 	 * Create the panel.
@@ -63,10 +67,7 @@ public class CommunicationPanel extends JPanel {
 		setBorder(BorderFactory.createTitledBorder(Messages.getString("CommunicationPanel.title"))); //$NON-NLS-1$
 
 		// port selection combo box
-		cmbPort = new JComboBox(commService.getPorts());
-		if (commService.getPorts().length == 0) {
-			cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
-		}
+		cmbPort = new JComboBox();
 		cmbPort.setRenderer(new ListCellRenderer() {
 
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -99,6 +100,9 @@ public class CommunicationPanel extends JPanel {
 		lblStatus.setForeground(Color.RED);
 		add(lblStatus);
 
+		// set communication service from configuration
+		setCommunicationService(Configuration.getSerialCommProvider());
+
 		// add listener to selected communication provider
 		Configuration.addPropertyChangeListener(Configuration.CONF_SERIAL_COMM_PROVIDER, new PropertyChangeListener() {
 			@Override
@@ -111,21 +115,67 @@ public class CommunicationPanel extends JPanel {
 				cmbPort.removeAllItems();
 				Object newValue = event.getNewValue();
 				if (newValue instanceof ISerialCommunicationService) {
-					CommPortIdentifier[] ports = ((ISerialCommunicationService) newValue).getPorts();
-					if (ports.length == 0) {
-						cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
-					} else {
-						for (CommPortIdentifier port : ports) {
-							cmbPort.addItem(port);
-						}
-					}
+					setCommunicationService((ISerialCommunicationService) newValue);
 				}
-				selectPort();
 			}
 		});
 
-		selectPort();
+	}
 
+	private void setCommunicationService(final ISerialCommunicationService commService) {
+
+		this.commService = commService;
+
+		setPorts(commService.getPorts());
+
+		// add listener to update available ports
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (!Thread.interrupted()) {
+
+					List<CommPortIdentifier> newPorts = Arrays.asList(commService.getPorts());
+
+					// check if new port is available
+					for (CommPortIdentifier port : newPorts) {
+						if (!ports.contains(port)) {
+							ports.add(port);
+							cmbPort.addItem(port);
+						}
+					}
+
+					// check if port has gone
+					for (CommPortIdentifier port : new ArrayList<CommPortIdentifier>(ports)) {
+						if (!newPorts.contains(port)) {
+							ports.remove(port);
+							cmbPort.removeItem(port);
+						}
+					}
+
+					// sleep for 2 seconds
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}).start();
+
+	}
+
+	private void setPorts(CommPortIdentifier[] ports) {
+
+		this.ports = new ArrayList<CommPortIdentifier>(Arrays.asList(ports));
+
+		if (ports == null || ports.length == 0) {
+			cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
+		} else {
+			for (CommPortIdentifier port : ports) {
+				cmbPort.addItem(port);
+			}
+		}
 	}
 
 	private void selectPort() {

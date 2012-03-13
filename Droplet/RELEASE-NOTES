@@ -18,7 +18,6 @@ Release 0.1
 ================================================================================
  T O D O S
 ================================================================================
-* droplet in context may change due to load
 * problems with data send and arduino uno
 
 * create sexy icons
@@ -79,6 +78,35 @@ Release 0.1
 
 
 NEW FEATURES:
+* 
+
+
+NOTES:
+* 
+
+
+CHANGES:
+* Rounds and Round Delay not saved to Droplet Configuration anymore
+
+
+BUG FIXES:
+* Fixed Bug with Rounds and Round Delay on loading Droplet Configuration
+
+
+KNOWN ISSUES:
+* UI problems with SplitPanes and ScrollPanes
+* Problems with RxTx on Mac:
+  sudo mkdir /var/lock
+  sudo chmod 777 /var/lock
+  see http://blog.iharder.net/2009/08/18/rxtx-java-6-and-librxtxserial-jnilib-on-intel-mac-os-x/
+
+
+
+--------------------------------------------------------------------------------
+Release 0.1b
+--------------------------------------------------------------------------------
+
+NEW FEATURES:
 * Connect to serial port and show connection status
 * Devices: Valve, Flash, Camera
 * Setup 0..n Devices
@@ -106,14 +134,9 @@ NOTES:
 * Tested on Windows 7 and Mac OSX 10.6.8
 
 
-CHANGES:
-
-
-BUG FIXES:
-
-
 KNOWN ISSUES:
 * UI problems with SplitPanes and ScrollPanes
+
 
 
 

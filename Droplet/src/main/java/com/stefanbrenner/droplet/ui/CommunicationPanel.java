@@ -120,14 +120,6 @@ public class CommunicationPanel extends JPanel {
 			}
 		});
 
-	}
-
-	private void setCommunicationService(final ISerialCommunicationService commService) {
-
-		this.commService = commService;
-
-		setPorts(commService.getPorts());
-
 		// add listener to update available ports
 		new Thread(new Runnable() {
 			@Override
@@ -165,10 +157,13 @@ public class CommunicationPanel extends JPanel {
 
 	}
 
+	private void setCommunicationService(final ISerialCommunicationService commService) {
+		this.commService = commService;
+		setPorts(commService.getPorts());
+	}
+
 	private void setPorts(CommPortIdentifier[] ports) {
-
 		this.ports = new ArrayList<CommPortIdentifier>(Arrays.asList(ports));
-
 		if (ports == null || ports.length == 0) {
 			cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
 		} else {

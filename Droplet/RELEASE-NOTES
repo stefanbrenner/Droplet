@@ -19,7 +19,6 @@ Release 0.1
  T O D O S
 ================================================================================
 * device mapping (analog pins on arduino)
-* Round delay BEFOR round!
 
 * problems with data send and arduino uno/nano
 * label for control number and info in docu
@@ -96,6 +95,7 @@ NOTES:
 CHANGES:
 * Rounds and Round Delay not saved to Droplet Configuration anymore
 * Changed max.times from 1.000ms to 99.999ms
+* Round delay before round execution
 
 
 BUG FIXES:

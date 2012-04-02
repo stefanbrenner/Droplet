@@ -45,6 +45,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 
 public class ActionPanel<T extends IAction> extends JPanel {
 
+	private static final int MAX_TIME_INPUT = 99999;
+
 	private static final long serialVersionUID = 1L;
 
 	// model objects
@@ -86,7 +88,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		spOffset = new MouseWheelSpinner(true);
 		spOffset.setToolTipText(Messages.getString("ActionPanel.Offset.Tooltip")); //$NON-NLS-1$
 		spOffset.setModel(SpinnerAdapterFactory.createNumberAdapter(adapter.getValueModel(IAction.PROPERTY_OFFSET), 0,
-				0, 1000, 1));
+				0, MAX_TIME_INPUT, 1));
 		((JSpinner.DefaultEditor) spOffset.getEditor()).getTextField().setColumns(4);
 		UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
 		add(spOffset, gbc);
@@ -96,7 +98,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		spDuration.setToolTipText(Messages.getString("ActionPanel.Duration.Tooltip")); //$NON-NLS-1$
 		if (action instanceof IDurationAction) {
 			spDuration.setModel(SpinnerAdapterFactory.createNumberAdapter(
-					adapter.getValueModel(IDurationAction.PROPERTY_DURATION), 0, 0, 1000, 1));
+					adapter.getValueModel(IDurationAction.PROPERTY_DURATION), 0, 0, MAX_TIME_INPUT, 1));
 			((JSpinner.DefaultEditor) spDuration.getEditor()).getTextField().setColumns(4);
 			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
 			add(spDuration, gbc);

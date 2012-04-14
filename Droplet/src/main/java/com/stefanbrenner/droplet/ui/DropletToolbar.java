@@ -93,7 +93,6 @@ public class DropletToolbar extends JPanel {
 		spRoundDelay.setModel(SpinnerAdapterFactory.createNumberAdapter(
 				adapter.getValueModel(IDropletContext.PROPERTY_ROUND_DELAY), 1000, 0, 99999999, 1));
 		((JSpinner.DefaultEditor) spRoundDelay.getEditor()).getTextField().setColumns(8);
-		spRoundDelay.setEnabled(dropletContext.getRounds() > 1);
 		updateTooltip();
 		adapter.addBeanPropertyChangeListener(IDropletContext.PROPERTY_ROUND_DELAY, new PropertyChangeListener() {
 			@Override
@@ -110,13 +109,6 @@ public class DropletToolbar extends JPanel {
 		// cancel button
 		JButton btnCancel = new JButton(new CancelAction(frame, dropletContext));
 		add(btnCancel);
-
-		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_ROUNDS, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				spRoundDelay.setEnabled(dropletContext.getRounds() > 1);
-			}
-		});
 
 	}
 

@@ -24,7 +24,6 @@ Release 0.1
 * label for control number and info in docu
 * Configuration for IDropletMessageProtocol (implements send/start/stop/rounds/delay/...)
   to show or hide ui controls
-* Focus for Camera
 
 * Aufpassen bei Arduino Ordner in dem die cpp und h files liegen!
 * create sexy icons
@@ -33,7 +32,6 @@ Release 0.1
 * remove beta state
 
 * correct dsc-protocol.txt
-* Draw Arduino Layout in Fritzing
 * Simple Logging of photo number combined with the current configuration
 * Logging of exceptions/errors/informations/...
 * Add Tests to the most important services and util methods
@@ -69,6 +67,11 @@ Release 0.1
 * Setup Flashes without valves
 * Empty valves (all, single, combination)
 * Processing:
+	o links for metadata edit:
+		- http://www.adobe.com/devnet/xmp.html
+		- http://sourceforge.net/projects/im4java/
+		- http://www.sno.phy.queensu.ca/~phil/exiftool/
+		- http://code.google.com/p/metadata-extractor/
 	o embed Comments, Tags to EXIF
 	o embed the setup information in some kind of 'code' to EXIF
 	o watch folder / distribution folder
@@ -89,7 +92,7 @@ NEW FEATURES:
 
 
 NOTES:
-* 
+* Camera Focus can be configured with a second camera device
 
 
 CHANGES:

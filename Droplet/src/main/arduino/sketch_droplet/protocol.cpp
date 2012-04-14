@@ -181,13 +181,13 @@ void processSetCommand() {
       duration = MIN_DURATION;
     }
     
-    if(deviceNumber > DEVICE_NUMBERS) {
+    if(deviceNumber < 0 || deviceNumber > DEVICE_NUMBERS - 1) {
       logging(ERROR, "Wrong device number");
       return;
     }
     
     // add new actions to droplet
-    addActions(deviceMapping[deviceNumber - 1], offset, duration);
+    addActions(deviceMapping[deviceNumber], offset, duration);
     
     // read next time
     token = strtok(NULL, FIELD_SEPARATOR);

@@ -89,7 +89,7 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 
 		int chksum = rounds;
 
-		if (rounds > 1 && delay > 0) {
+		if (delay > 0) {
 			chksum += delay;
 			result += FIELD_SEPARATOR + delay;
 		}

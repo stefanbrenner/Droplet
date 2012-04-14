@@ -22,7 +22,7 @@
 #define __DROPLET_H__
 
 
-#define DEVICE_NUMBERS  13
+#define DEVICE_NUMBERS  70
 
 
 // TODO use bit masks for better performance

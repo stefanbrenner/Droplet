@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
@@ -38,6 +38,8 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 
 /**
+ * Panel that shows logging messages.
+ * 
  * @author Stefan Brenner
  */
 public class LoggingPanel extends JPanel {
@@ -66,7 +68,7 @@ public class LoggingPanel extends JPanel {
 		JScrollPane loggingScrollPane = new JScrollPane(txtMessages);
 		loggingScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 			@Override
-			public void adjustmentValueChanged(AdjustmentEvent event) {
+			public void adjustmentValueChanged(final AdjustmentEvent event) {
 				// event.getAdjustable().setValue(event.getAdjustable().getMaximum());
 				if (txtMessages.getText().length() > 1) {
 					txtMessages.setCaretPosition(txtMessages.getText().length() - 1);
@@ -77,7 +79,7 @@ public class LoggingPanel extends JPanel {
 
 		txtMessages.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent event) {
+			public void keyPressed(final KeyEvent event) {
 				if (event.getKeyCode() == KeyEvent.VK_DELETE || event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 					context.clearLoggingMessages();
 				}

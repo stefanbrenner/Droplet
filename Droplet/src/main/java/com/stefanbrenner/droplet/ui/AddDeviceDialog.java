@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.GridLayout;
@@ -36,8 +36,9 @@ import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
 
 /**
- * @author Stefan Brenner
+ * Dialog that displays controls to add new devices to droplet.
  * 
+ * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class AddDeviceDialog extends AbstractDropletDialog implements ActionListener {
@@ -47,7 +48,7 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 	private final JButton btnCamera;
 	private final JButton btnClose;
 
-	public AddDeviceDialog(JFrame frame, IDropletContext dropletContext) {
+	public AddDeviceDialog(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("AddDeviceDialog.title")); //$NON-NLS-1$
 
 		JPanel panel = new JPanel();
@@ -78,7 +79,7 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		Object source = event.getSource();
 		if (ObjectUtils.equals(btnValve, source)) {
 			getDropletContext().getDroplet().addDevice(new Valve());

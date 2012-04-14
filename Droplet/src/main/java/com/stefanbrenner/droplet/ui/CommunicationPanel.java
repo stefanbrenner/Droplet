@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import gnu.io.CommPortIdentifier;
@@ -44,6 +44,11 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
+/**
+ * Panel that displays controls to connect to a microcontroller.
+ * 
+ * @author Stefan Brenner
+ */
 public class CommunicationPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -59,7 +64,7 @@ public class CommunicationPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CommunicationPanel(IDropletContext context) {
+	public CommunicationPanel(final IDropletContext context) {
 
 		this.dropletContext = context;
 
@@ -73,8 +78,8 @@ public class CommunicationPanel extends JPanel {
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
 			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
+			public Component getListCellRendererComponent(final JList list, final Object value, final int index,
+					final boolean isSelected, final boolean cellHasFocus) {
 
 				JLabel lbItem = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected,
 						cellHasFocus);
@@ -88,7 +93,7 @@ public class CommunicationPanel extends JPanel {
 		});
 		cmbPort.addItemListener(new ItemListener() {
 			@Override
-			public void itemStateChanged(ItemEvent event) {
+			public void itemStateChanged(final ItemEvent event) {
 				selectPort();
 			}
 		});
@@ -106,7 +111,7 @@ public class CommunicationPanel extends JPanel {
 		// add listener to selected communication provider
 		Configuration.addPropertyChangeListener(Configuration.CONF_SERIAL_COMM_PROVIDER, new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void propertyChange(final PropertyChangeEvent event) {
 				// disconnect old service provider
 				Object oldValue = event.getOldValue();
 				if (oldValue instanceof ISerialCommunicationService) {
@@ -162,7 +167,7 @@ public class CommunicationPanel extends JPanel {
 		setPorts(commService.getPorts());
 	}
 
-	private void setPorts(CommPortIdentifier[] ports) {
+	private void setPorts(final CommPortIdentifier[] ports) {
 		this.ports = new ArrayList<CommPortIdentifier>(Arrays.asList(ports));
 		if (ports == null || ports.length == 0) {
 			cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
@@ -191,7 +196,7 @@ public class CommunicationPanel extends JPanel {
 		updateStatus(connected);
 	}
 
-	private void updateStatus(boolean connected) {
+	private void updateStatus(final boolean connected) {
 		if (connected) {
 			lblStatus.setText(Messages.getString("CommunicationPanel.connected")); //$NON-NLS-1$
 			lblStatus.setForeground(Color.GREEN);

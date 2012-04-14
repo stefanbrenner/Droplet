@@ -32,7 +32,7 @@ import com.stefanbrenner.droplet.model.internal.AbstractDevice;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
-import com.stefanbrenner.droplet.service.DropletDeviceComparator;
+import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
 
 /**
  * @author Stefan Brenner

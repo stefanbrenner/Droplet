@@ -19,12 +19,13 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
  * @author Stefan Brenner
- *
+ * 
  */
 public class Messages {
 	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.actions.messages"; //$NON-NLS-1$
@@ -34,9 +35,16 @@ public class Messages {
 	private Messages() {
 	}
 
-	public static String getString(String key) {
+	/**
+	 * Read localized message from resources and format it.
+	 * 
+	 * @see MessageFormat
+	 */
+	public static String getString(String key, Object... args) {
 		try {
-			return RESOURCE_BUNDLE.getString(key);
+			String message = RESOURCE_BUNDLE.getString(key);
+			MessageFormat format = new MessageFormat(message);
+			return format.format(args);
 		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}

@@ -40,18 +40,20 @@ Release 0.1
 * Test on Linux especially RxTx
 * Exception handling for RxTx
 
+* use checkstyle
+* add javadoc
+
 
 ================================================================================
  I D E A S
 ================================================================================
+* Output folder for metadata processing
 * Internationalize Messages from Arduino
 * use ant for build process (jarbuilder)
 * direct device control: send OFF to all that are ON when closing
 * make devices moveable
 * Create own Spinner for easier round delay input
 * Drag&Drop Device Panels and Actions
-* Add colored logging messages
-* Make logging level editable
 * Disable Serial Communication Actions if No Connection is established
 * Create Custom L&F with Synth or Nimbus
 * Only fire association changed event if object was added/removed?
@@ -61,7 +63,6 @@ Release 0.1
 	- Sensor Setup Panel
 	- SensorAction starts when sensor fires (with offset and/or duration)
 * Open/Close Panels
-* Move logging to own window?
 * Tabbed View (Setup, Shooting, Finish/Clean)
 * Only send data if something changed since last send
 * Setup Flashes without valves
@@ -77,6 +78,9 @@ Release 0.1
 	o watch folder / distribution folder
 	  example workflow: Camera -> watch folder -> Droplet -> distribution folder -> Lightroom
 * Logging:
+	o Move logging to own window?
+	o Add colored logging messages
+	o Make logging level editable
 	o log comments, times, setup, ... per session into file
 * Graphical View of one cycle
 * Automatic Action Times:

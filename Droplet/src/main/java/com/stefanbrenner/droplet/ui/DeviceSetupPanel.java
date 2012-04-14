@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
@@ -36,6 +36,11 @@ import javax.swing.JScrollPane;
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 
+/**
+ * Panel to setup one droplet device.
+ * 
+ * @author Stefan Brenner
+ */
 public class DeviceSetupPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +52,7 @@ public class DeviceSetupPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public DeviceSetupPanel(IDroplet droplet) {
+	public DeviceSetupPanel(final IDroplet droplet) {
 
 		setLayout(new BorderLayout());
 		setMinimumSize(new Dimension(Short.MIN_VALUE, 200));
@@ -99,12 +104,12 @@ public class DeviceSetupPanel extends JPanel {
 
 	private PropertyChangeListener updateListener = new PropertyChangeListener() {
 		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
+		public void propertyChange(final PropertyChangeEvent evt) {
 			updatePanels();
 		}
 	};
 
-	public void setDroplet(IDroplet droplet) {
+	public void setDroplet(final IDroplet droplet) {
 
 		unregisterListener();
 		this.droplet = droplet;

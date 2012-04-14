@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
@@ -54,6 +54,11 @@ import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
+/**
+ * Mainframe of the droplet application.
+ * 
+ * @author Stefan Brenner
+ */
 public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuitHandler, MRJPrefsHandler {
 
 	private static final long serialVersionUID = 1L;
@@ -73,7 +78,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
+	public static void main(final String[] args) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException {
 
 		// TODO brenner: make language editable in configurations
@@ -147,7 +152,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 
 		{
 			configPanel = new DeviceSetupPanel(dropletContext.getDroplet());
-			processingPanel = new ProcessingPanel();
+			processingPanel = new ProcessingPanel(dropletContext);
 			loggingPanel = new LoggingPanel(dropletContext);
 
 			JSplitPane splitPaneBottom = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, processingPanel, loggingPanel);
@@ -170,7 +175,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// remove focus from text components if user clicks outside
 		addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(final MouseEvent e) {
 				requestFocusInWindow();
 				super.mouseClicked(e);
 			}
@@ -184,7 +189,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// add listener
 		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
+			public void propertyChange(final PropertyChangeEvent evt) {
 				// TODO brenner: use listener instead
 				configPanel.setDroplet(dropletContext.getDroplet());
 			}

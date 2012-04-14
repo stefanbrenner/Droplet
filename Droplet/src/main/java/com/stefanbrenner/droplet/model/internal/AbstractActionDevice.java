@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
 import java.util.ArrayList;
@@ -29,9 +29,12 @@ import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
 
 /**
+ * Abstract base class for all droplet action devices.
+ * 
  * @author Stefan Brenner
  */
-public abstract class AbstractActionDevice extends AbstractDevice implements IActionDevice {
+public abstract class AbstractActionDevice extends AbstractDevice implements
+		IActionDevice {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,12 +59,13 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 	}
 
 	@Override
-	public void setActions(List<IAction> actions) {
-		firePropertyChange(ASSOCIATION_ACTIONS, this.actions, this.actions = actions);
+	public void setActions(final List<IAction> actions) {
+		firePropertyChange(ASSOCIATION_ACTIONS, this.actions,
+				this.actions = actions);
 	}
 
 	@Override
-	public void addAction(IAction action) {
+	public void addAction(final IAction action) {
 		List<IAction> oldValue = actions;
 		actions = new ArrayList<IAction>(this.actions);
 		actions.add(action);
@@ -69,7 +73,7 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 	}
 
 	@Override
-	public void removeAction(IAction action) {
+	public void removeAction(final IAction action) {
 		List<IAction> oldValue = actions;
 		actions = new ArrayList<IAction>(this.actions);
 		actions.remove(action);
@@ -79,8 +83,7 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 	@Override
 	public void reset() {
 		super.reset();
-		// remove all actions
-		setActions(new ArrayList<IAction>());
+		actions.clear();
 	}
 
 }

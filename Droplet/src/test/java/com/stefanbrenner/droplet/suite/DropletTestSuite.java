@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.suite;
 
 import org.junit.runner.RunWith;
@@ -26,6 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.stefanbrenner.droplet.model.ConfigurationTest;
 import com.stefanbrenner.droplet.model.DeviceComperationTest;
 import com.stefanbrenner.droplet.service.impl.DropletMessageProtocolTest;
+import com.stefanbrenner.droplet.ui.MessagesTest;
+import com.stefanbrenner.droplet.utils.FileUtilsTest;
 import com.stefanbrenner.droplet.utils.PluginProviderTest;
 import com.stefanbrenner.droplet.utils.UiUtilsTest;
 
@@ -36,7 +38,7 @@ import com.stefanbrenner.droplet.utils.UiUtilsTest;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ UiUtilsTest.class, PluginProviderTest.class, DeviceComperationTest.class, ConfigurationTest.class,
-		DropletMessageProtocolTest.class, DropletMessageProtocolTest.class })
+		DropletMessageProtocolTest.class, DropletMessageProtocolTest.class, MessagesTest.class, FileUtilsTest.class })
 public class DropletTestSuite {
 
 }

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.Dimension;
@@ -43,6 +43,14 @@ import com.stefanbrenner.droplet.ui.components.MouseWheelSpinner;
 import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
+/**
+ * Panel for action devices.
+ * 
+ * @author Stefan Brenner
+ * 
+ * @param <T>
+ *            type of action device to be displayed in this panel
+ */
 public class ActionPanel<T extends IAction> extends JPanel {
 
 	private static final int MAX_TIME_INPUT = 99999;
@@ -62,7 +70,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ActionPanel(IActionDevice device, T action) {
+	public ActionPanel(final IActionDevice device, final T action) {
 
 		setDevice(device);
 		setAction(action);
@@ -108,7 +116,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		btnRemove = new JButton(Messages.getString("ActionPanel.removeAction")); //$NON-NLS-1$
 		btnRemove.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				remove();
 			}
 		});
@@ -134,7 +142,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		return device;
 	}
 
-	public void setDevice(IActionDevice device) {
+	public void setDevice(final IActionDevice device) {
 		this.device = device;
 	}
 
@@ -142,7 +150,7 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		return action;
 	}
 
-	public void setAction(T action) {
+	public void setAction(final T action) {
 		this.action = action;
 	}
 

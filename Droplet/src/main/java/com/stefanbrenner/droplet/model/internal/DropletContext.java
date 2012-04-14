@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
 import gnu.io.CommPortIdentifier;
@@ -37,7 +37,8 @@ import com.stefanbrenner.droplet.model.IDropletContext;
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
-public class DropletContext extends AbstractModelObject implements IDropletContext {
+public class DropletContext extends AbstractModelObject implements
+		IDropletContext {
 
 	private File file;
 
@@ -80,7 +81,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	@Override
 	public void setDroplet(final IDroplet droplet) {
-		firePropertyChange(PROPERTY_DROPLET, this.droplet, this.droplet = droplet);
+		firePropertyChange(PROPERTY_DROPLET, this.droplet,
+				this.droplet = droplet);
 	}
 
 	@Override
@@ -94,7 +96,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 		loggingMessages = new ArrayList<String>(loggingMessages);
 
 		// add timestamp to message
-		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
+		DateFormat format = DateFormat.getTimeInstance(DateFormat.MEDIUM,
+				Locale.getDefault());
 		String timestamp = format.format(new Date(System.currentTimeMillis()));
 		String logEntry = timestamp + ": " + message; //$NON-NLS-1$
 
@@ -137,7 +140,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 
 	@Override
 	public void setRoundDelay(Integer roundDelay) {
-		firePropertyChange(PROPERTY_ROUND_DELAY, this.roundDelay, this.roundDelay = roundDelay);
+		firePropertyChange(PROPERTY_ROUND_DELAY, this.roundDelay,
+				this.roundDelay = roundDelay);
 	}
 
 }

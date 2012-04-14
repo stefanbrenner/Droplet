@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.Component;
@@ -42,6 +42,8 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.utils.PluginLoader;
 
 /**
+ * Dialog that shows droplet preferences.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
@@ -50,7 +52,7 @@ public class PreferencesDialog extends JDialog {
 	private final JComboBox cmbCommService;
 	private final JComboBox cmbMsgProtocol;
 
-	public PreferencesDialog(JFrame frame) {
+	public PreferencesDialog(final JFrame frame) {
 		super(frame, true);
 
 		JPanel panel = new JPanel();
@@ -91,7 +93,7 @@ public class PreferencesDialog extends JDialog {
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(final ActionEvent evt) {
 				saveAndClose();
 			}
 		});
@@ -100,7 +102,7 @@ public class PreferencesDialog extends JDialog {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent event) {
+			public void actionPerformed(final ActionEvent event) {
 				setVisible(false);
 				dispose();
 			}
@@ -123,8 +125,8 @@ public class PreferencesDialog extends JDialog {
 	 */
 	private ListCellRenderer renderer = new DefaultListCellRenderer() {
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
+		public Component getListCellRendererComponent(final JList list, final Object value, final int index,
+				final boolean isSelected, final boolean cellHasFocus) {
 			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			if (comp instanceof JLabel) {
 				JLabel label = (JLabel) comp;

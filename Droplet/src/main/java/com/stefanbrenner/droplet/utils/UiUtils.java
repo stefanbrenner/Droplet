@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.utils;
 
 import java.awt.Component;
@@ -31,14 +31,29 @@ import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
 /**
- * Utility class for user interface
+ * User interface utilities.
+ * <p>
+ * This class provides static utility methods for the ui.
  * 
  * @author Stefan Brenner
  */
-public class UiUtils {
+public final class UiUtils {
 
+	/** Flag for the macintosh operating system. */
 	private static boolean macOS = System.getProperty("mrj.version") != null;
 
+	/**
+	 * Empty default constructor.
+	 */
+	private UiUtils() {
+
+	}
+
+	/**
+	 * Checks if this code is executed on a mac OS.
+	 * 
+	 * @return <code>true</code> if this program is executed on a mac
+	 */
 	public static boolean isMacOS() {
 		return macOS;
 	}
@@ -46,8 +61,12 @@ public class UiUtils {
 	/**
 	 * Returns a string representing the time in millis in the format h min sec
 	 * ms.
+	 * 
+	 * @param millis
+	 *            time to be formatted as a string
+	 * @return a string representing the time
 	 */
-	public static String formatMillis(long millis) {
+	public static String formatMillis(final long millis) {
 
 		long hours = TimeUnit.MILLISECONDS.toHours(millis);
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
@@ -57,30 +76,33 @@ public class UiUtils {
 		return String.format("%dh %dmin %dsec %dms", hours, minutes, seconds, _millis);
 	}
 
-	public static int getMnemonic(String key) {
+	/**
+	 * Returns the mnemonic for a key.
+	 */
+	public static int getMnemonic(final String key) {
 		return KeyStroke.getKeyStroke(key).getKeyCode();
 	}
 
 	/**
 	 * Returns the KeyStroke for a key combined with the platform dependent menu
-	 * shortcut key
+	 * shortcut key.
 	 */
-	public static KeyStroke getAccelerator(int key) {
+	public static KeyStroke getAccelerator(final int key) {
 		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
 	}
 
 	/**
 	 * Returns the KeyStroke for a key combined with the platform dependent menu
-	 * shortcut key and another key
+	 * shortcut key and another key.
 	 */
-	public static KeyStroke getAccelerator(int key, int combinator) {
+	public static KeyStroke getAccelerator(final int key, final int combinator) {
 		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | combinator);
 	}
 
 	/**
-	 * Enables/Disables a component and all its children recursively
+	 * Enables/Disables a component and all its children recursively.
 	 */
-	public static void setEnabledRecursive(JComponent comp, boolean enabled, JComponent... except) {
+	public static void setEnabledRecursive(final JComponent comp, final boolean enabled, final JComponent... except) {
 		comp.setEnabled(enabled);
 		for (Component child : comp.getComponents()) {
 			if (!(Arrays.asList(except).contains(child))) {
@@ -90,9 +112,9 @@ public class UiUtils {
 	}
 
 	/**
-	 * Enables/Disables a component and all its direct children
+	 * Enables/Disables a component and all its direct children.
 	 */
-	public static void setEnabled(JComponent comp, boolean enabled, JComponent... except) {
+	public static void setEnabled(final JComponent comp, final boolean enabled, final JComponent... except) {
 		comp.setEnabled(enabled);
 		for (Component child : comp.getComponents()) {
 			if (!(Arrays.asList(except).contains(child))) {
@@ -104,23 +126,23 @@ public class UiUtils {
 	/**
 	 * Disable the tab key for text components.
 	 */
-	public static void disableTab(JTextComponent txtComp) {
+	public static void disableTab(final JTextComponent txtComp) {
 		txtComp.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		txtComp.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 	}
 
 	/**
 	 * Creates a new {@link GridBagConstraints} with all parameters set to their
-	 * standard value
+	 * standard value.
 	 */
 	public static GridBagConstraints createGridBagConstraints() {
 		return createGridBagConstraints(0, 0);
 	}
 
 	/**
-	 * Creates a new {@link GridBagConstraints} with the given parameter
+	 * Creates a new {@link GridBagConstraints} with the given parameter.
 	 */
-	public static GridBagConstraints createGridBagConstraints(int gridx, int gridy) {
+	public static GridBagConstraints createGridBagConstraints(final int gridx, final int gridy) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = gridx;
 		gbc.gridy = gridy;
@@ -128,9 +150,10 @@ public class UiUtils {
 	}
 
 	/**
-	 * Creates a new {@link GridBagConstraints} with the given parameter
+	 * Creates a new {@link GridBagConstraints} with the given parameter.
 	 */
-	public static GridBagConstraints createGridBagConstraints(int gridx, int gridy, int weightx, int weighty) {
+	public static GridBagConstraints createGridBagConstraints(final int gridx, final int gridy, final int weightx,
+			final int weighty) {
 		GridBagConstraints gbc = createGridBagConstraints(gridx, gridy);
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
@@ -138,9 +161,10 @@ public class UiUtils {
 	}
 
 	/**
-	 * Creates a new {@link GridBagConstraints} with the given parameter
+	 * Creates a new {@link GridBagConstraints} with the given parameter.
 	 */
-	public static GridBagConstraints createGridBagConstraints(int gridx, int gridy, int weightx, int weighty, int anchor) {
+	public static GridBagConstraints createGridBagConstraints(final int gridx, final int gridy, final int weightx,
+			final int weighty, final int anchor) {
 		GridBagConstraints gbc = createGridBagConstraints(gridx, gridy, weightx, weighty);
 		gbc.anchor = GridBagConstraints.WEST;
 		return gbc;
@@ -149,9 +173,9 @@ public class UiUtils {
 	/**
 	 * Updates a {@link GridBagConstraints} with the given parameter. <br>
 	 * {@link GridBagConstraints#weightx}, {@link GridBagConstraints#weighty}
-	 * and {@link GridBagConstraints#anchor} are set to there standard values
+	 * and {@link GridBagConstraints#anchor} are set to there standard values.
 	 */
-	public static void editGridBagConstraints(GridBagConstraints gbc, int gridx, int gridy) {
+	public static void editGridBagConstraints(final GridBagConstraints gbc, final int gridx, final int gridy) {
 		editGridBagConstraints(gbc, gridx, gridy, 0, 0);
 	}
 
@@ -159,16 +183,16 @@ public class UiUtils {
 	 * Updates a {@link GridBagConstraints} with the given parameter. <br>
 	 * {@link GridBagConstraints#anchor} is set to its standard value.
 	 */
-	public static void editGridBagConstraints(GridBagConstraints gbc, int gridx, int gridy, double weightx,
-			double weighty) {
+	public static void editGridBagConstraints(final GridBagConstraints gbc, final int gridx, final int gridy,
+			final double weightx, final double weighty) {
 		editGridBagConstraints(gbc, gridx, gridy, weightx, weighty, GridBagConstraints.CENTER);
 	}
 
 	/**
 	 * Updates a {@link GridBagConstraints} with the given parameter.
 	 */
-	public static void editGridBagConstraints(GridBagConstraints gbc, int gridx, int gridy, double weightx,
-			double weighty, int anchor) {
+	public static void editGridBagConstraints(final GridBagConstraints gbc, final int gridx, final int gridy,
+			final double weightx, final double weighty, final int anchor) {
 		gbc.gridx = gridx;
 		gbc.gridy = gridy;
 		gbc.weightx = weightx;

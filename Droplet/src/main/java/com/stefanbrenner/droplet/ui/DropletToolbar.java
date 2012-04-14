@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.FlowLayout;
@@ -41,6 +41,7 @@ import com.stefanbrenner.droplet.ui.components.MouseWheelSpinner;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
+ * Droplet toolbar containing the most useful actions.
  * 
  * @author Stefan Brenner
  */
@@ -96,7 +97,7 @@ public class DropletToolbar extends JPanel {
 		updateTooltip();
 		adapter.addBeanPropertyChangeListener(IDropletContext.PROPERTY_ROUND_DELAY, new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void propertyChange(final PropertyChangeEvent event) {
 				updateTooltip();
 			}
 		});

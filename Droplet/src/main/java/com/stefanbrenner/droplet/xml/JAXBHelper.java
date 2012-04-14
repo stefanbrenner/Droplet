@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.xml;
 
 import java.io.OutputStream;
@@ -36,6 +36,8 @@ import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
 
 /**
+ * This class provides methods to read/write objects from/to XML with JAXB.
+ * 
  * @author Stefan Brenner
  */
 public class JAXBHelper {
@@ -51,7 +53,7 @@ public class JAXBHelper {
 		return newInstance;
 	}
 
-	public void toXml(Object obj, OutputStream os) {
+	public void toXml(final Object obj, final OutputStream os) {
 		try {
 			Marshaller marshaller = getJAXBContext().createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_ENCODING, ENCODING);
@@ -63,7 +65,7 @@ public class JAXBHelper {
 		}
 	}
 
-	public String toXml(Object obj) throws JAXBException {
+	public String toXml(final Object obj) throws JAXBException {
 		Marshaller marshaller = getJAXBContext().createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_ENCODING, ENCODING);
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -75,11 +77,11 @@ public class JAXBHelper {
 		return xml;
 	}
 
-	public <T> T fromXml(String xml, Class<T> type) {
+	public <T> T fromXml(final String xml, final Class<T> type) {
 		return type.cast(fromXml(xml));
 	}
 
-	public Object fromXml(String xml) {
+	public Object fromXml(final String xml) {
 		try {
 			Unmarshaller unmarshaller = getJAXBContext().createUnmarshaller();
 			Object obj = unmarshaller.unmarshal(new StringReader(xml));

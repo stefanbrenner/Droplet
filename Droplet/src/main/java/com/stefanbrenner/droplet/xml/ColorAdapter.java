@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.xml;
 
 import java.awt.Color;
@@ -24,12 +24,14 @@ import java.awt.Color;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
+ * XML adapter to marshal {@link Color} informations.
+ * 
  * @author Stefan Brenner
  */
 public class ColorAdapter extends XmlAdapter<Integer, Color> {
 
 	@Override
-	public Integer marshal(Color color) throws Exception {
+	public final Integer marshal(final Color color) throws Exception {
 		if (color != null) {
 			return color.getRGB();
 		}
@@ -37,7 +39,7 @@ public class ColorAdapter extends XmlAdapter<Integer, Color> {
 	}
 
 	@Override
-	public Color unmarshal(Integer value) throws Exception {
+	public final Color unmarshal(final Integer value) throws Exception {
 		if (value != null) {
 			return new Color(value);
 		}

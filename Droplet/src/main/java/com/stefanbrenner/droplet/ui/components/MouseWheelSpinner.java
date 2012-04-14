@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.components;
 
 import java.awt.event.FocusAdapter;
@@ -41,11 +41,20 @@ public class MouseWheelSpinner extends JSpinner {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Creates a new spinner that can be scrolled with the mouse wheel.
+	 */
 	public MouseWheelSpinner() {
 		this(false);
 	}
 
-	public MouseWheelSpinner(boolean selectOnFocus) {
+	/**
+	 * Creates a new spinner that can be scrolled with the mouse wheel.
+	 * 
+	 * @param selectOnFocus
+	 *            select the text of the spinner if the spinner gets the focus
+	 */
+	public MouseWheelSpinner(final boolean selectOnFocus) {
 		super();
 		registerMouseWheelListener();
 		if (selectOnFocus) {
@@ -59,7 +68,7 @@ public class MouseWheelSpinner extends JSpinner {
 		final JFormattedTextField textField = ((JSpinner.DefaultEditor) getEditor()).getTextField();
 		textField.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusGained(FocusEvent event) {
+			public void focusGained(final FocusEvent event) {
 				textField.selectAll();
 				super.focusGained(event);
 			}
@@ -69,7 +78,7 @@ public class MouseWheelSpinner extends JSpinner {
 	private void registerMouseWheelListener() {
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
-			public void mouseWheelMoved(MouseWheelEvent event) {
+			public void mouseWheelMoved(final MouseWheelEvent event) {
 				final JFormattedTextField textField = ((JSpinner.DefaultEditor) getEditor()).getTextField();
 				if (textField.hasFocus()) {
 					try {

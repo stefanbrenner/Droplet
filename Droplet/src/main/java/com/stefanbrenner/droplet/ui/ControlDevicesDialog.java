@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.Dimension;
@@ -41,7 +41,8 @@ import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
- * Simple dialog to send HIGH and LOW commands to devices.
+ * Simple dialog to send HIGH and LOW commands to devices and set device
+ * numbers.
  * <p>
  * This is very useful i.e. for valve cleaning.
  * 
@@ -50,7 +51,7 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 @SuppressWarnings("serial")
 public class ControlDevicesDialog extends AbstractDropletDialog {
 
-	public ControlDevicesDialog(JFrame frame, IDropletContext dropletContext) {
+	public ControlDevicesDialog(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("ControlDevicesDialog.deviceControl")); //$NON-NLS-1$
 
 		setLayout(new GridLayout(0, 1));

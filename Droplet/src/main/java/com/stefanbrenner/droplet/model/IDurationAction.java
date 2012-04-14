@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,17 +16,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.model;
 
+/**
+ * Interface for all droplet actions with a duration.
+ * 
+ * @author Stefan Brenner
+ */
 public interface IDurationAction extends IAction {
 
-	public static final String PROPERTY_DURATION = "duration"; //$NON-NLS-1$
+	/** Property name for the action duration. */
+	String PROPERTY_DURATION = "duration"; //$NON-NLS-1$
 
+	/**
+	 * @param duration
+	 *            of the action in milliseconds
+	 */
 	void setDuration(Integer duration);
 
+	/**
+	 * @return duration of the action in milliseconds
+	 */
 	Integer getDuration();
 
+	/**
+	 * @param duration
+	 *            in milliseconds to be added to the action duration
+	 */
 	void addDuration(Integer duration);
 
 }

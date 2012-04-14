@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.stefanbrenner.droplet.service;
+package com.stefanbrenner.droplet.service.impl;
 
 import java.util.ArrayList;
 import java.util.Comparator;

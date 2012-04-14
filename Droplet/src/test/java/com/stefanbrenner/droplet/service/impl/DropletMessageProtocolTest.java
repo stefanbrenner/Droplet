@@ -46,8 +46,8 @@ public class DropletMessageProtocolTest {
 		IDropletMessageProtocol protocol = new DropletMessageProtocol();
 		assertEquals("R;1^1", protocol.createStartMessage());
 		assertEquals("R;1^1", protocol.createStartMessage(1, 0));
-		assertEquals("R;1^1", protocol.createStartMessage(1, 250));
 		assertEquals("R;5^5", protocol.createStartMessage(5, 0));
+		assertEquals("R;1;250^251", protocol.createStartMessage(1, 250));
 		assertEquals("R;5;250^255", protocol.createStartMessage(5, 250));
 	}
 

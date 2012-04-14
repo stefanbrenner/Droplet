@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,26 +16,47 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.model;
 
 import java.util.List;
 
 /**
+ * Base interface for all action devices that can be used in droplet.
+ * 
  * @author Stefan Brenner
  */
 public interface IActionDevice extends IDevice {
 
-	public static final String ASSOCIATION_ACTIONS = "actions"; //$NON-NLS-1$
+	/** Association name for actions of this device. */
+	String ASSOCIATION_ACTIONS = "actions"; //$NON-NLS-1$
 
+	/**
+	 * @param actions
+	 *            list of actions for this device
+	 */
 	void setActions(List<IAction> actions);
 
+	/**
+	 * @return all actions of this device
+	 */
 	List<IAction> getActions();
 
+	/**
+	 * @return all enabled actions of this device
+	 */
 	List<IAction> getEnabledActions();
 
+	/**
+	 * @param action
+	 *            action to be removed from this device
+	 */
 	void removeAction(IAction action);
 
+	/**
+	 * @param action
+	 *            action to add to this device
+	 */
 	void addAction(IAction action);
 
 }

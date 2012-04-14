@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,37 +16,38 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.service;
 
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 
 /**
- * Service Interface for the Droplet Message Protocol.
+ * Service Interface for the droplet message protocol.
  * 
  * @author Stefan Brenner
  */
 public interface IDropletMessageProtocol {
 
 	/**
-	 * Returns the name of the service provider used for service selection on
-	 * the user interface.
+	 * @return the name of the service provider used for service selection on
+	 *         the user interface.
 	 */
 	String getName();
 
 	/**
-	 * Returns a message to start droplet for one round
+	 * @return a message to start droplet for one round
 	 */
 	String createStartMessage();
 
 	/**
-	 * Returns a message to start droplet
+	 * Returns a message to start droplet.
 	 * 
 	 * @param rounds
 	 *            number of rounds to execute
 	 * @param delay
 	 *            delay between rounds in seconds
+	 * @return droplet start message
 	 */
 	String createStartMessage(int rounds, int delay);
 
@@ -55,31 +56,44 @@ public interface IDropletMessageProtocol {
 	 * 
 	 * If message contains newline characters ('\n') the message is split up and
 	 * sent one by one.
+	 * 
+	 * @param droplet
+	 * @return device configuration message
 	 */
 	String createSetMessage(IDroplet droplet);
 
 	/**
-	 * Returns a message for sending an ON signal to a device
+	 * Returns a message for sending an OFF signal to a device.
+	 * 
+	 * @param droplet
+	 * @param device
+	 *            to turn off
+	 * @return a message for sending an OFF signal to a device
 	 */
 	String createDeviceOffMessage(IDroplet droplet, IDevice device);
 
 	/**
-	 * Returns a message for sending an OFF signal to a device
+	 * Returns a message for sending an ON signal to a device.
+	 * 
+	 * @param droplet
+	 * @param device
+	 *            to turn on
+	 * @return a message for sending an ON signal to a device
 	 */
 	String createDeviceOnMessage(IDroplet droplet, IDevice device);
 
 	/**
-	 * Returns a message to retrieve the current device configurations
+	 * @return a message to retrieve the current device configurations
 	 */
 	String createInfoMessage();
 
 	/**
-	 * Returns a message to reset the microcontroller
+	 * @return a message to reset the microcontroller
 	 */
 	String createResetMessage();
 
 	/**
-	 * Returns a message to cancel the current execution on the microcontroller
+	 * @return a message to cancel the current execution on the microcontroller
 	 */
 	String createCancelMessage();
 

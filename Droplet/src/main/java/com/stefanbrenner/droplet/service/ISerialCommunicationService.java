@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.service;
 
 import gnu.io.CommPortIdentifier;
@@ -24,14 +24,14 @@ import gnu.io.CommPortIdentifier;
 import com.stefanbrenner.droplet.model.IDropletContext;
 
 /**
- * Interface for Serial Communication.
+ * Interface for Serial Communication with a microcontroller.
  * 
  * @author Stefan Brenner
  */
 public interface ISerialCommunicationService {
 
 	/**
-	 * Returns the name of the provider used for selection in the ui.
+	 * @return the name of the provider used for selection in the ui.
 	 */
 	String getName();
 
@@ -69,6 +69,10 @@ public interface ISerialCommunicationService {
 	 * 
 	 * @param portId
 	 *            port identifier to connect to
+	 * @param context
+	 *            droplet context
+	 * @return <code>true</code> if the connection was successfully established,
+	 *         <code>false</code> otherwise
 	 */
 	boolean connect(CommPortIdentifier portId, IDropletContext context);
 

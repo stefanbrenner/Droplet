@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.Color;
@@ -42,12 +42,20 @@ import javax.swing.JPanel;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 
 /**
+ * A dialog that displays information about droplet.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
 
-	public AboutDialog(JFrame frame) {
+	/**
+	 * Constructs a new about dialog.
+	 * 
+	 * @param frame
+	 *            parent of this dialog
+	 */
+	public AboutDialog(final JFrame frame) {
 		super(frame);
 
 		JPanel panel = new JPanel();
@@ -69,7 +77,7 @@ public class AboutDialog extends JDialog {
 		lbVisit.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		lbVisit.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(final MouseEvent e) {
 				try {
 					open(new URI("http://www.droplet.at")); //$NON-NLS-1$
 				} catch (URISyntaxException e1) {
@@ -88,19 +96,25 @@ public class AboutDialog extends JDialog {
 
 		addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(final MouseEvent e) {
 				dispose();
 			}
 		});
 		addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void focusLost(final FocusEvent e) {
 				dispose();
 			}
 		});
 	}
 
-	private static void open(URI uri) {
+	/**
+	 * Open a URI in the system browser.
+	 * 
+	 * @param uri
+	 *            to be opened
+	 */
+	private static void open(final URI uri) {
 		if (Desktop.isDesktopSupported()) {
 			try {
 				Desktop.getDesktop().browse(uri);

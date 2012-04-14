@@ -46,14 +46,17 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  * <p>
  * Service for serial communication with an Arduino microcontroller.
  * <p>
- * For more information on Arduino see {@link http://arduino.cc}
+ * For more information on Arduino see <a
+ * href="http://arduino.cc">http://arduino.cc</a>
  * 
  * @author Stefan Brenner
  */
 @ProviderFor(ISerialCommunicationService.class)
-public class ArduinoService implements ISerialCommunicationService, SerialPortEventListener {
+public class ArduinoService implements ISerialCommunicationService,
+		SerialPortEventListener {
 
-	private static final Logger logger = LoggerFactory.getLogger(ArduinoService.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(ArduinoService.class);
 
 	private static final char NEWLINE = '\n';
 
@@ -88,7 +91,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
 		// iterate through, looking for the port
 		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum
+					.nextElement();
 			// add only serial ports
 			if (currPortId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				ports.add(currPortId);
@@ -99,7 +103,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	}
 
 	@Override
-	public synchronized boolean connect(CommPortIdentifier portId, IDropletContext context) {
+	public synchronized boolean connect(CommPortIdentifier portId,
+			IDropletContext context) {
 		try {
 			connPortId = portId;
 			dropletContext = context;
@@ -107,10 +112,12 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			logger.debug("Connect to port: " + portId.getName());
 
 			// try to open a connection to the serial port
-			connSerialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
+			connSerialPort = (SerialPort) portId.open(
+					this.getClass().getName(), TIME_OUT);
 
 			// set port parameters
-			connSerialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+			connSerialPort.setSerialPortParams(DATA_RATE,
+					SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 					SerialPort.PARITY_NONE);
 
 			// open the streams
@@ -125,7 +132,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			// set connected flag
 			setConnected(true);
 
-			logger.info("Connection to port " + portId.getName() + " successful established");
+			logger.info("Connection to port " + portId.getName()
+					+ " successful established");
 
 			return true;
 
@@ -148,7 +156,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 		try {
 			if (connSerialPort != null) {
 
-				logger.debug("close connection to port {}", connSerialPort.getName());
+				logger.debug("close connection to port {}",
+						connSerialPort.getName());
 
 				connSerialPort.removeEventListener();
 				connSerialPort.close();
@@ -159,7 +168,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 				setConnected(false);
 			}
 		} catch (IOException e) {
-			logger.error("Error closing connection to port {}", connSerialPort.getName(), e);
+			logger.error("Error closing connection to port {}",
+					connSerialPort.getName(), e);
 		}
 	}
 

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.utils;
 
 import java.util.ArrayList;
@@ -28,14 +28,29 @@ import java.util.ServiceLoader;
  * Simple plugin-loader based on Java's {@link ServiceLoader}.
  * 
  * @author Stefan Brenner
- * @see http://java.sun.com/developer/technicalArticles/javase/extensible/
+ * @see <a
+ *      href="http://java.sun.com/developer/technicalArticles/javase/extensible/">http://java.sun.com/developer/technicalArticles/javase/extensible/</a>
  */
-public class PluginLoader {
+public final class PluginLoader {
 
+	/**
+	 * Empty default constructor.
+	 */
 	private PluginLoader() {
 	}
 
-	public static <T> List<T> getPlugins(Class<T> serviceInterface) {
+	/**
+	 * Returns a list of all service implementations that are found on the
+	 * classpath.
+	 * 
+	 * @param <T>
+	 *            type of requested service implementations
+	 * @param serviceInterface
+	 *            for which implementations should be found
+	 * @return a list of all service implementations that are found on the
+	 *         classpath
+	 */
+	public static <T> List<T> getPlugins(final Class<T> serviceInterface) {
 		List<T> providers = new ArrayList<T>();
 
 		ServiceLoader<T> load = ServiceLoader.load(serviceInterface);

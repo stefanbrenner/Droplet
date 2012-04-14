@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.event.ActionEvent;
@@ -45,6 +45,8 @@ import com.stefanbrenner.droplet.ui.actions.SaveFileAction;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
+ * Droplet menu.
+ * 
  * @author Stefan Brenner
  */
 public class DropletMenu extends JMenuBar {
@@ -82,7 +84,7 @@ public class DropletMenu extends JMenuBar {
 	private AbstractDropletAction preferencesAction;
 	private AbstractDropletAction exitAction;
 
-	public DropletMenu(JFrame frame, IDropletContext dropletContext) {
+	public DropletMenu(final JFrame frame, final IDropletContext dropletContext) {
 		super();
 		this.frame = frame;
 		this.dropletContext = dropletContext;
@@ -159,7 +161,7 @@ public class DropletMenu extends JMenuBar {
 		aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				new AboutDialog(frame).setVisible(true);
 			}
 		});

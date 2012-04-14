@@ -35,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
-import com.stefanbrenner.droplet.service.DropletDeviceComparator;
+import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
 
 @XmlRootElement(name = "Droplet")
 public class Droplet extends AbstractModelObject implements IDroplet {

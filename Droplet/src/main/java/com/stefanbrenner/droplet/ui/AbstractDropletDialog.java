@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.event.ActionEvent;
@@ -43,9 +43,21 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 @SuppressWarnings("serial")
 public abstract class AbstractDropletDialog extends JDialog {
 
+	/** Droplet context. */
 	private final IDropletContext dropletContext;
 
-	public AbstractDropletDialog(JFrame frame, IDropletContext dropletContext, String title) {
+	/**
+	 * Creates a non-modal dialog with a title and the specified frame as its
+	 * owner.
+	 * 
+	 * @param frame
+	 *            the owner of this dialog
+	 * @param dropletContext
+	 *            of this dialog
+	 * @param title
+	 *            the dialog title
+	 */
+	public AbstractDropletDialog(final JFrame frame, final IDropletContext dropletContext, final String title) {
 		super(frame, title, false);
 		this.dropletContext = dropletContext;
 	}
@@ -55,7 +67,7 @@ public abstract class AbstractDropletDialog extends JDialog {
 		JRootPane rootPane = new JRootPane();
 		KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
 		Action actionListener = new AbstractAction() {
-			public void actionPerformed(ActionEvent actionEvent) {
+			public void actionPerformed(final ActionEvent actionEvent) {
 				setVisible(false);
 			}
 		};

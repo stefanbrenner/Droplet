@@ -75,7 +75,7 @@ public class ArduXposureMessageProtocol implements IDropletMessageProtocol {
 
 	@Override
 	public String getName() {
-		return "Droplet Serial Communication Protocol";
+		return "ArduXposure Message Protocol";
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
@@ -51,6 +51,13 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.utils.DropletColors;
 
+/**
+ * Panel for action devices.
+ * 
+ * @param <T>
+ *            type ot the action devices to be displayed in this panel
+ * @author Stefan Brenner
+ */
 public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -86,7 +93,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		txtName.setToolTipText(device.getName());
 		adapter.addBeanPropertyChangeListener(IDevice.PROPERTY_NAME, new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void propertyChange(final PropertyChangeEvent event) {
 				txtName.setToolTipText(device.getName());
 			}
 		});
@@ -114,7 +121,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 			JButton btnAdd = new JButton(Messages.getString("ActionDevicePanel.addAction")); //$NON-NLS-1$
 			btnAdd.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent action) {
+				public void actionPerformed(final ActionEvent action) {
 					addAction(getDevice().createNewAction());
 				}
 			});
@@ -125,7 +132,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 			JButton btnRemove = new JButton(Messages.getString("ActionDevicePanel.removeDevice")); //$NON-NLS-1$
 			btnRemove.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent action) {
+				public void actionPerformed(final ActionEvent action) {
 					int retVal = JOptionPane.showConfirmDialog(
 							ActionDevicePanel.this,
 							Messages.getString("ActionDevicePanel.removeDevice") + " '" + device.getName() + "'?", StringUtils.EMPTY, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -150,13 +157,13 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 	private void initializeListeners() {
 		device.addPropertyChangeListener(IValve.ASSOCIATION_ACTIONS, new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void propertyChange(final PropertyChangeEvent event) {
 				updateActionsPanel();
 			}
 		});
 	}
 
-	private void addAction(IAction action) {
+	private void addAction(final IAction action) {
 		device.addAction(action);
 	}
 
@@ -191,7 +198,7 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 		return device;
 	}
 
-	public void setDevice(T device) {
+	public void setDevice(final T device) {
 		this.device = device;
 	}
 

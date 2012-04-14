@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,17 +16,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.model;
 
 import java.awt.Color;
 
+/**
+ * Interface for flash devices.
+ * 
+ * @author Stefan Brenner
+ */
 public interface IFlash extends IActionDevice {
 
-	public static final String PROPERTY_COLOR = "color"; //$NON-NLS-1$
+	/** Property name for the flash color. */
+	String PROPERTY_COLOR = "color"; //$NON-NLS-1$
 
+	/**
+	 * @param color
+	 *            of this flash
+	 */
 	void setColor(Color color);
 
+	/**
+	 * @return the color of this flash
+	 */
 	Color getColor();
 
 }

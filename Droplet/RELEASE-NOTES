@@ -18,52 +18,51 @@ Release 0.1
 ================================================================================
  T O D O S
 ================================================================================
-* device mapping (analog pins on arduino)
 
+ HIGH
+------------------------
+* device mapping (analog pins on arduino)
 * problems with data send and arduino uno/nano
 * label for control number and info in docu
+* be careful with arduino files to exist in correct directory
+* remove beta state
+* Simple Logging of photo number combined with the current configuration
+* correct dsc-protocol.txt
+* Logging of exceptions/errors/informations/...
+
+
+ NORMAL
+------------------------
 * Configuration for IDropletMessageProtocol (implements send/start/stop/rounds/delay/...)
   to show or hide ui controls
-
-* Aufpassen bei Arduino Ordner in dem die cpp und h files liegen!
 * create sexy icons
 * build installers
 * use maven and/or ant for build process
-* remove beta state
+* disable start button as long as the execution is running
+* enable cancel button only if execution is running
 
-* correct dsc-protocol.txt
-* Simple Logging of photo number combined with the current configuration
-* Logging of exceptions/errors/informations/...
-* Add Tests to the most important services and util methods
+
+ LOW
+------------------------
 * Fix UI Layout Issues
 * Analyse Heap Dump with lots of devices and actions
 * Test on Linux especially RxTx
 * Exception handling for RxTx
 
-* use checkstyle
-* add javadoc
 
 
 ================================================================================
  I D E A S
 ================================================================================
-* Internationalize Messages from Arduino
-* use ant for build process (jarbuilder)
+
 * direct device control: send OFF to all that are ON when closing
-* make devices moveable
-* Create own Spinner for easier round delay input
-* Drag&Drop Device Panels and Actions
 * Disable Serial Communication Actions if No Connection is established
-* Create Custom L&F with Synth or Nimbus
 * Only fire association changed event if object was added/removed?
 * Set Description and Color per Device
 * Mark Device Type with Icons
 * Sensors
 	- Sensor Setup Panel
 	- SensorAction starts when sensor fires (with offset and/or duration)
-* Open/Close Panels
-* Tabbed View (Setup, Shooting, Finish/Clean)
-* Only send data if something changed since last send
 * Setup Flashes without valves
 * Empty valves (all, single, combination)
 * Processing:
@@ -85,21 +84,31 @@ Release 0.1
 	o Add colored logging messages
 	o Make logging level editable
 	o log comments, times, setup, ... per session into file
+* Internationalize Messages from Arduino
+* Make language configurable
+
+* Tabbed View (Setup, Shooting, Finish/Clean)
+* make devices moveable
+* Create own Spinner for easier round delay input
+* Drag&Drop Device Panels and Actions
+* Open/Close Panels
+* Create Custom L&F with Synth or Nimbus
 * Graphical View of one cycle
 * Automatic Action Times:
 	o Offset + Duration = min. Offset of the following Action
 * Viscosity Factor:
 	o Factor that adapts the action times of devices
-* How to handle different raw formats in aspect of EXIF ???
-* Make language configurable
 
 
 
 
 NEW FEATURES:
 * Processing panel can now be used to automatically add metadata informations
-  to pictures in a tethered shooting workflow
+  to pictures in a tethered shooting workflow.
 * Filename of an opened or saved file is now displayed in the window title
+* Automatically send configuration to microcontroller before start if it changed 
+  since it was last sent. This ensures that the configuration in Droplet and on 
+  the controller are equal on every round execution. 
 
 
 NOTES:

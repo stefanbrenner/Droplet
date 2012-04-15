@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JFrame;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
@@ -48,8 +50,14 @@ public class StartAction extends AbstractSerialAction {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 		
-		// TODO brenner: create send message and compare with lastSendMessage
-		// from context
+		// send configuration if it changed since last send
+		String setMessage = messageProtocolProvider.createSetMessage(getDroplet());
+		if (!StringUtils.equals(setMessage, getDropletContext().getLastSetMessage())) {
+			String resetMessage = messageProtocolProvider.createResetMessage();
+			serialCommProvider.sendData(resetMessage);
+			serialCommProvider.sendData(setMessage);
+			getDropletContext().setLastSetMessage(setMessage);
+		}
 		
 		Integer rounds = getDropletContext().getRounds();
 		Integer roundDelay = getDropletContext().getRoundDelay();

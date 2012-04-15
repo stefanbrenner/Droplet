@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -29,18 +29,20 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
+ * Send a cancel message to the serial controller.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class CancelAction extends AbstractSerialAction {
 
-	public CancelAction(JFrame frame, IDropletContext dropletContext) {
+	public CancelAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("CancelAction.title")); //$NON-NLS-1$
 		putValue(SHORT_DESCRIPTION, Messages.getString("CancelAction.description")); //$NON-NLS-1$
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 

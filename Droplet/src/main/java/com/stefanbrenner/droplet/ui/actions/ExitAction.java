@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -27,19 +27,21 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
+ * Action to exit and close the droplet application.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class ExitAction extends AbstractDropletAction {
 
-	public ExitAction(JFrame parent, IDropletContext dropletContext) {
+	public ExitAction(final JFrame parent, final IDropletContext dropletContext) {
 		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
 
 		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("ExitAction.mnemonic"))); //$NON-NLS-1$
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
 		getFrame().dispose();
 		System.exit(0);

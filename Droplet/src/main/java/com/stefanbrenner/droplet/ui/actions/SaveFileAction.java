@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -39,6 +39,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 import com.stefanbrenner.droplet.xml.JAXBHelper;
 
 /**
+ * Action to save a droplet configuration.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
@@ -46,7 +48,7 @@ public class SaveFileAction extends AbstractDropletAction {
 
 	private final JFileChooser fileChooser;
 
-	public SaveFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+	public SaveFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		this(Messages.getString("SaveFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
@@ -54,13 +56,14 @@ public class SaveFileAction extends AbstractDropletAction {
 		putValue(SHORT_DESCRIPTION, Messages.getString("SaveFileAction.description")); //$NON-NLS-1$
 	}
 
-	public SaveFileAction(String name, JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+	public SaveFileAction(final String name, final JFrame frame, final JFileChooser fileChooser,
+			final IDropletContext dropletContext) {
 		super(frame, dropletContext, name);
 		this.fileChooser = fileChooser;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		File file = getDropletContext().getFile();
 		if (file == null) {
 			showFileChooser();
@@ -115,7 +118,7 @@ public class SaveFileAction extends AbstractDropletAction {
 		}
 	}
 
-	protected void saveFile(File file) {
+	protected void saveFile(final File file) {
 		try {
 
 			IDroplet droplet = getDropletContext().getDroplet();

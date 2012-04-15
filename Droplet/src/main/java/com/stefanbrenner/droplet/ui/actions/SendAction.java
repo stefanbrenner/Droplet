@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -34,12 +34,15 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
+ * Action to send a message containing the current droplet configuration to the
+ * serial controller.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class SendAction extends AbstractSerialAction {
 
-	public SendAction(JFrame frame, IDropletContext dropletContext) {
+	public SendAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("SendAction.title")); //$NON-NLS-1$
 		putValue(SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
 
@@ -47,7 +50,7 @@ public class SendAction extends AbstractSerialAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 
 		// cannot send no devices
 		if (getDroplet().getDevices().isEmpty()) {

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -30,6 +30,8 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
 /**
+ * Action to send a OFF message to a device.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
@@ -37,13 +39,13 @@ public class DeviceOffAction extends AbstractSerialAction {
 
 	private final IDevice device;
 
-	public DeviceOffAction(JFrame frame, IDropletContext dropletContext, IDevice device) {
+	public DeviceOffAction(final JFrame frame, final IDropletContext dropletContext, final IDevice device) {
 		super(frame, dropletContext, Messages.getString("DeviceOffAction.title")); //$NON-NLS-1$
 		this.device = device;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 

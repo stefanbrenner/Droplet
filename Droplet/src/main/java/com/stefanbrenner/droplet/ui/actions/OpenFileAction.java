@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -39,6 +39,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 import com.stefanbrenner.droplet.xml.JAXBHelper;
 
 /**
+ * Action to open a droplet configuration from a file.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
@@ -46,11 +48,12 @@ public class OpenFileAction extends AbstractDropletAction {
 
 	private final JFileChooser fileChooser;
 
-	public OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+	public OpenFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		this(frame, fileChooser, dropletContext, Messages.getString("OpenFileAction.title")); //$NON-NLS-1$
 	}
 
-	protected OpenFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext, String title) {
+	protected OpenFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext,
+			final String title) {
 		super(frame, dropletContext, title);
 
 		this.fileChooser = fileChooser;
@@ -61,7 +64,7 @@ public class OpenFileAction extends AbstractDropletAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		open(false);
 	}
 

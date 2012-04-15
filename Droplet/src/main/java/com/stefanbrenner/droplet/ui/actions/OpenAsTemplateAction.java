@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -28,12 +28,17 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
+ * Action to open a droplet configuration as template for a new configuration.
+ * <p>
+ * The devices of the new configuration are equal to the one from the template,
+ * but all device actions are removed.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class OpenAsTemplateAction extends OpenFileAction {
 
-	public OpenAsTemplateAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+	public OpenAsTemplateAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		super(frame, fileChooser, dropletContext, Messages.getString("OpenAsTemplateAction.title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, null);
@@ -42,7 +47,7 @@ public class OpenAsTemplateAction extends OpenFileAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		open(true);
 	}
 

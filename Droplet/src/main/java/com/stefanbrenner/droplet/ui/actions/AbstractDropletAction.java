@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import javax.swing.AbstractAction;
@@ -26,8 +26,9 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 
 /**
- * @author Stefan Brenner
+ * Abstract base class for all actions used in droplet.
  * 
+ * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public abstract class AbstractDropletAction extends AbstractAction {
@@ -35,7 +36,7 @@ public abstract class AbstractDropletAction extends AbstractAction {
 	private final IDropletContext dropletContext;
 	private final JFrame frame;
 
-	public AbstractDropletAction(JFrame parent, IDropletContext dropletContext, String title) {
+	public AbstractDropletAction(final JFrame parent, final IDropletContext dropletContext, final String title) {
 		super(title);
 		this.frame = parent;
 		this.dropletContext = dropletContext;

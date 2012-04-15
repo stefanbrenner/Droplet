@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -30,19 +30,21 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.AddDeviceDialog;
 
 /**
+ * Actions to add a new device to droplet.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class AddDeviceAction extends AbstractDropletAction {
 
-	public AddDeviceAction(JFrame frame, IDropletContext dropletContext) {
+	public AddDeviceAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("AddDeviceAction.title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		JDialog dialog = new AddDeviceDialog(getFrame(), getDropletContext());
 		dialog.setVisible(true);
 	}

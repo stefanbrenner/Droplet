@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.Event;
@@ -30,12 +30,14 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
+ * Action to save a droplet configuration as a new file.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class SaveAsFileAction extends SaveFileAction {
 
-	public SaveAsFileAction(JFrame frame, JFileChooser fileChooser, IDropletContext dropletContext) {
+	public SaveAsFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		super(Messages.getString("SaveAsFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
@@ -43,7 +45,7 @@ public class SaveAsFileAction extends SaveFileAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		showFileChooser();
 	}
 

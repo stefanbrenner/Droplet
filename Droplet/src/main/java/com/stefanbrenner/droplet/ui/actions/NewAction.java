@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************
  * Project: Droplet - Toolkit for Liquid Art Photographers
  * Copyright (C) 2012 Stefan Brenner
  *
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
@@ -30,12 +30,14 @@ import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
+ * Action to create a new droplet configuration.
+ * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class NewAction extends AbstractDropletAction {
 
-	public NewAction(JFrame frame, IDropletContext dropletContext) {
+	public NewAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("NewAction.title")); //$NON-NLS-1$
 
 		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
@@ -45,7 +47,7 @@ public class NewAction extends AbstractDropletAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(final ActionEvent event) {
 		int retVal = JOptionPane.showConfirmDialog(getFrame(),
 				Messages.getString("NewAction.unsavedChanges"), Messages.getString("NewAction.1"), //$NON-NLS-1$ //$NON-NLS-2$
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);

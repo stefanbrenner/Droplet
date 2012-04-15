@@ -47,8 +47,6 @@ Release 0.1
 ================================================================================
  I D E A S
 ================================================================================
-* add configuration name to title or somewhere else
-* Output folder for metadata processing
 * Internationalize Messages from Arduino
 * use ant for build process (jarbuilder)
 * direct device control: send OFF to all that are ON when closing
@@ -74,10 +72,11 @@ Release 0.1
 		- http://sourceforge.net/projects/im4java/
 		- http://www.sno.phy.queensu.ca/~phil/exiftool/
 		- http://code.google.com/p/metadata-extractor/
-	o embed Comments, Tags to EXIF
 	o embed the setup information in some kind of 'code' to EXIF
-	o watch folder / distribution folder
-	  example workflow: Camera -> watch folder -> Droplet -> distribution folder -> Lightroom
+	o Output folder
+	  	Camera -> watch folder -> Droplet -> watch folder -> Lightroom
+	  	vs.
+	  	Camera -> watch folder -> Droplet -> distribution folder -> Lightroom
 	o create special droplet schema
 	o create LR plugin for droplet metadata schema
 		- http://www.adobe.com/devnet/photoshoplightroom.html
@@ -98,7 +97,9 @@ Release 0.1
 
 
 NEW FEATURES:
-* 
+* Processing panel can now be used to automatically add metadata informations
+  to pictures in a tethered shooting workflow
+* Filename of an opened or saved file is now displayed in the window title
 
 
 NOTES:

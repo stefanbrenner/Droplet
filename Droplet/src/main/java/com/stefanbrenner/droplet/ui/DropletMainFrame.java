@@ -27,6 +27,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
@@ -134,7 +135,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		dropletContext.setDroplet(droplet);
 		
 		// basic frame setup
-		setTitle(Messages.getString("DropletMainFrame.title")); //$NON-NLS-1$
+		updateTitle();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setIconImage(new ImageIcon("icons/droplet_icon_48x48.png").getImage());
@@ -223,9 +224,30 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// update ui for nimbus component resizing
 		SwingUtilities.updateComponentTreeUI(this);
 		
+		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_FILE, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(final PropertyChangeEvent event) {
+				updateTitle();
+			}
+		});
+		
 		// add welcome message to logging panel
 		dropletContext.addLoggingMessage("Welcome to Droplet!");
 		
+	}
+	
+	/**
+	 * Updates the frame title.
+	 * <p>
+	 * Additionally displays the absolute file name of an opened or saved file.
+	 */
+	private void updateTitle() {
+		File file = dropletContext.getFile();
+		String title = Messages.getString("DropletMainFrame.title"); //$NON-NLS-1$
+		if (file != null) {
+			title += " - " + file.getAbsolutePath();
+		}
+		setTitle(title);
 	}
 	
 	@Override

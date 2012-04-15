@@ -25,6 +25,8 @@ import javax.swing.Action;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.IMetadata;
+import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
@@ -44,6 +46,12 @@ public class ExitAction extends AbstractDropletAction {
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
+		
+		// save data to configuration
+		IMetadata metadata = getDropletContext().getMetadata();
+		Configuration.setMetadataComments(metadata.getDescription());
+		Configuration.setMetadataTags(metadata.getTags());
+		
 		getFrame().dispose();
 		System.exit(0);
 	}

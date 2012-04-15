@@ -47,6 +47,7 @@ Release 0.1
 ================================================================================
  I D E A S
 ================================================================================
+* add configuration name to title or somewhere else
 * Output folder for metadata processing
 * Internationalize Messages from Arduino
 * use ant for build process (jarbuilder)
@@ -77,6 +78,9 @@ Release 0.1
 	o embed the setup information in some kind of 'code' to EXIF
 	o watch folder / distribution folder
 	  example workflow: Camera -> watch folder -> Droplet -> distribution folder -> Lightroom
+	o create special droplet schema
+	o create LR plugin for droplet metadata schema
+		- http://www.adobe.com/devnet/photoshoplightroom.html
 * Logging:
 	o Move logging to own window?
 	o Add colored logging messages

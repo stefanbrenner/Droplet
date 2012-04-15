@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.model.internal;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.net.URI;
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -37,15 +38,21 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
  * 
  * @author Stefan Brenner
  */
-public class Configuration {
+public final class Configuration {
 	
 	public static final String CONF_SERIAL_COMM_PROVIDER = "Configuration.SerialCommProvider"; //$NON-NLS-1$
 	
 	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider"; //$NON-NLS-1$
 	
-	private static final Preferences PREFS = Preferences.userNodeForPackage(Configuration.class);
+	public static final String CONF_PROCESSING_ENABLED = "Configuration.Processing.Enabled"; //$NON-NLS-1$
 	
-	private static final String PREF_SERIAL_COMM_PROVIDER = "Droplet.SerialCommunicationProvider"; //$NON-NLS-1$
+	public static final String CONF_WATCH_FOLDER_URI = "Configuration.WatchFolderURI"; //$NON-NLS-1$
+	
+	public static final String CONF_METADATA_COMMENTS = "Configuration.Metadata.Comments"; //$NON-NLS-1$
+	
+	public static final String CONF_METADATA_TAGS = "Configuration.Metadata.Tags"; //$NON-NLS-1$
+	
+	private static final Preferences PREFS = Preferences.userNodeForPackage(Configuration.class);
 	
 	private static final ISerialCommunicationService DEFAULT_SERIAL_COMM_PROVIDER = new ArduinoService();
 	
@@ -54,7 +61,7 @@ public class Configuration {
 	}
 	
 	public static ISerialCommunicationService getSerialCommProvider() {
-		String string = Configuration.PREFS.get(Configuration.PREF_SERIAL_COMM_PROVIDER, null);
+		String string = Configuration.PREFS.get(Configuration.CONF_SERIAL_COMM_PROVIDER, null);
 		List<ISerialCommunicationService> plugins = PluginLoader.getPlugins(ISerialCommunicationService.class);
 		for (ISerialCommunicationService commService : plugins) {
 			if (StringUtils.equals(commService.getClass().getCanonicalName(), string)) {
@@ -67,7 +74,7 @@ public class Configuration {
 	
 	public static void setSerialCommProvider(final ISerialCommunicationService commService) {
 		ISerialCommunicationService oldService = Configuration.getSerialCommProvider();
-		Configuration.PREFS.put(Configuration.PREF_SERIAL_COMM_PROVIDER, commService.getClass().getCanonicalName());
+		Configuration.PREFS.put(Configuration.CONF_SERIAL_COMM_PROVIDER, commService.getClass().getCanonicalName());
 		Configuration.support.firePropertyChange(Configuration.CONF_SERIAL_COMM_PROVIDER, oldService, commService);
 	}
 	
@@ -92,6 +99,42 @@ public class Configuration {
 		Configuration.PREFS.put(Configuration.PREF_MESSAGE_PROTOCOL, messageProtocol.getClass().getCanonicalName());
 		Configuration.support.firePropertyChange(Configuration.CONF_MESSAGE_PROTOCOL_PROVIDER, oldProtocol,
 				messageProtocol);
+	}
+	
+	public static void setProcessingEnabled(final boolean enabled) {
+		Configuration.PREFS.putBoolean(Configuration.CONF_PROCESSING_ENABLED, enabled);
+	}
+	
+	public static boolean isProcessingEnabled() {
+		return Configuration.PREFS.getBoolean(CONF_PROCESSING_ENABLED, false);
+	}
+	
+	public static void setWathFolder(final URI watchFolderURI) {
+		Configuration.PREFS.put(Configuration.CONF_WATCH_FOLDER_URI, watchFolderURI.toString());
+	}
+	
+	public static URI getWatchFolderURI() {
+		String uri = Configuration.PREFS.get(Configuration.CONF_WATCH_FOLDER_URI, null);
+		if (StringUtils.isNotBlank(uri)) {
+			return URI.create(uri);
+		}
+		return null;
+	}
+	
+	public static void setMetadataComments(String comments) {
+		Configuration.PREFS.put(Configuration.CONF_METADATA_COMMENTS, comments);
+	}
+	
+	public static String getMetadataComments() {
+		return Configuration.PREFS.get(CONF_METADATA_COMMENTS, StringUtils.EMPTY);
+	}
+	
+	public static void setMetadataTags(String tags) {
+		Configuration.PREFS.put(Configuration.CONF_METADATA_TAGS, tags);
+	}
+	
+	public static String getMetadataTags() {
+		return Configuration.PREFS.get(CONF_METADATA_TAGS, StringUtils.EMPTY);
 	}
 	
 	// simple static notification support

@@ -26,9 +26,6 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
@@ -55,13 +52,6 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 	 * Interval in milliseconds for the directory monitor.
 	 */
 	private static final int INTERVAL = 500;
-	
-	/**
-	 * File filter for raw image files.
-	 */
-	// TODO brenner: add all possible raw formats
-	private static final IOFileFilter RAW_FILE_FILTER = FileFilterUtils.and(FileFilterUtils.fileFileFilter(),
-			FileFilterUtils.suffixFileFilter(".cr2"));
 	
 	private FileAlterationMonitor monitor;
 	
@@ -101,7 +91,13 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 		
 		File watchFolder = new File(uri);
 		if (watchFolder.exists()) {
-			observer = new FileAlterationObserver(watchFolder, RAW_FILE_FILTER, IOCase.INSENSITIVE);
+			observer = new FileAlterationObserver(watchFolder,
+					com.stefanbrenner.droplet.utils.FileUtils.RAW_FORMAT_FILTER);
+			try {
+				observer.initialize();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			observer.addListener(this);
 		} else {
 			observer = null;
@@ -174,8 +170,7 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 			}
 			
 			/* Title and Description */
-			// TODO brenner: create readable description from
-			// configuration
+			// TODO brenner: create readable description from configuration
 			// xmpMeta.setLocalizedText(schemaDc, "dc:title",
 			// "x-default", "x-default", "Droplet Title");
 			xmpMeta.setLocalizedText(SCHEMA_DC, "dc:description", "x-default", "x-default",

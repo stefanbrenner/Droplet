@@ -21,6 +21,10 @@ package com.stefanbrenner.droplet.utils;
 
 import java.io.File;
 
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
+
 /**
  * File manipulation utils.
  * <p>
@@ -29,6 +33,30 @@ import java.io.File;
  * @author Stefan Brenner
  */
 public final class FileUtils {
+	
+	/** File filter that filters raw image files case insensitively. */
+	public static final IOFileFilter RAW_FORMAT_FILTER = FileFilterUtils.and(
+			FileFilterUtils.fileFileFilter(),
+			FileFilterUtils.or(
+					// Canon
+					FileFilterUtils.suffixFileFilter("CRW", IOCase.INSENSITIVE),
+					FileFilterUtils.suffixFileFilter("CR2", IOCase.INSENSITIVE),
+					// Nikon
+					FileFilterUtils.suffixFileFilter("NEF", IOCase.INSENSITIVE),
+					// Minolta
+					FileFilterUtils.suffixFileFilter("MRW", IOCase.INSENSITIVE),
+					// Olympus
+					FileFilterUtils.suffixFileFilter("ORF", IOCase.INSENSITIVE),
+					// Fujifilm
+					FileFilterUtils.suffixFileFilter("RAF", IOCase.INSENSITIVE),
+					// Sony
+					FileFilterUtils.suffixFileFilter("ARW", IOCase.INSENSITIVE),
+					FileFilterUtils.suffixFileFilter("SRF", IOCase.INSENSITIVE),
+					// Pentax
+					FileFilterUtils.suffixFileFilter("PEF", IOCase.INSENSITIVE),
+					// General
+					FileFilterUtils.suffixFileFilter("RAW", IOCase.INSENSITIVE),
+					FileFilterUtils.suffixFileFilter("DNG", IOCase.INSENSITIVE)));
 	
 	/**
 	 * Empty default constructor.

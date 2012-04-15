@@ -27,6 +27,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URI;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -42,6 +43,7 @@ import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
+import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IMetadataProcessingService;
 import com.stefanbrenner.droplet.service.impl.XMPMetadataService;
 import com.stefanbrenner.droplet.utils.DropletFonts;
@@ -52,7 +54,6 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * 
  * @author Stefan Brenner
  */
-// TODO brenner: bind to some model object
 public class ProcessingPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -64,6 +65,12 @@ public class ProcessingPanel extends JPanel {
 	private final IMetadata metadata;
 	
 	private IMetadataProcessingService metadataService;
+	
+	private JTextField txtWatchFolder;
+	
+	private JTextArea txtComments;
+	
+	private JTextArea txtTags;
 	
 	/**
 	 * Create the panel.
@@ -87,7 +94,6 @@ public class ProcessingPanel extends JPanel {
 		gbc.fill = GridBagConstraints.BOTH;
 		
 		cbEnable = new JCheckBox(Messages.getString("ProcessingPanel.writeMetadata")); //$NON-NLS-1$
-		cbEnable.setSelected(false);
 		cbEnable.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent action) {
@@ -115,8 +121,7 @@ public class ProcessingPanel extends JPanel {
 			// reset gridwidth
 			gbc.gridwidth = 1;
 			
-			// watch folder textbox
-			final JTextField txtWatchFolder = new JTextField();
+			txtWatchFolder = new JTextField();
 			txtWatchFolder.setEditable(false);
 			watchFolderPanel.add(txtWatchFolder, BorderLayout.CENTER);
 			
@@ -134,6 +139,7 @@ public class ProcessingPanel extends JPanel {
 						File directory = fileChooser.getSelectedFile();
 						txtWatchFolder.setText(directory.getAbsolutePath());
 						metadataService.setWatchFolder(directory.toURI());
+						Configuration.setWathFolder(directory.toURI());
 					}
 				}
 			});
@@ -144,9 +150,8 @@ public class ProcessingPanel extends JPanel {
 		UiUtils.editGridBagConstraints(gbc, 0, 2, 0, 1, GridBagConstraints.NORTHEAST);
 		add(new JLabel(Messages.getString("ProcessingPanel.comments")), gbc); //$NON-NLS-1$
 		
-		// comments textarea
-		JTextArea txtComments = BasicComponentFactory.createTextArea(
-				adapter.getValueModel(IMetadata.PROPERTY_DESCRIPTION), false);
+		txtComments = BasicComponentFactory
+				.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_DESCRIPTION), false);
 		txtComments.setRows(4);
 		txtComments.setColumns(20);
 		txtComments.setFont(DropletFonts.FONT_STANDARD_SMALL);
@@ -161,8 +166,7 @@ public class ProcessingPanel extends JPanel {
 		UiUtils.editGridBagConstraints(gbc, 2, 2, 0, 1, GridBagConstraints.NORTHEAST);
 		add(new JLabel(Messages.getString("ProcessingPanel.tags")), gbc); //$NON-NLS-1$
 		
-		// tag textarea
-		JTextArea txtTags = BasicComponentFactory.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_TAGS), false);
+		txtTags = BasicComponentFactory.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_TAGS), false);
 		txtTags.setRows(4);
 		txtTags.setColumns(20);
 		txtTags.setFont(DropletFonts.FONT_STANDARD_SMALL);
@@ -173,7 +177,29 @@ public class ProcessingPanel extends JPanel {
 		tagScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(tagScrollPane, gbc);
 		
+		initValuesFromConfiguration();
 		updateState();
+	}
+	
+	/**
+	 * Initialize the ui components with stored values from the droplet
+	 * configuration.
+	 */
+	private void initValuesFromConfiguration() {
+		
+		cbEnable.setSelected(Configuration.isProcessingEnabled());
+		
+		URI watchFolderURI = Configuration.getWatchFolderURI();
+		if (watchFolderURI != null) {
+			File directory = new File(watchFolderURI);
+			if (directory.exists()) {
+				txtWatchFolder.setText(directory.getAbsolutePath());
+				metadataService.setWatchFolder(directory.toURI());
+			}
+		}
+		
+		txtComments.setText(Configuration.getMetadataComments());
+		txtTags.setText(Configuration.getMetadataTags());
 	}
 	
 	/**
@@ -187,6 +213,7 @@ public class ProcessingPanel extends JPanel {
 			metadataService.stop();
 		}
 		UiUtils.setEnabledRecursive(ProcessingPanel.this, enabled, cbEnable);
+		Configuration.setProcessingEnabled(enabled);
 	}
 	
 }

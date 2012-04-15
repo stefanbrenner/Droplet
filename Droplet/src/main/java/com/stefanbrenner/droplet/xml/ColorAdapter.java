@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * @author Stefan Brenner
  */
 public class ColorAdapter extends XmlAdapter<Integer, Color> {
-
+	
 	@Override
 	public final Integer marshal(final Color color) throws Exception {
 		if (color != null) {
@@ -37,7 +37,7 @@ public class ColorAdapter extends XmlAdapter<Integer, Color> {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public final Color unmarshal(final Integer value) throws Exception {
 		if (value != null) {
@@ -45,5 +45,5 @@ public class ColorAdapter extends XmlAdapter<Integer, Color> {
 		}
 		return null;
 	}
-
+	
 }

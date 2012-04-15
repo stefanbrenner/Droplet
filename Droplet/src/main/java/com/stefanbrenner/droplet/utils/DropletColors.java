@@ -34,14 +34,14 @@ import com.stefanbrenner.droplet.model.IValve;
  * @author Stefan Brenner
  */
 public final class DropletColors {
-
+	
 	/** The background color for valves. */
 	public static final Color BG_VALVE = new Color(204, 255, 204, 255);
 	/** The background color for flashes. */
 	public static final Color BG_FLASH = new Color(204, 255, 255, 255);
 	/** The background color for cameras. */
 	public static final Color BG_CAMERA = new Color(254, 255, 204, 255);
-
+	
 	/**
 	 * @param device
 	 *            droplet device for which a color is requested
@@ -49,20 +49,20 @@ public final class DropletColors {
 	 */
 	public static Color getBackgroundColor(final IDevice device) {
 		if (device instanceof IValve) {
-			return BG_VALVE;
+			return DropletColors.BG_VALVE;
 		} else if (device instanceof IFlash) {
-			return BG_FLASH;
+			return DropletColors.BG_FLASH;
 		} else if (device instanceof ICamera) {
-			return BG_CAMERA;
+			return DropletColors.BG_CAMERA;
 		}
 		return Color.GRAY;
 	}
-
+	
 	/**
 	 * Empty default constructor.
 	 */
 	private DropletColors() {
-
+		
 	};
-
+	
 }

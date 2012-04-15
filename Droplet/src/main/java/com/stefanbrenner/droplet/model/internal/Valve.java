@@ -29,33 +29,37 @@ import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
+/**
+ * 
+ * @author Stefan Brenner
+ */
 @XmlRootElement(name = "Valve")
 public class Valve extends AbstractActionDevice implements IValve {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@XmlAttribute(name = "Color")
 	@XmlJavaTypeAdapter(ColorAdapter.class)
 	private Color color;
-
+	
 	@Override
 	public Color getColor() {
 		return color;
 	}
-
+	
 	@Override
-	public void setColor(Color color) {
-		firePropertyChange(PROPERTY_COLOR, this.color, this.color = color);
+	public void setColor(final Color color) {
+		firePropertyChange(IValve.PROPERTY_COLOR, this.color, this.color = color);
 	}
-
+	
 	@Override
 	protected String getDeviceType() {
 		return "Valve";
 	}
-
+	
 	@Override
 	public IDurationAction createNewAction() {
 		return new DurationAction();
 	}
-
+	
 }

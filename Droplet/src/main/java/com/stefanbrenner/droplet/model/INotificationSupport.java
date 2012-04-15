@@ -27,35 +27,33 @@ import java.beans.PropertyChangeListener;
  * @author Stefan Brenner
  */
 public interface INotificationSupport {
-
+	
 	/**
 	 * @param listener
 	 *            to be added
 	 */
 	void addPropertyChangeListener(PropertyChangeListener listener);
-
+	
 	/**
 	 * @param propertyName
 	 *            to which the listener should be added
 	 * @param listener
 	 *            to be added
 	 */
-	void addPropertyChangeListener(String propertyName,
-			PropertyChangeListener listener);
-
+	void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
+	
 	/**
 	 * @param listener
 	 *            to be removed
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
-
+	
 	/**
 	 * @param propertyName
 	 *            for which the listener should be removed
 	 * @param listener
 	 *            to be removed
 	 */
-	void removePropertyChangeListener(String propertyName,
-			PropertyChangeListener listener);
-
+	void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+	
 }

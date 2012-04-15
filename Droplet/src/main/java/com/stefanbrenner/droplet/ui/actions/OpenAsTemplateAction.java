@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -37,18 +38,18 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class OpenAsTemplateAction extends OpenFileAction {
-
+	
 	public OpenAsTemplateAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		super(frame, fileChooser, dropletContext, Messages.getString("OpenAsTemplateAction.title")); //$NON-NLS-1$
-
-		putValue(ACCELERATOR_KEY, null);
-		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("OpenAsTemplateAction.mnemonic"))); //$NON-NLS-1$
-		putValue(SHORT_DESCRIPTION, Messages.getString("OpenAsTemplateAction.description")); //$NON-NLS-1$
+		
+		putValue(Action.ACCELERATOR_KEY, null);
+		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("OpenAsTemplateAction.mnemonic"))); //$NON-NLS-1$
+		putValue(Action.SHORT_DESCRIPTION, Messages.getString("OpenAsTemplateAction.description")); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		open(true);
 	}
-
+	
 }

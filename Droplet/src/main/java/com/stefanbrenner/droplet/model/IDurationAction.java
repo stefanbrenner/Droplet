@@ -25,25 +25,25 @@ package com.stefanbrenner.droplet.model;
  * @author Stefan Brenner
  */
 public interface IDurationAction extends IAction {
-
+	
 	/** Property name for the action duration. */
 	String PROPERTY_DURATION = "duration"; //$NON-NLS-1$
-
+	
 	/**
 	 * @param duration
 	 *            of the action in milliseconds
 	 */
 	void setDuration(Integer duration);
-
+	
 	/**
 	 * @return duration of the action in milliseconds
 	 */
 	Integer getDuration();
-
+	
 	/**
 	 * @param duration
 	 *            in milliseconds to be added to the action duration
 	 */
 	void addDuration(Integer duration);
-
+	
 }

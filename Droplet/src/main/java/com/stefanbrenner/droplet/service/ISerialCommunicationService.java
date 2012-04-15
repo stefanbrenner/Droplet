@@ -29,19 +29,19 @@ import com.stefanbrenner.droplet.model.IDropletContext;
  * @author Stefan Brenner
  */
 public interface ISerialCommunicationService {
-
+	
 	/**
 	 * @return the name of the provider used for selection in the ui.
 	 */
 	String getName();
-
+	
 	/**
 	 * Returns all available serial ports.
 	 * 
 	 * @return Array of available serial ports
 	 */
 	CommPortIdentifier[] getPorts();
-
+	
 	/**
 	 * Indicates if the service is currently connected to a serial port.
 	 * 
@@ -49,7 +49,7 @@ public interface ISerialCommunicationService {
 	 *         <code>false</code>
 	 */
 	boolean isConnected();
-
+	
 	/**
 	 * Send a message to the receiver.
 	 * 
@@ -57,13 +57,13 @@ public interface ISerialCommunicationService {
 	 *            message to send
 	 */
 	void sendData(String message);
-
+	
 	/**
 	 * This should be called when you stop using the port. This will prevent
 	 * port locking on platforms like Linux.
 	 */
 	void close();
-
+	
 	/**
 	 * Connect to a given serial port.
 	 * 
@@ -75,5 +75,5 @@ public interface ISerialCommunicationService {
 	 *         <code>false</code> otherwise
 	 */
 	boolean connect(CommPortIdentifier portId, IDropletContext context);
-
+	
 }

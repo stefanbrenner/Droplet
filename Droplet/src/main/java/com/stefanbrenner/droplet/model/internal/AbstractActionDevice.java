@@ -33,20 +33,20 @@ import com.stefanbrenner.droplet.model.IActionDevice;
  * 
  * @author Stefan Brenner
  */
-public abstract class AbstractActionDevice extends AbstractDevice implements
-		IActionDevice {
-
+public abstract class AbstractActionDevice extends AbstractDevice implements IActionDevice {
+	
 	private static final long serialVersionUID = 1L;
-
-	@XmlElement(name = "Action", type = Action.class)
+	
+	@XmlElement(name = "Action",
+			type = Action.class)
 	@XmlElementWrapper(name = "Actions")
 	private List<IAction> actions = new ArrayList<IAction>();
-
+	
 	@Override
 	public List<IAction> getActions() {
 		return actions;
 	}
-
+	
 	@Override
 	public List<IAction> getEnabledActions() {
 		List<IAction> enabledActions = new ArrayList<IAction>();
@@ -57,33 +57,32 @@ public abstract class AbstractActionDevice extends AbstractDevice implements
 		}
 		return enabledActions;
 	}
-
+	
 	@Override
 	public void setActions(final List<IAction> actions) {
-		firePropertyChange(ASSOCIATION_ACTIONS, this.actions,
-				this.actions = actions);
+		firePropertyChange(IActionDevice.ASSOCIATION_ACTIONS, this.actions, this.actions = actions);
 	}
-
+	
 	@Override
 	public void addAction(final IAction action) {
 		List<IAction> oldValue = actions;
 		actions = new ArrayList<IAction>(this.actions);
 		actions.add(action);
-		firePropertyChange(ASSOCIATION_ACTIONS, oldValue, actions);
+		firePropertyChange(IActionDevice.ASSOCIATION_ACTIONS, oldValue, actions);
 	}
-
+	
 	@Override
 	public void removeAction(final IAction action) {
 		List<IAction> oldValue = actions;
 		actions = new ArrayList<IAction>(this.actions);
 		actions.remove(action);
-		firePropertyChange(ASSOCIATION_ACTIONS, oldValue, actions);
+		firePropertyChange(IActionDevice.ASSOCIATION_ACTIONS, oldValue, actions);
 	}
-
+	
 	@Override
 	public void reset() {
 		super.reset();
 		actions.clear();
 	}
-
+	
 }

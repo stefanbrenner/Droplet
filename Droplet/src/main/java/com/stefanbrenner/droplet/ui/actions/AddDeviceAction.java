@@ -22,6 +22,7 @@ package com.stefanbrenner.droplet.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Action;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
@@ -36,17 +37,17 @@ import com.stefanbrenner.droplet.ui.AddDeviceDialog;
  */
 @SuppressWarnings("serial")
 public class AddDeviceAction extends AbstractDropletAction {
-
+	
 	public AddDeviceAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("AddDeviceAction.title")); //$NON-NLS-1$
-
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+		
+		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		JDialog dialog = new AddDeviceDialog(getFrame(), getDropletContext());
 		dialog.setVisible(true);
 	}
-
+	
 }

@@ -35,78 +35,78 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
  */
 // @ProviderFor(IDropletMessageProtocol.class)
 public class SimpleMessageProtocol implements IDropletMessageProtocol {
-
+	
 	@Override
 	public String getName() {
 		return "Simple Message Protocol";
 	}
-
+	
 	@Override
 	public String createStartMessage() {
 		return "run"; //$NON-NLS-1$
 	}
-
+	
 	@Override
-	public String createStartMessage(int rounds, int delay) {
+	public String createStartMessage(final int rounds, final int delay) {
 		return createStartMessage();
 	}
-
+	
 	@Override
-	public String createSetMessage(IDroplet droplet) {
+	public String createSetMessage(final IDroplet droplet) {
 		String message = "set"; //$NON-NLS-1$
-
+		
 		IValve valve1 = droplet.getDevices(IValve.class).get(0);
-
+		
 		IDurationAction action1 = (IDurationAction) valve1.getActions().get(0);
-
+		
 		int dur1 = action1.getDuration();
-
+		
 		IDurationAction action2 = (IDurationAction) valve1.getActions().get(1);
-
+		
 		int del1 = Math.abs(action2.getOffset() - action1.getOffset());
 		int dur2 = action2.getDuration();
-
+		
 		IDurationAction action3 = (IDurationAction) valve1.getActions().get(2);
-
+		
 		int del2 = Math.abs(action3.getOffset() - action2.getOffset());
 		int dur3 = action3.getDuration();
-
+		
 		int delCam = Math.abs(droplet.getDevices(ICamera.class).get(0).getActions().get(0).getOffset()
 				- action3.getOffset());
-
+		
 		message += StringUtils.leftPad(String.valueOf(dur1), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(del1), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(dur2), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(del2), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(dur3), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(delCam), 3, "0"); //$NON-NLS-1$
-
+		
 		return message + "\n"; //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public String createInfoMessage() {
 		return "show"; //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public String createResetMessage() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
-
+	
 	@Override
 	public String createCancelMessage() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
-
+	
 	@Override
-	public String createDeviceOffMessage(IDroplet droplet, IDevice device) {
+	public String createDeviceOffMessage(final IDroplet droplet, final IDevice device) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
-
+	
 	@Override
-	public String createDeviceOnMessage(IDroplet droplet, IDevice device) {
+	public String createDeviceOnMessage(final IDroplet droplet, final IDevice device) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
-
+	
 }

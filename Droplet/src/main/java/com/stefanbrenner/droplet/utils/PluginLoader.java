@@ -32,13 +32,13 @@ import java.util.ServiceLoader;
  *      href="http://java.sun.com/developer/technicalArticles/javase/extensible/">http://java.sun.com/developer/technicalArticles/javase/extensible/</a>
  */
 public final class PluginLoader {
-
+	
 	/**
 	 * Empty default constructor.
 	 */
 	private PluginLoader() {
 	}
-
+	
 	/**
 	 * Returns a list of all service implementations that are found on the
 	 * classpath.
@@ -52,14 +52,14 @@ public final class PluginLoader {
 	 */
 	public static <T> List<T> getPlugins(final Class<T> serviceInterface) {
 		List<T> providers = new ArrayList<T>();
-
+		
 		ServiceLoader<T> load = ServiceLoader.load(serviceInterface);
 		Iterator<T> iterator = load.iterator();
 		while (iterator.hasNext()) {
 			providers.add(iterator.next());
 		}
-
+		
 		return providers;
 	}
-
+	
 }

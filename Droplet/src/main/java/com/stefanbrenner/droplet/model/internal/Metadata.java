@@ -17,35 +17,43 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
-package com.stefanbrenner.droplet.ui;
+package com.stefanbrenner.droplet.model.internal;
 
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.apache.commons.lang3.StringUtils;
+
+import com.stefanbrenner.droplet.model.IMetadata;
 
 /**
+ * Wrapper class for all metadata informations that can be added to pictures by
+ * droplet.
+ * 
  * @author Stefan Brenner
  */
-public class Messages {
-	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.messages"; //$NON-NLS-1$
+public class Metadata extends AbstractModelObject implements IMetadata {
 	
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
+	private static final long serialVersionUID = 1L;
 	
-	private Messages() {
+	private String description = StringUtils.EMPTY;
+	private String tags = StringUtils.EMPTY;
+	
+	@Override
+	public final String getDescription() {
+		return description;
 	}
 	
-	/**
-	 * Read localized message from resources and format it.
-	 * 
-	 * @see MessageFormat
-	 */
-	public static String getString(final String key, final Object... args) {
-		try {
-			String message = Messages.RESOURCE_BUNDLE.getString(key);
-			MessageFormat format = new MessageFormat(message);
-			return format.format(args);
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
+	@Override
+	public final void setDescription(final String description) {
+		firePropertyChange(IMetadata.PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
+	
+	@Override
+	public final String getTags() {
+		return tags;
+	}
+	
+	@Override
+	public final void setTags(final String tags) {
+		firePropertyChange(IMetadata.PROPERTY_TAGS, this.tags, this.tags = tags);
+	}
+	
 }

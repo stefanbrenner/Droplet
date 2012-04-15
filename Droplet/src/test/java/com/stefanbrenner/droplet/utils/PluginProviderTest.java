@@ -33,43 +33,46 @@ import org.mangosdk.spi.ProviderFor;
  * 
  */
 public class PluginProviderTest {
-
+	
 	/**
-	 * Test interface with on simple method
+	 * Test interface with on simple method.
 	 */
 	public interface ITestService {
+		
 		String getServiceName();
 	}
-
+	
 	@ProviderFor(ITestService.class)
 	public static class TestServiceProvider1 implements ITestService {
+		
 		@Override
 		public String getServiceName() {
 			return "TestServiceProvider1";
 		}
 	}
-
+	
 	@ProviderFor(ITestService.class)
 	public static class TestServiceProvider2 implements ITestService {
+		
 		@Override
 		public String getServiceName() {
 			return "TestServiceProvider2";
 		}
 	}
-
+	
 	@Test
 	public void testPluginLoader() {
 		// find both service provider
 		assertEquals(2, PluginLoader.getPlugins(ITestService.class).size());
-
+		
 		List<String> results = new ArrayList<String>();
 		for (ITestService service : PluginLoader.getPlugins(ITestService.class)) {
 			results.add(service.getServiceName());
 		}
-
+		
 		assertTrue(results.contains("TestServiceProvider1"));
 		assertTrue(results.contains("TestServiceProvider2"));
-
+		
 	}
-
+	
 }

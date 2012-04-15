@@ -25,40 +25,39 @@ package com.stefanbrenner.droplet.model;
  * @author Stefan Brenner
  */
 public interface IAction extends INotificationSupport {
-
+	
 	/** Property name for the enabled flag of an action. */
 	String PROPERTY_ENABLED = "enabled"; //$NON-NLS-1$
-
 	/** Property name for the offset of the action. */
 	String PROPERTY_OFFSET = "offset"; //$NON-NLS-1$
-
+	
 	/**
 	 * @return <code>true</code> if this action is enabled, <code>false</code>
 	 *         otherwise
 	 */
 	boolean isEnabled();
-
+	
 	/**
 	 * @param enabled
 	 *            sets the enabled flag of this action
 	 */
 	void setEnabled(boolean enabled);
-
+	
 	/**
 	 * @param offset
 	 *            offset of this action in milliseconds
 	 */
 	void setOffset(Integer offset);
-
+	
 	/**
 	 * @return the offset of this action in milliseconds
 	 */
 	Integer getOffset();
-
+	
 	/**
 	 * @param offset
 	 *            in milliseconds to be added to the action's offset
 	 */
 	void addOffset(Integer offset);
-
+	
 }

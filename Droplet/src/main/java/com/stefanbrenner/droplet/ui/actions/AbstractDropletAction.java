@@ -32,26 +32,26 @@ import com.stefanbrenner.droplet.model.IDropletContext;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractDropletAction extends AbstractAction {
-
+	
 	private final IDropletContext dropletContext;
 	private final JFrame frame;
-
+	
 	public AbstractDropletAction(final JFrame parent, final IDropletContext dropletContext, final String title) {
 		super(title);
 		this.frame = parent;
 		this.dropletContext = dropletContext;
 	}
-
+	
 	protected JFrame getFrame() {
 		return frame;
 	}
-
+	
 	protected IDropletContext getDropletContext() {
 		return dropletContext;
 	}
-
+	
 	protected IDroplet getDroplet() {
 		return dropletContext.getDroplet();
 	}
-
+	
 }

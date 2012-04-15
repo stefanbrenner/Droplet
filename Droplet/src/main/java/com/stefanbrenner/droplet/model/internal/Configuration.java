@@ -38,23 +38,23 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
  * @author Stefan Brenner
  */
 public class Configuration {
-
+	
 	public static final String CONF_SERIAL_COMM_PROVIDER = "Configuration.SerialCommProvider"; //$NON-NLS-1$
-
+	
 	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider"; //$NON-NLS-1$
-
-	private static final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
-
+	
+	private static final Preferences PREFS = Preferences.userNodeForPackage(Configuration.class);
+	
 	private static final String PREF_SERIAL_COMM_PROVIDER = "Droplet.SerialCommunicationProvider"; //$NON-NLS-1$
-
+	
 	private static final ISerialCommunicationService DEFAULT_SERIAL_COMM_PROVIDER = new ArduinoService();
-
+	
 	private Configuration() {
 		// no need to instantiate this class
 	}
-
+	
 	public static ISerialCommunicationService getSerialCommProvider() {
-		String string = prefs.get(PREF_SERIAL_COMM_PROVIDER, null);
+		String string = Configuration.PREFS.get(Configuration.PREF_SERIAL_COMM_PROVIDER, null);
 		List<ISerialCommunicationService> plugins = PluginLoader.getPlugins(ISerialCommunicationService.class);
 		for (ISerialCommunicationService commService : plugins) {
 			if (StringUtils.equals(commService.getClass().getCanonicalName(), string)) {
@@ -62,21 +62,21 @@ public class Configuration {
 			}
 		}
 		// if no provider was found we use our own arduino service instead
-		return DEFAULT_SERIAL_COMM_PROVIDER;
+		return Configuration.DEFAULT_SERIAL_COMM_PROVIDER;
 	}
-
-	public static void setSerialCommProvider(ISerialCommunicationService commService) {
-		ISerialCommunicationService oldService = getSerialCommProvider();
-		prefs.put(PREF_SERIAL_COMM_PROVIDER, commService.getClass().getCanonicalName());
-		support.firePropertyChange(CONF_SERIAL_COMM_PROVIDER, oldService, commService);
+	
+	public static void setSerialCommProvider(final ISerialCommunicationService commService) {
+		ISerialCommunicationService oldService = Configuration.getSerialCommProvider();
+		Configuration.PREFS.put(Configuration.PREF_SERIAL_COMM_PROVIDER, commService.getClass().getCanonicalName());
+		Configuration.support.firePropertyChange(Configuration.CONF_SERIAL_COMM_PROVIDER, oldService, commService);
 	}
-
+	
 	private static final String PREF_MESSAGE_PROTOCOL = "Droplet.MessageProtocolProvider"; //$NON-NLS-1$
-
+	
 	private static final IDropletMessageProtocol DEFAULT_MESSAGE_PROTOCOL_PROVIDER = new DropletMessageProtocol();
-
+	
 	public static IDropletMessageProtocol getMessageProtocolProvider() {
-		String string = prefs.get(PREF_MESSAGE_PROTOCOL, null);
+		String string = Configuration.PREFS.get(Configuration.PREF_MESSAGE_PROTOCOL, null);
 		List<IDropletMessageProtocol> plugins = PluginLoader.getPlugins(IDropletMessageProtocol.class);
 		for (IDropletMessageProtocol messageService : plugins) {
 			if (StringUtils.equals(messageService.getClass().getCanonicalName(), string)) {
@@ -84,25 +84,26 @@ public class Configuration {
 			}
 		}
 		// if no provider was found we use our own message protocol provider
-		return DEFAULT_MESSAGE_PROTOCOL_PROVIDER;
+		return Configuration.DEFAULT_MESSAGE_PROTOCOL_PROVIDER;
 	}
-
-	public static void setMessageProtocolProvider(IDropletMessageProtocol messageProtocol) {
-		IDropletMessageProtocol oldProtocol = getMessageProtocolProvider();
-		prefs.put(PREF_MESSAGE_PROTOCOL, messageProtocol.getClass().getCanonicalName());
-		support.firePropertyChange(CONF_MESSAGE_PROTOCOL_PROVIDER, oldProtocol, messageProtocol);
+	
+	public static void setMessageProtocolProvider(final IDropletMessageProtocol messageProtocol) {
+		IDropletMessageProtocol oldProtocol = Configuration.getMessageProtocolProvider();
+		Configuration.PREFS.put(Configuration.PREF_MESSAGE_PROTOCOL, messageProtocol.getClass().getCanonicalName());
+		Configuration.support.firePropertyChange(Configuration.CONF_MESSAGE_PROTOCOL_PROVIDER, oldProtocol,
+				messageProtocol);
 	}
-
+	
 	// simple static notification support
-
+	
 	private static PropertyChangeSupport support = new PropertyChangeSupport(new Configuration());
-
-	public static void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-		support.addPropertyChangeListener(propertyName, listener);
+	
+	public static void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
+		Configuration.support.addPropertyChangeListener(propertyName, listener);
 	}
-
-	public static void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-		support.removePropertyChangeListener(propertyName, listener);
+	
+	public static void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
+		Configuration.support.removePropertyChangeListener(propertyName, listener);
 	}
-
+	
 }

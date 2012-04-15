@@ -50,44 +50,44 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  * @author Stefan Brenner
  */
 public class CommunicationPanel extends JPanel {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	private final IDropletContext dropletContext;
-
+	
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
-
+	
 	private ISerialCommunicationService commService;
 	private List<CommPortIdentifier> ports;
-
+	
 	/**
 	 * Create the panel.
 	 */
 	public CommunicationPanel(final IDropletContext context) {
-
+		
 		this.dropletContext = context;
-
+		
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
 		setBorder(BorderFactory.createTitledBorder(Messages.getString("CommunicationPanel.title"))); //$NON-NLS-1$
-
+		
 		// port selection combo box
 		cmbPort = new JComboBox();
 		cmbPort.setRenderer(new ListCellRenderer() {
-
+			
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-
+			
 			@Override
 			public Component getListCellRendererComponent(final JList list, final Object value, final int index,
 					final boolean isSelected, final boolean cellHasFocus) {
-
+				
 				JLabel lbItem = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected,
 						cellHasFocus);
-
+				
 				if (value instanceof CommPortIdentifier) {
 					lbItem.setText(((CommPortIdentifier) value).getName());
 				}
-
+				
 				return lbItem;
 			}
 		});
@@ -98,16 +98,16 @@ public class CommunicationPanel extends JPanel {
 			}
 		});
 		add(cmbPort);
-
+		
 		// status label
 		add(new JLabel(Messages.getString("CommunicationPanel.status"))); //$NON-NLS-1$
 		lblStatus = new JLabel(Messages.getString("CommunicationPanel.notConnected")); //$NON-NLS-1$
 		lblStatus.setForeground(Color.RED);
 		add(lblStatus);
-
+		
 		// set communication service from configuration
-		setCommunicationService(Configuration.getSerialCommProvider());
-
+		setCommService(Configuration.getSerialCommProvider());
+		
 		// add listener to selected communication provider
 		Configuration.addPropertyChangeListener(Configuration.CONF_SERIAL_COMM_PROVIDER, new PropertyChangeListener() {
 			@Override
@@ -120,19 +120,19 @@ public class CommunicationPanel extends JPanel {
 				cmbPort.removeAllItems();
 				Object newValue = event.getNewValue();
 				if (newValue instanceof ISerialCommunicationService) {
-					setCommunicationService((ISerialCommunicationService) newValue);
+					setCommService((ISerialCommunicationService) newValue);
 				}
 			}
 		});
-
+		
 		// add listener to update available ports
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (!Thread.interrupted()) {
-
+					
 					List<CommPortIdentifier> newPorts = Arrays.asList(commService.getPorts());
-
+					
 					// check if new port is available
 					for (CommPortIdentifier port : newPorts) {
 						if (!ports.contains(port)) {
@@ -140,7 +140,7 @@ public class CommunicationPanel extends JPanel {
 							cmbPort.addItem(port);
 						}
 					}
-
+					
 					// check if port has gone
 					for (CommPortIdentifier port : new ArrayList<CommPortIdentifier>(ports)) {
 						if (!newPorts.contains(port)) {
@@ -148,7 +148,7 @@ public class CommunicationPanel extends JPanel {
 							cmbPort.removeItem(port);
 						}
 					}
-
+					
 					// sleep for 2 seconds
 					try {
 						Thread.sleep(2000);
@@ -156,20 +156,20 @@ public class CommunicationPanel extends JPanel {
 						e.printStackTrace();
 					}
 				}
-
+				
 			}
 		}).start();
-
+		
 	}
-
-	private void setCommunicationService(final ISerialCommunicationService commService) {
+	
+	private void setCommService(final ISerialCommunicationService commService) {
 		this.commService = commService;
 		setPorts(commService.getPorts());
 	}
-
+	
 	private void setPorts(final CommPortIdentifier[] ports) {
 		this.ports = new ArrayList<CommPortIdentifier>(Arrays.asList(ports));
-		if (ports == null || ports.length == 0) {
+		if ((ports == null) || (ports.length == 0)) {
 			cmbPort.addItem(Messages.getString("CommunicationPanel.NoPortAvailable")); //$NON-NLS-1$
 		} else {
 			for (CommPortIdentifier port : ports) {
@@ -177,25 +177,25 @@ public class CommunicationPanel extends JPanel {
 			}
 		}
 	}
-
+	
 	private void selectPort() {
 		boolean connected = false;
-
+		
 		// close previous connection
 		if (commService.isConnected()) {
 			commService.close();
 		}
-
+		
 		Object selectedItem = cmbPort.getSelectedItem();
 		if (selectedItem instanceof CommPortIdentifier) {
 			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
 			dropletContext.setPort(portId);
 			connected = commService.connect(portId, dropletContext);
 		}
-
+		
 		updateStatus(connected);
 	}
-
+	
 	private void updateStatus(final boolean connected) {
 		if (connected) {
 			lblStatus.setText(Messages.getString("CommunicationPanel.connected")); //$NON-NLS-1$
@@ -205,5 +205,5 @@ public class CommunicationPanel extends JPanel {
 			lblStatus.setForeground(Color.RED);
 		}
 	}
-
+	
 }

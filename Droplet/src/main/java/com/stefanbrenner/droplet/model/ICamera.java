@@ -25,5 +25,5 @@ package com.stefanbrenner.droplet.model;
  * @author Stefan Brenner
  */
 public interface ICamera extends IActionDevice {
-
+	
 }

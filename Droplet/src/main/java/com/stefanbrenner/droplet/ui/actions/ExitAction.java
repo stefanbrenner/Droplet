@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.Action;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -33,18 +34,18 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class ExitAction extends AbstractDropletAction {
-
+	
 	public ExitAction(final JFrame parent, final IDropletContext dropletContext) {
 		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
-
-		putValue(MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("ExitAction.mnemonic"))); //$NON-NLS-1$
+		
+		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("ExitAction.mnemonic"))); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
 		getFrame().dispose();
 		System.exit(0);
 	}
-
+	
 }

@@ -32,54 +32,57 @@ import com.stefanbrenner.droplet.model.IDevice;
  * @author Stefan Brenner
  */
 public abstract class AbstractDevice extends AbstractModelObject implements IDevice {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@XmlAttribute(name = "Number")
 	private String number = StringUtils.EMPTY;
-
+	
 	@XmlAttribute(name = "Name")
 	private String name = StringUtils.EMPTY;
-
+	
 	@XmlElement(name = "Description")
 	private String description = StringUtils.EMPTY;
-
+	
 	@Override
 	public String getNumber() {
 		return number;
 	}
-
+	
 	@Override
-	public void setNumber(String number) {
-		firePropertyChange(PROPERTY_NUMBER, this.number, this.number = number);
+	public void setNumber(final String number) {
+		firePropertyChange(IDevice.PROPERTY_NUMBER, this.number, this.number = number);
 	}
-
+	
 	@Override
 	public String getName() {
 		return name;
 	}
-
+	
 	@Override
-	public void setName(String name) {
-		firePropertyChange(PROPERTY_NAME, this.name, this.name = name);
+	public void setName(final String name) {
+		firePropertyChange(IDevice.PROPERTY_NAME, this.name, this.name = name);
 	}
-
+	
 	@Override
 	public String getDescription() {
 		return description;
 	}
-
+	
 	@Override
-	public void setDescription(String description) {
-		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
+	public void setDescription(final String description) {
+		firePropertyChange(IDevice.PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
-
+	
+	/**
+	 * @return a string representing the type of the device
+	 */
 	protected abstract String getDeviceType();
-
+	
 	@Override
 	public void reset() {
 		setName(getDeviceType());
 		setDescription(StringUtils.EMPTY);
 	}
-
+	
 }

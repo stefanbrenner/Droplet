@@ -50,19 +50,19 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * @author Stefan Brenner
  */
 public class DropletMenu extends JMenuBar {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	private final JFrame frame;
-
+	
 	// model object
 	private final IDropletContext dropletContext;
-
+	
 	// menues
 	private JMenu fileMenu;
 	private JMenu editMenu;
 	private JMenu helpMenu;
-
+	
 	// menu items
 	private JMenuItem newMenuItem;
 	private JMenuItem openMenuItem;
@@ -73,7 +73,7 @@ public class DropletMenu extends JMenuBar {
 	private JMenuItem addDeviceMenuItem;
 	private JMenuItem preferencesMenuItem;
 	private JMenuItem aboutMenuItem;
-
+	
 	// actions
 	private AbstractDropletAction newAction;
 	private AbstractDropletAction openAction;
@@ -83,14 +83,14 @@ public class DropletMenu extends JMenuBar {
 	private AbstractDropletAction addDeviceAction;
 	private AbstractDropletAction preferencesAction;
 	private AbstractDropletAction exitAction;
-
+	
 	public DropletMenu(final JFrame frame, final IDropletContext dropletContext) {
 		super();
 		this.frame = frame;
 		this.dropletContext = dropletContext;
 		build();
 	}
-
+	
 	private void build() {
 		// file menu
 		fileMenu = add(new JMenu(Messages.getString("DropletMenu.file"))); //$NON-NLS-1$
@@ -105,16 +105,16 @@ public class DropletMenu extends JMenuBar {
 		helpMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.helpMnemonic"))); //$NON-NLS-1$
 		buildHelpMenu();
 	}
-
+	
 	private void buildNewMenu() {
-
+		
 		// create file chooser
 		String filename = File.separator + IDropletContext.DROPLET_FILE_EXTENSION;
 		final JFileChooser fileChooser = new JFileChooser(new File(filename));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				Messages.getString("DropletMenu.fileNameFilterTitle"), IDropletContext.DROPLET_FILE_EXTENSION); //$NON-NLS-1$
 		fileChooser.setFileFilter(filter);
-
+		
 		// create actions
 		newAction = new NewAction(frame, dropletContext);
 		openAction = new OpenFileAction(frame, fileChooser, dropletContext);
@@ -122,7 +122,7 @@ public class DropletMenu extends JMenuBar {
 		saveAction = new SaveFileAction(frame, fileChooser, dropletContext);
 		saveAsAction = new SaveAsFileAction(frame, fileChooser, dropletContext);
 		exitAction = new ExitAction(frame, dropletContext);
-
+		
 		// create menu items
 		newMenuItem = new JMenuItem(newAction);
 		fileMenu.add(newMenuItem);
@@ -137,14 +137,14 @@ public class DropletMenu extends JMenuBar {
 		fileMenu.addSeparator();
 		exitMenuItem = new JMenuItem(exitAction);
 		fileMenu.add(exitMenuItem);
-
+		
 	}
-
+	
 	private void buildEditMenu() {
-
+		
 		addDeviceAction = new AddDeviceAction(frame, dropletContext);
 		preferencesAction = new PreferencesAction(frame, dropletContext);
-
+		
 		// create menu items
 		addDeviceMenuItem = new JMenuItem(Messages.getString("DropletMenu.addDevice")); //$NON-NLS-1$
 		addDeviceMenuItem.setAction(addDeviceAction);
@@ -152,9 +152,9 @@ public class DropletMenu extends JMenuBar {
 		preferencesMenuItem = new JMenuItem("Preferences..."); //$NON-NLS-1$
 		preferencesMenuItem.setAction(preferencesAction);
 		editMenu.add(preferencesMenuItem);
-
+		
 	}
-
+	
 	private void buildHelpMenu() {
 		aboutMenuItem = new JMenuItem(Messages.getString("DropletMenu.about")); //$NON-NLS-1$
 		aboutMenuItem.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.aboutMnemonic"))); //$NON-NLS-1$
@@ -167,5 +167,5 @@ public class DropletMenu extends JMenuBar {
 		});
 		helpMenu.add(aboutMenuItem);
 	}
-
+	
 }

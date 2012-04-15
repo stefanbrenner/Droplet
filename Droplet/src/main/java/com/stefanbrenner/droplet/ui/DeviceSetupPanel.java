@@ -32,6 +32,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
@@ -42,40 +43,40 @@ import com.stefanbrenner.droplet.model.IDroplet;
  * @author Stefan Brenner
  */
 public class DeviceSetupPanel extends JPanel {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	private IDroplet droplet;
-
+	
 	private final JPanel container;
-
+	
 	/**
 	 * Create the panel.
 	 */
 	public DeviceSetupPanel(final IDroplet droplet) {
-
+		
 		setLayout(new BorderLayout());
 		setMinimumSize(new Dimension(Short.MIN_VALUE, 200));
-
+		
 		container = new JPanel();
-
+		
 		// configure ui appearance and behavior
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 		container.setBorder(BorderFactory.createTitledBorder(Messages.getString("DeviceSetupPanel.title"))); //$NON-NLS-1$
 		container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-
-		JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		JScrollPane scrollPane = new JScrollPane(container, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		// resize vertical scrollbar
 		scrollPane.getHorizontalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(scrollPane, BorderLayout.CENTER);
-
+		
 		// set model object
 		setDroplet(droplet);
-
+		
 	}
-
+	
 	private void updatePanels() {
 		// remove previous components
 		container.removeAll();
@@ -90,44 +91,44 @@ public class DeviceSetupPanel extends JPanel {
 			container.add(devicePanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}
-
+		
 		container.add(Box.createHorizontalGlue());
-
+		
 		container.revalidate();
 		container.repaint();
-
+		
 	}
-
+	
 	public IDroplet getDroplet() {
 		return droplet;
 	}
-
-	private PropertyChangeListener updateListener = new PropertyChangeListener() {
+	
+	private final PropertyChangeListener updateListener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(final PropertyChangeEvent evt) {
 			updatePanels();
 		}
 	};
-
+	
 	public void setDroplet(final IDroplet droplet) {
-
+		
 		unregisterListener();
 		this.droplet = droplet;
 		registerListener();
-
+		
 		updatePanels();
 	}
-
+	
 	private void registerListener() {
 		if (droplet != null) {
 			droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_DEVICES, updateListener);
 		}
 	}
-
+	
 	private void unregisterListener() {
 		if (droplet != null) {
 			droplet.removePropertyChangeListener(updateListener);
 		}
 	}
-
+	
 }

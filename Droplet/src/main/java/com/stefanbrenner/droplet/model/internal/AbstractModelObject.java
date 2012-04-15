@@ -24,13 +24,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.jgoodies.binding.beans.Model;
 
 /**
+ * Abstract base class for all model objects used in droplet.
+ * 
  * @author Stefan Brenner
  */
 @XmlAccessorType(javax.xml.bind.annotation.XmlAccessType.FIELD)
 public abstract class AbstractModelObject extends Model {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	// private final PropertyChangeSupport propertyChangeSupport = new
 	// PropertyChangeSupport(
 	// this);
@@ -60,5 +62,5 @@ public abstract class AbstractModelObject extends Model {
 	// propertyChangeSupport.firePropertyChange(propertyName, oldValue,
 	// newValue);
 	// }
-
+	
 }

@@ -27,19 +27,19 @@ import java.awt.Color;
  * @author Stefan Brenner
  */
 public interface IValve extends IActionDevice {
-
+	
 	/** Property name for the valve color. */
 	String PROPERTY_COLOR = "color"; //$NON-NLS-1$
-
+	
 	/**
 	 * @param color
 	 *            of the liquid
 	 */
 	void setColor(Color color);
-
+	
 	/**
 	 * @return color of the liquid
 	 */
 	Color getColor();
-
+	
 }

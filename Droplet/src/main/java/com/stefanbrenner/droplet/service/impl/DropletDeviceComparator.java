@@ -36,65 +36,79 @@ import com.stefanbrenner.droplet.model.IValve;
  * @author Stefan Brenner
  */
 public class DropletDeviceComparator implements Comparator<IDevice> {
-
+	
+	/** The order of the devices is undefined. */
 	public static final int UNDEFINED_ORDER = 0;
-
+	/** The device is greater. */
 	public static final int GREATER = 1;
-
+	/** The device is smaller. */
 	public static final int SMALLER = -1;
-
+	
 	/**
-	 * List of nested comparators
+	 * List of nested comparators.
 	 */
-	private List<DropletDeviceComparator> comparators = new ArrayList<DropletDeviceComparator>();
-
+	private final List<DropletDeviceComparator> comparators = new ArrayList<DropletDeviceComparator>();
+	
 	/**
-	 * Valve < Flash < Camera
+	 * Valve < Flash < Camera.
+	 * 
+	 * @param device1
+	 *            first device to compare to second device
+	 * @param device2
+	 *            second device to compare to first device
 	 */
 	@Override
-	public int compare(IDevice device1, IDevice device2) {
+	public int compare(final IDevice device1, final IDevice device2) {
 		if (device1 instanceof IValve) {
 			if (device2 instanceof IValve) {
-				return UNDEFINED_ORDER;
+				return DropletDeviceComparator.UNDEFINED_ORDER;
 			}
-			if (device2 instanceof IFlash || device2 instanceof ICamera) {
-				return SMALLER;
+			if ((device2 instanceof IFlash) || (device2 instanceof ICamera)) {
+				return DropletDeviceComparator.SMALLER;
 			}
 		}
 		if (device1 instanceof IFlash) {
 			if (device2 instanceof IFlash) {
-				return UNDEFINED_ORDER;
+				return DropletDeviceComparator.UNDEFINED_ORDER;
 			}
 			if (device2 instanceof IValve) {
-				return GREATER;
+				return DropletDeviceComparator.GREATER;
 			}
 			if (device2 instanceof ICamera) {
-				return SMALLER;
+				return DropletDeviceComparator.SMALLER;
 			}
 		}
 		if (device1 instanceof ICamera) {
 			if (device2 instanceof ICamera) {
-				return UNDEFINED_ORDER;
+				return DropletDeviceComparator.UNDEFINED_ORDER;
 			}
-			if (device2 instanceof IValve || device2 instanceof IFlash) {
-				return GREATER;
+			if ((device2 instanceof IValve) || (device2 instanceof IFlash)) {
+				return DropletDeviceComparator.GREATER;
 			}
 		}
 		// ask comparators for proper comparison, combine result of all
 		// comparator results and calculate a weighted order
-		int result = UNDEFINED_ORDER;
+		int result = DropletDeviceComparator.UNDEFINED_ORDER;
 		for (DropletDeviceComparator comparator : comparators) {
 			result += Math.signum(comparator.compare(device1, device2));
 		}
 		return (int) Math.signum(result);
 	}
-
-	public void registerComparator(DropletDeviceComparator comparator) {
+	
+	/**
+	 * @param comparator
+	 *            to be registered
+	 */
+	public void registerComparator(final DropletDeviceComparator comparator) {
 		comparators.add(comparator);
 	}
-
-	public void unRegisterComparator(DropletDeviceComparator comparator) {
+	
+	/**
+	 * @param comparator
+	 *            to be unregistered
+	 */
+	public void unRegisterComparator(final DropletDeviceComparator comparator) {
 		comparators.remove(comparator);
 	}
-
+	
 }

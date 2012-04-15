@@ -30,12 +30,12 @@ import com.stefanbrenner.droplet.model.IDropletContext;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractSerialAction extends AbstractDropletAction {
-
-	public AbstractSerialAction(JFrame parent, IDropletContext dropletContext, String title) {
+	
+	public AbstractSerialAction(final JFrame parent, final IDropletContext dropletContext, final String title) {
 		super(parent, dropletContext, title);
-
+		
 		// TODO brenner: add listener to serial port connection state
-
+		
 	}
-
+	
 }

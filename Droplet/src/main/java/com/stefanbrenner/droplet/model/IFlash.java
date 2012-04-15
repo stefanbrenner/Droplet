@@ -27,19 +27,19 @@ import java.awt.Color;
  * @author Stefan Brenner
  */
 public interface IFlash extends IActionDevice {
-
+	
 	/** Property name for the flash color. */
 	String PROPERTY_COLOR = "color"; //$NON-NLS-1$
-
+	
 	/**
 	 * @param color
 	 *            of this flash
 	 */
 	void setColor(Color color);
-
+	
 	/**
 	 * @return the color of this flash
 	 */
 	Color getColor();
-
+	
 }

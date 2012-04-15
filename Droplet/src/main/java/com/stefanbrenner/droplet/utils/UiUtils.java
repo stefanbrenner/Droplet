@@ -38,26 +38,26 @@ import javax.swing.text.JTextComponent;
  * @author Stefan Brenner
  */
 public final class UiUtils {
-
+	
 	/** Flag for the macintosh operating system. */
 	private static boolean macOS = System.getProperty("mrj.version") != null;
-
+	
 	/**
 	 * Empty default constructor.
 	 */
 	private UiUtils() {
-
+		
 	}
-
+	
 	/**
 	 * Checks if this code is executed on a mac OS.
 	 * 
 	 * @return <code>true</code> if this program is executed on a mac
 	 */
 	public static boolean isMacOS() {
-		return macOS;
+		return UiUtils.macOS;
 	}
-
+	
 	/**
 	 * Returns a string representing the time in millis in the format h min sec
 	 * ms.
@@ -67,22 +67,22 @@ public final class UiUtils {
 	 * @return a string representing the time
 	 */
 	public static String formatMillis(final long millis) {
-
+		
 		long hours = TimeUnit.MILLISECONDS.toHours(millis);
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
 		long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % 60;
 		long _millis = millis % 1000;
-
+		
 		return String.format("%dh %dmin %dsec %dms", hours, minutes, seconds, _millis);
 	}
-
+	
 	/**
 	 * Returns the mnemonic for a key.
 	 */
 	public static int getMnemonic(final String key) {
 		return KeyStroke.getKeyStroke(key).getKeyCode();
 	}
-
+	
 	/**
 	 * Returns the KeyStroke for a key combined with the platform dependent menu
 	 * shortcut key.
@@ -90,7 +90,7 @@ public final class UiUtils {
 	public static KeyStroke getAccelerator(final int key) {
 		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
 	}
-
+	
 	/**
 	 * Returns the KeyStroke for a key combined with the platform dependent menu
 	 * shortcut key and another key.
@@ -98,7 +98,7 @@ public final class UiUtils {
 	public static KeyStroke getAccelerator(final int key, final int combinator) {
 		return KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | combinator);
 	}
-
+	
 	/**
 	 * Enables/Disables a component and all its children recursively.
 	 */
@@ -110,7 +110,7 @@ public final class UiUtils {
 			}
 		}
 	}
-
+	
 	/**
 	 * Enables/Disables a component and all its direct children.
 	 */
@@ -122,7 +122,7 @@ public final class UiUtils {
 			}
 		}
 	}
-
+	
 	/**
 	 * Disable the tab key for text components.
 	 */
@@ -130,15 +130,15 @@ public final class UiUtils {
 		txtComp.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		txtComp.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 	}
-
+	
 	/**
 	 * Creates a new {@link GridBagConstraints} with all parameters set to their
 	 * standard value.
 	 */
 	public static GridBagConstraints createGridBagConstraints() {
-		return createGridBagConstraints(0, 0);
+		return UiUtils.createGridBagConstraints(0, 0);
 	}
-
+	
 	/**
 	 * Creates a new {@link GridBagConstraints} with the given parameter.
 	 */
@@ -148,46 +148,46 @@ public final class UiUtils {
 		gbc.gridy = gridy;
 		return gbc;
 	}
-
+	
 	/**
 	 * Creates a new {@link GridBagConstraints} with the given parameter.
 	 */
 	public static GridBagConstraints createGridBagConstraints(final int gridx, final int gridy, final int weightx,
 			final int weighty) {
-		GridBagConstraints gbc = createGridBagConstraints(gridx, gridy);
+		GridBagConstraints gbc = UiUtils.createGridBagConstraints(gridx, gridy);
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
 		return gbc;
 	}
-
+	
 	/**
 	 * Creates a new {@link GridBagConstraints} with the given parameter.
 	 */
 	public static GridBagConstraints createGridBagConstraints(final int gridx, final int gridy, final int weightx,
 			final int weighty, final int anchor) {
-		GridBagConstraints gbc = createGridBagConstraints(gridx, gridy, weightx, weighty);
+		GridBagConstraints gbc = UiUtils.createGridBagConstraints(gridx, gridy, weightx, weighty);
 		gbc.anchor = GridBagConstraints.WEST;
 		return gbc;
 	}
-
+	
 	/**
 	 * Updates a {@link GridBagConstraints} with the given parameter. <br>
 	 * {@link GridBagConstraints#weightx}, {@link GridBagConstraints#weighty}
 	 * and {@link GridBagConstraints#anchor} are set to there standard values.
 	 */
 	public static void editGridBagConstraints(final GridBagConstraints gbc, final int gridx, final int gridy) {
-		editGridBagConstraints(gbc, gridx, gridy, 0, 0);
+		UiUtils.editGridBagConstraints(gbc, gridx, gridy, 0, 0);
 	}
-
+	
 	/**
 	 * Updates a {@link GridBagConstraints} with the given parameter. <br>
 	 * {@link GridBagConstraints#anchor} is set to its standard value.
 	 */
 	public static void editGridBagConstraints(final GridBagConstraints gbc, final int gridx, final int gridy,
 			final double weightx, final double weighty) {
-		editGridBagConstraints(gbc, gridx, gridy, weightx, weighty, GridBagConstraints.CENTER);
+		UiUtils.editGridBagConstraints(gbc, gridx, gridy, weightx, weighty, GridBagConstraints.CENTER);
 	}
-
+	
 	/**
 	 * Updates a {@link GridBagConstraints} with the given parameter.
 	 */
@@ -199,5 +199,5 @@ public final class UiUtils {
 		gbc.weighty = weighty;
 		gbc.anchor = anchor;
 	}
-
+	
 }

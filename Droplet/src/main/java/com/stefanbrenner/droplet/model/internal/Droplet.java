@@ -37,28 +37,35 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
 
+/**
+ * 
+ * @author Stefan Brenner
+ */
 @XmlRootElement(name = "Droplet")
 public class Droplet extends AbstractModelObject implements IDroplet {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@XmlAttribute(name = "Name")
 	private String name;
-
+	
 	@XmlElement(name = "Description")
 	private String description;
-
-	@XmlElement(name = "Device", type = AbstractDevice.class)
+	
+	@XmlElement(name = "Device",
+			type = AbstractDevice.class)
 	@XmlElementWrapper(name = "Devices")
 	private List<IDevice> devices = new ArrayList<IDevice>();
-
+	
 	@XmlTransient
 	private final DropletDeviceComparator comparator = new DropletDeviceComparator();
-
-	public Droplet() {
-
-	}
-
+	
+	/**
+	 * Initialize this droplet with the default values.
+	 * <p>
+	 * Creates three valves, one flash and one camera. All devices start with
+	 * one empty action.
+	 */
 	public void initializeWithDefaults() {
 		// add 3 valves
 		for (int i = 0; i < 3; i++) {
@@ -78,68 +85,68 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		camera.addAction(camera.createNewAction());
 		addDevice(camera);
 	}
-
+	
 	@Override
 	public String getName() {
 		return name;
 	}
-
+	
 	@Override
-	public void setName(String name) {
-		firePropertyChange(PROPERTY_NAME, this.name, this.name = name);
+	public void setName(final String name) {
+		firePropertyChange(IDroplet.PROPERTY_NAME, this.name, this.name = name);
 	}
-
+	
 	@Override
 	public String getDescription() {
 		return description;
 	}
-
+	
 	@Override
-	public void setDescription(String description) {
-		firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
+	public void setDescription(final String description) {
+		firePropertyChange(IDroplet.PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
-
+	
 	@Override
-	public void removeDevice(IDevice device) {
+	public void removeDevice(final IDevice device) {
 		List<IDevice> oldValue = devices;
 		devices = new ArrayList<IDevice>(this.devices);
 		devices.remove(device);
-		firePropertyChange(ASSOCIATION_DEVICES, oldValue, devices);
+		firePropertyChange(IDroplet.ASSOCIATION_DEVICES, oldValue, devices);
 	}
-
+	
 	@Override
-	public void addDevice(IDevice device) {
+	public void addDevice(final IDevice device) {
 		List<IDevice> oldValue = devices;
 		devices = new ArrayList<IDevice>(this.devices);
 		device.setNumber(String.valueOf(devices.size() + 1));
 		devices.add(device);
-		firePropertyChange(ASSOCIATION_DEVICES, oldValue, devices);
+		firePropertyChange(IDroplet.ASSOCIATION_DEVICES, oldValue, devices);
 	}
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T extends IDevice> List<T> getDevices(Class<T> type) {
+	public <T extends IDevice> List<T> getDevices(final Class<T> type) {
 		List<T> devicesT = new ArrayList<T>();
-
+		
 		for (IDevice device : devices) {
 			if (type.isAssignableFrom(device.getClass())) {
 				devicesT.add((T) device);
 			}
 		}
-
+		
 		return devicesT;
 	}
-
+	
 	@Override
 	public List<IDevice> getDevices() {
 		return devices;
 	}
-
+	
 	@Override
-	public void setDevices(List<IDevice> devices) {
-		firePropertyChange(ASSOCIATION_DEVICES, this.devices, this.devices = devices);
+	public void setDevices(final List<IDevice> devices) {
+		firePropertyChange(IDroplet.ASSOCIATION_DEVICES, this.devices, this.devices = devices);
 	}
-
+	
 	@Override
 	public void reset() {
 		setName(StringUtils.EMPTY);
@@ -149,10 +156,10 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 			device.reset();
 		}
 	}
-
+	
 	@Override
 	public DropletDeviceComparator getDeviceComparator() {
 		return comparator;
 	}
-
+	
 }

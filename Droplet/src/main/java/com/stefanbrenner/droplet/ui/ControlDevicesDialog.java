@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -50,66 +51,67 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class ControlDevicesDialog extends AbstractDropletDialog {
-
+	
 	public ControlDevicesDialog(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("ControlDevicesDialog.deviceControl")); //$NON-NLS-1$
-
+		
 		setLayout(new GridLayout(0, 1));
 		setModal(true);
-
+		
 		// add panel for each device
 		for (IDevice device : dropletContext.getDroplet().getDevices()) {
 			add(new DevicePanel(frame, device));
 		}
-
+		
 		setAlwaysOnTop(true);
 		// setResizable(false);
-
+		
 		pack();
 		setLocationRelativeTo(frame);
 		setMinimumSize(getPreferredSize());
 	}
-
+	
 	class DevicePanel extends JPanel {
-
+		
 		private final JTextField txtDeviceNumber;
 		private final JLabel lbDeviceName;
 		private final JButton btnHigh;
 		private final JButton btnLow;
-
+		
 		public DevicePanel(final JFrame frame, final IDevice device) {
-
+			
 			setLayout(new GridBagLayout());
 			setBackground(DropletColors.getBackgroundColor(device));
 			setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
-
+			
 			GridBagConstraints gbc = UiUtils.createGridBagConstraints(0, 0, 1, 0);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-
+			
 			BeanAdapter<IDevice> adapter = new BeanAdapter<IDevice>(device, true);
-
-			txtDeviceNumber = BasicComponentFactory.createTextField(adapter.getValueModel(IDevice.PROPERTY_NUMBER));
+			
+			txtDeviceNumber = BasicComponentFactory.createTextField(adapter.getValueModel(IDevice.PROPERTY_NUMBER),
+					false);
 			txtDeviceNumber.setColumns(3);
-			txtDeviceNumber.setHorizontalAlignment(JTextField.CENTER);
+			txtDeviceNumber.setHorizontalAlignment(SwingConstants.CENTER);
 			add(txtDeviceNumber, gbc);
-
+			
 			lbDeviceName = new JLabel(device.getName());
 			lbDeviceName.setPreferredSize(new Dimension(200, 30));
 			UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
 			add(lbDeviceName, gbc);
-
+			
 			btnHigh = new JButton(new DeviceOnAction(frame, getDropletContext(), device));
 			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
 			add(btnHigh, gbc);
-
+			
 			// TODO brenner: add input for offset and duration
-
+			
 			btnLow = new JButton(new DeviceOffAction(frame, getDropletContext(), device));
 			UiUtils.editGridBagConstraints(gbc, 3, 0, 0, 0);
 			add(btnLow, gbc);
-
+			
 		}
-
+		
 	}
-
+	
 }

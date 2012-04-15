@@ -17,35 +17,39 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
-package com.stefanbrenner.droplet.ui;
-
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+package com.stefanbrenner.droplet.model;
 
 /**
+ * Interface for all metadata that droplet can add to pictures.
+ * 
  * @author Stefan Brenner
  */
-public class Messages {
-	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.messages"; //$NON-NLS-1$
+public interface IMetadata extends INotificationSupport {
 	
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
-	
-	private Messages() {
-	}
+	/** Property name for the description of a picture. */
+	String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
+	/** Property name for the tags of a picture. */
+	String PROPERTY_TAGS = "tags"; //$NON-NLS-1$
 	
 	/**
-	 * Read localized message from resources and format it.
-	 * 
-	 * @see MessageFormat
+	 * @return the description
 	 */
-	public static String getString(final String key, final Object... args) {
-		try {
-			String message = Messages.RESOURCE_BUNDLE.getString(key);
-			MessageFormat format = new MessageFormat(message);
-			return format.format(args);
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
-	}
+	String getDescription();
+	
+	/**
+	 * @param description
+	 *            the description to set
+	 */
+	void setDescription(String description);
+	
+	/**
+	 * @return the comma separated tags
+	 */
+	String getTags();
+	
+	/**
+	 * @param tags
+	 *            comma separated list of tags to set
+	 */
+	void setTags(String tags);
 }

@@ -22,6 +22,7 @@ package com.stefanbrenner.droplet.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Action;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -35,13 +36,13 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class PreferencesAction extends AbstractDropletAction {
-
+	
 	public PreferencesAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("PreferencesAction.Title")); //$NON-NLS-1$
-
-		putValue(ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_COMMA));
+		
+		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_COMMA));
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		PreferencesDialog dialog = new PreferencesDialog(getFrame());

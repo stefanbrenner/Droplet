@@ -34,7 +34,7 @@ import com.stefanbrenner.droplet.model.IValve;
  * @author Stefan Brenner
  */
 public final class DropletDimensions {
-
+	
 	/** The maximal width. */
 	public static final int WIDTH_MAX = Short.MAX_VALUE;
 	/** The width for droplet actions. */
@@ -45,7 +45,7 @@ public final class DropletDimensions {
 	public static final int HEIGHT_MAX = Short.MAX_VALUE;
 	/** The minimal height. */
 	public static final int HEIGHT_MIN = 220;
-
+	
 	/**
 	 * @param device
 	 *            droplet device
@@ -53,19 +53,19 @@ public final class DropletDimensions {
 	 */
 	public static Dimension getDimension(final IDevice device) {
 		if (device instanceof IValve) {
-			return new Dimension(WIDTH_DURATION_ACTION, HEIGHT_MIN);
+			return new Dimension(DropletDimensions.WIDTH_DURATION_ACTION, DropletDimensions.HEIGHT_MIN);
 		} else if (device instanceof IFlash) {
-			return new Dimension(WIDTH_ACTION, HEIGHT_MIN);
+			return new Dimension(DropletDimensions.WIDTH_ACTION, DropletDimensions.HEIGHT_MIN);
 		} else if (device instanceof ICamera) {
-			return new Dimension(WIDTH_DURATION_ACTION, HEIGHT_MIN);
+			return new Dimension(DropletDimensions.WIDTH_DURATION_ACTION, DropletDimensions.HEIGHT_MIN);
 		}
 		return new Dimension();
 	}
-
+	
 	/**
 	 * Empty default constructor.
 	 */
 	private DropletDimensions() {
-
+		
 	}
 }

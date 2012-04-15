@@ -36,21 +36,21 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  */
 @SuppressWarnings("serial")
 public class DeviceOffAction extends AbstractSerialAction {
-
+	
 	private final IDevice device;
-
+	
 	public DeviceOffAction(final JFrame frame, final IDropletContext dropletContext, final IDevice device) {
 		super(frame, dropletContext, Messages.getString("DeviceOffAction.title")); //$NON-NLS-1$
 		this.device = device;
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-
+		
 		String message = messageProtocolProvider.createDeviceOffMessage(getDroplet(), device);
 		serialCommProvider.sendData(message);
 	}
-
+	
 }

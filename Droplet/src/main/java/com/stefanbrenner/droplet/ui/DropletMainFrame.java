@@ -60,12 +60,12 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * @author Stefan Brenner
  */
 public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuitHandler, MRJPrefsHandler {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	// model objects
 	private final IDropletContext dropletContext;
-
+	
 	// ui components
 	private final DropletMenu dropletMenu;
 	private final JPanel contentPane;
@@ -74,21 +74,21 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 	private final ProcessingPanel processingPanel;
 	private final LoggingPanel loggingPanel;
 	private final DropletToolbar toolbarPanel;
-
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException {
-
+		
 		// TODO brenner: make language editable in configurations
 		// only for testing purposes
 		// Locale.setDefault(Locale.GERMAN);
-
+		
 		// TODO brenner: identify that we run on a mac
 		// String lcOSName = System.getProperty("os.name").toLowerCase();
 		// boolean IS_MAC = lcOSName.startsWith("mac os x");
-
+		
 		// put jmenubar on mac menu bar
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		// set application name
@@ -106,8 +106,9 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		} catch (Exception e) {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
-
+		
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					DropletMainFrame frame = new DropletMainFrame();
@@ -118,49 +119,49 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
 	public DropletMainFrame() {
-
+		
 		// create new context
 		dropletContext = new DropletContext();
-
+		
 		// create new droplet model and add to context
 		Droplet droplet = new Droplet();
 		droplet.initializeWithDefaults();
 		dropletContext.setDroplet(droplet);
-
+		
 		// basic frame setup
 		setTitle(Messages.getString("DropletMainFrame.title")); //$NON-NLS-1$
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setIconImage(new ImageIcon("icons/droplet_icon_48x48.png").getImage());
-
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout());
 		setContentPane(contentPane);
-
+		
 		// create menu
 		dropletMenu = new DropletMenu(this, dropletContext);
 		setJMenuBar(dropletMenu);
-
+		
 		commPanel = new CommunicationPanel(dropletContext);
 		contentPane.add(commPanel, BorderLayout.NORTH);
-
+		
 		{
 			configPanel = new DeviceSetupPanel(dropletContext.getDroplet());
 			processingPanel = new ProcessingPanel(dropletContext);
 			loggingPanel = new LoggingPanel(dropletContext);
-
+			
 			JSplitPane splitPaneBottom = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, processingPanel, loggingPanel);
 			splitPaneBottom.setOneTouchExpandable(true);
 			splitPaneBottom.setDividerLocation(0.5d);
 			// splitPaneBottom.setResizeWeight(0.1d);
 			splitPaneBottom.setContinuousLayout(true);
-
+			
 			JSplitPane splitPaneMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, configPanel, splitPaneBottom);
 			splitPaneMain.setOneTouchExpandable(true);
 			splitPaneMain.setDividerLocation(0.5d);
@@ -168,10 +169,10 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 			splitPaneMain.setContinuousLayout(true);
 			contentPane.add(splitPaneMain, BorderLayout.CENTER);
 		}
-
+		
 		toolbarPanel = new DropletToolbar(this, dropletContext);
 		contentPane.add(toolbarPanel, BorderLayout.SOUTH);
-
+		
 		// remove focus from text components if user clicks outside
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -180,12 +181,12 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 				super.mouseClicked(e);
 			}
 		});
-
+		
 		// register action shortcuts
 		// TODO brenner: don't consume keys in JTextComponents
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
 		contentPane.getActionMap().put("start", new StartAction(this, dropletContext)); //$NON-NLS-1$
-
+		
 		// add listener
 		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {
 			@Override
@@ -194,7 +195,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 				configPanel.setDroplet(dropletContext.getDroplet());
 			}
 		});
-
+		
 		// set default fonts
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
@@ -204,14 +205,14 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 				UIManager.put(key, DropletFonts.FONT_STANDARD_SMALL);
 			}
 		}
-
+		
 		// register handlers for mac events
 		if (UiUtils.isMacOS()) {
 			MRJApplicationUtils.registerAboutHandler(this);
 			MRJApplicationUtils.registerQuitHandler(this);
 			MRJApplicationUtils.registerPrefsHandler(this);
 		}
-
+		
 		// finishing frame settings
 		// make frame as small as possible
 		// pack();
@@ -221,25 +222,25 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		setMinimumSize(new Dimension(300, 200));
 		// update ui for nimbus component resizing
 		SwingUtilities.updateComponentTreeUI(this);
-
+		
 		// add welcome message to logging panel
 		dropletContext.addLoggingMessage("Welcome to Droplet!");
-
+		
 	}
-
+	
 	@Override
 	public void handlePrefs() throws IllegalStateException {
 		new PreferencesAction(this, dropletContext).actionPerformed(null);
 	}
-
+	
 	@Override
 	public void handleQuit() {
 		new ExitAction(this, dropletContext).actionPerformed(null);
 	}
-
+	
 	@Override
 	public void handleAbout() {
 		new AboutDialog(this).setVisible(true);
 	}
-
+	
 }

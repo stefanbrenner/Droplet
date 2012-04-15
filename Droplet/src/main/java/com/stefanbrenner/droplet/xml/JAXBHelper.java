@@ -41,10 +41,10 @@ import com.stefanbrenner.droplet.model.internal.Valve;
  * @author Stefan Brenner
  */
 public class JAXBHelper {
-
+	
 	/** Output encoding of marshalled XML data. */
 	private static final String ENCODING = "UTF-8"; //$NON-NLS-1$
-
+	
 	private static JAXBContext getJAXBContext() throws JAXBException {
 		// TODO brenner: use reflection to retrieve all instances of IAction and
 		// IDevice
@@ -52,43 +52,43 @@ public class JAXBHelper {
 				Action.class, DurationAction.class);
 		return newInstance;
 	}
-
+	
 	public void toXml(final Object obj, final OutputStream os) {
 		try {
-			Marshaller marshaller = getJAXBContext().createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_ENCODING, ENCODING);
+			Marshaller marshaller = JAXBHelper.getJAXBContext().createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_ENCODING, JAXBHelper.ENCODING);
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
+			
 			marshaller.marshal(obj, os);
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public String toXml(final Object obj) throws JAXBException {
-		Marshaller marshaller = getJAXBContext().createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_ENCODING, ENCODING);
+		Marshaller marshaller = JAXBHelper.getJAXBContext().createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_ENCODING, JAXBHelper.ENCODING);
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
+		
 		StringWriter writer = new StringWriter();
 		marshaller.marshal(obj, writer);
 		String xml = writer.toString();
-
+		
 		return xml;
 	}
-
+	
 	public <T> T fromXml(final String xml, final Class<T> type) {
 		return type.cast(fromXml(xml));
 	}
-
+	
 	public Object fromXml(final String xml) {
 		try {
-			Unmarshaller unmarshaller = getJAXBContext().createUnmarshaller();
+			Unmarshaller unmarshaller = JAXBHelper.getJAXBContext().createUnmarshaller();
 			Object obj = unmarshaller.unmarshal(new StringReader(xml));
 			return obj;
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 }

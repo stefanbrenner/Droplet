@@ -29,14 +29,14 @@ import java.io.File;
  * @author Stefan Brenner
  */
 public final class FileUtils {
-
+	
 	/**
 	 * Empty default constructor.
 	 */
 	private FileUtils() {
-
+		
 	}
-
+	
 	/**
 	 * Returns the name of the file without any file extensions.
 	 * 
@@ -54,7 +54,7 @@ public final class FileUtils {
 		}
 		return fileNameWithOutExtension;
 	}
-
+	
 	/**
 	 * Returns the name of the file without any file extensions.
 	 * 
@@ -64,9 +64,9 @@ public final class FileUtils {
 	 * @see #getFilename(File, boolean)
 	 */
 	public static String getFilename(final File file) {
-		return getFilename(file, false);
+		return FileUtils.getFilename(file, false);
 	}
-
+	
 	/**
 	 * Returns a new file with the same name as a given file but with a new
 	 * extension.
@@ -80,7 +80,7 @@ public final class FileUtils {
 	 *         extension
 	 */
 	public static File newFileBasedOn(final File file, final String extension) {
-		return new File(getFilename(file, true) + '.' + extension);
+		return new File(FileUtils.getFilename(file, true) + '.' + extension);
 	}
-
+	
 }

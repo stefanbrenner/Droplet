@@ -17,35 +17,46 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
-package com.stefanbrenner.droplet.ui;
+package com.stefanbrenner.droplet.service;
 
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.net.URI;
+
+import com.stefanbrenner.droplet.model.IMetadata;
 
 /**
+ * Describes a service that can automatically process metadata into new pictures
+ * in a monitored folder.
+ * 
  * @author Stefan Brenner
  */
-public class Messages {
-	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.messages"; //$NON-NLS-1$
-	
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
-	
-	private Messages() {
-	}
+public interface IMetadataProcessingService {
 	
 	/**
-	 * Read localized message from resources and format it.
-	 * 
-	 * @see MessageFormat
+	 * @param uri
+	 *            of the folder to be watched by this service
 	 */
-	public static String getString(final String key, final Object... args) {
-		try {
-			String message = Messages.RESOURCE_BUNDLE.getString(key);
-			MessageFormat format = new MessageFormat(message);
-			return format.format(args);
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
-	}
+	void setWatchFolder(URI uri);
+	
+	/**
+	 * @param uri
+	 *            of the output folder
+	 */
+	void setOutputFolder(URI uri);
+	
+	/**
+	 * @param metadata
+	 *            to be used
+	 */
+	void setMetadata(IMetadata metadata);
+	
+	/**
+	 * Start automatically processing new pictures in the watch folder.
+	 */
+	void start();
+	
+	/**
+	 * Stop automatically processing new pictures in the watch folder.
+	 */
+	void stop();
+	
 }

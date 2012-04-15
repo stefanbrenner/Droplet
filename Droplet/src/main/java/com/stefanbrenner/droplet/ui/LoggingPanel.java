@@ -43,22 +43,22 @@ import com.stefanbrenner.droplet.utils.DropletFonts;
  * @author Stefan Brenner
  */
 public class LoggingPanel extends JPanel {
-
+	
 	private static final long serialVersionUID = 1L;
-
-	private JTextArea txtMessages;
-
+	
+	private final JTextArea txtMessages;
+	
 	/**
 	 * Create the panel.
 	 */
 	public LoggingPanel(final IDropletContext context) {
-
+		
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(Messages.getString("LoggingPanel.title"))); //$NON-NLS-1$
 		setMinimumSize(new Dimension(400, 200));
-
+		
 		BeanAdapter<IDropletContext> adapter = new BeanAdapter<IDropletContext>(context, true);
-
+		
 		txtMessages = BasicComponentFactory.createTextArea(adapter.getValueModel(IDropletContext.PROPERTY_LOGGING));
 		txtMessages.setFocusable(true);
 		txtMessages.setFocusTraversalKeysEnabled(true);
@@ -76,17 +76,17 @@ public class LoggingPanel extends JPanel {
 			}
 		});
 		add(loggingScrollPane, BorderLayout.CENTER);
-
+		
 		txtMessages.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(final KeyEvent event) {
-				if (event.getKeyCode() == KeyEvent.VK_DELETE || event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+				if ((event.getKeyCode() == KeyEvent.VK_DELETE) || (event.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
 					context.clearLoggingMessages();
 				}
 				super.keyPressed(event);
 			}
 		});
-
+		
 	}
-
+	
 }

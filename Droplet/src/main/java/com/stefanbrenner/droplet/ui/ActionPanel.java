@@ -52,38 +52,38 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  *            type of action device to be displayed in this panel
  */
 public class ActionPanel<T extends IAction> extends JPanel {
-
+	
 	private static final int MAX_TIME_INPUT = 99999;
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	// model objects
 	private IActionDevice device;
 	private T action;
-
+	
 	// UI components
 	private final JCheckBox cbEnable;
 	private final JSpinner spOffset;
 	private final JSpinner spDuration;
 	private final JButton btnRemove;
-
+	
 	/**
 	 * Create the panel.
 	 */
 	public ActionPanel(final IActionDevice device, final T action) {
-
+		
 		setDevice(device);
 		setAction(action);
-
+		
 		setLayout(new GridBagLayout());
 		setBackground(DropletColors.getBackgroundColor(getDevice()));
-
+		
 		GridBagConstraints gbc = UiUtils.createGridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(2, 2, 2, 2);
-
+		
 		BeanAdapter<IAction> adapter = new BeanAdapter<IAction>(action, true);
-
+		
 		// enabled checkbox
 		cbEnable = BasicComponentFactory.createCheckBox(adapter.getValueModel(IAction.PROPERTY_ENABLED),
 				StringUtils.EMPTY);
@@ -91,27 +91,27 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		cbEnable.setFocusable(false);
 		UiUtils.editGridBagConstraints(gbc, 0, 0, 0, 0);
 		add(cbEnable, gbc);
-
+		
 		// offset spinner
 		spOffset = new MouseWheelSpinner(true);
 		spOffset.setToolTipText(Messages.getString("ActionPanel.Offset.Tooltip")); //$NON-NLS-1$
 		spOffset.setModel(SpinnerAdapterFactory.createNumberAdapter(adapter.getValueModel(IAction.PROPERTY_OFFSET), 0,
-				0, MAX_TIME_INPUT, 1));
+				0, ActionPanel.MAX_TIME_INPUT, 1));
 		((JSpinner.DefaultEditor) spOffset.getEditor()).getTextField().setColumns(4);
 		UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
 		add(spOffset, gbc);
-
+		
 		// duration spinner
 		spDuration = new MouseWheelSpinner(true);
 		spDuration.setToolTipText(Messages.getString("ActionPanel.Duration.Tooltip")); //$NON-NLS-1$
 		if (action instanceof IDurationAction) {
 			spDuration.setModel(SpinnerAdapterFactory.createNumberAdapter(
-					adapter.getValueModel(IDurationAction.PROPERTY_DURATION), 0, 0, MAX_TIME_INPUT, 1));
+					adapter.getValueModel(IDurationAction.PROPERTY_DURATION), 0, 0, ActionPanel.MAX_TIME_INPUT, 1));
 			((JSpinner.DefaultEditor) spDuration.getEditor()).getTextField().setColumns(4);
 			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
 			add(spDuration, gbc);
 		}
-
+		
 		// remove button
 		btnRemove = new JButton(Messages.getString("ActionPanel.removeAction")); //$NON-NLS-1$
 		btnRemove.addActionListener(new ActionListener() {
@@ -124,34 +124,34 @@ public class ActionPanel<T extends IAction> extends JPanel {
 		btnRemove.setFocusable(false);
 		UiUtils.editGridBagConstraints(gbc, 3, 0, 0, 0);
 		add(btnRemove, gbc);
-
+		
 	}
-
+	
 	private void remove() {
 		getDevice().removeAction(getAction());
 	}
-
+	
 	@Override
 	public Dimension getMaximumSize() {
 		Dimension size = getPreferredSize();
 		size.width = Short.MAX_VALUE;
 		return size;
 	}
-
+	
 	public IActionDevice getDevice() {
 		return device;
 	}
-
+	
 	public void setDevice(final IActionDevice device) {
 		this.device = device;
 	}
-
+	
 	public T getAction() {
 		return action;
 	}
-
+	
 	public void setAction(final T action) {
 		this.action = action;
 	}
-
+	
 }

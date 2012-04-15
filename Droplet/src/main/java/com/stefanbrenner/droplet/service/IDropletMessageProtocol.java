@@ -28,18 +28,18 @@ import com.stefanbrenner.droplet.model.IDroplet;
  * @author Stefan Brenner
  */
 public interface IDropletMessageProtocol {
-
+	
 	/**
 	 * @return the name of the service provider used for service selection on
 	 *         the user interface.
 	 */
 	String getName();
-
+	
 	/**
 	 * @return a message to start droplet for one round
 	 */
 	String createStartMessage();
-
+	
 	/**
 	 * Returns a message to start droplet.
 	 * 
@@ -50,7 +50,7 @@ public interface IDropletMessageProtocol {
 	 * @return droplet start message
 	 */
 	String createStartMessage(int rounds, int delay);
-
+	
 	/**
 	 * Returns a message containing the device configurations
 	 * 
@@ -61,7 +61,7 @@ public interface IDropletMessageProtocol {
 	 * @return device configuration message
 	 */
 	String createSetMessage(IDroplet droplet);
-
+	
 	/**
 	 * Returns a message for sending an OFF signal to a device.
 	 * 
@@ -71,7 +71,7 @@ public interface IDropletMessageProtocol {
 	 * @return a message for sending an OFF signal to a device
 	 */
 	String createDeviceOffMessage(IDroplet droplet, IDevice device);
-
+	
 	/**
 	 * Returns a message for sending an ON signal to a device.
 	 * 
@@ -81,20 +81,20 @@ public interface IDropletMessageProtocol {
 	 * @return a message for sending an ON signal to a device
 	 */
 	String createDeviceOnMessage(IDroplet droplet, IDevice device);
-
+	
 	/**
 	 * @return a message to retrieve the current device configurations
 	 */
 	String createInfoMessage();
-
+	
 	/**
 	 * @return a message to reset the microcontroller
 	 */
 	String createResetMessage();
-
+	
 	/**
 	 * @return a message to cancel the current execution on the microcontroller
 	 */
 	String createCancelMessage();
-
+	
 }

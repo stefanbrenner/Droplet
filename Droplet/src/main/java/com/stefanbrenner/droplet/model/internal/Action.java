@@ -29,43 +29,46 @@ import com.stefanbrenner.droplet.model.IAction;
  */
 @XmlRootElement(name = "Action")
 public class Action extends AbstractModelObject implements IAction {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@XmlAttribute(name = "Enabled")
 	private boolean enabled;
-
+	
 	@XmlAttribute(name = "Offset")
 	private Integer offset;
-
+	
+	/**
+	 * Creates a new enabled action with offset 0.
+	 */
 	public Action() {
 		setEnabled(true);
 		setOffset(0);
 	}
-
+	
 	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
-
+	
 	@Override
-	public void setEnabled(boolean enabled) {
-		firePropertyChange(PROPERTY_ENABLED, this.enabled, this.enabled = enabled);
+	public void setEnabled(final boolean enabled) {
+		firePropertyChange(IAction.PROPERTY_ENABLED, this.enabled, this.enabled = enabled);
 	}
-
+	
 	@Override
 	public Integer getOffset() {
 		return offset;
 	}
-
+	
 	@Override
-	public void setOffset(Integer offset) {
-		firePropertyChange(PROPERTY_OFFSET, this.offset, this.offset = offset);
+	public void setOffset(final Integer offset) {
+		firePropertyChange(IAction.PROPERTY_OFFSET, this.offset, this.offset = offset);
 	}
-
+	
 	@Override
-	public void addOffset(Integer offset) {
-		firePropertyChange(PROPERTY_OFFSET, this.offset, this.offset += offset);
+	public void addOffset(final Integer offset) {
+		firePropertyChange(IAction.PROPERTY_OFFSET, this.offset, this.offset += offset);
 	}
-
+	
 }

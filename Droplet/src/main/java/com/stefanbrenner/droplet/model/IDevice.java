@@ -25,57 +25,57 @@ package com.stefanbrenner.droplet.model;
  * @author Stefan Brenner
  */
 public interface IDevice extends INotificationSupport {
-
+	
 	/** Property name for the device number. */
 	String PROPERTY_NUMBER = "number"; //$NON-NLS-1$
-
+	
 	/** Property name for the device name. */
 	String PROPERTY_NAME = "name"; //$NON-NLS-1$
-
+	
 	/** Property name for the device description. */
 	String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
-
+	
 	/**
 	 * @return number of this device
 	 */
 	String getNumber();
-
+	
 	/**
 	 * @param number
 	 *            of this device
 	 */
 	void setNumber(String number);
-
+	
 	/**
 	 * @return name of this device
 	 */
 	String getName();
-
+	
 	/**
 	 * @param name
 	 *            of this device
 	 */
 	void setName(String name);
-
+	
 	/**
 	 * @param description
 	 *            of this device
 	 */
 	void setDescription(String description);
-
+	
 	/**
 	 * @return description of this device
 	 */
 	String getDescription();
-
+	
 	/**
 	 * Reset all fields of this device to the default value.
 	 */
 	void reset();
-
+	
 	/**
 	 * @return a new action for this device
 	 */
 	IAction createNewAction();
-
+	
 }

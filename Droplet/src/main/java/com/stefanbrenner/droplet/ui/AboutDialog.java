@@ -48,7 +48,7 @@ import com.stefanbrenner.droplet.utils.DropletFonts;
  */
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
-
+	
 	/**
 	 * Constructs a new about dialog.
 	 * 
@@ -57,21 +57,21 @@ public class AboutDialog extends JDialog {
 	 */
 	public AboutDialog(final JFrame frame) {
 		super(frame);
-
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+		
 		JLabel lbTitle = new JLabel(Messages.getString("AboutDialog.title")); //$NON-NLS-1$
 		lbTitle.setFont(DropletFonts.FONT_HEADER_LARGE);
 		panel.add(lbTitle);
-
+		
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(new JLabel(Messages.getString("AboutDialog.version"))); //$NON-NLS-1$
 		panel.add(Box.createRigidArea(new Dimension(0, 20)));
 		panel.add(new JLabel(Messages.getString("AboutDialog.credentials"))); //$NON-NLS-1$
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
-
+		
 		JLabel lbVisit = new JLabel(Messages.getString("AboutDialog.link")); //$NON-NLS-1$
 		lbVisit.setForeground(Color.BLUE);
 		lbVisit.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -79,7 +79,7 @@ public class AboutDialog extends JDialog {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
 				try {
-					open(new URI("http://www.droplet.at")); //$NON-NLS-1$
+					AboutDialog.open(new URI("http://www.droplet.at")); //$NON-NLS-1$
 				} catch (URISyntaxException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -87,13 +87,13 @@ public class AboutDialog extends JDialog {
 			}
 		});
 		panel.add(lbVisit);
-
+		
 		add(panel);
-
+		
 		pack();
 		setLocationRelativeTo(frame);
 		setResizable(false);
-
+		
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
@@ -107,7 +107,7 @@ public class AboutDialog extends JDialog {
 			}
 		});
 	}
-
+	
 	/**
 	 * Open a URI in the system browser.
 	 * 
@@ -122,5 +122,5 @@ public class AboutDialog extends JDialog {
 			}
 		}
 	}
-
+	
 }

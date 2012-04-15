@@ -38,16 +38,16 @@ import javax.swing.SpinnerModel;
 // TODO brenner: add keylistener cmd+UP/DOWN = +/-10ms
 // TODO brenner: select all on focus gained
 public class MouseWheelSpinner extends JSpinner {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new spinner that can be scrolled with the mouse wheel.
 	 */
 	public MouseWheelSpinner() {
 		this(false);
 	}
-
+	
 	/**
 	 * Creates a new spinner that can be scrolled with the mouse wheel.
 	 * 
@@ -61,7 +61,7 @@ public class MouseWheelSpinner extends JSpinner {
 			registerFocusListener();
 		}
 	}
-
+	
 	// TODO brenner: not working as intended
 	// need to implement own editor to be able to listen to events
 	private void registerFocusListener() {
@@ -74,7 +74,7 @@ public class MouseWheelSpinner extends JSpinner {
 			}
 		});
 	}
-
+	
 	private void registerMouseWheelListener() {
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
@@ -104,5 +104,5 @@ public class MouseWheelSpinner extends JSpinner {
 			}
 		});
 	}
-
+	
 }

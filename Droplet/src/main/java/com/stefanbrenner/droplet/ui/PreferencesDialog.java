@@ -48,17 +48,17 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
  */
 @SuppressWarnings("serial")
 public class PreferencesDialog extends JDialog {
-
+	
 	private final JComboBox cmbCommService;
 	private final JComboBox cmbMsgProtocol;
-
+	
 	public PreferencesDialog(final JFrame frame) {
 		super(frame, true);
-
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(0, 1));
-
+		
 		panel.add(new JLabel(Messages.getString("PreferencesDialog.SerialCommunicationService"))); //$NON-NLS-1$
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		List<ISerialCommunicationService> commProviders = PluginLoader.getPlugins(ISerialCommunicationService.class);
@@ -71,7 +71,7 @@ public class PreferencesDialog extends JDialog {
 		}
 		cmbCommService.setRenderer(renderer);
 		panel.add(cmbCommService);
-
+		
 		panel.add(new JLabel(Messages.getString("PreferencesDialog.DropletMessageProtocol"))); //$NON-NLS-1$
 		cmbMsgProtocol = new JComboBox();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
@@ -84,12 +84,12 @@ public class PreferencesDialog extends JDialog {
 		}
 		cmbMsgProtocol.setRenderer(renderer);
 		panel.add(cmbMsgProtocol);
-
+		
 		// toolbar panel
 		JPanel panelBottom = new JPanel();
 		panelBottom.setLayout(new GridLayout(1, 0));
 		panelBottom.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-
+		
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			@Override
@@ -98,7 +98,7 @@ public class PreferencesDialog extends JDialog {
 			}
 		});
 		panelBottom.add(btnOk);
-
+		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
@@ -108,22 +108,22 @@ public class PreferencesDialog extends JDialog {
 			}
 		});
 		panelBottom.add(btnCancel);
-
+		
 		panel.add(panelBottom);
 		add(panel);
-
+		
 		pack();
 		setLocationRelativeTo(frame);
 		setResizable(false);
 		setTitle(Messages.getString("PreferencesDialog.Title")); //$NON-NLS-1$
-
+		
 	}
-
+	
 	/**
 	 * {@link ListCellRenderer} for {@link ISerialCommunicationService} and
 	 * {@link IDropletMessageProtocol}.
 	 */
-	private ListCellRenderer renderer = new DefaultListCellRenderer() {
+	private final ListCellRenderer renderer = new DefaultListCellRenderer() {
 		@Override
 		public Component getListCellRendererComponent(final JList list, final Object value, final int index,
 				final boolean isSelected, final boolean cellHasFocus) {
@@ -140,9 +140,9 @@ public class PreferencesDialog extends JDialog {
 			return comp;
 		}
 	};
-
+	
 	private void saveAndClose() {
-
+		
 		// save to configuration
 		Object selectedItem = cmbCommService.getSelectedItem();
 		if (selectedItem instanceof ISerialCommunicationService) {
@@ -152,7 +152,7 @@ public class PreferencesDialog extends JDialog {
 		if (selectedItem instanceof IDropletMessageProtocol) {
 			Configuration.setMessageProtocolProvider((IDropletMessageProtocol) selectedItem);
 		}
-
+		
 		setVisible(false);
 		dispose();
 	}

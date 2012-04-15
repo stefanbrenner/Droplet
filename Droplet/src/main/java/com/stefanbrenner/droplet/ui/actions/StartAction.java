@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.Action;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
@@ -36,25 +37,25 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  */
 @SuppressWarnings("serial")
 public class StartAction extends AbstractSerialAction {
-
+	
 	public StartAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("StartAction.title")); //$NON-NLS-1$
-		putValue(SHORT_DESCRIPTION, Messages.getString("StartAction.description")); //$NON-NLS-1$
+		putValue(Action.SHORT_DESCRIPTION, Messages.getString("StartAction.description")); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-
+		
 		// TODO brenner: create send message and compare with lastSendMessage
 		// from context
-
+		
 		Integer rounds = getDropletContext().getRounds();
 		Integer roundDelay = getDropletContext().getRoundDelay();
-
+		
 		String message = messageProtocolProvider.createStartMessage(rounds, roundDelay);
 		serialCommProvider.sendData(message);
 	}
-
+	
 }

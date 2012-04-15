@@ -24,19 +24,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDurationAction;
 
+/**
+ * 
+ * @author Stefan Brenner
+ */
 @XmlRootElement(name = "Camera")
 public class Camera extends AbstractActionDevice implements ICamera {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected String getDeviceType() {
 		return "Camera";
 	}
-
+	
 	@Override
 	public IDurationAction createNewAction() {
 		return new DurationAction();
 	}
-
+	
 }

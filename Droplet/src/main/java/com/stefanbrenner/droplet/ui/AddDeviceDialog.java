@@ -42,20 +42,20 @@ import com.stefanbrenner.droplet.model.internal.Valve;
  */
 @SuppressWarnings("serial")
 public class AddDeviceDialog extends AbstractDropletDialog implements ActionListener {
-
+	
 	private final JButton btnValve;
 	private final JButton btnFlash;
 	private final JButton btnCamera;
 	private final JButton btnClose;
-
+	
 	public AddDeviceDialog(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("AddDeviceDialog.title")); //$NON-NLS-1$
-
+		
 		JPanel panel = new JPanel();
-
+		
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(1, 0, 7, 7));
-
+		
 		btnValve = new JButton(Messages.getString("AddDeviceDialog.valve")); //$NON-NLS-1$
 		btnValve.addActionListener(this);
 		panel.add(btnValve);
@@ -68,16 +68,16 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 		btnClose = new JButton(Messages.getString("AddDeviceDialog.close")); //$NON-NLS-1$
 		btnClose.addActionListener(this);
 		panel.add(btnClose);
-
+		
 		add(panel);
-
+		
 		setAlwaysOnTop(true);
 		setResizable(false);
 		pack();
 		setLocationRelativeTo(frame);
-
+		
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		Object source = event.getSource();
@@ -91,5 +91,5 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 			setVisible(false);
 		}
 	}
-
+	
 }

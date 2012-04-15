@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -41,17 +42,17 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
  */
 @SuppressWarnings("serial")
 public class SendAction extends AbstractSerialAction {
-
+	
 	public SendAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("SendAction.title")); //$NON-NLS-1$
-		putValue(SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
-
+		putValue(Action.SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
+		
 		initListener();
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-
+		
 		// cannot send no devices
 		if (getDroplet().getDevices().isEmpty()) {
 			JOptionPane.showMessageDialog(getFrame(),
@@ -59,7 +60,7 @@ public class SendAction extends AbstractSerialAction {
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
+		
 		// cannot send if no enabled actions were found
 		boolean foundAction = false;
 		for (IActionDevice device : getDroplet().getDevices(IActionDevice.class)) {
@@ -74,35 +75,35 @@ public class SendAction extends AbstractSerialAction {
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
+		
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-
+		
 		// first reset actions
 		String message = messageProtocolProvider.createResetMessage();
 		serialCommProvider.sendData(message);
-
+		
 		message = messageProtocolProvider.createSetMessage(getDroplet());
-
+		
 		// save message to context
 		getDropletContext().setLastSetMessage(message);
-
+		
 		serialCommProvider.sendData(message);
 	}
-
+	
 	// TODO brenner: add listener to actions
 	private void initListener() {
 		PropertyChangeListener listener = new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void propertyChange(final PropertyChangeEvent event) {
 				updateVisibility();
 			}
 		};
 		getDroplet().addPropertyChangeListener(IDroplet.ASSOCIATION_DEVICES, listener);
 	}
-
+	
 	private void updateVisibility() {
 		setEnabled(!getDroplet().getDevices(IActionDevice.class).isEmpty());
 	}
-
+	
 }

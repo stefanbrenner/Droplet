@@ -145,6 +145,7 @@ NEW FEATURES:
 * Automatically send configuration to microcontroller before start if it changed 
   since it was last sent. This ensures that the configuration in Droplet and on 
   the controller are equal on every round execution. 
+* Analog Pins on the Arduino can be addressed with the numbers 50-65 (A0-A15).
 
 
 NOTES:

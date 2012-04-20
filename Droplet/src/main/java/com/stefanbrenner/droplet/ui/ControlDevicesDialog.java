@@ -19,6 +19,7 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -29,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -39,6 +41,7 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.actions.DeviceOffAction;
 import com.stefanbrenner.droplet.ui.actions.DeviceOnAction;
 import com.stefanbrenner.droplet.utils.DropletColors;
+import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
@@ -55,14 +58,27 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 	public ControlDevicesDialog(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("ControlDevicesDialog.deviceControl")); //$NON-NLS-1$
 		
-		setLayout(new GridLayout(0, 1));
-		setModal(true);
+		setLayout(new BorderLayout());
+		
+		JPanel devicesPanel = new JPanel();
+		devicesPanel.setLayout(new GridLayout(0, 1));
+		add(devicesPanel, BorderLayout.CENTER);
 		
 		// add panel for each device
 		for (IDevice device : dropletContext.getDroplet().getDevices()) {
-			add(new DevicePanel(frame, device));
+			devicesPanel.add(new DevicePanel(frame, device));
 		}
 		
+		JTextArea txtHelp = new JTextArea();
+		txtHelp.setText(Messages.getString("DeviceSetupPanel.help"));
+		txtHelp.setFont(DropletFonts.FONT_STANDARD_MINI);
+		txtHelp.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		txtHelp.setEditable(false);
+		txtHelp.setLineWrap(true);
+		txtHelp.setWrapStyleWord(true);
+		add(txtHelp, BorderLayout.SOUTH);
+		
+		setModal(true);
 		setAlwaysOnTop(true);
 		// setResizable(false);
 		
@@ -84,7 +100,7 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 			setBackground(DropletColors.getBackgroundColor(device));
 			setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
 			
-			GridBagConstraints gbc = UiUtils.createGridBagConstraints(0, 0, 1, 0);
+			GridBagConstraints gbc = UiUtils.createGridBagConstraints(0, 0, 0, 0);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			
 			BeanAdapter<IDevice> adapter = new BeanAdapter<IDevice>(device, true);
@@ -97,7 +113,8 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 			
 			lbDeviceName = new JLabel(device.getName());
 			lbDeviceName.setPreferredSize(new Dimension(200, 30));
-			UiUtils.editGridBagConstraints(gbc, 1, 0, 0, 0);
+			lbDeviceName.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+			UiUtils.editGridBagConstraints(gbc, 1, 0, 1, 0);
 			add(lbDeviceName, gbc);
 			
 			btnHigh = new JButton(new DeviceOnAction(frame, getDropletContext(), device));

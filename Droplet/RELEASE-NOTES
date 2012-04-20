@@ -79,6 +79,42 @@ Release 0.1
 	o create special droplet schema
 	o create LR plugin for droplet metadata schema
 		- http://www.adobe.com/devnet/photoshoplightroom.html
+		
+		XMP DropletDevice Struct
+		--------------------------------------------------------------------------
+		Title					string				
+		Type					string				i.e. valve, flash, camera, ...
+		DropletActions			DropletAction+		--> DropletAction Struct
+		
+		
+		XMP DropletAction Struct
+		--------------------------------------------------------------------------
+		Offset					integer				Time offset in ms from start
+		Duration				integer				Duration of action in ms
+		
+		
+		<rdf:Bag>
+			<rdf:li>
+				<drp:device
+					drp:type="Valve">
+					<rdf:Seq>
+						<rdf:li>
+							<drp:action offset=0 duration=20 />
+						</rdf:li>
+						<rdf:li>
+							<drp:action offset=50 duration=30 />
+						</rdf:li>
+						<rdf:li>
+							<drp:action offset=100 duration=50 />
+						</rdf:li>
+						...
+					</rdf:Seq>
+				</drp:device>
+			</rdf:li>
+			...
+		</rdf:Bag>
+		
+		
 * Logging:
 	o Move logging to own window?
 	o Add colored logging messages

@@ -39,10 +39,13 @@ import com.adobe.xmp.options.PropertyOptions;
 import com.adobe.xmp.options.SerializeOptions;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
+import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IMetadataProcessingService;
 import com.stefanbrenner.droplet.ui.Messages;
 
 /**
+ * Metadata processing service implementation that creates a new XMP file for
+ * each new RAW image file that is added to a watched folder.
  * 
  * @author Stefan Brenner
  */
@@ -52,6 +55,9 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 	 * Interval in milliseconds for the directory monitor.
 	 */
 	private static final int INTERVAL = 500;
+	
+	private static final String TITLE = "This picture was created with the help of "
+			+ "Droplet - Toolkit for Liquid Art Photographer";
 	
 	private FileAlterationMonitor monitor;
 	
@@ -170,14 +176,30 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 			}
 			
 			/* Title and Description */
-			// TODO brenner: create readable description from configuration
 			// xmpMeta.setLocalizedText(schemaDc, "dc:title",
 			// "x-default", "x-default", "Droplet Title");
-			xmpMeta.setLocalizedText(SCHEMA_DC, "dc:description", "x-default", "x-default",
-					StringUtils.trim(metadata.getDescription()));
+			String description = StringUtils.trim(metadata.getDescription());
+			description += "\n\n" + TITLE;
+			description += "\n" + Configuration.getMessageProtocolProvider().getName();
+			description += "\n" + dropletContext.getLastSetMessage();
+			xmpMeta.setLocalizedText(SCHEMA_DC, "dc:description", "x-default", "x-default", description);
+			
+			// final String NS_DRP = "http://www.droplet.com/schema/1.0/";
+			// REGISTRY.registerNamespace(NS_DRP, "drp");
+			//
+			// for (IActionDevice device :
+			// dropletContext.getDroplet().getDevices(IActionDevice.class)) {
+			// xmpMeta.appendArrayItem(NS_DRP, "device", new
+			// PropertyOptions().setArray(true),
+			// "Device " + device.getName(), null);
+			// for (IAction action : device.getEnabledActions()) {
+			// xmpMeta.appendArrayItem(NS_DRP, "action", new
+			// PropertyOptions().setArray(true),
+			// "Action " + action.getOffset(), null);
+			// }
+			// }
 			
 			/* UserComments */
-			// TODO brenner: what is this for?
 			xmpMeta.setProperty(SCHEMA_EXIF, "exif:UserComment",
 					"This picture was created with the help of Droplet - Toolkit for Liquid Art Photographer");
 			
@@ -203,5 +225,4 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 			e.printStackTrace();
 		}
 	}
-	
 }

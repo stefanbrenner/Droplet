@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1
-Date:		2012/02/24
+Date:		2012/05/29
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -21,9 +21,7 @@ Release 0.1
 
  HIGH
 ------------------------
-* device mapping (analog pins on arduino)
 * problems with data send and arduino uno/nano
-* label for control number and info in docu
 * be careful with arduino files to exist in correct directory
 * remove beta state
 * Simple Logging of photo number combined with the current configuration
@@ -129,6 +127,7 @@ Release 0.1
 * Drag&Drop Device Panels and Actions
 * Open/Close Panels
 * Create Custom L&F with Synth or Nimbus
+* Dark Nimbus color theme
 * Graphical View of one cycle
 * Automatic Action Times:
 	o Offset + Duration = min. Offset of the following Action
@@ -144,7 +143,7 @@ NEW FEATURES:
 * Filename of an opened or saved file is now displayed in the window title
 * Automatically send configuration to microcontroller before start if it changed 
   since it was last sent. This ensures that the configuration in Droplet and on 
-  the controller are equal on every round execution. 
+  the controller are equal on every round execution.
 * Analog Pins on the Arduino can be addressed with the numbers 50-65 (A0-A15).
 
 

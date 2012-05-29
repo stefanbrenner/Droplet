@@ -237,6 +237,6 @@ void processHighLowCommand(int mode) {
     return;
   }
   
-  digitalWrite(deviceMapping[deviceNumber - 1], mode);
+  digitalWrite(deviceMapping[deviceNumber], mode);
 }
 

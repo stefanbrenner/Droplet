@@ -23,7 +23,6 @@ Release 0.1
 ------------------------
 * problems with data send and arduino uno/nano
 * be careful with arduino files to exist in correct directory
-* remove beta state
 * Simple Logging of photo number combined with the current configuration
 * correct dsc-protocol.txt
 * Logging of exceptions/errors/informations/...

@@ -24,6 +24,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JFrame;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
@@ -37,6 +40,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 @SuppressWarnings("serial")
 public class ExitAction extends AbstractDropletAction {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExitAction.class);
+	
 	public ExitAction(final JFrame parent, final IDropletContext dropletContext) {
 		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
 		
@@ -47,10 +52,14 @@ public class ExitAction extends AbstractDropletAction {
 	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
 		
+		LOGGER.debug("Shutting down ...");
+		
 		// save data to configuration
 		IMetadata metadata = getDropletContext().getMetadata();
 		Configuration.setMetadataComments(metadata.getDescription());
 		Configuration.setMetadataTags(metadata.getTags());
+		
+		LOGGER.debug("Successfully saved settings");
 		
 		getFrame().dispose();
 		System.exit(0);

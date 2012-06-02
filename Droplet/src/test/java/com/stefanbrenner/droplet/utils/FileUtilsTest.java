@@ -36,7 +36,7 @@ import org.junit.rules.TemporaryFolder;
 public class FileUtilsTest {
 	
 	@Rule
-	private TemporaryFolder testDir = new TemporaryFolder();
+	public TemporaryFolder testDir = new TemporaryFolder();
 	
 	@Test
 	public void testGetFilename() throws IOException {

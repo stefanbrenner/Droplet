@@ -128,6 +128,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 					DropletMainFrame frame = new DropletMainFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
+					LOGGER.error("A fatal error occured: ", e);
 					e.printStackTrace();
 				}
 			}

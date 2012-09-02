@@ -26,6 +26,7 @@ Release 0.1
 * Simple Logging of photo number combined with the current configuration
 * correct dsc-protocol.txt
 * Logging of exceptions/errors/informations/...
+* use jGoodies Forms and Validation
 
 
  NORMAL
@@ -76,20 +77,20 @@ Release 0.1
 	o create special droplet schema
 	o create LR plugin for droplet metadata schema
 		- http://www.adobe.com/devnet/photoshoplightroom.html
-		
+
 		XMP DropletDevice Struct
 		--------------------------------------------------------------------------
-		Title					string				
+		Title					string
 		Type					string				i.e. valve, flash, camera, ...
 		DropletActions			DropletAction+		--> DropletAction Struct
-		
-		
+
+
 		XMP DropletAction Struct
 		--------------------------------------------------------------------------
 		Offset					integer				Time offset in ms from start
 		Duration				integer				Duration of action in ms
-		
-		
+
+
 		<rdf:Bag>
 			<rdf:li>
 				<drp:device
@@ -110,8 +111,8 @@ Release 0.1
 			</rdf:li>
 			...
 		</rdf:Bag>
-		
-		
+
+
 * Logging:
 	o Move logging to own window?
 	o Add colored logging messages
@@ -140,8 +141,8 @@ NEW FEATURES:
 * Processing panel can now be used to automatically add metadata informations
   to pictures in a tethered shooting workflow.
 * Filename of an opened or saved file is now displayed in the window title
-* Automatically send configuration to microcontroller before start if it changed 
-  since it was last sent. This ensures that the configuration in Droplet and on 
+* Automatically send configuration to microcontroller before start if it changed
+  since it was last sent. This ensures that the configuration in Droplet and on
   the controller are equal on every round execution.
 * Analog Pins on the Arduino can be addressed with the numbers 50-65 (A0-A15).
 

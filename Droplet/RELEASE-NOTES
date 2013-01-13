@@ -3,7 +3,7 @@
 ================================================================================
 Title:		Release Notes
 Version:	0.1
-Date:		2012/05/29
+Date:		2013/01/13
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -52,6 +52,9 @@ Release 0.1
 ================================================================================
  I D E A S
 ================================================================================
+
+* save comments to a saved configuration
+* save COM port to context
 
 * direct device control: send OFF to all that are ON when closing
 * Disable Serial Communication Actions if No Connection is established

@@ -204,7 +204,7 @@ void processSetCommand() {
 }
 
 void processInfoCommand() {  
-  logging(DEBUG, "TODO return setup of arduino");
+  logging(DEBUG, "Current device setup:");
 
   Serial.print("Free memory: ");
   Serial.println(freeMemory());

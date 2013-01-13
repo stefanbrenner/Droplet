@@ -118,13 +118,17 @@ void executeActions() {
  */
 void printActions() {
   Action *nextAction = droplet.actions;
-  while(nextAction != NULL) {
-    Serial.print(nextAction->pin);
-    Serial.print(":");
-    Serial.print(nextAction->offset);
-    Serial.print(":");
-    Serial.println(nextAction->mode);  
-    nextAction = nextAction->next;
+  if(nextAction == NULL) {
+    Serial.println("No actions defined!");
+  } else {
+    while(nextAction != NULL) {
+      Serial.print(nextAction->pin);
+      Serial.print(":");
+      Serial.print(nextAction->offset);
+      Serial.print(":");
+      Serial.println(nextAction->mode);  
+      nextAction = nextAction->next;
+    }
   }
 }
 

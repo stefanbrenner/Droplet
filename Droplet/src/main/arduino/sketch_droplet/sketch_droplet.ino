@@ -18,7 +18,6 @@
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 
-
 #include "logging.h"
 #include "protocol.h"
 #include "droplet.h"

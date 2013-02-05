@@ -2,8 +2,8 @@
  Droplet - Toolkit for Liquid Art Photographer
 ================================================================================
 Title:		Release Notes
-Version:	0.1
-Date:		2013/01/13
+Version:	0.1.1
+Date:		2013/02/05
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -13,11 +13,18 @@ Droplet is an Open Source Toolkit for Liquid Art Photographers.
 
 
 --------------------------------------------------------------------------------
-Release 0.1
+Release 0.2
 --------------------------------------------------------------------------------
 ================================================================================
  T O D O S
 ================================================================================
+
+ VERY HIGH
+------------------------
+* start execution with physical button
+* use micro seconds for flashes
+* use space as shortcut for start
+
 
  HIGH
 ------------------------
@@ -139,6 +146,19 @@ Release 0.1
 
 
 
+
+--------------------------------------------------------------------------------
+Release 0.1.1
+--------------------------------------------------------------------------------
+
+BUG FIXES:
+* Fixed major bug with execution of multiple rounds in arduino sketch
+
+
+
+--------------------------------------------------------------------------------
+Release 0.1
+--------------------------------------------------------------------------------
 
 NEW FEATURES:
 * Processing panel can now be used to automatically add metadata informations

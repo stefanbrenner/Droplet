@@ -118,11 +118,6 @@ void processRunCommand() {
     
     // execute next round at the right time
     if(currentMillis - roundStartMillis >= 0) {
-      
-      Serial.println("roundDelay " + String(roundDelay));
-      Serial.println("roundStartMillis " + String(roundStartMillis));
-      Serial.println("currentMillis " + String(currentMillis));
-      
       Serial.println("Execute round #" + String(i));
       executeActions();
       i++;

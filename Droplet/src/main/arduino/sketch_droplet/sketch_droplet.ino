@@ -54,6 +54,10 @@ void setup() {
     pinMode(deviceMapping[i], OUTPUT);
   } 
   
+  // manually set pin 13 to LOW otherwise it is 
+  // by default set to HIGH on some boards (i.e. Uno)
+  digitalWrite(13, LOW);
+  
 }
 
  

@@ -19,6 +19,8 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
+import gnu.io.CommPortIdentifier;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
@@ -51,6 +53,8 @@ public final class Configuration {
 	public static final String CONF_METADATA_COMMENTS = "Configuration.Metadata.Comments"; //$NON-NLS-1$
 	
 	public static final String CONF_METADATA_TAGS = "Configuration.Metadata.Tags"; //$NON-NLS-1$
+	
+	public static final String CONF_SERIAL_COMM_PORT = "Configuration.SerialCommPort"; //$NON-NLS-1$
 	
 	private static final Preferences PREFS = Preferences.userNodeForPackage(Configuration.class);
 	
@@ -135,6 +139,14 @@ public final class Configuration {
 	
 	public static String getMetadataTags() {
 		return Configuration.PREFS.get(CONF_METADATA_TAGS, StringUtils.EMPTY);
+	}
+	
+	public static void setSerialCommPort(final CommPortIdentifier port) {
+		Configuration.PREFS.put(Configuration.CONF_SERIAL_COMM_PORT, port.getName());
+	}
+	
+	public static String getSerialCommPort() {
+		return Configuration.PREFS.get(Configuration.CONF_SERIAL_COMM_PORT, null);
 	}
 	
 	// simple static notification support

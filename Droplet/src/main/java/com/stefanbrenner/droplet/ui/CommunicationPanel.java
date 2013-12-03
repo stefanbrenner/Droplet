@@ -20,6 +20,7 @@
 package com.stefanbrenner.droplet.ui;
 
 import gnu.io.CommPortIdentifier;
+import gnu.io.NoSuchPortException;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +41,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
@@ -52,6 +56,8 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 public class CommunicationPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommunicationPanel.class);
 	
 	private final IDropletContext dropletContext;
 	
@@ -94,7 +100,11 @@ public class CommunicationPanel extends JPanel {
 		cmbPort.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(final ItemEvent event) {
-				selectPort();
+				Object selectedItem = cmbPort.getSelectedItem();
+				if (selectedItem instanceof CommPortIdentifier) {
+					CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
+					selectPort(portId);
+				}
 			}
 		});
 		add(cmbPort);
@@ -160,6 +170,16 @@ public class CommunicationPanel extends JPanel {
 			}
 		}).start();
 		
+		// set port from configuration
+		String serialCommPort = Configuration.getSerialCommPort();
+		try {
+			CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(serialCommPort);
+			selectPort(portIdentifier);
+			cmbPort.setSelectedItem(portIdentifier);
+		} catch (NoSuchPortException e) {
+			LOGGER.info("Port " + serialCommPort + " konnte nicht gefunden werden.");
+		}
+		
 	}
 	
 	private void setCommService(final ISerialCommunicationService commService) {
@@ -178,7 +198,7 @@ public class CommunicationPanel extends JPanel {
 		}
 	}
 	
-	private void selectPort() {
+	private void selectPort(CommPortIdentifier portId) {
 		boolean connected = false;
 		
 		// close previous connection
@@ -186,12 +206,8 @@ public class CommunicationPanel extends JPanel {
 			commService.close();
 		}
 		
-		Object selectedItem = cmbPort.getSelectedItem();
-		if (selectedItem instanceof CommPortIdentifier) {
-			CommPortIdentifier portId = (CommPortIdentifier) selectedItem;
-			dropletContext.setPort(portId);
-			connected = commService.connect(portId, dropletContext);
-		}
+		dropletContext.setPort(portId);
+		connected = commService.connect(portId, dropletContext);
 		
 		updateStatus(connected);
 	}

@@ -58,6 +58,7 @@ public class ExitAction extends AbstractDropletAction {
 		IMetadata metadata = getDropletContext().getMetadata();
 		Configuration.setMetadataComments(metadata.getDescription());
 		Configuration.setMetadataTags(metadata.getTags());
+		Configuration.setSerialCommPort(getDropletContext().getPort());
 		
 		LOGGER.debug("Successfully saved settings");
 		

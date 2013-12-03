@@ -2,8 +2,8 @@
  Droplet - Toolkit for Liquid Art Photographer
 ================================================================================
 Title:		Release Notes
-Version:	0.1.1
-Date:		2013/02/05
+Version:	0.1.2
+Date:		2013/12/03
 Author:		Stefan Brenner
 --------------------------------------------------------------------------------
 
@@ -61,7 +61,6 @@ Release 0.2
 ================================================================================
 
 * save comments to a saved configuration
-* save COM port to context
 
 * direct device control: send OFF to all that are ON when closing
 * Disable Serial Communication Actions if No Connection is established
@@ -144,6 +143,15 @@ Release 0.2
 * Viscosity Factor:
 	o Factor that adapts the action times of devices
 
+
+
+--------------------------------------------------------------------------------
+Release 0.1.2
+--------------------------------------------------------------------------------
+
+NEW FEATURES:
+* Save the selected serial communication port in the configuration and load
+  it at startup
 
 
 

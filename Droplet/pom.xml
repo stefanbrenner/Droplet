@@ -1,9 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stefanbrenner</groupId>
 	<artifactId>droplet</artifactId>
-	<version>0.1</version>
+	<version>0.1.2</version>
+	<name>Droplet</name>
+	<description>Toolkit for High-Speed-Photography</description>
+	<url>http://www.droplet.at</url>
+	<organization>
+		<name>Stefan Brenner Photography</name>
+		<url>http://www.stefanbrenner.com</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -44,27 +57,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mangosdk</groupId>
-			<artifactId>spi</artifactId>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/spi.jar</systemPath>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>gnu.io</groupId>
-			<artifactId>rxtxcomm</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/RXTXcomm.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.adobe</groupId>
-			<artifactId>xmpcore</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/xmpcore.jar</systemPath>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.jgoodies</groupId>
@@ -76,13 +69,23 @@
 			<artifactId>validation</artifactId>
 			<version>2.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.adobe.xmp</groupId>
+			<artifactId>xmpcore</artifactId>
+			<version>5.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mangosdk</groupId>
+			<artifactId>spi</artifactId>
+			<version>0.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>gnu.io</groupId>
+			<artifactId>rxtxcomm</artifactId>
+			<version>2.2</version>
+		</dependency>
 	</dependencies>
-	<name>Droplet - Toolkit for High-Speed-Photography</name>
-	<url>http://www.droplet.at</url>
-	<organization>
-		<name>Stefan Brenner Photography</name>
-		<url>http://www.stefanbrenner.com</url>
-	</organization>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -90,11 +93,22 @@
 				<artifactId>osxappbundle-maven-plugin</artifactId>
 				<version>1.0-alpha-2</version>
 				<configuration>
-                    <mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
-                    <additionalClasspath>
-                        <path>/System/Library/Somepath/somejar.jar</path>
-                    </additionalClasspath>
-                </configuration>
+					<mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
+					<iconFile>${basedir}/icons/droplet.icns</iconFile>
+					<jvmVersion>1.5*</jvmVersion>
+					<!-- TODO: Wie bringe ich die dll in's dmg? -->
+					<vmOptions>-Xmx256M -Djava.library.path=$JAVAROOT/dll</vmOptions>
+					<additionalResources>
+                        <fileSet>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>README</include>
+                                <include>RELEASE-NOTES</include>
+                                <include>COPYING</include>
+                            </includes>
+                        </fileSet>
+                    </additionalResources>
+				</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -106,7 +120,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
 </project>

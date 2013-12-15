@@ -88,7 +88,7 @@
 
     <profiles>
         <profile>
-            <id>build-osx</id>
+            <id>build-dmg</id>
             <build>
 		        <plugins>
 		            <plugin>

@@ -23,6 +23,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.Rule;
@@ -51,7 +52,7 @@ public class FileUtilsTest {
 	@Test
 	public void testNewFile() throws IOException {
 		
-		String testdirPath = testDir.getRoot().getAbsolutePath() + "/";
+		String testdirPath = testDir.getRoot().getAbsolutePath() + File.separatorChar;
 		
 		assertEquals(testdirPath + ".txt", FileUtils.newFileBasedOn(testDir.newFile(".abc"), "txt").getAbsolutePath());
 		assertEquals(testdirPath + "test.txt", FileUtils.newFileBasedOn(testDir.newFile("test"), "txt")

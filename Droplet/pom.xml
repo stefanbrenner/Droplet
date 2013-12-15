@@ -86,39 +86,44 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>osxappbundle-maven-plugin</artifactId>
-				<version>1.0-alpha-2</version>
-				<configuration>
-					<mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
-					<iconFile>${basedir}/icons/droplet.icns</iconFile>
-					<jvmVersion>1.5*</jvmVersion>
-					<!-- TODO: Wie bringe ich die dll in's dmg? -->
-					<vmOptions>-Xmx256M -Djava.library.path=$JAVAROOT/dll</vmOptions>
-					<additionalResources>
-                        <fileSet>
-                            <directory>${basedir}</directory>
-                            <includes>
-                                <include>README</include>
-                                <include>RELEASE-NOTES</include>
-                                <include>COPYING</include>
-                            </includes>
-                        </fileSet>
-                    </additionalResources>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>bundle</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <profiles>
+        <profile>
+            <id>build-osx</id>
+            <build>
+		        <plugins>
+		            <plugin>
+		                <groupId>org.codehaus.mojo</groupId>
+		                <artifactId>osxappbundle-maven-plugin</artifactId>
+		                <version>1.0-alpha-2</version>
+		                <configuration>
+		                    <mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
+		                    <iconFile>${basedir}/icons/droplet.icns</iconFile>
+		                    <jvmVersion>1.5*</jvmVersion>
+		                    <!-- TODO: Wie bringe ich die dll in's dmg? -->
+		                    <vmOptions>-Xmx256M -Djava.library.path=$JAVAROOT/dll</vmOptions>
+		                    <additionalResources>
+		                        <fileSet>
+		                            <directory>${basedir}</directory>
+		                            <includes>
+		                                <include>README</include>
+		                                <include>RELEASE-NOTES</include>
+		                                <include>COPYING</include>
+		                            </includes>
+		                        </fileSet>
+		                    </additionalResources>
+		                </configuration>
+		                <executions>
+		                    <execution>
+		                        <phase>package</phase>
+		                        <goals>
+		                            <goal>bundle</goal>
+		                        </goals>
+		                    </execution>
+		                </executions>
+		            </plugin>
+		        </plugins>
+		    </build>
+        </profile>
+    </profiles>
 
 </project>

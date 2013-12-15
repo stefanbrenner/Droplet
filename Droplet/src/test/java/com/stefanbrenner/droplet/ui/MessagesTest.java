@@ -22,6 +22,7 @@ package com.stefanbrenner.droplet.ui;
 import static junit.framework.Assert.assertEquals;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -33,11 +34,11 @@ import org.junit.Test;
  * 
  */
 public class MessagesTest {
-
+	
 	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.testmessages"; //$NON-NLS-1$
-
+	
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-
+	
 	/**
 	 * Read localized message from resources and format it.
 	 * 
@@ -52,25 +53,27 @@ public class MessagesTest {
 			return '!' + key + '!';
 		}
 	}
-
+	
 	@Test
 	public void testGetMessage() {
 		assertEquals("Basic", MessagesTest.getString("MessagesTest"));
 		assertEquals("Simple", MessagesTest.getString("MessagesTest.Simple"));
 		assertEquals("Advanced {0}", MessagesTest.getString("MessagesTest.Advanced"));
-
+		
 		assertEquals("Advanced Test", MessagesTest.getString("MessagesTest.Advanced", "Test"));
 		assertEquals("Advanced Test with multiple Parameters !",
 				MessagesTest.getString("MessagesTest.Multiple.Ascending", "Test", "multiple", "!"));
 		assertEquals("Advanced Test with multiple Parameters !",
 				MessagesTest.getString("MessagesTest.Multiple.Unsorted", "multiple", "!", "Test"));
 		assertEquals("Advanced Test with Test", MessagesTest.getString("MessagesTest.Multiple.Repeat", "Test"));
-
-		Object[] arguments = { new Integer(7), new GregorianCalendar(2012, 0, 1).getTime(),
-				"a disturbance in the Force" };
-		assertEquals("At 12:00:00 AM on Jan 1, 2012, there was a disturbance in the Force on planet 7.",
+		
+		GregorianCalendar cal = new GregorianCalendar(2012, 0, 1);
+		Object[] arguments = { new Integer(7), cal.getTime(), "a disturbance in the Force" };
+		assertEquals("At " + SimpleDateFormat.getTimeInstance().format(cal.getTime()) + " on "
+				+ SimpleDateFormat.getDateInstance().format(cal.getTime())
+				+ ", there was a disturbance in the Force on planet 7.",
 				MessagesTest.getString("MessagesTest.Number", arguments));
-
+		
 	}
-
+	
 }

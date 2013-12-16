@@ -25,6 +25,8 @@ import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -150,7 +152,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		
 		// basic frame setup
 		updateTitle();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setIconImage(new ImageIcon("icons/droplet_icon_48x48.png").getImage());
 		
@@ -194,6 +196,12 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 			public void mouseClicked(final MouseEvent e) {
 				requestFocusInWindow();
 				super.mouseClicked(e);
+			}
+		});
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				handleQuit();
 			}
 		});
 		

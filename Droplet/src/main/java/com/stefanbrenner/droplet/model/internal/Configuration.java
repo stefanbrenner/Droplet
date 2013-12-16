@@ -142,7 +142,9 @@ public final class Configuration {
 	}
 	
 	public static void setSerialCommPort(final CommPortIdentifier port) {
-		Configuration.PREFS.put(Configuration.CONF_SERIAL_COMM_PORT, port.getName());
+		if (port != null) {
+			Configuration.PREFS.put(Configuration.CONF_SERIAL_COMM_PORT, port.getName());
+		}
 	}
 	
 	public static String getSerialCommPort() {

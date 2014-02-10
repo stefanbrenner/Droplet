@@ -57,8 +57,10 @@ import com.stefanbrenner.droplet.model.internal.DropletContext;
 import com.stefanbrenner.droplet.ui.actions.ExitAction;
 import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
+import com.stefanbrenner.droplet.utils.DropletConfig;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.UiUtils;
+import com.tngtech.configbuilder.ConfigBuilder;
 
 /**
  * Mainframe of the droplet application.
@@ -122,6 +124,9 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 			LOGGER.warn("Nimbus L&F not found!");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
+		
+		// initialize DropletConfig
+		new ConfigBuilder<DropletConfig>(DropletConfig.class).build();
 		
 		EventQueue.invokeLater(new Runnable() {
 			@Override

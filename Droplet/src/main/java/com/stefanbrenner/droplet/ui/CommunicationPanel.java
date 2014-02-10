@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
+import com.stefanbrenner.droplet.utils.DropletConfig;
 
 /**
  * Panel that displays controls to connect to a microcontroller.
@@ -136,39 +137,41 @@ public class CommunicationPanel extends JPanel {
 		});
 		
 		// add listener to update available ports
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (!Thread.interrupted()) {
-					
-					List<CommPortIdentifier> newPorts = Arrays.asList(commService.getPorts());
-					
-					// check if new port is available
-					for (CommPortIdentifier port : newPorts) {
-						if (!ports.contains(port)) {
-							ports.add(port);
-							cmbPort.addItem(port);
+		if (DropletConfig.isAutoLoadPorts()) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (!Thread.interrupted()) {
+						
+						List<CommPortIdentifier> newPorts = Arrays.asList(commService.getPorts());
+						
+						// check if new port is available
+						for (CommPortIdentifier port : newPorts) {
+							if (!ports.contains(port)) {
+								ports.add(port);
+								cmbPort.addItem(port);
+							}
+						}
+						
+						// check if port has gone
+						for (CommPortIdentifier port : new ArrayList<CommPortIdentifier>(ports)) {
+							if (!newPorts.contains(port)) {
+								ports.remove(port);
+								cmbPort.removeItem(port);
+							}
+						}
+						
+						// sleep for 2 seconds
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
 					}
 					
-					// check if port has gone
-					for (CommPortIdentifier port : new ArrayList<CommPortIdentifier>(ports)) {
-						if (!newPorts.contains(port)) {
-							ports.remove(port);
-							cmbPort.removeItem(port);
-						}
-					}
-					
-					// sleep for 2 seconds
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 				}
-				
-			}
-		}).start();
+			}).start();
+		}
 		
 		// set port from configuration
 		String serialCommPort = Configuration.getSerialCommPort();

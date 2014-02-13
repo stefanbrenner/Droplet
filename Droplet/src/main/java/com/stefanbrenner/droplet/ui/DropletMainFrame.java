@@ -213,6 +213,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// register action shortcuts
 		LOGGER.debug("Register action shortcuts");
 		// TODO brenner: don't consume keys in JTextComponents
+		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
 		contentPane.getActionMap().put("start", new StartAction(this, dropletContext)); //$NON-NLS-1$
 		

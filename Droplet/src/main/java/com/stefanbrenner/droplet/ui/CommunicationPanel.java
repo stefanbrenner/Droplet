@@ -25,6 +25,8 @@ import gnu.io.NoSuchPortException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
@@ -35,6 +37,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -62,6 +65,7 @@ public class CommunicationPanel extends JPanel {
 	
 	private final IDropletContext dropletContext;
 	
+	private final JButton btnUpdate;
 	private final JComboBox cmbPort;
 	private final JLabel lblStatus;
 	
@@ -77,6 +81,16 @@ public class CommunicationPanel extends JPanel {
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
 		setBorder(BorderFactory.createTitledBorder(Messages.getString("CommunicationPanel.title"))); //$NON-NLS-1$
+		
+		btnUpdate = new JButton(Messages.getString("CommunicationPanel.update")); //$NON-NLS-1$
+		btnUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				updatePorts();
+			}
+		});
+		btnUpdate.setToolTipText(Messages.getString("CommunicationPanel.updateTooltip")); //$NON-NLS-1$
+		add(btnUpdate);
 		
 		// port selection combo box
 		cmbPort = new JComboBox();
@@ -143,23 +157,7 @@ public class CommunicationPanel extends JPanel {
 				public void run() {
 					while (!Thread.interrupted()) {
 						
-						List<CommPortIdentifier> newPorts = Arrays.asList(commService.getPorts());
-						
-						// check if new port is available
-						for (CommPortIdentifier port : newPorts) {
-							if (!ports.contains(port)) {
-								ports.add(port);
-								cmbPort.addItem(port);
-							}
-						}
-						
-						// check if port has gone
-						for (CommPortIdentifier port : new ArrayList<CommPortIdentifier>(ports)) {
-							if (!newPorts.contains(port)) {
-								ports.remove(port);
-								cmbPort.removeItem(port);
-							}
-						}
+						updatePorts();
 						
 						// sleep for 2 seconds
 						try {
@@ -180,9 +178,29 @@ public class CommunicationPanel extends JPanel {
 			selectPort(portIdentifier);
 			cmbPort.setSelectedItem(portIdentifier);
 		} catch (NoSuchPortException e) {
-			LOGGER.info("Port " + serialCommPort + " konnte nicht gefunden werden.");
+			LOGGER.info("Port " + serialCommPort + " konnte nicht gefunden werden."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
+	}
+	
+	private void updatePorts() {
+		List<CommPortIdentifier> newPorts = Arrays.asList(commService.getPorts());
+		
+		// check if new port is available
+		for (CommPortIdentifier port : newPorts) {
+			if (!ports.contains(port)) {
+				ports.add(port);
+				cmbPort.addItem(port);
+			}
+		}
+		
+		// check if port has gone
+		for (CommPortIdentifier port : new ArrayList<CommPortIdentifier>(ports)) {
+			if (!newPorts.contains(port)) {
+				ports.remove(port);
+				cmbPort.removeItem(port);
+			}
+		}
 	}
 	
 	private void setCommService(final ISerialCommunicationService commService) {

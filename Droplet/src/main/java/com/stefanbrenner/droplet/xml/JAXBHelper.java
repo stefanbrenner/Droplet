@@ -29,6 +29,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import com.stefanbrenner.droplet.model.internal.Action;
+import com.stefanbrenner.droplet.model.internal.Button;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.model.internal.DurationAction;
@@ -49,7 +50,7 @@ public class JAXBHelper {
 		// TODO brenner: use reflection to retrieve all instances of IAction and
 		// IDevice
 		JAXBContext newInstance = JAXBContext.newInstance(Droplet.class, Valve.class, Flash.class, Camera.class,
-				Action.class, DurationAction.class);
+				Action.class, DurationAction.class, Button.class);
 		return newInstance;
 	}
 	

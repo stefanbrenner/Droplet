@@ -22,6 +22,9 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -30,6 +33,8 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.ObjectUtils;
 
+import com.stefanbrenner.droplet.model.IButton;
+import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Button;
 import com.stefanbrenner.droplet.model.internal.Camera;
@@ -44,6 +49,8 @@ import com.stefanbrenner.droplet.model.internal.Valve;
 @SuppressWarnings("serial")
 public class AddDeviceDialog extends AbstractDropletDialog implements ActionListener {
 	
+	private final IDroplet droplet;
+	
 	private final JButton btnValve;
 	private final JButton btnFlash;
 	private final JButton btnCamera;
@@ -52,6 +59,8 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 	
 	public AddDeviceDialog(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("AddDeviceDialog.title")); //$NON-NLS-1$
+		
+		droplet = dropletContext.getDroplet();
 		
 		JPanel panel = new JPanel();
 		
@@ -81,19 +90,32 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 		pack();
 		setLocationRelativeTo(frame);
 		
+		droplet.addPropertyChangeListener(IDroplet.ASSOCIATION_DEVICES, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(final PropertyChangeEvent event) {
+				updateComponents();
+			}
+		});
+		updateComponents();
+		
+	}
+	
+	private void updateComponents() {
+		List<IButton> button = droplet.getDevices(IButton.class);
+		btnButton.setEnabled(button.isEmpty());
 	}
 	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		Object source = event.getSource();
 		if (ObjectUtils.equals(btnValve, source)) {
-			getDropletContext().getDroplet().addDevice(new Valve());
+			droplet.addDevice(new Valve());
 		} else if (ObjectUtils.equals(btnFlash, source)) {
-			getDropletContext().getDroplet().addDevice(new Flash());
+			droplet.addDevice(new Flash());
 		} else if (ObjectUtils.equals(btnCamera, source)) {
-			getDropletContext().getDroplet().addDevice(new Camera());
+			droplet.addDevice(new Camera());
 		} else if (ObjectUtils.equals(btnButton, source)) {
-			getDropletContext().getDroplet().addDevice(new Button());
+			droplet.addDevice(new Button());
 		} else if (ObjectUtils.equals(btnClose, source)) {
 			setVisible(false);
 		}

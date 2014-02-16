@@ -35,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 
 /**
@@ -83,11 +84,18 @@ public class DeviceSetupPanel extends JPanel {
 		// add components
 		container.add(Box.createRigidArea(new Dimension(10, 0)));
 		// add devices panels
-		List<IActionDevice> devices = droplet.getDevices(IActionDevice.class);
+		List<IDevice> devices = droplet.getDevices(IDevice.class);
 		// sort devices
 		Collections.sort(devices, droplet.getDeviceComparator());
-		for (IActionDevice device : devices) {
-			ActionDevicePanel<IActionDevice> devicePanel = new ActionDevicePanel<IActionDevice>(this, droplet, device);
+		for (IDevice device : devices) {
+			DevicePanel<?> devicePanel;
+			
+			if (device instanceof IActionDevice) {
+				devicePanel = new ActionDevicePanel(this, droplet, (IActionDevice) device);
+			} else {
+				devicePanel = new DevicePanel<IDevice>(this, droplet, device);
+			}
+			
 			container.add(devicePanel);
 			container.add(Box.createRigidArea(new Dimension(10, 0)));
 		}

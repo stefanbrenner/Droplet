@@ -130,6 +130,10 @@ void printActions() {
       nextAction = nextAction->next;
     }
   }
+  if(droplet.startButton != UNDEFINED_PIN) {
+    Serial.print("Startbutton:");
+    Serial.println(droplet.startButton);
+  }
 }
 
 /* 
@@ -145,6 +149,7 @@ void clearActions() {
   }
   
   droplet.actions = NULL;
+  droplet.startButton = UNDEFINED_PIN;
 }
 
 

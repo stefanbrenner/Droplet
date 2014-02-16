@@ -38,6 +38,7 @@ import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.IInputDevice;
 import com.stefanbrenner.droplet.ui.actions.DeviceOffAction;
 import com.stefanbrenner.droplet.ui.actions.DeviceOnAction;
 import com.stefanbrenner.droplet.utils.DropletColors;
@@ -121,11 +122,14 @@ public class ControlDevicesDialog extends AbstractDropletDialog {
 			UiUtils.editGridBagConstraints(gbc, 2, 0, 0, 0);
 			add(btnHigh, gbc);
 			
-			// TODO brenner: add input for offset and duration
-			
 			btnLow = new JButton(new DeviceOffAction(frame, getDropletContext(), device));
 			UiUtils.editGridBagConstraints(gbc, 3, 0, 0, 0);
 			add(btnLow, gbc);
+			
+			if (device instanceof IInputDevice) {
+				btnHigh.setVisible(false);
+				btnLow.setVisible(false);
+			}
 			
 		}
 		

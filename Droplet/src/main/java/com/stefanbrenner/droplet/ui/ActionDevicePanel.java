@@ -19,147 +19,50 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.jgoodies.binding.adapter.BasicComponentFactory;
-import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
-import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.utils.DropletColors;
 
 /**
- * Panel for action devices.
- * 
- * @param <T>
- *            type ot the action devices to be displayed in this panel
  * @author Stefan Brenner
+ * 
  */
-public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
+public class ActionDevicePanel extends DevicePanel<IActionDevice> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// model objects
-	private T device;
-	
-	// UI components
-	private final JComponent parent;
-	private final JTextField txtName;
-	
-	private final JPanel actionsPanel;
-	
-	/**
-	 * Create the panel.
-	 */
-	public ActionDevicePanel(final JComponent parent, final IDroplet droplet, final T device) {
-		
-		this.parent = parent;
-		
-		setDevice(device);
-		
-		setLayout(new BorderLayout(0, 5));
-		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		setBackground(DropletColors.getBackgroundColor(device));
-		
-		BeanAdapter<T> adapter = new BeanAdapter<T>(device, true);
-		
-		// device name textfield
-		txtName = BasicComponentFactory.createTextField(adapter.getValueModel(IDevice.PROPERTY_NAME));
-		txtName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtName.setColumns(1);
-		txtName.setToolTipText(device.getName());
-		adapter.addBeanPropertyChangeListener(IDevice.PROPERTY_NAME, new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				txtName.setToolTipText(device.getName());
-			}
-		});
-		add(txtName, BorderLayout.NORTH);
-		
-		// actions panel with scroll pane
-		actionsPanel = new JPanel();
-		actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
-		actionsPanel.setBackground(getBackground());
-		
-		JScrollPane scrollPane = new JScrollPane(actionsPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		// resize vertical scrollbar
-		scrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
-		SwingUtilities.updateComponentTreeUI(scrollPane);
-		// we need no border
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		add(scrollPane, BorderLayout.CENTER);
-		
-		{
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(0, 1));
-			
-			// add button
-			JButton btnAdd = new JButton(Messages.getString("ActionDevicePanel.addAction")); //$NON-NLS-1$
-			btnAdd.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(final ActionEvent action) {
-					addAction(getDevice().createNewAction());
-				}
-			});
-			btnAdd.setFocusable(false);
-			panel.add(btnAdd);
-			
-			// remove button
-			JButton btnRemove = new JButton(Messages.getString("ActionDevicePanel.removeDevice")); //$NON-NLS-1$
-			btnRemove.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(final ActionEvent action) {
-					int retVal = JOptionPane.showConfirmDialog(
-							ActionDevicePanel.this,
-							Messages.getString("ActionDevicePanel.removeDevice") + " '" + device.getName() + "'?", StringUtils.EMPTY, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (retVal == JOptionPane.YES_OPTION) {
-						droplet.removeDevice(device);
-					}
-				}
-			});
-			btnRemove.setFocusable(false);
-			panel.add(btnRemove);
-			
-			add(panel, BorderLayout.SOUTH);
-		}
+	public ActionDevicePanel(JComponent parent, IDroplet droplet, IActionDevice device) {
+		super(parent, droplet, device);
 		
 		updateActionsPanel();
-		
 		initializeListeners();
-		
+	}
+	
+	void createAddButton(JPanel panel) {
+		// add button
+		JButton btnAdd = new JButton(Messages.getString("ActionDevicePanel.addAction")); //$NON-NLS-1$
+		btnAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent action) {
+				addAction(getDevice().createNewAction());
+			}
+		});
+		btnAdd.setFocusable(false);
+		panel.add(btnAdd);
 	}
 	
 	private void initializeListeners() {
 		device.addPropertyChangeListener(IActionDevice.ASSOCIATION_ACTIONS, new PropertyChangeListener() {
-			
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {
 				updateActionsPanel();
@@ -189,21 +92,6 @@ public class ActionDevicePanel<T extends IActionDevice> extends JPanel {
 			parent.revalidate();
 			parent.repaint();
 		}
-	}
-	
-	@Override
-	public Dimension getMaximumSize() {
-		Dimension size = getPreferredSize();
-		size.height = Short.MAX_VALUE;
-		return size;
-	}
-	
-	public T getDevice() {
-		return device;
-	}
-	
-	public void setDevice(final T device) {
-		this.device = device;
 	}
 	
 }

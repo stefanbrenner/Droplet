@@ -17,51 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
-package com.stefanbrenner.droplet.model;
+package com.stefanbrenner.droplet.model.internal;
 
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.stefanbrenner.droplet.model.IButton;
 
 /**
- * Base interface for all action devices that can be used in droplet.
- * 
  * @author Stefan Brenner
+ * 
  */
-public interface IActionDevice extends IDevice {
+@XmlRootElement(name = "Button")
+public class Button extends AbstractDevice implements IButton {
 	
-	/** Association name for actions of this device. */
-	String ASSOCIATION_ACTIONS = "actions"; //$NON-NLS-1$
+	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * @param actions
-	 *            list of actions for this device
-	 */
-	void setActions(List<IAction> actions);
-	
-	/**
-	 * @return all actions of this device
-	 */
-	List<IAction> getActions();
-	
-	/**
-	 * @return all enabled actions of this device
-	 */
-	List<IAction> getEnabledActions();
-	
-	/**
-	 * @param action
-	 *            action to be removed from this device
-	 */
-	void removeAction(IAction action);
-	
-	/**
-	 * @param action
-	 *            action to add to this device
-	 */
-	void addAction(IAction action);
-	
-	/**
-	 * @return a new action for this device
-	 */
-	IAction createNewAction();
+	@Override
+	protected String getDeviceType() {
+		return "Button";
+	}
 	
 }

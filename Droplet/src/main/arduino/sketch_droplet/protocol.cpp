@@ -155,6 +155,14 @@ void processSetCommand() {
     logging(ERROR, "Wrong Format");
     return;
   }
+  
+  if(strcmp(&deviceMnemonic, DEVICE_BUTTON) == 0) {
+    droplet.startButton = deviceNumber;
+    Serial.print("Added Start Button on Pin ");
+    Serial.println(droplet.startButton);
+    return;
+  }
+  
   // read chksum
   if(sscanf(strtok(NULL, "\n"), "%d", &chksum) < 1) {
     logging(ERROR, "Wrong Format");

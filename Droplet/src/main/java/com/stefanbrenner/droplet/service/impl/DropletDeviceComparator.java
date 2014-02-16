@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.stefanbrenner.droplet.model.IButton;
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IFlash;
@@ -86,6 +87,10 @@ public class DropletDeviceComparator implements Comparator<IDevice> {
 				return DropletDeviceComparator.GREATER;
 			}
 		}
+		if (device1 instanceof IButton) {
+			return DropletDeviceComparator.GREATER;
+		}
+		
 		// ask comparators for proper comparison, combine result of all
 		// comparator results and calculate a weighted order
 		int result = DropletDeviceComparator.UNDEFINED_ORDER;

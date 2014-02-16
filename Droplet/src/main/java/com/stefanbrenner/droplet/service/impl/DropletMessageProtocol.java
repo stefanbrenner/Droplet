@@ -30,6 +30,8 @@ import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDurationAction;
+import com.stefanbrenner.droplet.model.IInputDevice;
+import com.stefanbrenner.droplet.model.internal.Button;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
@@ -80,6 +82,8 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	public static final String DEVICE_FLASH = "F"; //$NON-NLS-1$
 	/** Character for cameras. */
 	public static final String DEVICE_CAMERA = "C"; //$NON-NLS-1$
+	/** Character for buttons. */
+	public static final String DEVICE_BUTTON = "B"; //$NON-NLS-1$
 	
 	/** Mapping for devices and shortcuts. */
 	public static final HashMap<Class<?>, String> DEVICE_SHORTS = new HashMap<Class<?>, String>();
@@ -88,6 +92,7 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 		DropletMessageProtocol.DEVICE_SHORTS.put(Valve.class, DropletMessageProtocol.DEVICE_VALVE);
 		DropletMessageProtocol.DEVICE_SHORTS.put(Flash.class, DropletMessageProtocol.DEVICE_FLASH);
 		DropletMessageProtocol.DEVICE_SHORTS.put(Camera.class, DropletMessageProtocol.DEVICE_CAMERA);
+		DropletMessageProtocol.DEVICE_SHORTS.put(Button.class, DropletMessageProtocol.DEVICE_BUTTON);
 	}
 	
 	@Override
@@ -147,6 +152,14 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 				}
 			}
 			result += DropletMessageProtocol.CHKSUM_SEPARATOR + chksum + DropletMessageProtocol.DEVICE_SEPARATOR;
+		}
+		
+		for (IInputDevice d : droplet.getDevices(IInputDevice.class)) {
+			result += DropletMessageProtocol.COMMAND_SEND + DropletMessageProtocol.FIELD_SEPARATOR;
+			result += d.getNumber() + DropletMessageProtocol.FIELD_SEPARATOR;
+			result += DropletMessageProtocol.DEVICE_SHORTS.get(d.getClass());
+			result += DropletMessageProtocol.CHKSUM_SEPARATOR + d.getNumber() + DropletMessageProtocol.DEVICE_SEPARATOR;
+			
 		}
 		
 		return result;

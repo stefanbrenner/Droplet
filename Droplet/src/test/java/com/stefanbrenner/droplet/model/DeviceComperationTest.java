@@ -42,12 +42,6 @@ public class DeviceComperationTest {
 	
 	@SuppressWarnings("serial")
 	class NewDevice1 extends AbstractDevice {
-		
-		@Override
-		public IAction createNewAction() {
-			return null;
-		}
-		
 		@Override
 		protected String getDeviceType() {
 			return null;
@@ -80,12 +74,6 @@ public class DeviceComperationTest {
 	
 	@SuppressWarnings("serial")
 	class NewDevice2 extends AbstractDevice {
-		
-		@Override
-		public IAction createNewAction() {
-			return null;
-		}
-		
 		@Override
 		protected String getDeviceType() {
 			return null;

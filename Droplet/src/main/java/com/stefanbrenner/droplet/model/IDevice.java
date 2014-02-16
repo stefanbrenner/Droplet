@@ -73,9 +73,4 @@ public interface IDevice extends INotificationSupport {
 	 */
 	void reset();
 	
-	/**
-	 * @return a new action for this device
-	 */
-	IAction createNewAction();
-	
 }

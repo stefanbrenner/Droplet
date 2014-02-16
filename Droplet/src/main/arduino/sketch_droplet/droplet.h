@@ -22,7 +22,8 @@
 #define __DROPLET_H__
 
 
-#define DEVICE_NUMBERS  70
+#define DEVICE_NUMBERS      70
+#define UNDEFINED_PIN       99
 
 
 // TODO use bit masks for better performance
@@ -35,6 +36,7 @@ struct Action {
 
 struct Droplet {
   Action *actions;  // pointer to first action           // 4 bytes
+  short startButton; // start button pin
 };
 
 

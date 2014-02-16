@@ -23,7 +23,7 @@
 #include "droplet.h"
 
 #define BOUD_RATE         9600
-#define MAX_INPUT_SIZE    50   // how many memory can we use one the different arduino devices?
+#define MAX_INPUT_SIZE      50 // how many memory can we use one the different arduino devices?
 
 
 // device mapping for crazyMachine
@@ -52,20 +52,64 @@ void setup() {
   // setup pin modes
   for(int i = 0; i < DEVICE_NUMBERS; i++) {
     pinMode(deviceMapping[i], OUTPUT);
+    // manually set pin to LOW otherwise it is 
+    // by default set to HIGH on some boards (i.e. Uno)
+    digitalWrite(deviceMapping[i], LOW);
   } 
   
-  // manually set pin 13 to LOW otherwise it is 
-  // by default set to HIGH on some boards (i.e. Uno)
-  digitalWrite(13, LOW);
+  droplet.startButton = UNDEFINED_PIN;
   
 }
 
+int buttonState;             // the current reading from the input pin 
+int lastButtonState = LOW;   // the previous reading from the input pin
+
+// the following variables are long's because the time, measured in miliseconds,
+// will quickly become a bigger number than can be stored in an int.
+long lastDebounceTime = 0;  // the last time the output pin was toggled
+long debounceDelay = 50;    // the debounce time; increase if the output flickers 
  
 /*
  * entry point
  */
 void loop() {
-  // nothing to do here
+  
+  if(droplet.startButton == UNDEFINED_PIN) {
+    return;
+  }
+  
+  // read the state of the switch into a local variable:
+  int reading = digitalRead(droplet.startButton);
+
+  // check to see if you just pressed the button 
+  // (i.e. the input went from LOW to HIGH),  and you've waited 
+  // long enough since the last press to ignore any noise:  
+
+  // If the switch changed, due to noise or pressing:
+  if (reading != lastButtonState) {
+    // reset the debouncing timer
+    lastDebounceTime = millis();
+  } 
+  
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer
+    // than the debounce delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading != buttonState) {
+      buttonState = reading;
+      
+      if(buttonState == HIGH) {
+        logging(INFO, "Started execution due to start button event");
+        executeActions();
+      }
+    }
+  }
+
+  // save the reading.  Next time through the loop,
+  // it'll be the lastButtonState:
+  lastButtonState = reading;
+  
 }
 
 

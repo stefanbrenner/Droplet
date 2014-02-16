@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.internal.Button;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
@@ -46,6 +47,7 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 	private final JButton btnValve;
 	private final JButton btnFlash;
 	private final JButton btnCamera;
+	private final JButton btnButton;
 	private final JButton btnClose;
 	
 	public AddDeviceDialog(final JFrame frame, final IDropletContext dropletContext) {
@@ -65,6 +67,9 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 		btnCamera = new JButton(Messages.getString("AddDeviceDialog.camera")); //$NON-NLS-1$
 		btnCamera.addActionListener(this);
 		panel.add(btnCamera);
+		btnButton = new JButton(Messages.getString("AddDeviceDialog.button")); //$NON-NLS-1$
+		btnButton.addActionListener(this);
+		panel.add(btnButton);
 		btnClose = new JButton(Messages.getString("AddDeviceDialog.close")); //$NON-NLS-1$
 		btnClose.addActionListener(this);
 		panel.add(btnClose);
@@ -87,6 +92,8 @@ public class AddDeviceDialog extends AbstractDropletDialog implements ActionList
 			getDropletContext().getDroplet().addDevice(new Flash());
 		} else if (ObjectUtils.equals(btnCamera, source)) {
 			getDropletContext().getDroplet().addDevice(new Camera());
+		} else if (ObjectUtils.equals(btnButton, source)) {
+			getDropletContext().getDroplet().addDevice(new Button());
 		} else if (ObjectUtils.equals(btnClose, source)) {
 			setVisible(false);
 		}

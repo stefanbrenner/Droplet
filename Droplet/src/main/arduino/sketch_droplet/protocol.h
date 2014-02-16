@@ -41,6 +41,7 @@
 #define DEVICE_VALVE    "V"
 #define DEVICE_FLASH    "F"
 #define DEVICE_CAMERA   "C"
+#define DEVICE_BUTTON   "B"
 
 
 /*

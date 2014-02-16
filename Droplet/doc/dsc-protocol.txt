@@ -16,40 +16,39 @@ Author:		Stefan Brenner
 Purpose of this document
 --------------------------------------------------------------------------------
 This document describes the communication protocol that is used in Droplet for
-the serial communication with an microcontroller. It's intention is to be very 
-flexible for as many devices and configurations as possible. The only limitation 
+the serial communication with an microcontroller. It's intention is to be very
+flexible for as many devices and configurations as possible. The only limitation
 is size of the microcontrollers internal memory.
 
 
 
 Droplet Message Format (DMF) in EBNF
 --------------------------------------------------------------------------------
-Protocol			= SetCommand | ReleaseCommand | OpenCommand 
-						| CloseCommand | "I" | "X" | HighCommand | LowCommand ;
+Protocol			=	SetCommand | ReleaseCommand | HighCommand | LowCommand | "I" | "X" ;
 
-SetCommand			= "S" [ FieldSeparator DeviceConfig { DeviceConfig } ] ;
-DeviceConfig		= Device DeviceNumber FieldSeparator Times DeviceSeparator
+SetCommand			=	"S" FieldSeparator DeviceConfig ;
+ReleaseCommand		=	"R" Number [ FieldSeparator Number ] ;
+HighCommand			=	"H" FieldSeparator DeviceNumber ;
+LowCommand			=	"L" FieldSeparator DeviceNumber ;
 
-ReleaseCommand		= "R" Number [ FieldSeparator Number ] ;
-HighCommand			= "H" FieldSeparator DeviceNumber ;
-LowCommand			= "L" FieldSeparator DeviceNumber ;
+DeviceConfig		=	DeviceNumber FieldSeparator Device FieldSeparator [ Times ] ChksumSeparator 			Chksum ;
+DeviceNumber		=	DigitWithoutZero ;
+Device 				=	"V" | "F" | "C" | "B" ;
 
-Device 				= "V" | "F" | "C" ;
-DeviceNumber		= DigitWithoutZero ;
+Times				=	Time { FieldSeparator Time } ;
+Time				=	Offset TimeSeparator Duration ;
 
-Times				= Time { FieldSeparator Time } ;
-Time				= Offset TimeSeparator Duration ;
+Offset				=	Number ;
+Duration			=	Number ;
+Chksum				=	Number ;
 
-Offset				= Number ;
-Duration			= Number ;
+FieldSeparator		=	";" ;
+TimeSeperator		=	"|" ;
+ChksumSeparator		=	"^" ;
 
-FieldSeparator		= ";" ;
-DeviceSeparator		= "^" ;
-TimeSeperator		= "|"
-
-Number				= DigitWithoutZero { Digit } ;
-DigitWithoutZero  	= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
-Digit				= "0" | DigitWithoutZero ;
+Number				=	DigitWithoutZero { Digit } ;
+DigitWithoutZero  	=	"1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+Digit				=	"0" | DigitWithoutZero ;
 
 
 Example1:
@@ -73,7 +72,7 @@ R;1
 Example3:
 ---------
 I
-"Return some information about the current configuration on the microcontroller" 
+"Return some information about the current configuration on the microcontroller"
 
 
 Example4:

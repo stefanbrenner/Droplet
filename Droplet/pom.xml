@@ -15,9 +15,19 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>EBI</id>
+			<name>EBI Repository</name>
+			<url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -75,12 +85,12 @@
 			<version>5.1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mangosdk</groupId>
+			<groupId>org.mangosdk.spi</groupId>
 			<artifactId>spi</artifactId>
 			<version>0.2.4</version>
 		</dependency>
 		<dependency>
-			<groupId>gnu.io</groupId>
+			<groupId>org.bidib.jbidib.org.qbang.rxtx</groupId>
 			<artifactId>rxtxcomm</artifactId>
 			<version>2.2</version>
 		</dependency>
@@ -131,5 +141,18 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

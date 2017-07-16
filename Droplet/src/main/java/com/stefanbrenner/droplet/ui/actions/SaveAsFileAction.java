@@ -38,17 +38,17 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class SaveAsFileAction extends SaveFileAction {
-
+	
 	public SaveAsFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		super(Messages.getString("SaveAsFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
-
+		
 		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("SaveAsFileAction.description")); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		showFileChooser();
 	}
-
+	
 };

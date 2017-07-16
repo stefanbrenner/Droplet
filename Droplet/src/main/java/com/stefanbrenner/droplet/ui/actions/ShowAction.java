@@ -38,19 +38,19 @@ import com.stefanbrenner.droplet.utils.Messages;
  */
 @SuppressWarnings("serial")
 public class ShowAction extends AbstractSerialAction {
-
+	
 	public ShowAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("ShowAction.title")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("ShowAction.description")); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-
+		
 		String message = messageProtocolProvider.createInfoMessage();
 		serialCommProvider.sendData(message);
 	}
-
+	
 }

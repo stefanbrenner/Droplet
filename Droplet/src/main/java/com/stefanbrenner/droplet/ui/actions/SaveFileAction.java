@@ -47,23 +47,23 @@ import com.stefanbrenner.droplet.xml.JAXBHelper;
  */
 @SuppressWarnings("serial")
 public class SaveFileAction extends AbstractDropletAction {
-
+	
 	private final JFileChooser fileChooser;
-
+	
 	public SaveFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		this(Messages.getString("SaveFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
-
+		
 		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S));
 		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("SaveFileAction.mnemonic"))); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("SaveFileAction.description")); //$NON-NLS-1$
 	}
-
+	
 	public SaveFileAction(final String name, final JFrame frame, final JFileChooser fileChooser,
 			final IDropletContext dropletContext) {
 		super(frame, dropletContext, name);
 		this.fileChooser = fileChooser;
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		File file = getDropletContext().getFile();
@@ -73,14 +73,14 @@ public class SaveFileAction extends AbstractDropletAction {
 			saveFile(file);
 		}
 	}
-
+	
 	protected void showFileChooser() {
 		int returnVal = fileChooser.showSaveDialog(getFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-
+			
 			// Get the selected file
 			File file = fileChooser.getSelectedFile();
-
+			
 			// check if file extension fits
 			if (StringUtils.containsIgnoreCase(file.getName(), ".") //$NON-NLS-1$
 					&& !(StringUtils.endsWithIgnoreCase(file.getName(),
@@ -96,44 +96,44 @@ public class SaveFileAction extends AbstractDropletAction {
 					file = new File(newPath);
 				}
 			}
-
+			
 			// check if file already exists
 			if (file.exists()) {
 				int retVal = JOptionPane.showConfirmDialog(getFrame(),
 						Messages.getString("SaveFileAction.overwriteFile"), Messages.getString("SaveFileAction.1"), //$NON-NLS-1$ //$NON-NLS-2$
 						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-
+				
 				if (retVal == JOptionPane.NO_OPTION) {
 					showFileChooser();
 					return;
 				}
 			}
-
+			
 			saveFile(file);
-
+			
 			// set file to context
 			getDropletContext().setFile(file);
-
+			
 		}
 	}
-
+	
 	protected void saveFile(final File file) {
 		try {
-
+			
 			IDroplet droplet = getDropletContext().getDroplet();
-
+			
 			JAXBHelper jaxbHelper = new JAXBHelper();
 			String xml = jaxbHelper.toXml(droplet);
-
+			
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			out.write(xml);
 			out.close();
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 };

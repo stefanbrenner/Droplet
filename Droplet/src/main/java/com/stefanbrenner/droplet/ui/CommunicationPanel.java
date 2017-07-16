@@ -131,7 +131,7 @@ public class CommunicationPanel extends JPanel {
 		// set communication service from configuration
 		log.info("load communication service from config");
 		setCommService(Configuration.getSerialCommProvider());
-
+		
 		// add listener to selected communication provider
 		Configuration.addPropertyChangeListener(Configuration.CONF_SERIAL_COMM_PROVIDER, new PropertyChangeListener() {
 			@Override

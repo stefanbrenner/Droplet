@@ -40,29 +40,29 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("serial")
 @Slf4j
 public class ExitAction extends AbstractDropletAction {
-
+	
 	public ExitAction(final JFrame parent, final IDropletContext dropletContext) {
 		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
-
+		
 		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("ExitAction.mnemonic"))); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
-
+		
 		log.debug("Shutting down ...");
-
+		
 		// save data to configuration
 		IMetadata metadata = getDropletContext().getMetadata();
 		Configuration.setMetadataComments(metadata.getDescription());
 		Configuration.setMetadataTags(metadata.getTags());
 		Configuration.setSerialCommPort(getDropletContext().getPort());
-
+		
 		log.debug("Successfully saved settings");
-
+		
 		getFrame().dispose();
 		System.exit(0);
 	}
-
+	
 }

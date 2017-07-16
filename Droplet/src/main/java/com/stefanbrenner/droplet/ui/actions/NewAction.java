@@ -38,29 +38,29 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class NewAction extends AbstractDropletAction {
-
+	
 	public NewAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("NewAction.title")); //$NON-NLS-1$
-
+		
 		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_N));
 		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("NewAction.mnemonic"))); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("NewAction.description")); //$NON-NLS-1$
-
+		
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		int retVal = JOptionPane.showConfirmDialog(getFrame(), Messages.getString("NewAction.unsavedChanges"), //$NON-NLS-1$
 				Messages.getString("NewAction.1"), //$NON-NLS-1$
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-
+		
 		if (retVal == JOptionPane.OK_OPTION) {
 			Droplet droplet = new Droplet();
 			droplet.initializeWithDefaults();
 			getDropletContext().setDroplet(droplet);
 			getDropletContext().setFile(null);
 		}
-
+		
 	}
-
+	
 }

@@ -38,17 +38,17 @@ import com.stefanbrenner.droplet.utils.Messages;
  */
 @SuppressWarnings("serial")
 public class AddDeviceAction extends AbstractDropletAction {
-
+	
 	public AddDeviceAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("AddDeviceAction.title")); //$NON-NLS-1$
-
+		
 		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		JDialog dialog = new AddDeviceDialog(getFrame(), getDropletContext());
 		dialog.setVisible(true);
 	}
-
+	
 }

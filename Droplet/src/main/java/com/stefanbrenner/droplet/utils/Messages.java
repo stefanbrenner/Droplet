@@ -28,12 +28,12 @@ import java.util.ResourceBundle;
  */
 public class Messages {
 	private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
-
+	
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
-
+	
 	private Messages() {
 	}
-
+	
 	/**
 	 * Read localized message from resources and format it.
 	 *

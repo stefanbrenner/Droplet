@@ -37,13 +37,13 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  */
 @SuppressWarnings("serial")
 public class PreferencesAction extends AbstractDropletAction {
-
+	
 	public PreferencesAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("PreferencesAction.Title")); //$NON-NLS-1$
-
+		
 		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_COMMA));
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		PreferencesDialog dialog = new PreferencesDialog(getFrame());

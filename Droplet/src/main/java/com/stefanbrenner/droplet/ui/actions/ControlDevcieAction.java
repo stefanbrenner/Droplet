@@ -35,11 +35,11 @@ import com.stefanbrenner.droplet.utils.Messages;
  */
 @SuppressWarnings("serial")
 public class ControlDevcieAction extends AbstractDropletAction {
-
+	
 	public ControlDevcieAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("ControlDevcieAction.controlDevices")); //$NON-NLS-1$
 	}
-
+	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		JDialog dialog = new ControlDevicesDialog(getFrame(), getDropletContext());

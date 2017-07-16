@@ -24,41 +24,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.stefanbrenner.droplet.model.IAction;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Stefan Brenner
  */
 @XmlRootElement(name = "Action")
+@Getter
+@NoArgsConstructor
 public class Action extends AbstractModelObject implements IAction {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@XmlAttribute(name = "Enabled")
-	private boolean enabled;
+	private boolean enabled = true;
 	
 	@XmlAttribute(name = "Offset")
-	private Integer offset;
-	
-	/**
-	 * Creates a new enabled action with offset 0.
-	 */
-	public Action() {
-		setEnabled(true);
-		setOffset(0);
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return enabled;
-	}
+	private Integer offset = 0;
 	
 	@Override
 	public void setEnabled(final boolean enabled) {
 		firePropertyChange(IAction.PROPERTY_ENABLED, this.enabled, this.enabled = enabled);
-	}
-	
-	@Override
-	public Integer getOffset() {
-		return offset;
 	}
 	
 	@Override

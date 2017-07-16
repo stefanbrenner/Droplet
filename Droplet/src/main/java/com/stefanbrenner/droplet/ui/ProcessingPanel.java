@@ -150,8 +150,8 @@ public class ProcessingPanel extends JPanel {
 		UiUtils.editGridBagConstraints(gbc, 0, 2, 0, 1, GridBagConstraints.NORTHEAST);
 		add(new JLabel(Messages.getString("ProcessingPanel.comments")), gbc); //$NON-NLS-1$
 		
-		txtComments = BasicComponentFactory
-				.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_DESCRIPTION), false);
+		txtComments = BasicComponentFactory.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_DESCRIPTION),
+				false);
 		txtComments.setRows(4);
 		txtComments.setColumns(20);
 		txtComments.setFont(DropletFonts.FONT_STANDARD_SMALL);

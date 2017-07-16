@@ -47,7 +47,8 @@ public final class DropletFonts {
 	/** The standard font. */
 	public static final Font FONT_STANDARD = new Font(DropletFonts.FONT_FACE, Font.PLAIN, DropletFonts.SIZE_STANDARD);
 	/** The small standard font. */
-	public static final Font FONT_STANDARD_SMALL = new Font(DropletFonts.FONT_FACE, Font.PLAIN, DropletFonts.SIZE_SMALL);
+	public static final Font FONT_STANDARD_SMALL = new Font(DropletFonts.FONT_FACE, Font.PLAIN,
+			DropletFonts.SIZE_SMALL);
 	/** The very small standard font. */
 	public static final Font FONT_STANDARD_MINI = new Font(DropletFonts.FONT_FACE, Font.PLAIN, DropletFonts.SIZE_MINI);
 	/** The small logging font. */

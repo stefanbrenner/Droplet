@@ -19,8 +19,6 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import gnu.io.CommPortIdentifier;
-
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -34,12 +32,18 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 
+import gnu.io.CommPortIdentifier;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Class that contains all context informations and objects that are used in
  * droplet.
  * 
  * @author Stefan Brenner
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class DropletContext extends AbstractModelObject implements IDropletContext {
 	
 	/** */
@@ -91,18 +95,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	private IMetadata metadata = new Metadata();
 	
 	@Override
-	public IMetadata getMetadata() {
-		return metadata;
-	}
-	
-	@Override
 	public void setMetadata(final IMetadata metadata) {
 		firePropertyChange(IDropletContext.PROPERTY_METADATA, this.metadata, this.metadata = metadata);
-	}
-	
-	@Override
-	public File getFile() {
-		return file;
 	}
 	
 	@Override
@@ -111,18 +105,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	}
 	
 	@Override
-	public CommPortIdentifier getPort() {
-		return port;
-	}
-	
-	@Override
 	public void setPort(final CommPortIdentifier port) {
 		firePropertyChange(IDropletContext.PROPERTY_PORT, this.port, this.port = port);
-	}
-	
-	@Override
-	public IDroplet getDroplet() {
-		return droplet;
 	}
 	
 	@Override
@@ -158,28 +142,8 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	}
 	
 	@Override
-	public String getLastSetMessage() {
-		return lastSetMessage;
-	}
-	
-	@Override
-	public void setLastSetMessage(final String lastSetMessage) {
-		this.lastSetMessage = lastSetMessage;
-	}
-	
-	@Override
-	public Integer getRounds() {
-		return rounds;
-	}
-	
-	@Override
 	public void setRounds(final Integer rounds) {
 		firePropertyChange(IDropletContext.PROPERTY_ROUNDS, this.rounds, this.rounds = rounds);
-	}
-	
-	@Override
-	public Integer getRoundDelay() {
-		return roundDelay;
 	}
 	
 	@Override

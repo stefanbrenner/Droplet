@@ -29,11 +29,16 @@ import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * 
  * @author Stefan Brenner
  */
 @XmlRootElement(name = "Flash")
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Flash extends AbstractActionDevice implements IFlash {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,11 +46,6 @@ public class Flash extends AbstractActionDevice implements IFlash {
 	@XmlAttribute(name = "Color")
 	@XmlJavaTypeAdapter(ColorAdapter.class)
 	private Color color;
-	
-	@Override
-	public Color getColor() {
-		return color;
-	}
 	
 	@Override
 	public void setColor(final Color color) {

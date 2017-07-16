@@ -77,11 +77,9 @@ public class OpenFileAction extends AbstractDropletAction {
 				File file = fileChooser.getSelectedFile();
 				
 				if (!file.exists()) {
-					JOptionPane
-							.showMessageDialog(
-									getFrame(),
-									Messages.getString("SaveFileAction.fileNotFound"), Messages.getString("SaveFileAction.fileNotFound"), //$NON-NLS-1$ //$NON-NLS-2$
-									JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getFrame(), Messages.getString("SaveFileAction.fileNotFound"), //$NON-NLS-1$
+							Messages.getString("SaveFileAction.fileNotFound"), //$NON-NLS-1$
+							JOptionPane.ERROR_MESSAGE);
 					open(false);
 					return;
 				}

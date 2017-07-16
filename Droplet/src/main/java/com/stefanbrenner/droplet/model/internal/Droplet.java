@@ -23,6 +23,7 @@ package com.stefanbrenner.droplet.model.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -37,11 +38,14 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
 
+import lombok.Getter;
+
 /**
  * 
  * @author Stefan Brenner
  */
 @XmlRootElement(name = "Droplet")
+@Getter
 public class Droplet extends AbstractModelObject implements IDroplet {
 	
 	private static final long serialVersionUID = 1L;
@@ -58,7 +62,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	private List<IDevice> devices = new ArrayList<IDevice>();
 	
 	@XmlTransient
-	private final DropletDeviceComparator comparator = new DropletDeviceComparator();
+	private final DropletDeviceComparator deviceComparator = new DropletDeviceComparator();
 	
 	/**
 	 * Initialize this droplet with the default values.
@@ -87,18 +91,8 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	}
 	
 	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
 	public void setName(final String name) {
 		firePropertyChange(IDroplet.PROPERTY_NAME, this.name, this.name = name);
-	}
-	
-	@Override
-	public String getDescription() {
-		return description;
 	}
 	
 	@Override
@@ -126,20 +120,8 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends IDevice> List<T> getDevices(final Class<T> type) {
-		List<T> devicesT = new ArrayList<T>();
-		
-		for (IDevice device : devices) {
-			if (type.isAssignableFrom(device.getClass())) {
-				devicesT.add((T) device);
-			}
-		}
-		
-		return devicesT;
-	}
-	
-	@Override
-	public List<IDevice> getDevices() {
-		return devices;
+		return devices.stream().filter(d -> type.isAssignableFrom(d.getClass())).map(d -> (T) d)
+				.collect(Collectors.toList());
 	}
 	
 	@Override
@@ -152,14 +134,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		setName(StringUtils.EMPTY);
 		setDescription(StringUtils.EMPTY);
 		// reset all devices
-		for (IDevice device : getDevices(IDevice.class)) {
-			device.reset();
-		}
-	}
-	
-	@Override
-	public DropletDeviceComparator getDeviceComparator() {
-		return comparator;
+		devices.forEach(IDevice::reset);
 	}
 	
 }

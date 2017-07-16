@@ -99,26 +99,25 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	@Override
 	public synchronized boolean connect(final CommPortIdentifier portId, final IDropletContext context) {
 		try {
-			ArduinoService.dropletContext = context;
+			dropletContext = context;
 			
 			log.debug("Connect to port: " + portId.getName());
 			
 			// try to open a connection to the serial port
-			ArduinoService.connSerialPort = (SerialPort) portId.open(this.getClass().getName(),
-					ArduinoService.TIME_OUT);
+			connSerialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 			
 			// set port parameters
-			ArduinoService.connSerialPort.setSerialPortParams(ArduinoService.DATA_RATE, SerialPort.DATABITS_8,
-					SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+			connSerialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+					SerialPort.PARITY_NONE);
 			
 			// open the streams
-			ArduinoService.input = new DataInputStream(ArduinoService.connSerialPort.getInputStream());
-			ArduinoService.output = new DataOutputStream(ArduinoService.connSerialPort.getOutputStream());
+			input = new DataInputStream(connSerialPort.getInputStream());
+			output = new DataOutputStream(connSerialPort.getOutputStream());
 			
 			// add event listeners
-			ArduinoService.connSerialPort.addEventListener(this);
-			ArduinoService.connSerialPort.notifyOnDataAvailable(true);
-			ArduinoService.connSerialPort.notifyOnCarrierDetect(true);
+			connSerialPort.addEventListener(this);
+			connSerialPort.notifyOnDataAvailable(true);
+			connSerialPort.notifyOnCarrierDetect(true);
 			
 			// set connected flag
 			setConnected(true);
@@ -138,20 +137,20 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	@Override
 	public synchronized void close() {
 		try {
-			if (ArduinoService.connSerialPort != null) {
+			if (connSerialPort != null) {
 				
-				ArduinoService.log.debug("close connection to port {}", ArduinoService.connSerialPort.getName());
+				log.debug("close connection to port {}", connSerialPort.getName());
 				
-				ArduinoService.connSerialPort.removeEventListener();
-				ArduinoService.connSerialPort.close();
+				connSerialPort.removeEventListener();
+				connSerialPort.close();
 				
-				ArduinoService.input.close();
-				ArduinoService.output.close();
+				input.close();
+				output.close();
 				
 				setConnected(false);
 			}
 		} catch (IOException e) {
-			ArduinoService.log.error("Error closing connection to port {}", ArduinoService.connSerialPort.getName(), e);
+			log.error("Error closing connection to port {}", connSerialPort.getName(), e);
 		}
 	}
 	
@@ -162,8 +161,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			byte[] buffer = new byte[1024];
 			try {
 				int len = 0;
-				while ((data = ArduinoService.input.read()) > -1) {
-					if (data == ArduinoService.NEWLINE) {
+				while ((data = input.read()) > -1) {
+					if (data == NEWLINE) {
 						break;
 					}
 					buffer[len++] = (byte) data;
@@ -177,7 +176,7 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 				
 				log.debug("Received message: {}", message);
 				
-				ArduinoService.dropletContext.addLoggingMessage(message);
+				dropletContext.addLoggingMessage(message);
 			} catch (IOException e) {
 				log.error("Error receiving data", e);
 			}
@@ -188,10 +187,10 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	@Override
 	public void sendData(final String message) {
 		try {
-			if (ArduinoService.output != null) {
+			if (output != null) {
 				
 				// split message by newline
-				for (String msg : StringUtils.split(message, ArduinoService.NEWLINE)) {
+				for (String msg : StringUtils.split(message, NEWLINE)) {
 					
 					log.debug("send message: {}", msg);
 					
@@ -200,11 +199,11 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 					// output.write(b);
 					// output.flush();
 					// }
-					ArduinoService.output.write(msg.getBytes());
+					output.write(msg.getBytes());
 					
 					// finally send newline
-					ArduinoService.output.write(ArduinoService.NEWLINE);
-					ArduinoService.output.flush();
+					output.write(NEWLINE);
+					output.flush();
 					
 					// wait for Arduino to process input before we send next
 					// message
@@ -233,11 +232,11 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	
 	@Override
 	public synchronized boolean isConnected() {
-		return ArduinoService.connected;
+		return connected;
 	}
 	
 	private void setConnected(final boolean connected) {
-		ArduinoService.connected = connected;
+		this.connected = connected;
 	}
 	
 }

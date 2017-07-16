@@ -82,12 +82,11 @@ public class SaveFileAction extends AbstractDropletAction {
 			
 			// check if file extension fits
 			if (StringUtils.containsIgnoreCase(file.getName(), ".") //$NON-NLS-1$
-					&& !(StringUtils.endsWithIgnoreCase(file.getName(), "." + IDropletContext.DROPLET_FILE_EXTENSION))) {
-				JOptionPane
-						.showMessageDialog(
-								getFrame(),
-								Messages.getString("SaveFileAction.extensionNotAllowed"), Messages.getString("SaveFileAction.wrongExtension"), //$NON-NLS-1$ //$NON-NLS-2$
-								JOptionPane.ERROR_MESSAGE);
+					&& !(StringUtils.endsWithIgnoreCase(file.getName(),
+							"." + IDropletContext.DROPLET_FILE_EXTENSION))) {
+				JOptionPane.showMessageDialog(getFrame(), Messages.getString("SaveFileAction.extensionNotAllowed"), //$NON-NLS-1$
+						Messages.getString("SaveFileAction.wrongExtension"), //$NON-NLS-1$
+						JOptionPane.ERROR_MESSAGE);
 				showFileChooser();
 				return;
 			} else { // automatically add droplet file extension

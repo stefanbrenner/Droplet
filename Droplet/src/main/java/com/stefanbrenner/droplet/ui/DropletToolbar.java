@@ -83,8 +83,8 @@ public class DropletToolbar extends JPanel {
 		// rounds spinner
 		add(new JLabel(Messages.getString("DropletToolbar.rounds"))); //$NON-NLS-1$
 		spRounds = new MouseWheelSpinner(true);
-		spRounds.setModel(SpinnerAdapterFactory.createNumberAdapter(
-				adapter.getValueModel(IDropletContext.PROPERTY_ROUNDS), 1, 1, 9999, 1));
+		spRounds.setModel(SpinnerAdapterFactory
+				.createNumberAdapter(adapter.getValueModel(IDropletContext.PROPERTY_ROUNDS), 1, 1, 9999, 1));
 		((JSpinner.DefaultEditor) spRounds.getEditor()).getTextField().setColumns(4);
 		add(spRounds);
 		

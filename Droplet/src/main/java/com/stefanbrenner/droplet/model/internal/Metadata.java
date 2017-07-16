@@ -23,12 +23,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.IMetadata;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Wrapper class for all metadata informations that can be added to pictures by
  * droplet.
  * 
  * @author Stefan Brenner
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Metadata extends AbstractModelObject implements IMetadata {
 	
 	private static final long serialVersionUID = 1L;
@@ -37,18 +42,8 @@ public class Metadata extends AbstractModelObject implements IMetadata {
 	private String tags = StringUtils.EMPTY;
 	
 	@Override
-	public final String getDescription() {
-		return description;
-	}
-	
-	@Override
 	public final void setDescription(final String description) {
 		firePropertyChange(IMetadata.PROPERTY_DESCRIPTION, this.description, this.description = description);
-	}
-	
-	@Override
-	public final String getTags() {
-		return tags;
 	}
 	
 	@Override

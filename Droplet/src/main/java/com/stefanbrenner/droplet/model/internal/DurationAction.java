@@ -24,30 +24,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.stefanbrenner.droplet.model.IDurationAction;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * 
  * @author Stefan Brenner
  */
 @XmlRootElement(name = "DurationAction")
+@Getter
+@NoArgsConstructor
 public class DurationAction extends Action implements IDurationAction {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@XmlAttribute(name = "Duration")
-	private Integer duration;
-	
-	/**
-	 * Creates a new action with duration set to 0.
-	 */
-	public DurationAction() {
-		super();
-		setDuration(0);
-	}
-	
-	@Override
-	public Integer getDuration() {
-		return duration;
-	}
+	private Integer duration = 0;
 	
 	@Override
 	public void setDuration(final Integer duration) {

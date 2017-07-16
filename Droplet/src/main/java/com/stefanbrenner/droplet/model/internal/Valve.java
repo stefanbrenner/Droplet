@@ -29,11 +29,16 @@ import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * 
  * @author Stefan Brenner
  */
 @XmlRootElement(name = "Valve")
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Valve extends AbstractActionDevice implements IValve {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,11 +46,6 @@ public class Valve extends AbstractActionDevice implements IValve {
 	@XmlAttribute(name = "Color")
 	@XmlJavaTypeAdapter(ColorAdapter.class)
 	private Color color;
-	
-	@Override
-	public Color getColor() {
-		return color;
-	}
 	
 	@Override
 	public void setColor(final Color color) {

@@ -49,8 +49,8 @@ public class NewAction extends AbstractDropletAction {
 	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		int retVal = JOptionPane.showConfirmDialog(getFrame(),
-				Messages.getString("NewAction.unsavedChanges"), Messages.getString("NewAction.1"), //$NON-NLS-1$ //$NON-NLS-2$
+		int retVal = JOptionPane.showConfirmDialog(getFrame(), Messages.getString("NewAction.unsavedChanges"), //$NON-NLS-1$
+				Messages.getString("NewAction.1"), //$NON-NLS-1$
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		
 		if (retVal == JOptionPane.OK_OPTION) {

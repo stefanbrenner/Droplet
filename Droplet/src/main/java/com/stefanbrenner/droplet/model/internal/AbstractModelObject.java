@@ -23,11 +23,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.jgoodies.binding.beans.Model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Abstract base class for all model objects used in droplet.
  * 
  * @author Stefan Brenner
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 @XmlAccessorType(javax.xml.bind.annotation.XmlAccessType.FIELD)
 public abstract class AbstractModelObject extends Model {
 	

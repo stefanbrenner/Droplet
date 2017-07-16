@@ -71,8 +71,8 @@ public class SimpleMessageProtocol implements IDropletMessageProtocol {
 		int del2 = Math.abs(action3.getOffset() - action2.getOffset());
 		int dur3 = action3.getDuration();
 		
-		int delCam = Math.abs(droplet.getDevices(ICamera.class).get(0).getActions().get(0).getOffset()
-				- action3.getOffset());
+		int delCam = Math
+				.abs(droplet.getDevices(ICamera.class).get(0).getActions().get(0).getOffset() - action3.getOffset());
 		
 		message += StringUtils.leftPad(String.valueOf(dur1), 3, "0"); //$NON-NLS-1$
 		message += StringUtils.leftPad(String.valueOf(del1), 3, "0"); //$NON-NLS-1$

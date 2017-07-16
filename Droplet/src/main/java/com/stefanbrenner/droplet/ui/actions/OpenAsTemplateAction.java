@@ -39,7 +39,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
 @SuppressWarnings("serial")
 public class OpenAsTemplateAction extends OpenFileAction {
 	
-	public OpenAsTemplateAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
+	public OpenAsTemplateAction(final JFrame frame, final JFileChooser fileChooser,
+			final IDropletContext dropletContext) {
 		super(frame, fileChooser, dropletContext, Messages.getString("OpenAsTemplateAction.title")); //$NON-NLS-1$
 		
 		putValue(Action.ACCELERATOR_KEY, null);

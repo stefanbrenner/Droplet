@@ -123,10 +123,9 @@ public class DevicePanel<T extends IDevice> extends JPanel {
 				
 				@Override
 				public void actionPerformed(final ActionEvent action) {
-					int retVal = JOptionPane.showConfirmDialog(
-							DevicePanel.this,
-							Messages.getString("ActionDevicePanel.removeDevice") + " '" + device.getName() + "'?", StringUtils.EMPTY, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					int retVal = JOptionPane.showConfirmDialog(DevicePanel.this,
+							Messages.getString("ActionDevicePanel.removeDevice") + " '" + device.getName() + "'?", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							StringUtils.EMPTY, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (retVal == JOptionPane.YES_OPTION) {
 						droplet.removeDevice(device);
 					}

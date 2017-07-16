@@ -29,24 +29,25 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Abstract base class for all droplet action devices.
  * 
  * @author Stefan Brenner
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public abstract class AbstractActionDevice extends AbstractDevice implements IActionDevice {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement(name = "Action",
 			type = Action.class)
+	
 	@XmlElementWrapper(name = "Actions")
 	private List<IAction> actions = new ArrayList<IAction>();
-	
-	@Override
-	public List<IAction> getActions() {
-		return actions;
-	}
 	
 	@Override
 	public List<IAction> getEnabledActions() {

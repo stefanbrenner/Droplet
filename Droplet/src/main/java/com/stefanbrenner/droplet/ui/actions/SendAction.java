@@ -55,8 +55,8 @@ public class SendAction extends AbstractSerialAction {
 		
 		// cannot send no devices
 		if (getDroplet().getDevices().isEmpty()) {
-			JOptionPane.showMessageDialog(getFrame(),
-					Messages.getString("SendAction.NoDevicesDefined"), Messages.getString("SendAction.NoDevices"), //$NON-NLS-1$ //$NON-NLS-2$
+			JOptionPane.showMessageDialog(getFrame(), Messages.getString("SendAction.NoDevicesDefined"), //$NON-NLS-1$
+					Messages.getString("SendAction.NoDevices"), //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -70,8 +70,8 @@ public class SendAction extends AbstractSerialAction {
 			}
 		}
 		if (!foundAction) {
-			JOptionPane.showMessageDialog(getFrame(),
-					Messages.getString("SendAction.NoEnabledActions"), Messages.getString("SendAction.NoActions"), //$NON-NLS-1$ //$NON-NLS-2$
+			JOptionPane.showMessageDialog(getFrame(), Messages.getString("SendAction.NoEnabledActions"), //$NON-NLS-1$
+					Messages.getString("SendAction.NoActions"), //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}

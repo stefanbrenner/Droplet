@@ -29,7 +29,8 @@ import java.util.ServiceLoader;
  * 
  * @author Stefan Brenner
  * @see <a
- *      href="http://java.sun.com/developer/technicalArticles/javase/extensible/">http://java.sun.com/developer/technicalArticles/javase/extensible/</a>
+ *      href=
+ *      "http://java.sun.com/developer/technicalArticles/javase/extensible/">http://java.sun.com/developer/technicalArticles/javase/extensible/</a>
  */
 public final class PluginLoader {
 	

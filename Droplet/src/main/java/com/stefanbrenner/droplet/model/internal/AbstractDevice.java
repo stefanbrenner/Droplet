@@ -26,11 +26,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.IDevice;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Base class for all devices. They can have a name and a description.
  * 
  * @author Stefan Brenner
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public abstract class AbstractDevice extends AbstractModelObject implements IDevice {
 	
 	private static final long serialVersionUID = 1L;
@@ -45,28 +50,13 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	private String description = StringUtils.EMPTY;
 	
 	@Override
-	public String getNumber() {
-		return number;
-	}
-	
-	@Override
 	public void setNumber(final String number) {
 		firePropertyChange(IDevice.PROPERTY_NUMBER, this.number, this.number = number);
 	}
 	
 	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
 	public void setName(final String name) {
 		firePropertyChange(IDevice.PROPERTY_NAME, this.name, this.name = name);
-	}
-	
-	@Override
-	public String getDescription() {
-		return description;
 	}
 	
 	@Override

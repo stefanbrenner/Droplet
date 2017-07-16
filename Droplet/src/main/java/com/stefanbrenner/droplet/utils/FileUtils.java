@@ -35,8 +35,7 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 public final class FileUtils {
 	
 	/** File filter that filters raw image files case insensitively. */
-	public static final IOFileFilter RAW_FORMAT_FILTER = FileFilterUtils.and(
-			FileFilterUtils.fileFileFilter(),
+	public static final IOFileFilter RAW_FORMAT_FILTER = FileFilterUtils.and(FileFilterUtils.fileFileFilter(),
 			FileFilterUtils.or(
 					// Canon
 					FileFilterUtils.suffixFileFilter("CRW", IOCase.INSENSITIVE),

@@ -39,6 +39,7 @@ import javax.swing.ListCellRenderer;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.PluginLoader;
 
 /**

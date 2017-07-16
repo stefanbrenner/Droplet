@@ -38,6 +38,7 @@ import com.stefanbrenner.droplet.ui.actions.SendAction;
 import com.stefanbrenner.droplet.ui.actions.ShowAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.ui.components.MouseWheelSpinner;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**

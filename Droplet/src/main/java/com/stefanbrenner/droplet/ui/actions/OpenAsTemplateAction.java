@@ -26,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
@@ -33,24 +34,24 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * <p>
  * The devices of the new configuration are equal to the one from the template,
  * but all device actions are removed.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class OpenAsTemplateAction extends OpenFileAction {
-	
+
 	public OpenAsTemplateAction(final JFrame frame, final JFileChooser fileChooser,
 			final IDropletContext dropletContext) {
 		super(frame, fileChooser, dropletContext, Messages.getString("OpenAsTemplateAction.title")); //$NON-NLS-1$
-		
+
 		putValue(Action.ACCELERATOR_KEY, null);
 		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("OpenAsTemplateAction.mnemonic"))); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("OpenAsTemplateAction.description")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		open(true);
 	}
-	
+
 }

@@ -40,6 +40,7 @@ import com.stefanbrenner.droplet.model.internal.Button;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Flash;
 import com.stefanbrenner.droplet.model.internal.Valve;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Dialog that displays controls to add new devices to droplet.

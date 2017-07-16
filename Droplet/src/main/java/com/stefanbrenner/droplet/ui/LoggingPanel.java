@@ -36,6 +36,7 @@ import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.DropletFonts;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Panel that shows logging messages.

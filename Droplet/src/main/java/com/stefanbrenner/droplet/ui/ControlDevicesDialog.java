@@ -43,6 +43,7 @@ import com.stefanbrenner.droplet.ui.actions.DeviceOffAction;
 import com.stefanbrenner.droplet.ui.actions.DeviceOnAction;
 import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.DropletFonts;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**

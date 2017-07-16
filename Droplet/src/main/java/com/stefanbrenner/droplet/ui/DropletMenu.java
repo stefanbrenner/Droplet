@@ -42,6 +42,7 @@ import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
 import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.SaveAsFileAction;
 import com.stefanbrenner.droplet.ui.actions.SaveFileAction;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**

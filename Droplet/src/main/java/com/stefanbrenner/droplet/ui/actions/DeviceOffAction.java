@@ -28,29 +28,30 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Action to send a OFF message to a device.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class DeviceOffAction extends AbstractSerialAction {
-	
+
 	private final IDevice device;
-	
+
 	public DeviceOffAction(final JFrame frame, final IDropletContext dropletContext, final IDevice device) {
 		super(frame, dropletContext, Messages.getString("DeviceOffAction.title")); //$NON-NLS-1$
 		this.device = device;
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-		
+
 		String message = messageProtocolProvider.createDeviceOffMessage(getDroplet(), device);
 		serialCommProvider.sendData(message);
 	}
-	
+
 }

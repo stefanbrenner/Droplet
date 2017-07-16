@@ -47,6 +47,7 @@ import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IMetadataProcessingService;
 import com.stefanbrenner.droplet.service.impl.XMPMetadataService;
 import com.stefanbrenner.droplet.utils.DropletFonts;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**

@@ -32,6 +32,7 @@ import javax.swing.JPanel;
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * @author Stefan Brenner

@@ -28,27 +28,28 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Send a cancel message to the serial controller.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class CancelAction extends AbstractSerialAction {
-	
+
 	public CancelAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("CancelAction.title")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("CancelAction.description")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-		
+
 		String message = messageProtocolProvider.createCancelMessage();
 		serialCommProvider.sendData(message);
 	}
-	
+
 }

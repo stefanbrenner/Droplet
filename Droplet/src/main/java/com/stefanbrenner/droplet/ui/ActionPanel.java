@@ -41,6 +41,7 @@ import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.ui.components.MouseWheelSpinner;
 import com.stefanbrenner.droplet.utils.DropletColors;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**

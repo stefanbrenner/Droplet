@@ -27,41 +27,42 @@ import javax.swing.JFrame;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Action to exit and close the droplet application.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 @Slf4j
 public class ExitAction extends AbstractDropletAction {
-	
+
 	public ExitAction(final JFrame parent, final IDropletContext dropletContext) {
 		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
-		
+
 		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("ExitAction.mnemonic"))); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
-		
+
 		log.debug("Shutting down ...");
-		
+
 		// save data to configuration
 		IMetadata metadata = getDropletContext().getMetadata();
 		Configuration.setMetadataComments(metadata.getDescription());
 		Configuration.setMetadataTags(metadata.getTags());
 		Configuration.setSerialCommPort(getDropletContext().getPort());
-		
+
 		log.debug("Successfully saved settings");
-		
+
 		getFrame().dispose();
 		System.exit(0);
 	}
-	
+
 }

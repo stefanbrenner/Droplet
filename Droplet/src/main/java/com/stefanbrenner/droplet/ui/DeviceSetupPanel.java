@@ -37,6 +37,7 @@ import javax.swing.ScrollPaneConstants;
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Panel to setup one droplet device.

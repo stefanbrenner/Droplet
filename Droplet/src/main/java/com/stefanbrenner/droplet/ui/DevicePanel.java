@@ -47,6 +47,7 @@ import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.utils.DropletColors;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Panel for action devices.

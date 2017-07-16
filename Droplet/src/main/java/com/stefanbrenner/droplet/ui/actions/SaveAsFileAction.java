@@ -28,26 +28,27 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * Action to save a droplet configuration as a new file.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class SaveAsFileAction extends SaveFileAction {
-	
+
 	public SaveAsFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		super(Messages.getString("SaveAsFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
-		
+
 		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("SaveAsFileAction.description")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		showFileChooser();
 	}
-	
+
 };

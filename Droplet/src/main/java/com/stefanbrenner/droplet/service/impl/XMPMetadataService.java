@@ -41,7 +41,7 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IMetadataProcessingService;
-import com.stefanbrenner.droplet.ui.Messages;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Metadata processing service implementation that creates a new XMP file for

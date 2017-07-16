@@ -30,26 +30,27 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Action to send a start message to the serial controller to start the number
  * of rounds with the specified delay between them.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class StartAction extends AbstractSerialAction {
-	
+
 	public StartAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("StartAction.title")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("StartAction.description")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
-		
+
 		// send configuration if it changed since last send
 		String setMessage = messageProtocolProvider.createSetMessage(getDroplet());
 		if (!StringUtils.equals(setMessage, getDropletContext().getLastSetMessage())) {
@@ -58,12 +59,12 @@ public class StartAction extends AbstractSerialAction {
 			serialCommProvider.sendData(setMessage);
 			getDropletContext().setLastSetMessage(setMessage);
 		}
-		
+
 		Integer rounds = getDropletContext().getRounds();
 		Integer roundDelay = getDropletContext().getRoundDelay();
-		
+
 		String message = messageProtocolProvider.createStartMessage(rounds, roundDelay);
 		serialCommProvider.sendData(message);
 	}
-	
+
 }

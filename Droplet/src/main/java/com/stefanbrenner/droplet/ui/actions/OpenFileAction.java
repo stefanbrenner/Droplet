@@ -36,46 +36,47 @@ import org.apache.commons.io.IOUtils;
 
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 import com.stefanbrenner.droplet.xml.JAXBHelper;
 
 /**
  * Action to open a droplet configuration from a file.
- * 
+ *
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
 public class OpenFileAction extends AbstractDropletAction {
-	
+
 	private final JFileChooser fileChooser;
-	
+
 	public OpenFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		this(frame, fileChooser, dropletContext, Messages.getString("OpenFileAction.title")); //$NON-NLS-1$
 	}
-	
+
 	protected OpenFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext,
 			final String title) {
 		super(frame, dropletContext, title);
-		
+
 		this.fileChooser = fileChooser;
-		
+
 		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_O));
 		putValue(Action.MNEMONIC_KEY, UiUtils.getMnemonic(Messages.getString("OpenFileAction.mnemonic"))); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("OpenFileAction.description")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		open(false);
 	}
-	
+
 	protected void open(final boolean asTemplate) {
 		int returnVal = fileChooser.showOpenDialog(getFrame());
-		
+
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				File file = fileChooser.getSelectedFile();
-				
+
 				if (!file.exists()) {
 					JOptionPane.showMessageDialog(getFrame(), Messages.getString("SaveFileAction.fileNotFound"), //$NON-NLS-1$
 							Messages.getString("SaveFileAction.fileNotFound"), //$NON-NLS-1$
@@ -83,14 +84,14 @@ public class OpenFileAction extends AbstractDropletAction {
 					open(false);
 					return;
 				}
-				
+
 				BufferedReader in = new BufferedReader(new FileReader(file));
 				String xml = IOUtils.toString(in);
 				in.close();
-				
+
 				JAXBHelper jaxbHelper = new JAXBHelper();
 				IDroplet droplet = jaxbHelper.fromXml(xml, IDroplet.class);
-				
+
 				if (asTemplate) {
 					// reset droplet
 					droplet.reset();
@@ -98,17 +99,17 @@ public class OpenFileAction extends AbstractDropletAction {
 				} else {
 					getDropletContext().setFile(file);
 				}
-				
+
 				// set droplet to context
 				getDropletContext().setDroplet(droplet);
-				
+
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
+
 };

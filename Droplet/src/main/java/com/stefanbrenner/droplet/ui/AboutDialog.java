@@ -40,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.stefanbrenner.droplet.utils.DropletFonts;
+import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * A dialog that displays information about droplet.

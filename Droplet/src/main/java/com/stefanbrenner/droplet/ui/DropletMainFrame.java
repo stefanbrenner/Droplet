@@ -56,6 +56,7 @@ import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.utils.DropletConfig;
 import com.stefanbrenner.droplet.utils.DropletFonts;
+import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 import com.tngtech.configbuilder.ConfigBuilder;
 
@@ -63,7 +64,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Mainframe of the droplet application.
- * 
+ *
  * @author Stefan Brenner
  */
 @Slf4j
@@ -203,7 +204,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		});
 		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent event) {
+			public void windowClosing(final WindowEvent event) {
 				handleQuit();
 			}
 		});

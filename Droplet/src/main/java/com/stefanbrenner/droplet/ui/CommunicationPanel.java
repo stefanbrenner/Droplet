@@ -45,6 +45,7 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.utils.DropletConfig;
+import com.stefanbrenner.droplet.utils.Messages;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;

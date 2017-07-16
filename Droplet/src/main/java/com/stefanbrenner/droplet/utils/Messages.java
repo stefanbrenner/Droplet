@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Droplet. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
-package com.stefanbrenner.droplet.ui;
+package com.stefanbrenner.droplet.utils;
 
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
@@ -27,16 +27,16 @@ import java.util.ResourceBundle;
  * @author Stefan Brenner
  */
 public class Messages {
-	private static final String BUNDLE_NAME = "com.stefanbrenner.droplet.ui.messages"; //$NON-NLS-1$
-	
+	private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
+
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
-	
+
 	private Messages() {
 	}
-	
+
 	/**
 	 * Read localized message from resources and format it.
-	 * 
+	 *
 	 * @see MessageFormat
 	 */
 	public static String getString(final String key, final Object... args) {

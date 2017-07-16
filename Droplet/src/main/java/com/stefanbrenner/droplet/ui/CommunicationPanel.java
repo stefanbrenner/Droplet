@@ -53,7 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Panel that displays controls to connect to a microcontroller.
- * 
+ *
  * @author Stefan Brenner
  */
 @Slf4j
@@ -83,7 +83,7 @@ public class CommunicationPanel extends JPanel {
 		btnUpdate = new JButton(Messages.getString("CommunicationPanel.update")); //$NON-NLS-1$
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(final ActionEvent arg0) {
 				updatePorts();
 			}
 		});
@@ -129,8 +129,9 @@ public class CommunicationPanel extends JPanel {
 		add(lblStatus);
 		
 		// set communication service from configuration
+		log.info("load communication service from config");
 		setCommService(Configuration.getSerialCommProvider());
-		
+
 		// add listener to selected communication provider
 		Configuration.addPropertyChangeListener(Configuration.CONF_SERIAL_COMM_PROVIDER, new PropertyChangeListener() {
 			@Override
@@ -202,6 +203,7 @@ public class CommunicationPanel extends JPanel {
 	}
 	
 	private void setCommService(final ISerialCommunicationService commService) {
+		log.info("set new communication service: {}", commService.getName());
 		this.commService = commService;
 		setPorts(commService.getPorts());
 	}
@@ -217,7 +219,7 @@ public class CommunicationPanel extends JPanel {
 		}
 	}
 	
-	private void selectPort(CommPortIdentifier portId) {
+	private void selectPort(final CommPortIdentifier portId) {
 		boolean connected = false;
 		
 		// close previous connection

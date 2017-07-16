@@ -47,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
  * <p>
  * For more information on Arduino see <a
  * href="http://arduino.cc">http://arduino.cc</a>
- * 
+ *
  * @author Stefan Brenner
  */
 @ProviderFor(ISerialCommunicationService.class)
@@ -83,7 +83,17 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	public CommPortIdentifier[] getPorts() {
 		List<CommPortIdentifier> ports = new ArrayList<CommPortIdentifier>();
 		
-		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
+		log.debug("load port identifiers");
+		
+		Enumeration<?> portEnum = null;
+		
+		try {
+			portEnum = CommPortIdentifier.getPortIdentifiers();
+		} catch (Throwable e) {
+			// TODO besser behandeln
+			log.error("Error loading serial ports", e);
+		}
+		
 		// iterate through, looking for the port
 		while (portEnum.hasMoreElements()) {
 			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();

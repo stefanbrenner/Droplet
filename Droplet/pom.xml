@@ -122,19 +122,30 @@
 
 	<profiles>
 		<profile>
-			<id>build-dmg</id>
+			<id>osx</id>
 			<build>
 				<plugins>
+					
+					<!-- create DMG for OSX -->
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>osxappbundle-maven-plugin</artifactId>
-						<version>1.0-alpha-2</version>
+						<groupId>sh.tak.appbundler</groupId>
+						<artifactId>appbundle-maven-plugin</artifactId>
+						<version>1.2.0</version>
 						<configuration>
+							<bundleName>Droplet</bundleName>
 							<mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
-							<iconFile>${basedir}/icons/droplet.icns</iconFile>
-							<jvmVersion>1.5*</jvmVersion>
-							<!-- TODO: Wie bringe ich die dll in's dmg? -->
-							<vmOptions>-Xmx256M -Djava.library.path=$JAVAROOT/dll</vmOptions>
+							<iconFile>droplet.icns</iconFile>
+							<generateDiskImageFile>true</generateDiskImageFile>
+							<jvmVersion>1.8*</jvmVersion>
+							<jvmOptions>
+								<jvmOption>-Xmx256M</jvmOption>
+								<jvmOption>-Djava.library.path=$APP_ROOT/Contents/Java/lib/</jvmOption>
+							</jvmOptions>
+							<additionalBundledClasspathResources>
+								<fileSet>
+									<directory>${basedir}/lib/macosx</directory>
+								</fileSet>
+							</additionalBundledClasspathResources>
 							<additionalResources>
 								<fileSet>
 									<directory>${basedir}</directory>
@@ -155,6 +166,7 @@
 							</execution>
 						</executions>
 					</plugin>
+					
 				</plugins>
 			</build>
 		</profile>

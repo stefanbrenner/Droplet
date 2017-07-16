@@ -24,13 +24,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JFrame;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.utils.UiUtils;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Action to exit and close the droplet application.
@@ -38,9 +37,8 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
+@Slf4j
 public class ExitAction extends AbstractDropletAction {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExitAction.class);
 	
 	public ExitAction(final JFrame parent, final IDropletContext dropletContext) {
 		super(parent, dropletContext, Messages.getString("ExitAction.title")); //$NON-NLS-1$
@@ -52,7 +50,7 @@ public class ExitAction extends AbstractDropletAction {
 	public void actionPerformed(final ActionEvent event) {
 		// TODO brenner: warn about unsaved changes
 		
-		LOGGER.debug("Shutting down ...");
+		log.debug("Shutting down ...");
 		
 		// save data to configuration
 		IMetadata metadata = getDropletContext().getMetadata();
@@ -60,7 +58,7 @@ public class ExitAction extends AbstractDropletAction {
 		Configuration.setMetadataTags(metadata.getTags());
 		Configuration.setSerialCommPort(getDropletContext().getPort());
 		
-		LOGGER.debug("Successfully saved settings");
+		log.debug("Successfully saved settings");
 		
 		getFrame().dispose();
 		System.exit(0);

@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.model.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -49,13 +50,7 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 	
 	@Override
 	public List<IAction> getEnabledActions() {
-		List<IAction> enabledActions = new ArrayList<IAction>();
-		for (IAction action : getActions()) {
-			if (action.isEnabled()) {
-				enabledActions.add(action);
-			}
-		}
-		return enabledActions;
+		return getActions().stream().filter(a -> a.isEnabled()).collect(Collectors.toList());
 	}
 	
 	@Override

@@ -44,9 +44,6 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.apple.mrj.MRJAboutHandler;
 import com.apple.mrj.MRJApplicationUtils;
 import com.apple.mrj.MRJPrefsHandler;
@@ -62,16 +59,17 @@ import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.UiUtils;
 import com.tngtech.configbuilder.ConfigBuilder;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Mainframe of the droplet application.
  * 
  * @author Stefan Brenner
  */
+@Slf4j
 public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuitHandler, MRJPrefsHandler {
 	
 	private static final long serialVersionUID = 1L;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(DropletMainFrame.class);
 	
 	// model objects
 	private final IDropletContext dropletContext;
@@ -91,12 +89,12 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 	public static void main(final String[] args) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException {
 		
-		LOGGER.info("Droplet - Toolkit for High-Speed-Photography");
-		LOGGER.info("Version 0.1");
-		LOGGER.info("Open Source Project created by Stefan Brenner 2012");
-		LOGGER.info("http://www.droplet.at");
-		LOGGER.info("==================================================");
-		LOGGER.info("Starting ...");
+		log.info("Droplet - Toolkit for High-Speed-Photography");
+		log.info("Version 0.1");
+		log.info("Open Source Project created by Stefan Brenner 2012");
+		log.info("http://www.droplet.at");
+		log.info("==================================================");
+		log.info("Starting ...");
 		
 		// TODO brenner: make language editable in configurations
 		// only for testing purposes
@@ -109,8 +107,8 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// put jmenubar on mac menu bar
 		System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		// set application name
-		System.setProperty(
-				"com.apple.mrj.application.apple.menu.about.name", Messages.getString("DropletMainFrame.about")); //$NON-NLS-1$ //$NON-NLS-2$
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", //$NON-NLS-1$
+				Messages.getString("DropletMainFrame.about")); //$NON-NLS-1$
 		// set look and feel
 		try {
 			// use nimbus L&F if available
@@ -121,7 +119,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.warn("Nimbus L&F not found!");
+			log.warn("Nimbus L&F not found!");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		
@@ -135,7 +133,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 					DropletMainFrame frame = new DropletMainFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					LOGGER.error("A fatal error occured: ", e);
+					log.error("A fatal error occured: ", e);
 					e.printStackTrace();
 				}
 			}
@@ -211,7 +209,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		});
 		
 		// register action shortcuts
-		LOGGER.debug("Register action shortcuts");
+		log.debug("Register action shortcuts");
 		// TODO brenner: don't consume keys in JTextComponents
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -227,7 +225,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		});
 		
 		// set default fonts
-		LOGGER.debug("set default fonts");
+		log.debug("set default fonts");
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
 			Object key = keys.nextElement();
@@ -238,7 +236,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		}
 		
 		// register handlers for mac events
-		LOGGER.debug("register handlers for mac events");
+		log.debug("register handlers for mac events");
 		if (UiUtils.isMacOS()) {
 			MRJApplicationUtils.registerAboutHandler(this);
 			MRJApplicationUtils.registerQuitHandler(this);
@@ -265,7 +263,7 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// add welcome message to logging panel
 		dropletContext.addLoggingMessage("Welcome to Droplet!");
 		
-		LOGGER.info("Droplet started successfully!");
+		log.info("Droplet started successfully!");
 		
 	}
 	

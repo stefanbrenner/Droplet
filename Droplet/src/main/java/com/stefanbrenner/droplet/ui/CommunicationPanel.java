@@ -19,9 +19,6 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.NoSuchPortException;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -44,24 +41,24 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.utils.DropletConfig;
+
+import gnu.io.CommPortIdentifier;
+import gnu.io.NoSuchPortException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Panel that displays controls to connect to a microcontroller.
  * 
  * @author Stefan Brenner
  */
+@Slf4j
 public class CommunicationPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommunicationPanel.class);
 	
 	private final IDropletContext dropletContext;
 	
@@ -178,7 +175,7 @@ public class CommunicationPanel extends JPanel {
 			selectPort(portIdentifier);
 			cmbPort.setSelectedItem(portIdentifier);
 		} catch (NoSuchPortException e) {
-			LOGGER.info("Port " + serialCommPort + " konnte nicht gefunden werden."); //$NON-NLS-1$ //$NON-NLS-2$
+			log.info("Port " + serialCommPort + " konnte nicht gefunden werden."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 	}

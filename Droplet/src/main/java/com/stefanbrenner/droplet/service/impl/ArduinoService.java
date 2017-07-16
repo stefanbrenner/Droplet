@@ -22,9 +22,7 @@ package com.stefanbrenner.droplet.service.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.Set;
 import java.util.TooManyListenersException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +31,9 @@ import org.mangosdk.spi.ProviderFor;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.PortInUseException;
-import gnu.io.SerialPort;
+import gnu.io.NRSerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
-import gnu.io.UnsupportedCommOperationException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -56,21 +51,16 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	
 	private static final char NEWLINE = '\n';
 	
-	/** Milliseconds to block while waiting for port open. */
-	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
 	private static final int DATA_RATE = 9600;
 	
 	/** connected port information. **/
-	private static SerialPort connSerialPort = null;
+	private static NRSerialPort connSerialPort = null;
 	
 	/** input stream for sending data. **/
 	private static DataInputStream input = null;
 	/** output streams for receiving data. **/
 	private static DataOutputStream output = null;
-	
-	/** flag that indicates if the service is currently connected to a port. **/
-	private static boolean connected = false;
 	
 	private static IDropletContext dropletContext;
 	
@@ -80,45 +70,24 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	}
 	
 	@Override
-	public CommPortIdentifier[] getPorts() {
-		List<CommPortIdentifier> ports = new ArrayList<CommPortIdentifier>();
-		
-		log.debug("load port identifiers");
-		
-		Enumeration<?> portEnum = null;
-		
-		try {
-			portEnum = CommPortIdentifier.getPortIdentifiers();
-		} catch (Throwable e) {
-			// TODO besser behandeln
-			log.error("Error loading serial ports", e);
-		}
-		
-		// iterate through, looking for the port
-		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-			// add only serial ports
-			if (currPortId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-				ports.add(currPortId);
-			}
-		}
-		
-		return ports.toArray(new CommPortIdentifier[] {});
+	public Set<String> getPorts() {
+		return NRSerialPort.getAvailableSerialPorts();
 	}
 	
 	@Override
-	public synchronized boolean connect(final CommPortIdentifier portId, final IDropletContext context) {
+	public synchronized boolean connect(final String portId, final IDropletContext context) {
 		try {
 			dropletContext = context;
 			
-			log.debug("Connect to port: " + portId.getName());
+			log.debug("Connect to port: " + portId);
 			
 			// try to open a connection to the serial port
-			connSerialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
+			connSerialPort = new NRSerialPort(portId, DATA_RATE);
 			
-			// set port parameters
-			connSerialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
-					SerialPort.PARITY_NONE);
+			if (!connSerialPort.connect()) {
+				log.error("Error connecting to port {}", portId);
+				return false;
+			}
 			
 			// open the streams
 			input = new DataInputStream(connSerialPort.getInputStream());
@@ -127,40 +96,26 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 			// add event listeners
 			connSerialPort.addEventListener(this);
 			connSerialPort.notifyOnDataAvailable(true);
-			connSerialPort.notifyOnCarrierDetect(true);
 			
-			// set connected flag
-			setConnected(true);
-			
-			log.info("Connection to port " + portId.getName() + " successful established");
+			log.info("Connection to port " + portId + " successful established");
 			
 			return true;
 			
-		} catch (PortInUseException | UnsupportedCommOperationException | IOException | TooManyListenersException e) {
-			log.error("Error connecting to port {}", portId.getName(), e);
+		} catch (TooManyListenersException e) {
+			log.error("Error connecting to port {}", portId, e);
 		}
 		
-		setConnected(false);
 		return false;
 	}
 	
 	@Override
 	public synchronized void close() {
-		try {
-			if (connSerialPort != null) {
-				
-				log.debug("close connection to port {}", connSerialPort.getName());
-				
-				connSerialPort.removeEventListener();
-				connSerialPort.close();
-				
-				input.close();
-				output.close();
-				
-				setConnected(false);
-			}
-		} catch (IOException e) {
-			log.error("Error closing connection to port {}", connSerialPort.getName(), e);
+		if (connSerialPort != null) {
+			
+			log.debug("close connection to port {}", connSerialPort.getSerialPortInstance().getName());
+			
+			connSerialPort.removeEventListener();
+			connSerialPort.disconnect();
 		}
 	}
 	
@@ -242,11 +197,7 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	
 	@Override
 	public synchronized boolean isConnected() {
-		return connected;
-	}
-	
-	private void setConnected(final boolean connected) {
-		this.connected = connected;
+		return connSerialPort != null && connSerialPort.isConnected();
 	}
 	
 }

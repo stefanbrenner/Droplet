@@ -19,13 +19,13 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.service;
 
-import com.stefanbrenner.droplet.model.IDropletContext;
+import java.util.Set;
 
-import gnu.io.CommPortIdentifier;
+import com.stefanbrenner.droplet.model.IDropletContext;
 
 /**
  * Interface for Serial Communication with a microcontroller.
- * 
+ *
  * @author Stefan Brenner
  */
 public interface ISerialCommunicationService {
@@ -37,14 +37,14 @@ public interface ISerialCommunicationService {
 	
 	/**
 	 * Returns all available serial ports.
-	 * 
+	 *
 	 * @return Array of available serial ports
 	 */
-	CommPortIdentifier[] getPorts();
+	Set<String> getPorts();
 	
 	/**
 	 * Indicates if the service is currently connected to a serial port.
-	 * 
+	 *
 	 * @return <code>true</code> if the serivce is connected, otherwise
 	 *         <code>false</code>
 	 */
@@ -52,7 +52,7 @@ public interface ISerialCommunicationService {
 	
 	/**
 	 * Send a message to the receiver.
-	 * 
+	 *
 	 * @param message
 	 *            message to send
 	 */
@@ -66,7 +66,7 @@ public interface ISerialCommunicationService {
 	
 	/**
 	 * Connect to a given serial port.
-	 * 
+	 *
 	 * @param portId
 	 *            port identifier to connect to
 	 * @param context
@@ -74,6 +74,6 @@ public interface ISerialCommunicationService {
 	 * @return <code>true</code> if the connection was successfully established,
 	 *         <code>false</code> otherwise
 	 */
-	boolean connect(CommPortIdentifier portId, IDropletContext context);
+	boolean connect(String portId, IDropletContext context);
 	
 }

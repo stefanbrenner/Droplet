@@ -21,11 +21,9 @@ package com.stefanbrenner.droplet.model;
 
 import java.io.File;
 
-import gnu.io.CommPortIdentifier;
-
 /**
  * Interface that encapsulates the droplet context and it's base objects.
- * 
+ *
  * @author Stefan Brenner
  */
 public interface IDropletContext extends INotificationSupport {
@@ -58,12 +56,12 @@ public interface IDropletContext extends INotificationSupport {
 	 * @param port
 	 *            port that should be used for serial communication
 	 */
-	void setPort(CommPortIdentifier port);
+	void setPort(String port);
 	
 	/**
 	 * @return the port to be used for serial communication.
 	 */
-	CommPortIdentifier getPort();
+	String getPort();
 	
 	/**
 	 * @param file

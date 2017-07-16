@@ -73,14 +73,16 @@
 
 		<!-- serial communication -->
 		<dependency>
+			<groupId>com.neuronrobotics</groupId>
+			<artifactId>nrjavaserial</artifactId>
+			<version>3.12.1</version>
+		</dependency>
+		
+		<!-- plugin system -->
+		<dependency>
 			<groupId>org.mangosdk.spi</groupId>
 			<artifactId>spi</artifactId>
 			<version>0.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bidib.jbidib.org.qbang.rxtx</groupId>
-			<artifactId>rxtxcomm</artifactId>
-			<version>2.2</version>
 		</dependency>
 
 		<!-- configuration -->
@@ -125,7 +127,7 @@
 			<id>osx</id>
 			<build>
 				<plugins>
-					
+
 					<!-- create DMG for OSX -->
 					<plugin>
 						<groupId>sh.tak.appbundler</groupId>
@@ -137,15 +139,6 @@
 							<iconFile>droplet.icns</iconFile>
 							<generateDiskImageFile>true</generateDiskImageFile>
 							<jvmVersion>1.8*</jvmVersion>
-							<jvmOptions>
-								<jvmOption>-Xmx256M</jvmOption>
-								<jvmOption>-Djava.library.path=$APP_ROOT/Contents/Java/lib/</jvmOption>
-							</jvmOptions>
-							<additionalBundledClasspathResources>
-								<fileSet>
-									<directory>${basedir}/lib/macosx</directory>
-								</fileSet>
-							</additionalBundledClasspathResources>
 							<additionalResources>
 								<fileSet>
 									<directory>${basedir}</directory>
@@ -166,7 +159,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					
+
 				</plugins>
 			</build>
 		</profile>

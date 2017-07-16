@@ -32,14 +32,13 @@ import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 
-import gnu.io.CommPortIdentifier;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * Class that contains all context informations and objects that are used in
  * droplet.
- * 
+ *
  * @author Stefan Brenner
  */
 @Data
@@ -61,7 +60,7 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	 * Communication port that is sused to communicate with the serial
 	 * controller.
 	 */
-	private CommPortIdentifier port;
+	private String port;
 	
 	/**
 	 * Droplet object that holds the current configuration.
@@ -105,7 +104,7 @@ public class DropletContext extends AbstractModelObject implements IDropletConte
 	}
 	
 	@Override
-	public void setPort(final CommPortIdentifier port) {
+	public void setPort(final String port) {
 		firePropertyChange(IDropletContext.PROPERTY_PORT, this.port, this.port = port);
 	}
 	

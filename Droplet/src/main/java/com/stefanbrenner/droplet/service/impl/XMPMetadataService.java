@@ -31,12 +31,12 @@ import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.apache.commons.lang3.StringUtils;
 
-import com.adobe.xmp.XMPException;
-import com.adobe.xmp.XMPMeta;
-import com.adobe.xmp.XMPMetaFactory;
-import com.adobe.xmp.XMPSchemaRegistry;
-import com.adobe.xmp.options.PropertyOptions;
-import com.adobe.xmp.options.SerializeOptions;
+import com.adobe.internal.xmp.XMPException;
+import com.adobe.internal.xmp.XMPMeta;
+import com.adobe.internal.xmp.XMPMetaFactory;
+import com.adobe.internal.xmp.XMPSchemaRegistry;
+import com.adobe.internal.xmp.options.PropertyOptions;
+import com.adobe.internal.xmp.options.SerializeOptions;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
@@ -46,7 +46,7 @@ import com.stefanbrenner.droplet.ui.Messages;
 /**
  * Metadata processing service implementation that creates a new XMP file for
  * each new RAW image file that is added to a watched folder.
- * 
+ *
  * @author Stefan Brenner
  */
 public class XMPMetadataService extends FileAlterationListenerAdaptor implements IMetadataProcessingService {
@@ -59,12 +59,12 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 	private static final String TITLE = "This picture was created with the help of "
 			+ "Droplet - Toolkit for Liquid Art Photographer";
 	
-	private FileAlterationMonitor monitor;
+	private final FileAlterationMonitor monitor;
 	
 	private FileAlterationObserver observer;
 	
 	private IMetadata metadata;
-	private IDropletContext dropletContext;
+	private final IDropletContext dropletContext;
 	
 	private URI outputFolderURI;
 	
@@ -77,7 +77,7 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 	
 	/**
 	 * Creates a new xmp metadata service.
-	 * 
+	 *
 	 * @param metadata
 	 *            to be used
 	 * @param dropletContext
@@ -153,7 +153,7 @@ public class XMPMetadataService extends FileAlterationListenerAdaptor implements
 	 * same filename as the raw file is created and the metadata gets added to
 	 * it. If an output folder is set, both files are finally moved to that
 	 * folder.
-	 * 
+	 *
 	 * @param rawFile
 	 *            the new raw file
 	 */

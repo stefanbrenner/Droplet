@@ -19,7 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -31,7 +31,7 @@ import org.junit.Test;
 
 /**
  * @author Stefan Brenner
- * 
+ *
  */
 public class MessagesTest {
 	
@@ -41,10 +41,10 @@ public class MessagesTest {
 	
 	/**
 	 * Read localized message from resources and format it.
-	 * 
+	 *
 	 * @see MessageFormat
 	 */
-	public static String getString(String key, Object... args) {
+	public static String getString(final String key, final Object... args) {
 		try {
 			String message = RESOURCE_BUNDLE.getString(key);
 			MessageFormat format = new MessageFormat(message);
@@ -56,23 +56,23 @@ public class MessagesTest {
 	
 	@Test
 	public void testGetMessage() {
-		assertEquals("Basic", MessagesTest.getString("MessagesTest"));
-		assertEquals("Simple", MessagesTest.getString("MessagesTest.Simple"));
-		assertEquals("Advanced {0}", MessagesTest.getString("MessagesTest.Advanced"));
+		assertThat(MessagesTest.getString("MessagesTest")).isEqualTo("Basic");
+		assertThat(MessagesTest.getString("MessagesTest.Simple")).isEqualTo("Simple");
+		assertThat(MessagesTest.getString("MessagesTest.Advanced")).isEqualTo("Advanced {0}");
 		
-		assertEquals("Advanced Test", MessagesTest.getString("MessagesTest.Advanced", "Test"));
-		assertEquals("Advanced Test with multiple Parameters !",
-				MessagesTest.getString("MessagesTest.Multiple.Ascending", "Test", "multiple", "!"));
-		assertEquals("Advanced Test with multiple Parameters !",
-				MessagesTest.getString("MessagesTest.Multiple.Unsorted", "multiple", "!", "Test"));
-		assertEquals("Advanced Test with Test", MessagesTest.getString("MessagesTest.Multiple.Repeat", "Test"));
+		assertThat(MessagesTest.getString("MessagesTest.Advanced", "Test")).isEqualTo("Advanced Test");
+		assertThat(MessagesTest.getString("MessagesTest.Multiple.Ascending", "Test", "multiple", "!"))
+				.isEqualTo("Advanced Test with multiple Parameters !");
+		assertThat(MessagesTest.getString("MessagesTest.Multiple.Unsorted", "multiple", "!", "Test"))
+				.isEqualTo("Advanced Test with multiple Parameters !");
+		assertThat(MessagesTest.getString("MessagesTest.Multiple.Repeat", "Test")).isEqualTo("Advanced Test with Test");
 		
 		GregorianCalendar cal = new GregorianCalendar(2012, 0, 1);
 		Object[] arguments = { new Integer(7), cal.getTime(), "a disturbance in the Force" };
-		assertEquals("At " + SimpleDateFormat.getTimeInstance().format(cal.getTime()) + " on "
-				+ SimpleDateFormat.getDateInstance().format(cal.getTime())
-				+ ", there was a disturbance in the Force on planet 7.",
-				MessagesTest.getString("MessagesTest.Number", arguments));
+		assertThat(MessagesTest.getString("MessagesTest.Number", arguments))
+				.isEqualTo("At " + SimpleDateFormat.getTimeInstance().format(cal.getTime()) + " on "
+						+ SimpleDateFormat.getDateInstance().format(cal.getTime())
+						+ ", there was a disturbance in the Force on planet 7.");
 		
 	}
 	

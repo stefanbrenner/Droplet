@@ -19,7 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
 
 /**
  * @author Stefan Brenner
- * 
+ *
  */
 public class DeviceComperationTest {
 	
@@ -52,7 +52,7 @@ public class DeviceComperationTest {
 		
 		/** Valve < NewDevice1 < ALL. */
 		@Override
-		public int compare(IDevice device1, IDevice device2) {
+		public int compare(final IDevice device1, final IDevice device2) {
 			if (device1 instanceof NewDevice1) {
 				if (device2 instanceof NewDevice1) {
 					return UNDEFINED_ORDER;
@@ -86,7 +86,7 @@ public class DeviceComperationTest {
 		 * ALL < NewDevice2 < Camera.
 		 */
 		@Override
-		public int compare(IDevice device1, IDevice device2) {
+		public int compare(final IDevice device1, final IDevice device2) {
 			if (device1 instanceof NewDevice2) {
 				if (device2 instanceof NewDevice2) {
 					return UNDEFINED_ORDER;
@@ -195,19 +195,19 @@ public class DeviceComperationTest {
 		
 		int i = 0, j = 0;
 		for (j += valves; i < valves; i++) {
-			assertTrue(devices.get(i).getClass().equals(Valve.class));
+			assertThat(devices.get(i).getClass().equals(Valve.class)).isTrue();
 		}
 		for (j += newDevices1; i < j; i++) {
-			assertTrue(devices.get(i).getClass().equals(NewDevice1.class));
+			assertThat(devices.get(i).getClass().equals(NewDevice1.class)).isTrue();
 		}
 		for (j += flashes; i < j; i++) {
-			assertTrue(devices.get(i).getClass().equals(Flash.class));
+			assertThat(devices.get(i).getClass().equals(Flash.class)).isTrue();
 		}
 		for (j += newDevices2; i < j; i++) {
-			assertTrue(devices.get(i).getClass().equals(NewDevice2.class));
+			assertThat(devices.get(i).getClass().equals(NewDevice2.class)).isTrue();
 		}
 		for (j += cameras; i < j; i++) {
-			assertTrue(devices.get(i).getClass().equals(Camera.class));
+			assertThat(devices.get(i).getClass().equals(Camera.class)).isTrue();
 		}
 	}
 	

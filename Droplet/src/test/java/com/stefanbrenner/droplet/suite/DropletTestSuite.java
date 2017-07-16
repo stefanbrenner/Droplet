@@ -40,5 +40,5 @@ import com.stefanbrenner.droplet.utils.UiUtilsTest;
 @SuiteClasses({ UiUtilsTest.class, PluginProviderTest.class, DeviceComperationTest.class, ConfigurationTest.class,
 		DropletMessageProtocolTest.class, DropletMessageProtocolTest.class, MessagesTest.class, FileUtilsTest.class })
 public class DropletTestSuite {
-
+	
 }

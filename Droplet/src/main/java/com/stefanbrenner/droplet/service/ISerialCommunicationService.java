@@ -19,9 +19,9 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.service;
 
-import gnu.io.CommPortIdentifier;
-
 import com.stefanbrenner.droplet.model.IDropletContext;
+
+import gnu.io.CommPortIdentifier;
 
 /**
  * Interface for Serial Communication with a microcontroller.

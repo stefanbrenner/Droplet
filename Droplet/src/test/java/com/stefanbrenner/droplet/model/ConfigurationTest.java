@@ -19,7 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -33,31 +33,31 @@ import com.stefanbrenner.droplet.service.impl.DropletMessageProtocol;
  * @author Stefan Brenner
  */
 public class ConfigurationTest {
-
+	
 	@Test
 	public void testSerialCommunicationPrefs() {
-
+		
 		ISerialCommunicationService arduinoService = new ArduinoService();
-
+		
 		Configuration.setSerialCommProvider(arduinoService);
-
+		
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
-
-		assertEquals(arduinoService.getClass(), serialCommProvider.getClass());
-
+		
+		assertThat(serialCommProvider.getClass()).isEqualTo(arduinoService.getClass());
+		
 	}
-
+	
 	@Test
 	public void testMessageProtocolPrefs() {
-
+		
 		IDropletMessageProtocol messageProtocol = new DropletMessageProtocol();
-
+		
 		Configuration.setMessageProtocolProvider(messageProtocol);
-
+		
 		IDropletMessageProtocol msgProtocolProvider = Configuration.getMessageProtocolProvider();
-
-		assertEquals(messageProtocol.getClass(), msgProtocolProvider.getClass());
-
+		
+		assertThat(msgProtocolProvider.getClass()).isEqualTo(messageProtocol.getClass());
+		
 	}
-
+	
 }

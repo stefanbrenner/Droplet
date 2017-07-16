@@ -19,9 +19,9 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.model;
 
-import gnu.io.CommPortIdentifier;
-
 import java.io.File;
+
+import gnu.io.CommPortIdentifier;
 
 /**
  * Interface that encapsulates the droplet context and it's base objects.

@@ -19,9 +19,7 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.utils;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +30,7 @@ import org.junit.rules.TemporaryFolder;
 
 /**
  * @author Stefan Brenner
- * 
+ *
  */
 public class FileUtilsTest {
 	
@@ -43,10 +41,10 @@ public class FileUtilsTest {
 	public void testGetFilename() throws IOException {
 		// assertEquals("", FileUtils.getFilename(testDir.newFile("")));
 		// assertEquals("", FileUtils.getFilename(testDir.newFile(".")));
-		assertEquals("", FileUtils.getFilename(testDir.newFile(".txt")));
-		assertEquals("test", FileUtils.getFilename(testDir.newFile("test")));
-		assertEquals("test", FileUtils.getFilename(testDir.newFile("test.txt")));
-		assertEquals("test", FileUtils.getFilename(testDir.newFile("test.txt.txt")));
+		assertThat(FileUtils.getFilename(testDir.newFile(".txt"))).isEmpty();
+		assertThat(FileUtils.getFilename(testDir.newFile("test"))).isEqualTo("test");
+		assertThat(FileUtils.getFilename(testDir.newFile("test.txt"))).isEqualTo("test");
+		assertThat(FileUtils.getFilename(testDir.newFile("test.txt.txt"))).isEqualTo("test");
 	}
 	
 	@Test
@@ -54,52 +52,53 @@ public class FileUtilsTest {
 		
 		String testdirPath = testDir.getRoot().getAbsolutePath() + File.separatorChar;
 		
-		assertEquals(testdirPath + ".txt", FileUtils.newFileBasedOn(testDir.newFile(".abc"), "txt").getAbsolutePath());
-		assertEquals(testdirPath + "test.txt", FileUtils.newFileBasedOn(testDir.newFile("test"), "txt")
-				.getAbsolutePath());
-		assertEquals(testdirPath + "test.txt", FileUtils.newFileBasedOn(testDir.newFile("test.abc"), "txt")
-				.getAbsolutePath());
-		assertEquals(testdirPath + "test.txt", FileUtils.newFileBasedOn(testDir.newFile("test.a.b.c"), "txt")
-				.getAbsolutePath());
+		assertThat(FileUtils.newFileBasedOn(testDir.newFile(".abc"), "txt").getAbsolutePath())
+				.isEqualTo(testdirPath + ".txt");
+		assertThat(FileUtils.newFileBasedOn(testDir.newFile("test"), "txt").getAbsolutePath())
+				.isEqualTo(testdirPath + "test.txt");
+		assertThat(FileUtils.newFileBasedOn(testDir.newFile("test.abc"), "txt").getAbsolutePath())
+				.isEqualTo(testdirPath + "test.txt");
+		assertThat(FileUtils.newFileBasedOn(testDir.newFile("test.a.b.c"), "txt").getAbsolutePath())
+				.isEqualTo(testdirPath + "test.txt");
 	}
 	
 	@Test
 	public void testRawFileFilter() throws IOException {
 		// Canon
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.cr2")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.CR2")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.crw")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.CRW")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.cr2"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.CR2"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.crw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.CRW"))).isTrue();
 		// Nikon
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.nef")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.NEF")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.nef"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.NEF"))).isTrue();
 		// Minolta
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.mrw")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.MRW")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.mrw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.MRW"))).isTrue();
 		// Olympus
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.orf")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.ORF")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.orf"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.ORF"))).isTrue();
 		// Fujifilm
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.raf")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.RAF")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.raf"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.RAF"))).isTrue();
 		// Sony
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.arw")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.ARW")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.srf")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.SRF")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.arw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.ARW"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.srf"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.SRF"))).isTrue();
 		// Pentax
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.pef")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.PEF")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.pef"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.PEF"))).isTrue();
 		// General
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.raw")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.RAW")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.dng")));
-		assertTrue(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.DNG")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.raw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.RAW"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.dng"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.DNG"))).isTrue();
 		
-		assertFalse(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.bin")));
-		assertFalse(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.exe")));
-		assertFalse(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.txt")));
-		assertFalse(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.zip")));
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.bin"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.exe"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.txt"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.zip"))).isFalse();
 	}
 	
 }

@@ -19,8 +19,6 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import gnu.io.CommPortIdentifier;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
@@ -34,6 +32,8 @@ import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.service.impl.ArduinoService;
 import com.stefanbrenner.droplet.service.impl.DropletMessageProtocol;
 import com.stefanbrenner.droplet.utils.PluginLoader;
+
+import gnu.io.CommPortIdentifier;
 
 /**
  * Simple preferences wrapper.

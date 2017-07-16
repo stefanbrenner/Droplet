@@ -19,8 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.service.impl;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
@@ -40,18 +39,18 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
 
 /**
  * @author Stefan Brenner
- * 
+ *
  */
 public class ArduXposureMessageProtocolTest {
 	
 	@Test
 	public void testCreateStartMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
-		assertTrue(Arrays.equals(new byte[] { 1, 1, 0 }, protocol.createStartMessage().getBytes()));
-		assertTrue(Arrays.equals(new byte[] { 1, 1, 0 }, protocol.createStartMessage(1, 0).getBytes()));
+		assertThat(Arrays.equals(new byte[] { 1, 1, 0 }, protocol.createStartMessage().getBytes())).isTrue();
+		assertThat(Arrays.equals(new byte[] { 1, 1, 0 }, protocol.createStartMessage(1, 0).getBytes())).isTrue();
 		// assertTrue(Arrays.equals(new byte[] { 1, 1, 127 },
 		// protocol.createStartMessage(1, 127).getBytes()));
-		assertTrue(Arrays.equals(new byte[] { 1, 5, 0 }, protocol.createStartMessage(5, 0).getBytes()));
+		assertThat(Arrays.equals(new byte[] { 1, 5, 0 }, protocol.createStartMessage(5, 0).getBytes())).isTrue();
 		// assertTrue(Arrays.equals(new byte[] { 1, 5, 127 },
 		// protocol.createStartMessage(5, 127).getBytes()));
 	}
@@ -59,13 +58,13 @@ public class ArduXposureMessageProtocolTest {
 	@Test
 	public void testCreateInfoMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
-		assertEquals("I", protocol.createInfoMessage());
+		assertThat(protocol.createInfoMessage()).isEqualTo("I");
 	}
 	
 	@Test
 	public void testCreateResetMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
-		assertEquals("X", protocol.createResetMessage());
+		assertThat(protocol.createResetMessage()).isEqualTo("X");
 	}
 	
 	@Test
@@ -90,47 +89,51 @@ public class ArduXposureMessageProtocolTest {
 		Action action5 = new Action();
 		
 		// empty droplet
-		assertEquals("", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEmpty();
+		;
 		
 		droplet.addDevice(valve1);
 		droplet.addDevice(valve2);
 		
 		// droplet with empty valves
-		assertEquals("", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEmpty();
+		;
 		
 		droplet.addDevice(flash1);
 		droplet.addDevice(flash2);
 		
 		// droplet with empty flashes
-		assertEquals("", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEmpty();
+		;
 		
 		droplet.addDevice(camera1);
 		droplet.addDevice(camera2);
 		
 		// droplet with empty cameras
-		assertEquals("", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEmpty();
+		;
 		
 		valve1.addAction(action1);
 		valve1.addAction(action2);
 		valve1.addAction(action3);
 		
-		assertEquals("S;1;V;0|0;0|0;0|0^0\n", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEqualTo("S;1;V;0|0;0|0;0|0^0\n");
 		
 		valve2.addAction(action3);
 		valve2.addAction(action2);
 		
-		assertEquals("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\n", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEqualTo("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\n");
 		
 		flash2.addAction(action4);
 		flash2.addAction(action5);
 		
-		assertEquals("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\nS;4;F;0;0^0\n", protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEqualTo("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\nS;4;F;0;0^0\n");
 		
 		camera1.addAction(action2);
 		
 		// droplet with actions that have no times
-		assertEquals("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\nS;4;F;0;0^0\nS;5;C;0|0^0\n",
-				protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet))
+				.isEqualTo("S;1;V;0|0;0|0;0|0^0\nS;2;V;0|0;0|0^0\nS;4;F;0;0^0\nS;5;C;0|0^0\n");
 		
 		action1.setOffset(0);
 		action1.setDuration(20);
@@ -142,22 +145,21 @@ public class ArduXposureMessageProtocolTest {
 		action5.setOffset(105);
 		
 		// droplet with actions that have times
-		assertEquals("S;1;V;0|20;20|40;80|100^260\nS;2;V;80|100;20|40^240\nS;4;F;5;105^110\nS;5;C;20|40^60\n",
-				protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet))
+				.isEqualTo("S;1;V;0|20;20|40;80|100^260\nS;2;V;80|100;20|40^240\nS;4;F;5;105^110\nS;5;C;20|40^60\n");
 		
 		// devices can have all types of actions
 		camera2.addAction(action1);
 		camera2.addAction(action5);
 		
-		assertEquals(
-				"S;1;V;0|20;20|40;80|100^260\nS;2;V;80|100;20|40^240\nS;4;F;5;105^110\nS;5;C;20|40^60\nS;6;C;0|20;105^125\n",
-				protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet)).isEqualTo(
+				"S;1;V;0|20;20|40;80|100^260\nS;2;V;80|100;20|40^240\nS;4;F;5;105^110\nS;5;C;20|40^60\nS;6;C;0|20;105^125\n");
 		
 		// test disabled actions
 		action2.setEnabled(false);
 		
-		assertEquals("S;1;V;0|20;80|100^200\nS;2;V;80|100^180\nS;4;F;5;105^110\nS;6;C;0|20;105^125\n",
-				protocol.createSetMessage(droplet));
+		assertThat(protocol.createSetMessage(droplet))
+				.isEqualTo("S;1;V;0|20;80|100^200\nS;2;V;80|100^180\nS;4;F;5;105^110\nS;6;C;0|20;105^125\n");
 		
 	}
 	
@@ -178,10 +180,10 @@ public class ArduXposureMessageProtocolTest {
 		droplet.addDevice(flash1);
 		droplet.addDevice(camera1);
 		
-		assertEquals("H;1", protocol.createDeviceOnMessage(droplet, valve1));
-		assertEquals("H;2", protocol.createDeviceOnMessage(droplet, valve2));
-		assertEquals("H;3", protocol.createDeviceOnMessage(droplet, flash1));
-		assertEquals("H;4", protocol.createDeviceOnMessage(droplet, camera1));
+		assertThat(protocol.createDeviceOnMessage(droplet, valve1)).isEqualTo("H;1");
+		assertThat(protocol.createDeviceOnMessage(droplet, valve2)).isEqualTo("H;2");
+		assertThat(protocol.createDeviceOnMessage(droplet, flash1)).isEqualTo("H;3");
+		assertThat(protocol.createDeviceOnMessage(droplet, camera1)).isEqualTo("H;4");
 		
 	}
 	
@@ -202,10 +204,10 @@ public class ArduXposureMessageProtocolTest {
 		droplet.addDevice(flash1);
 		droplet.addDevice(camera1);
 		
-		assertEquals("L;1", protocol.createDeviceOffMessage(droplet, valve1));
-		assertEquals("L;2", protocol.createDeviceOffMessage(droplet, valve2));
-		assertEquals("L;3", protocol.createDeviceOffMessage(droplet, flash1));
-		assertEquals("L;4", protocol.createDeviceOffMessage(droplet, camera1));
+		assertThat(protocol.createDeviceOffMessage(droplet, valve1)).isEqualTo("L;1");
+		assertThat(protocol.createDeviceOffMessage(droplet, valve2)).isEqualTo("L;2");
+		assertThat(protocol.createDeviceOffMessage(droplet, flash1)).isEqualTo("L;3");
+		assertThat(protocol.createDeviceOffMessage(droplet, camera1)).isEqualTo("L;4");
 	}
 	
 }

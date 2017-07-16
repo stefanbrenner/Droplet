@@ -19,8 +19,7 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.utils;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ import org.mangosdk.spi.ProviderFor;
 
 /**
  * @author Stefan Brenner
- * 
+ *
  */
 public class PluginProviderTest {
 	
@@ -63,15 +62,15 @@ public class PluginProviderTest {
 	@Test
 	public void testPluginLoader() {
 		// find both service provider
-		assertEquals(2, PluginLoader.getPlugins(ITestService.class).size());
+		assertThat(PluginLoader.getPlugins(ITestService.class).size()).isEqualTo(2);
 		
 		List<String> results = new ArrayList<String>();
 		for (ITestService service : PluginLoader.getPlugins(ITestService.class)) {
 			results.add(service.getServiceName());
 		}
 		
-		assertTrue(results.contains("TestServiceProvider1"));
-		assertTrue(results.contains("TestServiceProvider2"));
+		assertThat(results.contains("TestServiceProvider1")).isTrue();
+		assertThat(results.contains("TestServiceProvider2")).isTrue();
 		
 	}
 	

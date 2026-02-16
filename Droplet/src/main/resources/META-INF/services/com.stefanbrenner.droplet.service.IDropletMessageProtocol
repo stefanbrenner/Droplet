@@ -1,3 +1,0 @@
-com.stefanbrenner.droplet.service.impl.DropletMessageProtocol
-com.stefanbrenner.droplet.service.impl.SimpleMessageProtocol
-com.stefanbrenner.droplet.service.impl.ArduXposureMessageProtocol

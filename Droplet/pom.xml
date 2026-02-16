@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stefanbrenner</groupId>
 	<artifactId>droplet</artifactId>
-	<version>0.1.3</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>Droplet</name>
 	<description>Toolkit for High-Speed-Photography</description>
 	<url>http://www.droplet.at</url>
@@ -15,15 +16,22 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+		<maven.compiler.release>21</maven.compiler.release>
 
-	<repositories>
-		<repository>
-			<id>EBI</id>
-			<name>EBI Repository</name>
-			<url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
-		</repository>
-	</repositories>
+		<commons-lang.version>3.18.0</commons-lang.version>
+		<commons-io.version>2.15.1</commons-io.version>
+		<jaxb.version>3.0.0</jaxb.version>
+		<xmp.version>6.1.11</xmp.version>
+		<lombok.version>1.18.30</lombok.version>
+		<logback.version>1.5.25</logback.version>
+		<slf4j.version>2.0.12</slf4j.version>
+		<jserialcomm.version>2.11.0</jserialcomm.version>
+		<configbuilder.version>1.8.1</configbuilder.version>
+		<jgoodies.version>2.13.0</jgoodies.version>
+		<ikonli.version>12.3.1</ikonli.version>
+		<junit.version>5.10.2</junit.version>
+		<assertj.version>3.27.7</assertj.version>
+	</properties>
 
 	<dependencies>
 
@@ -31,92 +39,108 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.6</version>
+			<version>${commons-lang.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
+			<version>${commons-io.version}</version>
+		</dependency>
+
+		<!-- JAXB -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>${jaxb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>${jaxb.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>1.2.3</version>
+			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
+			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 		<!-- read/write metadata -->
 		<dependency>
 			<groupId>com.adobe.xmp</groupId>
 			<artifactId>xmpcore</artifactId>
-			<version>6.1.10</version>
+			<version>${xmp.version}</version>
 		</dependency>
 
 		<!-- code generation -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.18</version>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<!-- serial communication -->
 		<dependency>
-			<groupId>com.neuronrobotics</groupId>
-			<artifactId>nrjavaserial</artifactId>
-			<version>3.12.1</version>
-		</dependency>
-		
-		<!-- plugin system -->
-		<dependency>
-			<groupId>org.mangosdk.spi</groupId>
-			<artifactId>spi</artifactId>
-			<version>0.2.4</version>
+		    <groupId>com.fazecast</groupId>
+		    <artifactId>jSerialComm</artifactId>
+		    <version>${jserialcomm.version}</version>
 		</dependency>
 
 		<!-- configuration -->
 		<dependency>
 			<groupId>com.tngtech.java</groupId>
 			<artifactId>config-builder</artifactId>
-			<version>1.4.4</version>
+			<version>${configbuilder.version}</version>
 		</dependency>
 
 		<!-- jgoodies -->
 		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-binding</artifactId>
-			<version>2.13.0</version>
+			<version>${jgoodies.version}</version>
 		</dependency>
 
-		<!-- ui handler for OSX -->
+		<!-- icons -->
 		<dependency>
-			<groupId>mrj</groupId>
-			<artifactId>MRJToolkitStubs</artifactId>
-			<version>1.0</version>
+			<groupId>org.kordamp.ikonli</groupId>
+			<artifactId>ikonli-swing</artifactId>
+			<version>${ikonli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kordamp.ikonli</groupId>
+			<artifactId>ikonli-fontawesome5-pack</artifactId>
+			<version>${ikonli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kordamp.ikonli</groupId>
+			<artifactId>ikonli-fontawesome-pack</artifactId>
+			<version>${ikonli.version}</version>
 		</dependency>
 
 		<!-- test -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.8.0</version>
+			<version>${assertj.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -124,57 +148,166 @@
 
 	<profiles>
 		<profile>
-			<id>osx</id>
+			<id>win</id>
 			<build>
 				<plugins>
-
-					<!-- create DMG for OSX -->
+					<!-- create MSI for windows -->
 					<plugin>
-						<groupId>sh.tak.appbundler</groupId>
-						<artifactId>appbundle-maven-plugin</artifactId>
-						<version>1.2.0</version>
-						<configuration>
-							<bundleName>Droplet</bundleName>
-							<mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
-							<iconFile>droplet.icns</iconFile>
-							<generateDiskImageFile>true</generateDiskImageFile>
-							<jvmVersion>1.8*</jvmVersion>
-							<additionalResources>
-								<fileSet>
-									<directory>${basedir}</directory>
-									<includes>
-										<include>README</include>
-										<include>RELEASE-NOTES</include>
-										<include>COPYING</include>
-									</includes>
-								</fileSet>
-							</additionalResources>
-						</configuration>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
 						<executions>
 							<execution>
+								<id>jpackage-msi</id>
 								<phase>package</phase>
 								<goals>
-									<goal>bundle</goal>
+									<goal>exec</goal>
 								</goals>
+								<configuration>
+									<executable>jpackage</executable>
+									<arguments>
+										<argument>--type</argument><argument>msi</argument>
+										<argument>--name</argument><argument>Droplet</argument>
+										<argument>--app-version</argument><argument>${project.version}</argument>
+										<argument>--input</argument><argument>${project.build.directory}</argument>
+										<argument>--main-jar</argument><argument>${project.artifactId}.jar</argument>
+										<argument>--dest</argument><argument>${project.build.directory}/dist</argument>
+										<argument>--vendor</argument><argument>Stefan Brenner</argument>
+										<argument>--win-menu</argument>
+										<argument>--win-shortcut</argument>
+										<argument>--win-dir-chooser</argument>
+										<argument>--icon</argument><argument>icons/droplet.ico</argument>
+									</arguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
+		<profile>
+			<id>osx</id>
+			<build>
+				<plugins>
+					<!-- create DMG for OSX -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>jpackage-dmg</id>
+								<phase>package</phase>
+								<goals><goal>exec</goal></goals>
+								<configuration>
+									<executable>jpackage</executable>
+									<arguments>
+										<argument>--type</argument><argument>dmg</argument>
+										<argument>--name</argument><argument>Droplet</argument>
+										<argument>--app-version</argument><argument>2.0.0</argument>
+										<argument>--input</argument><argument>${project.build.directory}</argument>
+										<argument>--main-jar</argument><argument>${project.artifactId}.jar</argument>
+										<argument>--dest</argument><argument>${project.build.directory}/dist</argument>
+										<argument>--vendor</argument><argument>Stefan Brenner</argument>
+										<argument>--icon</argument><argument>icons/droplet.icns</argument>
+										<argument>--java-options</argument><argument>-Dapple.laf.useScreenMenuBar=true</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+				<version>3.12.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.4.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.6.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<transformers>
+								<!-- WICHTIG für Ikonli (ServiceLoader) -->
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.stefanbrenner.droplet.ui.DropletMainFrame</mainClass>
+								</transformer>
+							</transformers>
+							<finalName>${project.artifactId}</finalName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedPlugins>
+									<!-- will only display a warning but does
+									not fail the build. -->
+									<level>WARN</level>
+									<excludes>
+										<exclude>
+											org.apache.maven.plugins:maven-verifier-plugin</exclude>
+									</excludes>
+									<message>
+										Please consider using the
+										maven-invoker-plugin
+										(http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
+								</bannedPlugins>
+								<requireMavenVersion>
+									<version>3.0.5</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>21</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.7</version>
 			</plugin>
 		</plugins>
 	</build>

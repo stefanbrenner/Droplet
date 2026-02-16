@@ -38,6 +38,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.swing.FontIcon;
 
 import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -46,6 +50,7 @@ import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IMetadataProcessingService;
 import com.stefanbrenner.droplet.service.impl.XMPMetadataService;
+import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
@@ -59,19 +64,14 @@ public class ProcessingPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final JCheckBox cbEnable;
-	
-	private final JFileChooser fileChooser;
-	
 	private final IMetadata metadata;
+	private final IMetadataProcessingService metadataService;
 	
-	private IMetadataProcessingService metadataService;
-	
+	private final JCheckBox cbEnable;
+	private final JFileChooser fileChooser;
 	private JTextField txtWatchFolder;
-	
-	private JTextArea txtComments;
-	
-	private JTextArea txtTags;
+	private final JTextArea txtComments;
+	private final JTextArea txtTags;
 	
 	/**
 	 * Create the panel.
@@ -85,8 +85,7 @@ public class ProcessingPanel extends JPanel {
 		this.metadataService = new XMPMetadataService(metadata, dropletContext);
 		
 		setLayout(new GridBagLayout());
-		setBorder(BorderFactory.createTitledBorder(Messages.getString("ProcessingPanel.title"))); //$NON-NLS-1$
-		setMinimumSize(new Dimension(400, 200));
+		setMinimumSize(new Dimension(300, 20));
 		
 		BeanAdapter<IMetadata> adapter = new BeanAdapter<IMetadata>(metadata, true);
 		
@@ -124,6 +123,9 @@ public class ProcessingPanel extends JPanel {
 			
 			txtWatchFolder = new JTextField();
 			txtWatchFolder.setEditable(false);
+			txtWatchFolder.setBackground(DropletColors.DARK_GRAY);
+			txtWatchFolder.setForeground(DropletColors.WHITE);
+			txtWatchFolder.setBorder(BorderFactory.createLineBorder(DropletColors.BLACK, 1));
 			watchFolderPanel.add(txtWatchFolder, BorderLayout.CENTER);
 			
 			// file chooser for watch folder
@@ -131,7 +133,9 @@ public class ProcessingPanel extends JPanel {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			
 			// watch folder button
-			JButton btnWatchFolder = new JButton("..."); //$NON-NLS-1$
+			JButton btnWatchFolder = new JButton(FontIcon.of(FontAwesome.FOLDER_OPEN, 16, DropletColors.GRAY));
+			btnWatchFolder.setRolloverIcon(FontIcon.of(FontAwesome.FOLDER_OPEN, 16, DropletColors.WHITE));
+			btnWatchFolder.setBorderPainted(false);
 			btnWatchFolder.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent evt) {
@@ -148,8 +152,10 @@ public class ProcessingPanel extends JPanel {
 		}
 		
 		// comments label
-		UiUtils.editGridBagConstraints(gbc, 0, 2, 0, 1, GridBagConstraints.NORTHEAST);
-		add(new JLabel(Messages.getString("ProcessingPanel.comments")), gbc); //$NON-NLS-1$
+		UiUtils.editGridBagConstraints(gbc, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START);
+		JLabel lbComments = new JLabel(Messages.getString("ProcessingPanel.comments"));
+		lbComments.setVerticalAlignment(SwingConstants.TOP);
+		add(lbComments, gbc); // $NON-NLS-1$
 		
 		txtComments = BasicComponentFactory.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_DESCRIPTION),
 				false);
@@ -157,25 +163,37 @@ public class ProcessingPanel extends JPanel {
 		txtComments.setColumns(20);
 		txtComments.setFont(DropletFonts.FONT_STANDARD_SMALL);
 		txtComments.setLineWrap(true);
+		txtComments.setBackground(DropletColors.DARK_GRAY);
+		txtComments.setForeground(DropletColors.WHITE);
+		txtComments.setCaretColor(DropletColors.WHITE);
+		txtComments.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		UiUtils.disableTab(txtComments);
 		JScrollPane commentsScrollPane = new JScrollPane(txtComments);
 		UiUtils.editGridBagConstraints(gbc, 1, 2, 1, 1);
+		commentsScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		commentsScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(commentsScrollPane, gbc);
 		
 		// tag label
-		UiUtils.editGridBagConstraints(gbc, 2, 2, 0, 1, GridBagConstraints.NORTHEAST);
-		add(new JLabel(Messages.getString("ProcessingPanel.tags")), gbc); //$NON-NLS-1$
+		UiUtils.editGridBagConstraints(gbc, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START);
+		JLabel lbTags = new JLabel(Messages.getString("ProcessingPanel.tags"));
+		lbTags.setVerticalAlignment(SwingConstants.TOP);
+		add(lbTags, gbc); // $NON-NLS-1$
 		
 		txtTags = BasicComponentFactory.createTextArea(adapter.getValueModel(IMetadata.PROPERTY_TAGS), false);
 		txtTags.setRows(4);
 		txtTags.setColumns(20);
 		txtTags.setFont(DropletFonts.FONT_STANDARD_SMALL);
 		txtTags.setLineWrap(true);
+		txtTags.setBackground(DropletColors.DARK_GRAY);
+		txtTags.setForeground(DropletColors.WHITE);
+		txtTags.setCaretColor(DropletColors.WHITE);
+		txtTags.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		UiUtils.disableTab(txtTags);
 		JScrollPane tagScrollPane = new JScrollPane(txtTags);
 		UiUtils.editGridBagConstraints(gbc, 3, 2, 1, 1, GridBagConstraints.EAST);
 		tagScrollPane.getVerticalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
+		tagScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		add(tagScrollPane, gbc);
 		
 		initValuesFromConfiguration();

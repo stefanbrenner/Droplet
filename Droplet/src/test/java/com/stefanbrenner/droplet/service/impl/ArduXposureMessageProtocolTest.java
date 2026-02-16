@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDroplet;
@@ -41,10 +41,10 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
  * @author Stefan Brenner
  *
  */
-public class ArduXposureMessageProtocolTest {
+class ArduXposureMessageProtocolTest {
 	
 	@Test
-	public void testCreateStartMessage() {
+	void testCreateStartMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
 		assertThat(Arrays.equals(new byte[] { 1, 1, 0 }, protocol.createStartMessage().getBytes())).isTrue();
 		assertThat(Arrays.equals(new byte[] { 1, 1, 0 }, protocol.createStartMessage(1, 0).getBytes())).isTrue();
@@ -56,19 +56,19 @@ public class ArduXposureMessageProtocolTest {
 	}
 	
 	@Test
-	public void testCreateInfoMessage() {
+	void testCreateInfoMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
 		assertThat(protocol.createInfoMessage()).isEqualTo("I");
 	}
 	
 	@Test
-	public void testCreateResetMessage() {
+	void testCreateResetMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
 		assertThat(protocol.createResetMessage()).isEqualTo("X");
 	}
 	
 	@Test
-	public void testCreateSetMessage() {
+	void testCreateSetMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
 		
 		IDroplet droplet = new Droplet();
@@ -164,7 +164,7 @@ public class ArduXposureMessageProtocolTest {
 	}
 	
 	@Test
-	public void testCreateOnMessage() {
+	void testCreateOnMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
 		
 		IDroplet droplet = new Droplet();
@@ -188,7 +188,7 @@ public class ArduXposureMessageProtocolTest {
 	}
 	
 	@Test
-	public void testCreateOffMessage() {
+	void testCreateOffMessage() {
 		IDropletMessageProtocol protocol = new ArduXposureMessageProtocol();
 		
 		IDroplet droplet = new Droplet();

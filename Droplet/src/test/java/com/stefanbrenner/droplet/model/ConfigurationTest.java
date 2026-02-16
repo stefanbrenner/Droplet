@@ -21,7 +21,7 @@ package com.stefanbrenner.droplet.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
@@ -32,10 +32,10 @@ import com.stefanbrenner.droplet.service.impl.DropletMessageProtocol;
 /**
  * @author Stefan Brenner
  */
-public class ConfigurationTest {
+class ConfigurationTest {
 	
 	@Test
-	public void testSerialCommunicationPrefs() {
+	void testSerialCommunicationPrefs() {
 		
 		ISerialCommunicationService arduinoService = new ArduinoService();
 		
@@ -48,7 +48,7 @@ public class ConfigurationTest {
 	}
 	
 	@Test
-	public void testMessageProtocolPrefs() {
+	void testMessageProtocolPrefs() {
 		
 		IDropletMessageProtocol messageProtocol = new DropletMessageProtocol();
 		

@@ -20,15 +20,12 @@
 package com.stefanbrenner.droplet.ui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.Action;
 import javax.swing.JFrame;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.PreferencesDialog;
 import com.stefanbrenner.droplet.utils.Messages;
-import com.stefanbrenner.droplet.utils.UiUtils;
 
 /**
  * Action to show droplet preferences.
@@ -40,8 +37,6 @@ public class PreferencesAction extends AbstractDropletAction {
 	
 	public PreferencesAction(final JFrame frame, final IDropletContext dropletContext) {
 		super(frame, dropletContext, Messages.getString("PreferencesAction.Title")); //$NON-NLS-1$
-		
-		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_COMMA));
 	}
 	
 	@Override

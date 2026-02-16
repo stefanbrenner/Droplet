@@ -27,6 +27,8 @@ import javax.swing.JFrame;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.model.IMetadata;
 import com.stefanbrenner.droplet.model.internal.Configuration;
+import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
@@ -49,17 +51,23 @@ public class ExitAction extends AbstractDropletAction {
 	
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		// TODO brenner: warn about unsaved changes
 		
-		log.debug("Shutting down ...");
+		// send off to all devices
+		log.debug("send off to all devices");
+		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
+		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
+		
+		getDroplet().getDevices().forEach(d -> {
+			String message = messageProtocolProvider.createDeviceOffMessage(getDropletContext().getDroplet(), d);
+			serialCommProvider.sendData(message);
+		});
 		
 		// save data to configuration
+		log.debug("save data to configuration");
 		IMetadata metadata = getDropletContext().getMetadata();
 		Configuration.setMetadataComments(metadata.getDescription());
 		Configuration.setMetadataTags(metadata.getTags());
 		Configuration.setSerialCommPort(getDropletContext().getPort());
-		
-		log.debug("Successfully saved settings");
 		
 		getFrame().dispose();
 		System.exit(0);

@@ -30,7 +30,6 @@ import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.xml.bind.JAXBException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,6 +38,8 @@ import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 import com.stefanbrenner.droplet.xml.JAXBHelper;
+
+import jakarta.xml.bind.JAXBException;
 
 /**
  * Action to save a droplet configuration.

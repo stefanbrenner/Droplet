@@ -33,34 +33,24 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Stefan Brenner
  */
-public class UiUtilsTest {
+class UiUtilsTest {
 	
 	@Test
-	public void testFormatMillis() {
-		assertThat(UiUtils.formatMillis(1000)).isEqualTo("0h 0min 1sec 0ms");
-		assertThat(UiUtils.formatMillis(1001)).isEqualTo("0h 0min 1sec 1ms");
-		assertThat(UiUtils.formatMillis(1999)).isEqualTo("0h 0min 1sec 999ms");
-		assertThat(UiUtils.formatMillis(59999)).isEqualTo("0h 0min 59sec 999ms");
-		
-		assertThat(UiUtils.formatMillis(60000)).isEqualTo("0h 1min 0sec 0ms");
-		assertThat(UiUtils.formatMillis(60001)).isEqualTo("0h 1min 0sec 1ms");
-		assertThat(UiUtils.formatMillis(61001)).isEqualTo("0h 1min 1sec 1ms");
-		assertThat(UiUtils.formatMillis(119999)).isEqualTo("0h 1min 59sec 999ms");
-		assertThat(UiUtils.formatMillis(3599999)).isEqualTo("0h 59min 59sec 999ms");
-		
-		assertThat(UiUtils.formatMillis(3600000)).isEqualTo("1h 0min 0sec 0ms");
-		assertThat(UiUtils.formatMillis(3661001)).isEqualTo("1h 1min 1sec 1ms");
-		assertThat(UiUtils.formatMillis(7199999)).isEqualTo("1h 59min 59sec 999ms");
-		assertThat(UiUtils.formatMillis(89999999)).isEqualTo("24h 59min 59sec 999ms");
+	void testFormatMillis() {
+		assertThat(UiUtils.formatSeconds(1)).isEqualTo("0h 0min 1sec");
+		assertThat(UiUtils.formatSeconds(61)).isEqualTo("0h 1min 1sec");
+		assertThat(UiUtils.formatSeconds(3601)).isEqualTo("1h 0min 1sec");
+		assertThat(UiUtils.formatSeconds(3599)).isEqualTo("0h 59min 59sec");
+		assertThat(UiUtils.formatSeconds(86399)).isEqualTo("23h 59min 59sec");
 	}
 	
 	@Test
-	public void testSetEnabledRecursive() {
+	void testSetEnabledRecursive() {
 		JPanel testPanel = new JPanel();
 		
 		JButton btnTest = new JButton();
@@ -136,7 +126,7 @@ public class UiUtilsTest {
 	}
 	
 	@Test
-	public void testSetEnabled() {
+	void testSetEnabled() {
 		JPanel testPanel = new JPanel();
 		
 		JButton btnTest = new JButton();
@@ -217,7 +207,7 @@ public class UiUtilsTest {
 	}
 	
 	@Test
-	public void testCreateGridBagConstraints() {
+	void testCreateGridBagConstraints() {
 		
 		GridBagConstraints gbc = UiUtils.createGridBagConstraints(3, 4);
 		assertThat(gbc.gridx).isEqualTo(3);
@@ -252,7 +242,7 @@ public class UiUtilsTest {
 	}
 	
 	@Test
-	public void testEditGridBagConstraints() {
+	void testEditGridBagConstraints() {
 		GridBagConstraints gbc = new GridBagConstraints(1, 2, 3, 4, 5.0, 6.0, GridBagConstraints.WEST,
 				GridBagConstraints.BOTH, new Insets(1, 2, 3, 4), 9, 0);
 		

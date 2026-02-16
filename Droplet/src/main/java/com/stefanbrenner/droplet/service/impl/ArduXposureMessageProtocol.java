@@ -22,9 +22,7 @@ package com.stefanbrenner.droplet.service.impl;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
@@ -41,7 +39,6 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
  * 
  * @author Stefan Brenner
  */
-@ProviderFor(IDropletMessageProtocol.class)
 public class ArduXposureMessageProtocol implements IDropletMessageProtocol {
 	
 	// meta characters
@@ -86,29 +83,9 @@ public class ArduXposureMessageProtocol implements IDropletMessageProtocol {
 	@Override
 	public String createStartMessage(final int rounds, final int delay) {
 		
-		byte[] result = new byte[] { ArduXposureMessageProtocol.COMMAND_RELEASE, (byte) rounds, (byte) delay };
+		byte[] result = new byte[] { ArduXposureMessageProtocol.COMMAND_RELEASE, (byte) rounds, (byte) (delay * 1000) };
 		
 		return new String(result);
-	}
-	
-	/**
-	 * Concat bytes to one byte array.
-	 */
-	private static final byte[] concat(final byte[]... bytes) {
-		byte[] result = new byte[] {};
-		
-		for (byte[] b : bytes) {
-			for (byte element : b) {
-				ArrayUtils.add(result, element);
-			}
-		}
-		
-		return result;
-	}
-	
-	private static final byte[] intToByteArray(final int value, final int bytes) {
-		byte[] result = new byte[] { (byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value };
-		return ArrayUtils.subarray(result, 0, bytes - 1);
 	}
 	
 	@Override
@@ -116,7 +93,7 @@ public class ArduXposureMessageProtocol implements IDropletMessageProtocol {
 		
 		String result = StringUtils.EMPTY;
 		
-		for (IActionDevice d : droplet.getDevices(IActionDevice.class)) {
+		for (IActionDevice d : droplet.getEnabledDevices(IActionDevice.class)) {
 			
 			Class<? extends IActionDevice> deviceClass = d.getClass();
 			

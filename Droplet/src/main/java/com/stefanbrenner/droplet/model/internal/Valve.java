@@ -21,14 +21,13 @@ package com.stefanbrenner.droplet.model.internal;
 
 import java.awt.Color;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -45,7 +44,7 @@ public class Valve extends AbstractActionDevice implements IValve {
 	
 	@XmlAttribute(name = "Color")
 	@XmlJavaTypeAdapter(ColorAdapter.class)
-	private Color color;
+	private Color color = Color.WHITE;
 	
 	@Override
 	public void setColor(final Color color) {
@@ -58,7 +57,7 @@ public class Valve extends AbstractActionDevice implements IValve {
 	}
 	
 	@Override
-	public IDurationAction createNewAction() {
+	public IDurationAction createNewActionInternal() {
 		return new DurationAction();
 	}
 	

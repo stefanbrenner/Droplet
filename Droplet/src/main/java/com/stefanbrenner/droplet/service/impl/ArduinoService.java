@@ -19,21 +19,20 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.service.impl;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
-import java.util.TooManyListenersException;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mangosdk.spi.ProviderFor;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortEvent;
+import com.fazecast.jSerialComm.SerialPortMessageListener;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.service.ISerialCommunicationService;
 
-import gnu.io.NRSerialPort;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -45,9 +44,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author Stefan Brenner
  */
-@ProviderFor(ISerialCommunicationService.class)
 @Slf4j
-public class ArduinoService implements ISerialCommunicationService, SerialPortEventListener {
+public class ArduinoService implements ISerialCommunicationService, SerialPortMessageListener {
 	
 	private static final char NEWLINE = '\n';
 	
@@ -55,10 +53,8 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	private static final int DATA_RATE = 9600;
 	
 	/** connected port information. **/
-	private static NRSerialPort connSerialPort = null;
+	private static SerialPort connSerialPort = null;
 	
-	/** input stream for sending data. **/
-	private static DataInputStream input = null;
 	/** output streams for receiving data. **/
 	private static DataOutputStream output = null;
 	
@@ -71,81 +67,68 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	
 	@Override
 	public Set<String> getPorts() {
-		return NRSerialPort.getAvailableSerialPorts();
+		return Arrays.asList(SerialPort.getCommPorts()) //
+				.stream().map(SerialPort::getSystemPortPath) //
+				.collect(Collectors.toSet());
 	}
 	
 	@Override
 	public synchronized boolean connect(final String portId, final IDropletContext context) {
-		try {
-			dropletContext = context;
-			
-			log.debug("Connect to port: " + portId);
-			
-			// try to open a connection to the serial port
-			connSerialPort = new NRSerialPort(portId, DATA_RATE);
-			
-			if (!connSerialPort.connect()) {
-				log.error("Error connecting to port {}", portId);
-				return false;
-			}
-			
-			// open the streams
-			input = new DataInputStream(connSerialPort.getInputStream());
-			output = new DataOutputStream(connSerialPort.getOutputStream());
-			
-			// add event listeners
-			connSerialPort.addEventListener(this);
-			connSerialPort.notifyOnDataAvailable(true);
-			
-			log.info("Connection to port " + portId + " successful established");
-			
-			return true;
-			
-		} catch (TooManyListenersException e) {
-			log.error("Error connecting to port {}", portId, e);
+		dropletContext = context;
+		
+		log.debug("Connect to port: " + portId);
+		
+		// try to open a connection to the serial port
+		var connSerialPortOpt = Arrays.asList(SerialPort.getCommPorts()) //
+				.stream() //
+				.filter(p -> StringUtils.equals(p.getSystemPortPath(), portId)) //
+				.findFirst();
+		
+		if (connSerialPortOpt.isEmpty()) {
+			log.error("Error connecting to port {}", portId);
+			return false;
 		}
 		
-		return false;
+		connSerialPort = connSerialPortOpt.get();
+		connSerialPort.setBaudRate(DATA_RATE);
+		
+		if (!connSerialPort.openPort()) {
+			log.error("Error connecting to port {}", portId);
+			return false;
+		}
+		
+		// open the streams
+		output = new DataOutputStream(connSerialPort.getOutputStream());
+		
+		// add event listeners
+		connSerialPort.addDataListener(this);
+		
+		log.info("Connection to port " + portId + " successful established");
+		
+		return true;
 	}
 	
 	@Override
 	public synchronized void close() {
 		if (connSerialPort != null) {
 			
-			log.debug("close connection to port {}", connSerialPort.getSerialPortInstance().getName());
+			log.debug("close connection to port {}", connSerialPort.getPortDescription());
 			
-			connSerialPort.removeEventListener();
-			connSerialPort.disconnect();
+			connSerialPort.removeDataListener();
+			connSerialPort.closePort();
 		}
 	}
 	
 	@Override
 	public void serialEvent(final SerialPortEvent event) {
-		if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-			int data;
-			byte[] buffer = new byte[1024];
-			try {
-				int len = 0;
-				while ((data = input.read()) > -1) {
-					if (data == NEWLINE) {
-						break;
-					}
-					buffer[len++] = (byte) data;
-				}
-				
-				// TODO brenner: integrate message protocol to parse result
-				// message
-				
-				// add message to model
-				String message = new String(buffer, 0, len);
-				
-				log.debug("Received message: {}", message);
-				
-				dropletContext.addLoggingMessage(message);
-			} catch (IOException e) {
-				log.error("Error receiving data", e);
-			}
-		}
+		byte[] newData = event.getReceivedData();
+		int numRead = newData.length;
+		
+		String message = new String(newData, 0, numRead).trim();
+		
+		log.debug("Received message: {}", message);
+		
+		dropletContext.addLoggingMessage(message);
 	}
 	
 	// TODO brenner: implement a two way synchronous communication protocol
@@ -197,7 +180,22 @@ public class ArduinoService implements ISerialCommunicationService, SerialPortEv
 	
 	@Override
 	public synchronized boolean isConnected() {
-		return connSerialPort != null && connSerialPort.isConnected();
+		return connSerialPort != null && connSerialPort.isOpen();
+	}
+	
+	@Override
+	public int getListeningEvents() {
+		return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+	}
+	
+	@Override
+	public byte[] getMessageDelimiter() {
+		return new byte[] { '\n' };
+	}
+	
+	@Override
+	public boolean delimiterIndicatesEndOfMessage() {
+		return true;
 	}
 	
 }

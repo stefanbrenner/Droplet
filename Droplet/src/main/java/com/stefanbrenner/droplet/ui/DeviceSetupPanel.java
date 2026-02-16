@@ -20,24 +20,24 @@
 package com.stefanbrenner.droplet.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.utils.Messages;
+import com.stefanbrenner.droplet.model.IDropletContext;
 
 /**
  * Panel to setup one droplet device.
@@ -48,6 +48,7 @@ public class DeviceSetupPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private IDropletContext dropletContext;
 	private IDroplet droplet;
 	
 	private final JPanel container;
@@ -55,17 +56,18 @@ public class DeviceSetupPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public DeviceSetupPanel(final IDroplet droplet) {
+	public DeviceSetupPanel(final JFrame frame, final IDropletContext dropletContext) {
 		
 		setLayout(new BorderLayout());
-		setMinimumSize(new Dimension(Short.MIN_VALUE, 200));
+		setMinimumSize(new Dimension(300, 200));
 		
 		container = new JPanel();
 		
 		// configure ui appearance and behavior
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
-		container.setBorder(BorderFactory.createTitledBorder(Messages.getString("DeviceSetupPanel.title"))); //$NON-NLS-1$
+		container.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 		container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		container.setBackground(Color.LIGHT_GRAY);
 		
 		JScrollPane scrollPane = new JScrollPane(container, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -74,32 +76,25 @@ public class DeviceSetupPanel extends JPanel {
 		scrollPane.getHorizontalScrollBar().putClientProperty("JComponent.sizeVariant", "mini"); //$NON-NLS-1$ //$NON-NLS-2$
 		add(scrollPane, BorderLayout.CENTER);
 		
+		// add toolbar
+		JToolBar toolbar = new DropletDevicesToolbar(frame, dropletContext);
+		add(toolbar, BorderLayout.WEST);
+		
 		// set model object
-		setDroplet(droplet);
+		setDropletContext(dropletContext);
+		
+		// // add listener
+		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET,
+				e -> setDropletContext(dropletContext));
 		
 	}
 	
 	private void updatePanels() {
 		// remove previous components
 		container.removeAll();
-		// add components
-		container.add(Box.createRigidArea(new Dimension(10, 0)));
+		
 		// add devices panels
-		List<IDevice> devices = droplet.getDevices(IDevice.class);
-		// sort devices
-		Collections.sort(devices, droplet.getDeviceComparator());
-		for (IDevice device : devices) {
-			DevicePanel<?> devicePanel;
-			
-			if (device instanceof IActionDevice) {
-				devicePanel = new ActionDevicePanel(this, droplet, (IActionDevice) device);
-			} else {
-				devicePanel = new DevicePanel<IDevice>(this, droplet, device);
-			}
-			
-			container.add(devicePanel);
-			container.add(Box.createRigidArea(new Dimension(10, 0)));
-		}
+		droplet.getDevices().stream().sorted(droplet.getDeviceComparator()).forEach(this::addDevice);
 		
 		container.add(Box.createHorizontalGlue());
 		
@@ -108,25 +103,30 @@ public class DeviceSetupPanel extends JPanel {
 		
 	}
 	
-	public IDroplet getDroplet() {
-		return droplet;
+	private void addDevice(final IDevice device) {
+		DevicePanel<?> devicePanel;
+		
+		if (device instanceof IActionDevice) {
+			devicePanel = new ActionDevicePanel(this, dropletContext, (IActionDevice) device);
+		} else {
+			devicePanel = new DevicePanel<IDevice>(this, dropletContext, device);
+		}
+		
+		container.add(devicePanel);
+		container.add(Box.createRigidArea(new Dimension(10, 0)));
 	}
 	
-	private final PropertyChangeListener updateListener = new PropertyChangeListener() {
-		@Override
-		public void propertyChange(final PropertyChangeEvent evt) {
-			updatePanels();
-		}
-	};
-	
-	public void setDroplet(final IDroplet droplet) {
+	public void setDropletContext(final IDropletContext dropletContext) {
 		
 		unregisterListener();
-		this.droplet = droplet;
+		this.dropletContext = dropletContext;
+		this.droplet = dropletContext.getDroplet();
 		registerListener();
 		
 		updatePanels();
 	}
+	
+	private final PropertyChangeListener updateListener = e -> updatePanels();
 	
 	private void registerListener() {
 		if (droplet != null) {

@@ -23,12 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IValve;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -45,9 +46,10 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 	
 	@XmlElement(name = "Action",
 			type = Action.class)
-	
 	@XmlElementWrapper(name = "Actions")
 	private List<IAction> actions = new ArrayList<IAction>();
+	@XmlAttribute(name = "Calibration")
+	private int calibration;
 	
 	@Override
 	public List<IAction> getEnabledActions() {
@@ -80,5 +82,19 @@ public abstract class AbstractActionDevice extends AbstractDevice implements IAc
 		super.reset();
 		actions.clear();
 	}
+	
+	@Override
+	public void setCalibration(final int calibration) {
+		firePropertyChange(IValve.PROPERTY_CALIBRATION, this.calibration, this.calibration = calibration);
+	}
+	
+	@Override
+	public IAction createNewAction() {
+		IAction newAction = createNewActionInternal();
+		addAction(newAction);
+		return newAction;
+	}
+	
+	protected abstract IAction createNewActionInternal();
 	
 }

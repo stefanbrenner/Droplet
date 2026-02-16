@@ -27,18 +27,18 @@ import java.util.GregorianCalendar;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Stefan Brenner
  *
  */
-public class MessagesTest {
-
+class MessagesTest {
+	
 	private static final String BUNDLE_NAME = "testmessages"; //$NON-NLS-1$
-
+	
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-
+	
 	/**
 	 * Read localized message from resources and format it.
 	 *
@@ -53,27 +53,27 @@ public class MessagesTest {
 			return '!' + key + '!';
 		}
 	}
-
+	
 	@Test
-	public void testGetMessage() {
+	void testGetMessage() {
 		assertThat(MessagesTest.getString("MessagesTest")).isEqualTo("Basic");
 		assertThat(MessagesTest.getString("MessagesTest.Simple")).isEqualTo("Simple");
 		assertThat(MessagesTest.getString("MessagesTest.Advanced")).isEqualTo("Advanced {0}");
-
+		
 		assertThat(MessagesTest.getString("MessagesTest.Advanced", "Test")).isEqualTo("Advanced Test");
 		assertThat(MessagesTest.getString("MessagesTest.Multiple.Ascending", "Test", "multiple", "!"))
 				.isEqualTo("Advanced Test with multiple Parameters !");
 		assertThat(MessagesTest.getString("MessagesTest.Multiple.Unsorted", "multiple", "!", "Test"))
 				.isEqualTo("Advanced Test with multiple Parameters !");
 		assertThat(MessagesTest.getString("MessagesTest.Multiple.Repeat", "Test")).isEqualTo("Advanced Test with Test");
-
+		
 		GregorianCalendar cal = new GregorianCalendar(2012, 0, 1);
-		Object[] arguments = { new Integer(7), cal.getTime(), "a disturbance in the Force" };
+		Object[] arguments = { Integer.valueOf(7), cal.getTime(), "a disturbance in the Force" };
 		assertThat(MessagesTest.getString("MessagesTest.Number", arguments))
 				.isEqualTo("At " + SimpleDateFormat.getTimeInstance().format(cal.getTime()) + " on "
 						+ SimpleDateFormat.getDateInstance().format(cal.getTime())
 						+ ", there was a disturbance in the Force on planet 7.");
-
+		
 	}
-
+	
 }

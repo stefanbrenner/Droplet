@@ -19,8 +19,8 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
-import java.awt.Event;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.Action;
@@ -42,7 +42,7 @@ public class SaveAsFileAction extends SaveFileAction {
 	public SaveAsFileAction(final JFrame frame, final JFileChooser fileChooser, final IDropletContext dropletContext) {
 		super(Messages.getString("SaveAsFileAction.title"), frame, fileChooser, dropletContext); //$NON-NLS-1$
 		
-		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, Event.SHIFT_MASK));
+		putValue(Action.ACCELERATOR_KEY, UiUtils.getAccelerator(KeyEvent.VK_S, InputEvent.SHIFT_DOWN_MASK));
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("SaveAsFileAction.description")); //$NON-NLS-1$
 	}
 	

@@ -23,82 +23,89 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * @author Stefan Brenner
  *
  */
-public class FileUtilsTest {
-	
-	@Rule
-	public TemporaryFolder testDir = new TemporaryFolder();
+class FileUtilsTest {
 	
 	@Test
-	public void testGetFilename() throws IOException {
+	void testGetFilename(@TempDir final Path testDir) throws IOException {
 		// assertEquals("", FileUtils.getFilename(testDir.newFile("")));
 		// assertEquals("", FileUtils.getFilename(testDir.newFile(".")));
-		assertThat(FileUtils.getFilename(testDir.newFile(".txt"))).isEmpty();
-		assertThat(FileUtils.getFilename(testDir.newFile("test"))).isEqualTo("test");
-		assertThat(FileUtils.getFilename(testDir.newFile("test.txt"))).isEqualTo("test");
-		assertThat(FileUtils.getFilename(testDir.newFile("test.txt.txt"))).isEqualTo("test");
+		assertThat(FileUtils.getFilename(testDir.resolve(".txt").toFile())).isEmpty();
+		assertThat(FileUtils.getFilename(testDir.resolve("test").toFile())).isEqualTo("test");
+		assertThat(FileUtils.getFilename(testDir.resolve("test.txt").toFile())).isEqualTo("test");
+		assertThat(FileUtils.getFilename(testDir.resolve("test.txt.txt").toFile())).isEqualTo("test");
 	}
 	
 	@Test
-	public void testNewFile() throws IOException {
+	void testNewFile(@TempDir final Path testDir) throws IOException {
 		
-		String testdirPath = testDir.getRoot().getAbsolutePath() + File.separatorChar;
+		String testdirPath = testDir.toString() + File.separatorChar;
 		
-		assertThat(FileUtils.newFileBasedOn(testDir.newFile(".abc"), "txt").getAbsolutePath())
-				.isEqualTo(testdirPath + ".txt");
-		assertThat(FileUtils.newFileBasedOn(testDir.newFile("test"), "txt").getAbsolutePath())
-				.isEqualTo(testdirPath + "test.txt");
-		assertThat(FileUtils.newFileBasedOn(testDir.newFile("test.abc"), "txt").getAbsolutePath())
-				.isEqualTo(testdirPath + "test.txt");
-		assertThat(FileUtils.newFileBasedOn(testDir.newFile("test.a.b.c"), "txt").getAbsolutePath())
-				.isEqualTo(testdirPath + "test.txt");
+		assertThat(
+				FileUtils.newFileBasedOn(Files.createFile(testDir.resolve(".abc")).toFile(), "txt").getAbsolutePath())
+						.isEqualTo(testdirPath + ".txt");
+		assertThat(
+				FileUtils.newFileBasedOn(Files.createFile(testDir.resolve("test")).toFile(), "txt").getAbsolutePath())
+						.isEqualTo(testdirPath + "test.txt");
+		assertThat(FileUtils.newFileBasedOn(Files.createFile(testDir.resolve("test.abc")).toFile(), "txt")
+				.getAbsolutePath()).isEqualTo(testdirPath + "test.txt");
+		assertThat(FileUtils.newFileBasedOn(Files.createFile(testDir.resolve("test.a.b.c")).toFile(), "txt")
+				.getAbsolutePath()).isEqualTo(testdirPath + "test.txt");
 	}
 	
 	@Test
-	public void testRawFileFilter() throws IOException {
+	void testRawFileFilter(@TempDir final Path testDir) throws IOException, NoSuchAlgorithmException {
 		// Canon
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.cr2"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.CR2"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.crw"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.CRW"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "cr2"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "CR2"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "crw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "CRW"))).isTrue();
 		// Nikon
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.nef"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.NEF"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "nef"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "NEF"))).isTrue();
 		// Minolta
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.mrw"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.MRW"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "mrw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "MRW"))).isTrue();
 		// Olympus
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.orf"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.ORF"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "orf"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "ORF"))).isTrue();
 		// Fujifilm
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.raf"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.RAF"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "raf"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "RAF"))).isTrue();
 		// Sony
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.arw"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.ARW"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.srf"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.SRF"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "arw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "ARW"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "srf"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "SRF"))).isTrue();
 		// Pentax
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.pef"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.PEF"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "pef"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "PEF"))).isTrue();
 		// General
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.raw"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.RAW"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.dng"))).isTrue();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test2.DNG"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "raw"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "RAW"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "dng"))).isTrue();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "DNG"))).isTrue();
 		
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.bin"))).isFalse();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.exe"))).isFalse();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.txt"))).isFalse();
-		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(testDir.newFile("test.zip"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "bin"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "exe"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "txt"))).isFalse();
+		assertThat(FileUtils.RAW_FORMAT_FILTER.accept(createTestFile(testDir, "zip"))).isFalse();
+	}
+	
+	private File createTestFile(final Path path, final String suffix) throws IOException, NoSuchAlgorithmException {
+		var random = SecureRandom.getInstanceStrong().nextLong();
+		return Files.createFile(path.resolve("test" + random + "." + suffix)).toFile();
 	}
 	
 }

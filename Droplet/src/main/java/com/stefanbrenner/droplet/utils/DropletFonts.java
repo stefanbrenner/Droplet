@@ -33,8 +33,6 @@ public final class DropletFonts {
 	/** The default font face. */
 	private static final String FONT_FACE = Font.SANS_SERIF;
 	
-	/** A x-large font size. */
-	private static final int SIZE_XLARGE = 15;
 	/** A large font size. */
 	private static final int SIZE_LARGE = 14;
 	/** The standard font size. */

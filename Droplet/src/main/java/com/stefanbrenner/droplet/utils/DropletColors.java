@@ -35,27 +35,38 @@ import com.stefanbrenner.droplet.model.IValve;
  */
 public final class DropletColors {
 	
+	public static final Color MINT = new Color(243, 252, 247);
+	public static final Color BLACK = new Color(37, 38, 39);
+	public static final Color DARK_GRAY = new Color(89, 89, 89);
+	public static final Color GRAY = new Color(127, 127, 127);
+	public static final Color LIGHT_GRAY = new Color(165, 165, 165);
+	public static final Color WHITE = new Color(249, 249, 249);
+	
 	/** The background color for valves. */
-	public static final Color BG_VALVE = new Color(204, 255, 204, 255);
+	public static final Color BG_VALVE = new Color(219, 255, 221);
 	/** The background color for flashes. */
-	public static final Color BG_FLASH = new Color(204, 255, 255, 255);
+	public static final Color BG_FLASH = new Color(224, 252, 255);
 	/** The background color for cameras. */
-	public static final Color BG_CAMERA = new Color(254, 255, 204, 255);
+	public static final Color BG_CAMERA = new Color(253, 255, 224);
 	
 	/**
 	 * @param device
 	 *            droplet device for which a color is requested
 	 * @return the appropriate color for a device
 	 */
-	public static Color getBackgroundColor(final IDevice device) {
-		if (device instanceof IValve) {
+	public static Color getBackgroundColor(final Class<? extends IDevice> device) {
+		if (IValve.class.isAssignableFrom(device)) {
 			return DropletColors.BG_VALVE;
-		} else if (device instanceof IFlash) {
+		} else if (IFlash.class.isAssignableFrom(device)) {
 			return DropletColors.BG_FLASH;
-		} else if (device instanceof ICamera) {
+		} else if (ICamera.class.isAssignableFrom(device)) {
 			return DropletColors.BG_CAMERA;
 		}
 		return Color.GRAY;
+	}
+	
+	public static <E extends IDevice> Color getBackgroundColor(final E device) {
+		return getBackgroundColor(device.getClass());
 	}
 	
 	/**

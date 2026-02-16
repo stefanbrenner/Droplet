@@ -26,18 +26,18 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JToolBar;
 
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDropletContext;
 import com.stefanbrenner.droplet.ui.actions.CancelAction;
-import com.stefanbrenner.droplet.ui.actions.ControlDevcieAction;
 import com.stefanbrenner.droplet.ui.actions.SendAction;
 import com.stefanbrenner.droplet.ui.actions.ShowAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
 import com.stefanbrenner.droplet.ui.components.MouseWheelSpinner;
+import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.Messages;
 import com.stefanbrenner.droplet.utils.UiUtils;
 
@@ -46,9 +46,7 @@ import com.stefanbrenner.droplet.utils.UiUtils;
  * 
  * @author Stefan Brenner
  */
-// TODO brenner: use JToolBar? and make alwaysontop to be able to control
-// droplet at any time
-public class DropletToolbar extends JPanel {
+public class DropletToolbar extends JToolBar {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -66,10 +64,9 @@ public class DropletToolbar extends JPanel {
 		this.dropletContext = dropletContext;
 		
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
-		
-		// show button
-		JButton btnDirect = new JButton(new ControlDevcieAction(frame, dropletContext));
-		add(btnDirect);
+		setFloatable(false);
+		setRollover(true);
+		setBackground(DropletColors.BLACK);
 		
 		// show button
 		JButton btnShow = new JButton(new ShowAction(frame, dropletContext));
@@ -79,6 +76,9 @@ public class DropletToolbar extends JPanel {
 		JButton btnSend = new JButton(new SendAction(frame, dropletContext));
 		add(btnSend);
 		
+		// separator
+		addSeparator();
+		
 		BeanAdapter<IDropletContext> adapter = new BeanAdapter<IDropletContext>(dropletContext, true);
 		
 		// rounds spinner
@@ -86,15 +86,15 @@ public class DropletToolbar extends JPanel {
 		spRounds = new MouseWheelSpinner(true);
 		spRounds.setModel(SpinnerAdapterFactory
 				.createNumberAdapter(adapter.getValueModel(IDropletContext.PROPERTY_ROUNDS), 1, 1, 9999, 1));
-		((JSpinner.DefaultEditor) spRounds.getEditor()).getTextField().setColumns(4);
+		((JSpinner.DefaultEditor) spRounds.getEditor()).getTextField().setColumns(3);
 		add(spRounds);
 		
 		// round delay spinner
 		add(new JLabel(Messages.getString("DropletToolbar.delay"))); //$NON-NLS-1$
 		spRoundDelay = new MouseWheelSpinner(true);
-		spRoundDelay.setModel(SpinnerAdapterFactory.createNumberAdapter(
-				adapter.getValueModel(IDropletContext.PROPERTY_ROUND_DELAY), 1000, 0, 99999999, 1));
-		((JSpinner.DefaultEditor) spRoundDelay.getEditor()).getTextField().setColumns(8);
+		spRoundDelay.setModel(SpinnerAdapterFactory
+				.createNumberAdapter(adapter.getValueModel(IDropletContext.PROPERTY_ROUND_DELAY), 1, 0, 9999, 1));
+		((JSpinner.DefaultEditor) spRoundDelay.getEditor()).getTextField().setColumns(4);
 		updateTooltip();
 		adapter.addBeanPropertyChangeListener(IDropletContext.PROPERTY_ROUND_DELAY, new PropertyChangeListener() {
 			@Override
@@ -116,7 +116,7 @@ public class DropletToolbar extends JPanel {
 	
 	private void updateTooltip() {
 		Integer roundDelay = dropletContext.getRoundDelay();
-		spRoundDelay.setToolTipText(UiUtils.formatMillis(roundDelay));
+		spRoundDelay.setToolTipText(UiUtils.formatSeconds(roundDelay));
 	}
 	
 }

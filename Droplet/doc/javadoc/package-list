@@ -1,9 +1,0 @@
-com.stefanbrenner.droplet.model
-com.stefanbrenner.droplet.model.internal
-com.stefanbrenner.droplet.service
-com.stefanbrenner.droplet.service.impl
-com.stefanbrenner.droplet.ui
-com.stefanbrenner.droplet.ui.actions
-com.stefanbrenner.droplet.ui.components
-com.stefanbrenner.droplet.utils
-com.stefanbrenner.droplet.xml

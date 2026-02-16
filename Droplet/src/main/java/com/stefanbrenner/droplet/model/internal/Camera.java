@@ -19,10 +19,10 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.stefanbrenner.droplet.model.ICamera;
 import com.stefanbrenner.droplet.model.IDurationAction;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class Camera extends AbstractActionDevice implements ICamera {
 	}
 	
 	@Override
-	public IDurationAction createNewAction() {
+	public IDurationAction createNewActionInternal() {
 		return new DurationAction();
 	}
 	

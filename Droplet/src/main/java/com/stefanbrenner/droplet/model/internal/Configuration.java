@@ -23,6 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,29 +40,35 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
  * @author Stefan Brenner
  */
 public final class Configuration {
-
+	
 	public static final String CONF_SERIAL_COMM_PROVIDER = "Configuration.SerialCommProvider"; //$NON-NLS-1$
-
-	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider"; //$NON-NLS-1$
-
-	public static final String CONF_PROCESSING_ENABLED = "Configuration.Processing.Enabled"; //$NON-NLS-1$
-
-	public static final String CONF_WATCH_FOLDER_URI = "Configuration.WatchFolderURI"; //$NON-NLS-1$
-
-	public static final String CONF_METADATA_COMMENTS = "Configuration.Metadata.Comments"; //$NON-NLS-1$
-
-	public static final String CONF_METADATA_TAGS = "Configuration.Metadata.Tags"; //$NON-NLS-1$
-
 	public static final String CONF_SERIAL_COMM_PORT = "Configuration.SerialCommPort"; //$NON-NLS-1$
-
+	
+	public static final String CONF_MESSAGE_PROTOCOL_PROVIDER = "Configuration.MessageProtocolProvider"; //$NON-NLS-1$
+	
+	public static final String CONF_PROCESSING_ENABLED = "Configuration.Processing.Enabled"; //$NON-NLS-1$
+	
+	public static final String CONF_FULLSCREEN_ENABLED = "Configuration.View.Fullscreen"; //$NON-NLS-1$
+	
+	public static final String CONF_WATCH_FOLDER_URI = "Configuration.WatchFolderURI"; //$NON-NLS-1$
+	
+	public static final String CONF_METADATA_COMMENTS = "Configuration.Metadata.Comments"; //$NON-NLS-1$
+	public static final String CONF_METADATA_TAGS = "Configuration.Metadata.Tags"; //$NON-NLS-1$
+	
+	public static final String CONF_LOCALE = "Configuration.Locale"; //$NON-NLS-1$
+	
+	public static final String CONF_CLEANING_COUNT = "Configuration.Cleaning.Count"; //$NON-NLS-1$
+	public static final String CONF_CLEANING_DURATION = "Configuration.Cleaning.Duration"; //$NON-NLS-1$
+	public static final String CONF_CLEANING_PAUSE = "Configuration.Cleaning.Pause"; //$NON-NLS-1$
+	
 	private static final Preferences PREFS = Preferences.userNodeForPackage(Configuration.class);
-
+	
 	private static final ISerialCommunicationService DEFAULT_SERIAL_COMM_PROVIDER = new ArduinoService();
-
+	
 	private Configuration() {
 		// no need to instantiate this class
 	}
-
+	
 	public static ISerialCommunicationService getSerialCommProvider() {
 		String string = Configuration.PREFS.get(Configuration.CONF_SERIAL_COMM_PROVIDER, null);
 		List<ISerialCommunicationService> plugins = PluginLoader.getPlugins(ISerialCommunicationService.class);
@@ -73,17 +80,17 @@ public final class Configuration {
 		// if no provider was found we use our own arduino service instead
 		return Configuration.DEFAULT_SERIAL_COMM_PROVIDER;
 	}
-
+	
 	public static void setSerialCommProvider(final ISerialCommunicationService commService) {
 		ISerialCommunicationService oldService = Configuration.getSerialCommProvider();
 		Configuration.PREFS.put(Configuration.CONF_SERIAL_COMM_PROVIDER, commService.getClass().getCanonicalName());
 		Configuration.support.firePropertyChange(Configuration.CONF_SERIAL_COMM_PROVIDER, oldService, commService);
 	}
-
+	
 	private static final String PREF_MESSAGE_PROTOCOL = "Droplet.MessageProtocolProvider"; //$NON-NLS-1$
-
+	
 	private static final IDropletMessageProtocol DEFAULT_MESSAGE_PROTOCOL_PROVIDER = new DropletMessageProtocol();
-
+	
 	public static IDropletMessageProtocol getMessageProtocolProvider() {
 		String string = Configuration.PREFS.get(Configuration.PREF_MESSAGE_PROTOCOL, null);
 		List<IDropletMessageProtocol> plugins = PluginLoader.getPlugins(IDropletMessageProtocol.class);
@@ -95,26 +102,36 @@ public final class Configuration {
 		// if no provider was found we use our own message protocol provider
 		return Configuration.DEFAULT_MESSAGE_PROTOCOL_PROVIDER;
 	}
-
+	
 	public static void setMessageProtocolProvider(final IDropletMessageProtocol messageProtocol) {
 		IDropletMessageProtocol oldProtocol = Configuration.getMessageProtocolProvider();
 		Configuration.PREFS.put(Configuration.PREF_MESSAGE_PROTOCOL, messageProtocol.getClass().getCanonicalName());
 		Configuration.support.firePropertyChange(Configuration.CONF_MESSAGE_PROTOCOL_PROVIDER, oldProtocol,
 				messageProtocol);
 	}
-
+	
 	public static void setProcessingEnabled(final boolean enabled) {
 		Configuration.PREFS.putBoolean(Configuration.CONF_PROCESSING_ENABLED, enabled);
 	}
-
+	
 	public static boolean isProcessingEnabled() {
 		return Configuration.PREFS.getBoolean(CONF_PROCESSING_ENABLED, false);
 	}
-
-	public static void setWathFolder(final URI watchFolderURI) {
-		Configuration.PREFS.put(Configuration.CONF_WATCH_FOLDER_URI, watchFolderURI.toString());
+	
+	public static void setFullscreenEnabled(final boolean enabled) {
+		Configuration.PREFS.putBoolean(Configuration.CONF_FULLSCREEN_ENABLED, enabled);
 	}
-
+	
+	public static boolean isFullscreenEnabled() {
+		return Configuration.PREFS.getBoolean(CONF_FULLSCREEN_ENABLED, false);
+	}
+	
+	public static void setWathFolder(final URI watchFolderURI) {
+		URI oldWatchFolder = Configuration.getWatchFolderURI();
+		Configuration.PREFS.put(Configuration.CONF_WATCH_FOLDER_URI, watchFolderURI.toString());
+		Configuration.support.firePropertyChange(Configuration.CONF_WATCH_FOLDER_URI, oldWatchFolder, watchFolderURI);
+	}
+	
 	public static URI getWatchFolderURI() {
 		String uri = Configuration.PREFS.get(Configuration.CONF_WATCH_FOLDER_URI, null);
 		if (StringUtils.isNotBlank(uri)) {
@@ -122,43 +139,77 @@ public final class Configuration {
 		}
 		return null;
 	}
-
+	
 	public static void setMetadataComments(final String comments) {
 		Configuration.PREFS.put(Configuration.CONF_METADATA_COMMENTS, comments);
 	}
-
+	
 	public static String getMetadataComments() {
 		return Configuration.PREFS.get(CONF_METADATA_COMMENTS, StringUtils.EMPTY);
 	}
-
+	
 	public static void setMetadataTags(final String tags) {
 		Configuration.PREFS.put(Configuration.CONF_METADATA_TAGS, tags);
 	}
-
+	
 	public static String getMetadataTags() {
 		return Configuration.PREFS.get(CONF_METADATA_TAGS, StringUtils.EMPTY);
 	}
-
+	
 	public static void setSerialCommPort(final String port) {
 		if (port != null) {
 			Configuration.PREFS.put(Configuration.CONF_SERIAL_COMM_PORT, port);
 		}
 	}
-
+	
 	public static String getSerialCommPort() {
 		return Configuration.PREFS.get(Configuration.CONF_SERIAL_COMM_PORT, null);
 	}
-
+	
+	public static void setLocale(final Locale locale) {
+		if (locale != null) {
+			Configuration.PREFS.put(Configuration.CONF_LOCALE, locale.toLanguageTag());
+		}
+	}
+	
+	public static Locale getLocale() {
+		return Locale.forLanguageTag(Configuration.PREFS.get(Configuration.CONF_LOCALE, "de"));
+	}
+	
+	public static int getCleaningCount() {
+		return Configuration.PREFS.getInt(Configuration.CONF_CLEANING_COUNT, 10);
+	}
+	
+	public static void setCleaningCount(final int count) {
+		Configuration.PREFS.putInt(Configuration.CONF_CLEANING_COUNT, count);
+	}
+	
+	public static int getCleaningDuration() {
+		return Configuration.PREFS.getInt(Configuration.CONF_CLEANING_DURATION, 50);
+	}
+	
+	public static void setCleaningDuration(final int duration) {
+		Configuration.PREFS.putInt(Configuration.CONF_CLEANING_DURATION, duration);
+	}
+	
+	public static int getCleaningPause() {
+		return Configuration.PREFS.getInt(Configuration.CONF_CLEANING_PAUSE, 50);
+	}
+	
+	public static void setCleaningPause(final int pause) {
+		Configuration.PREFS.putInt(Configuration.CONF_CLEANING_PAUSE, pause);
+	}
+	
 	// simple static notification support
-
+	
 	private static PropertyChangeSupport support = new PropertyChangeSupport(new Configuration());
-
+	
 	public static void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
 		Configuration.support.addPropertyChangeListener(propertyName, listener);
 	}
-
+	
 	public static void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
 		Configuration.support.removePropertyChangeListener(propertyName, listener);
 	}
-
+	
 }

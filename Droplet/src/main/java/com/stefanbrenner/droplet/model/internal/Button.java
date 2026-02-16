@@ -19,9 +19,9 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.stefanbrenner.droplet.model.IButton;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author Stefan Brenner

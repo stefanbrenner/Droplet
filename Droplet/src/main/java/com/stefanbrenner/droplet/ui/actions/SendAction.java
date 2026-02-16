@@ -19,6 +19,7 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui.actions;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -26,6 +27,9 @@ import java.beans.PropertyChangeListener;
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.swing.FontIcon;
 
 import com.stefanbrenner.droplet.model.IActionDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
@@ -48,6 +52,11 @@ public class SendAction extends AbstractSerialAction {
 		super(frame, dropletContext, Messages.getString("SendAction.title")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, Messages.getString("SendAction.description")); //$NON-NLS-1$
 		
+		FontIcon icon = FontIcon.of(FontAwesome.EXCHANGE, 16);
+		icon.setIconSize(14);
+		icon.setIconColor(Color.GRAY);
+		putValue(Action.SMALL_ICON, icon);
+		
 		initListener();
 	}
 	
@@ -64,7 +73,7 @@ public class SendAction extends AbstractSerialAction {
 		
 		// cannot send if no enabled actions were found
 		boolean foundAction = false;
-		for (IActionDevice device : getDroplet().getDevices(IActionDevice.class)) {
+		for (IActionDevice device : getDroplet().getEnabledDevices(IActionDevice.class)) {
 			if (!device.getEnabledActions().isEmpty()) {
 				foundAction = true;
 				break;
@@ -104,7 +113,7 @@ public class SendAction extends AbstractSerialAction {
 	}
 	
 	private void updateVisibility() {
-		setEnabled(!getDroplet().getDevices(IActionDevice.class).isEmpty());
+		setEnabled(!getDroplet().getEnabledDevices(IActionDevice.class).isEmpty());
 	}
 	
 }

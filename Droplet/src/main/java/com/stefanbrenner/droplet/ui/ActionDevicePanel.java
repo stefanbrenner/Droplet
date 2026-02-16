@@ -19,20 +19,12 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
-import com.stefanbrenner.droplet.model.IDroplet;
-import com.stefanbrenner.droplet.utils.Messages;
+import com.stefanbrenner.droplet.model.IDropletContext;
 
 /**
  * @author Stefan Brenner
@@ -42,37 +34,21 @@ public class ActionDevicePanel extends DevicePanel<IActionDevice> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public ActionDevicePanel(JComponent parent, IDroplet droplet, IActionDevice device) {
-		super(parent, droplet, device);
+	public ActionDevicePanel(final JComponent parent, final IDropletContext dropletContext,
+			final IActionDevice device) {
+		super(parent, dropletContext, device);
 		
 		updateActionsPanel();
 		initializeListeners();
 	}
 	
-	void createAddButton(JPanel panel) {
-		// add button
-		JButton btnAdd = new JButton(Messages.getString("ActionDevicePanel.addAction")); //$NON-NLS-1$
-		btnAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(final ActionEvent action) {
-				addAction(getDevice().createNewAction());
-			}
+	@Override
+	void initializeListeners() {
+		super.initializeListeners();
+		
+		device.addPropertyChangeListener(IActionDevice.ASSOCIATION_ACTIONS, e -> {
+			updateActionsPanel();
 		});
-		btnAdd.setFocusable(false);
-		panel.add(btnAdd);
-	}
-	
-	private void initializeListeners() {
-		device.addPropertyChangeListener(IActionDevice.ASSOCIATION_ACTIONS, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				updateActionsPanel();
-			}
-		});
-	}
-	
-	private void addAction(final IAction action) {
-		device.addAction(action);
 	}
 	
 	private void updateActionsPanel() {

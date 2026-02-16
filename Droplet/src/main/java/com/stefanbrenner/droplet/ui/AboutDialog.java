@@ -42,12 +42,15 @@ import javax.swing.JPanel;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.Messages;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * A dialog that displays information about droplet.
  * 
  * @author Stefan Brenner
  */
 @SuppressWarnings("serial")
+@Slf4j
 public class AboutDialog extends JDialog {
 	
 	/**
@@ -68,7 +71,7 @@ public class AboutDialog extends JDialog {
 		panel.add(lbTitle);
 		
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
-		panel.add(new JLabel(Messages.getString("AboutDialog.version"))); //$NON-NLS-1$
+		panel.add(new JLabel(Messages.getString("Version"))); //$NON-NLS-1$
 		panel.add(Box.createRigidArea(new Dimension(0, 20)));
 		panel.add(new JLabel(Messages.getString("AboutDialog.credentials"))); //$NON-NLS-1$
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -82,8 +85,7 @@ public class AboutDialog extends JDialog {
 				try {
 					AboutDialog.open(new URI("http://www.droplet.at")); //$NON-NLS-1$
 				} catch (URISyntaxException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					log.error("Error opening homepage {}", e1);
 				}
 			}
 		});

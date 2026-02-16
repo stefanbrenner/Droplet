@@ -21,9 +21,9 @@ package com.stefanbrenner.droplet.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mangosdk.spi.ProviderFor;
 
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IActionDevice;
@@ -31,6 +31,7 @@ import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IDurationAction;
 import com.stefanbrenner.droplet.model.IInputDevice;
+import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.model.internal.Button;
 import com.stefanbrenner.droplet.model.internal.Camera;
 import com.stefanbrenner.droplet.model.internal.Flash;
@@ -43,7 +44,6 @@ import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
  * 
  * @author Stefan Brenner
  */
-@ProviderFor(IDropletMessageProtocol.class)
 public class DropletMessageProtocol implements IDropletMessageProtocol {
 	
 	// meta characters
@@ -73,6 +73,8 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	public static final String COMMAND_HIGH = "H"; //$NON-NLS-1$
 	/** Character for the LOW command. */
 	public static final String COMMAND_LOW = "L"; //$NON-NLS-1$
+	/** Character for the cleaning command. */
+	public static final String COMMAND_CLEAN = "O"; //$NON-NLS-1$
 	
 	// devices
 	
@@ -112,8 +114,9 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 		int chksum = rounds;
 		
 		if (delay > 0) {
-			chksum += delay;
-			result += DropletMessageProtocol.FIELD_SEPARATOR + delay;
+			int delayInMillis = delay * 1000;
+			chksum += delayInMillis;
+			result += DropletMessageProtocol.FIELD_SEPARATOR + delayInMillis;
 		}
 		
 		result += DropletMessageProtocol.CHKSUM_SEPARATOR + chksum;
@@ -121,12 +124,29 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 		return result;
 	}
 	
+	// normalize calibration values
+	// since we cannot send negative offsets to arduino we calculate the min of
+	// all device calibration values and add the absolute value to the
+	// calibration values
+	private int calculateCalibrationNormalization(final IDroplet droplet) {
+		Optional<IActionDevice> min = droplet.getEnabledDevices(IActionDevice.class).stream()
+				.min((d1, d2) -> Integer.compare(d1.getCalibration(), d2.getCalibration()));
+		if (min.isPresent()) {
+			if (min.get().getCalibration() < 0) {
+				return Math.abs(min.get().getCalibration());
+			}
+		}
+		return 0;
+	}
+	
 	@Override
 	public String createSetMessage(final IDroplet droplet) {
 		
 		String result = StringUtils.EMPTY;
 		
-		for (IActionDevice d : droplet.getDevices(IActionDevice.class)) {
+		int normalizeCalibration = calculateCalibrationNormalization(droplet);
+		
+		for (IActionDevice d : droplet.getEnabledDevices(IActionDevice.class)) {
 			
 			Class<? extends IActionDevice> deviceClass = d.getClass();
 			
@@ -144,8 +164,9 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 			
 			int chksum = 0;
 			for (IAction a : enabledActions) {
-				chksum += a.getOffset();
-				result += DropletMessageProtocol.FIELD_SEPARATOR + a.getOffset();
+				int calibratedOffset = a.getOffset() + d.getCalibration() + normalizeCalibration;
+				chksum += calibratedOffset;
+				result += DropletMessageProtocol.FIELD_SEPARATOR + calibratedOffset;
 				if (a instanceof IDurationAction) {
 					chksum += ((IDurationAction) a).getDuration();
 					result += DropletMessageProtocol.TIME_SEPARATOR + ((IDurationAction) a).getDuration();
@@ -154,7 +175,7 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 			result += DropletMessageProtocol.CHKSUM_SEPARATOR + chksum + DropletMessageProtocol.DEVICE_SEPARATOR;
 		}
 		
-		for (IInputDevice d : droplet.getDevices(IInputDevice.class)) {
+		for (IInputDevice d : droplet.getEnabledDevices(IInputDevice.class)) {
 			result += DropletMessageProtocol.COMMAND_SEND + DropletMessageProtocol.FIELD_SEPARATOR;
 			result += d.getNumber() + DropletMessageProtocol.FIELD_SEPARATOR;
 			result += DropletMessageProtocol.DEVICE_SHORTS.get(d.getClass());
@@ -188,6 +209,16 @@ public class DropletMessageProtocol implements IDropletMessageProtocol {
 	@Override
 	public String createDeviceOnMessage(final IDroplet droplet, final IDevice device) {
 		return DropletMessageProtocol.COMMAND_HIGH + DropletMessageProtocol.FIELD_SEPARATOR + device.getNumber();
+	}
+	
+	@Override
+	public String createCleaningMessage(final IValve valve, final int count, final int duration, final int pause) {
+		String result = DropletMessageProtocol.COMMAND_CLEAN + DropletMessageProtocol.FIELD_SEPARATOR;
+		
+		result += valve.getNumber() + DropletMessageProtocol.FIELD_SEPARATOR;
+		result += count + TIME_SEPARATOR + duration + TIME_SEPARATOR + pause;
+		
+		return result;
 	}
 	
 }

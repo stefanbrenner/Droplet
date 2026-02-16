@@ -30,6 +30,14 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.stefanbrenner.droplet.model.IActionDevice;
+import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.internal.Configuration;
+import com.stefanbrenner.droplet.service.IDropletMessageProtocol;
+import com.stefanbrenner.droplet.service.ISerialCommunicationService;
+
 /**
  * User interface utilities.
  * <p>
@@ -38,9 +46,6 @@ import javax.swing.text.JTextComponent;
  * @author Stefan Brenner
  */
 public final class UiUtils {
-	
-	/** Flag for the macintosh operating system. */
-	private static boolean macOS = System.getProperty("mrj.version") != null;
 	
 	/**
 	 * Empty default constructor.
@@ -55,25 +60,25 @@ public final class UiUtils {
 	 * @return <code>true</code> if this program is executed on a mac
 	 */
 	public static boolean isMacOS() {
-		return UiUtils.macOS;
+		String lcOSName = System.getProperty("os.name").toLowerCase();
+		return lcOSName.startsWith("mac os x");
 	}
 	
 	/**
 	 * Returns a string representing the time in millis in the format h min sec
 	 * ms.
 	 * 
-	 * @param millis
+	 * @param seconds
 	 *            time to be formatted as a string
 	 * @return a string representing the time
 	 */
-	public static String formatMillis(final long millis) {
+	public static String formatSeconds(final long seconds) {
 		
-		long hours = TimeUnit.MILLISECONDS.toHours(millis);
-		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
-		long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % 60;
-		long _millis = millis % 1000;
+		long hours = TimeUnit.SECONDS.toHours(seconds);
+		long minutes = TimeUnit.SECONDS.toMinutes(seconds) % 60;
+		long _seconds = TimeUnit.SECONDS.toSeconds(seconds) % 60;
 		
-		return String.format("%dh %dmin %dsec %dms", hours, minutes, seconds, _millis);
+		return String.format("%dh %dmin %dsec", hours, minutes, _seconds);
 	}
 	
 	/**
@@ -199,5 +204,5 @@ public final class UiUtils {
 		gbc.weighty = weighty;
 		gbc.anchor = anchor;
 	}
-	
+
 }

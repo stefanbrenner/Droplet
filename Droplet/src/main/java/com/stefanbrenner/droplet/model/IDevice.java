@@ -35,16 +35,19 @@ public interface IDevice extends INotificationSupport {
 	/** Property name for the device description. */
 	String PROPERTY_DESCRIPTION = "description"; //$NON-NLS-1$
 	
+	/** Property name for the device description. */
+	String PROPERTY_ENABLED = "enabled"; //$NON-NLS-1$
+	
 	/**
 	 * @return number of this device
 	 */
-	String getNumber();
+	int getNumber();
 	
 	/**
 	 * @param number
 	 *            of this device
 	 */
-	void setNumber(String number);
+	void setNumber(int number);
 	
 	/**
 	 * @return name of this device
@@ -72,5 +75,9 @@ public interface IDevice extends INotificationSupport {
 	 * Reset all fields of this device to the default value.
 	 */
 	void reset();
+	
+	boolean isEnabled();
+	
+	void setEnabled(boolean enabled);
 	
 }

@@ -21,6 +21,7 @@ package com.stefanbrenner.droplet.service;
 
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
+import com.stefanbrenner.droplet.model.IValve;
 
 /**
  * Service Interface for the droplet message protocol.
@@ -96,5 +97,12 @@ public interface IDropletMessageProtocol {
 	 * @return a message to cancel the current execution on the microcontroller
 	 */
 	String createCancelMessage();
+	
+	/**
+	 * @return a message to clean a valve
+	 */
+	default String createCleaningMessage(final IValve valve, final int count, final int duration, final int pause) {
+		return "";
+	}
 	
 }

@@ -71,6 +71,15 @@ public interface IDroplet extends INotificationSupport {
 	<T extends IDevice> List<T> getDevices(Class<T> type);
 	
 	/**
+	 * @param <T>
+	 *            device type
+	 * @param type
+	 *            device type
+	 * @return all enabled devices with a specific type
+	 */
+	<T extends IDevice> List<T> getEnabledDevices(Class<T> type);
+	
+	/**
 	 * @param devices
 	 *            list of all droplet devices
 	 */

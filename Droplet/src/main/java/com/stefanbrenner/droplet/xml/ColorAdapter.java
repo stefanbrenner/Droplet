@@ -21,7 +21,7 @@ package com.stefanbrenner.droplet.xml;
 
 import java.awt.Color;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * XML adapter to marshal {@link Color} informations.

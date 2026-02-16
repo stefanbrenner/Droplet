@@ -19,10 +19,10 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Frame;
+import java.awt.*;
+import java.awt.desktop.QuitEvent;
+import java.awt.desktop.QuitHandler;
+import java.awt.desktop.QuitResponse;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -34,28 +34,22 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-import com.apple.mrj.MRJAboutHandler;
-import com.apple.mrj.MRJApplicationUtils;
-import com.apple.mrj.MRJPrefsHandler;
-import com.apple.mrj.MRJQuitHandler;
+import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.swing.FontIcon;
+
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.model.internal.Droplet;
 import com.stefanbrenner.droplet.model.internal.DropletContext;
 import com.stefanbrenner.droplet.ui.actions.ExitAction;
 import com.stefanbrenner.droplet.ui.actions.PreferencesAction;
 import com.stefanbrenner.droplet.ui.actions.StartAction;
+import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.DropletConfig;
 import com.stefanbrenner.droplet.utils.DropletFonts;
 import com.stefanbrenner.droplet.utils.Messages;
@@ -70,7 +64,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Stefan Brenner
  */
 @Slf4j
-public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuitHandler, MRJPrefsHandler {
+public class DropletMainFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -93,51 +87,48 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 			IllegalAccessException, UnsupportedLookAndFeelException {
 		
 		log.info("Droplet - Toolkit for High-Speed-Photography");
-		log.info("Version 0.1");
+		log.info("Version {}", Messages.getString("Version"));
 		log.info("Open Source Project created by Stefan Brenner 2012");
 		log.info("http://www.droplet.at");
 		log.info("==================================================");
 		log.info("Starting ...");
 		
-		// TODO brenner: move to own class
 		// log system properties
 		Properties properties = System.getProperties();
 		Collections.list(properties.keys()).forEach(prop -> {
 			log.debug("{}: {}", prop, properties.get(prop));
 		});
 		
-		// TODO brenner: make language editable in configurations
-		// only for testing purposes
-		// Locale.setDefault(Locale.GERMAN);
-		
-		// TODO brenner: identify that we run on a mac
-		// String lcOSName = System.getProperty("os.name").toLowerCase();
-		// boolean IS_MAC = lcOSName.startsWith("mac os x");
-		
-		// put jmenubar on mac menu bar
-		System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-		// set application name
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", //$NON-NLS-1$
-				Messages.getString("DropletMainFrame.about")); //$NON-NLS-1$
-		// set look and feel
-		try {
-			// use nimbus L&F if available
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) { //$NON-NLS-1$
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (Exception e) {
-			log.warn("Nimbus L&F not found!");
+		if (UiUtils.isMacOS()) {
+			// put jmenubar on mac menu bar
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
+			// use smoother fonts
+			System.setProperty("apple.awt.textantialiasing", "true");
+			// set the brushed metal look and feel, if desired
+			System.setProperty("apple.awt.brushMetalLook", "true");
+			// use the system look and feel
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			customizeOsxTheme();
+		} else {
+			try {
+				for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+					if ("Nimbus".equals(info.getName())) {
+						UIManager.setLookAndFeel(info.getClassName());
+						// TODO: customize Nimbus Theme for darkness
+						break;
+					}
+				}
+			} catch (Exception e) {
+				// use the system look and feel
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
 		}
 		
 		// initialize DropletConfig
 		log.info("initialize config");
 		new ConfigBuilder<DropletConfig>(DropletConfig.class).build();
 		
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -169,8 +160,8 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		// basic frame setup
 		updateTitle();
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		setIconImage(new ImageIcon("icons/droplet_icon_48x48.png").getImage());
+		setBackground(java.awt.Color.BLACK);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -185,20 +176,32 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		contentPane.add(commPanel, BorderLayout.NORTH);
 		
 		{
-			configPanel = new DeviceSetupPanel(dropletContext.getDroplet());
+			configPanel = new DeviceSetupPanel(this, dropletContext);
+			
 			processingPanel = new ProcessingPanel(dropletContext);
 			loggingPanel = new LoggingPanel(dropletContext);
 			
-			JSplitPane splitPaneBottom = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, processingPanel, loggingPanel);
-			splitPaneBottom.setOneTouchExpandable(true);
-			splitPaneBottom.setDividerLocation(0.5d);
-			// splitPaneBottom.setResizeWeight(0.1d);
-			splitPaneBottom.setContinuousLayout(true);
+			JTabbedPane tabbedPane = new JTabbedPane();
 			
-			JSplitPane splitPaneMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, configPanel, splitPaneBottom);
-			splitPaneMain.setOneTouchExpandable(true);
+			FontIcon processingIcon = FontIcon.of(FontAwesome.COGS, 16);
+			processingIcon.setIconSize(14);
+			processingIcon.setIconColor(java.awt.Color.GRAY);
+			tabbedPane.addTab(Messages.getString("ProcessingPanel.title"), processingIcon, processingPanel);
+			
+			FontIcon loggingIcon = FontIcon.of(FontAwesome.DESKTOP, 16);
+			loggingIcon.setIconSize(14);
+			loggingIcon.setIconColor(java.awt.Color.GRAY);
+			tabbedPane.addTab(Messages.getString("LoggingPanel.title"), loggingIcon, loggingPanel);
+			
+			FontIcon cleaningIcon = FontIcon.of(FontAwesome.PAINT_BRUSH, 16);
+			cleaningIcon.setIconSize(14);
+			cleaningIcon.setIconColor(java.awt.Color.GRAY);
+
+			JSplitPane splitPaneMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, configPanel, tabbedPane);
+			splitPaneMain.setBorder(BorderFactory.createCompoundBorder());
+			splitPaneMain.setOneTouchExpandable(false);
 			splitPaneMain.setDividerLocation(0.5d);
-			splitPaneMain.setResizeWeight(0.85d);
+			splitPaneMain.setResizeWeight(0.5d);
 			splitPaneMain.setContinuousLayout(true);
 			contentPane.add(splitPaneMain, BorderLayout.CENTER);
 		}
@@ -223,19 +226,8 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		
 		// register action shortcuts
 		log.debug("Register action shortcuts");
-		// TODO brenner: don't consume keys in JTextComponents
-		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F4"), "start"); //$NON-NLS-1$ //$NON-NLS-2$
 		contentPane.getActionMap().put("start", new StartAction(this, dropletContext)); //$NON-NLS-1$
-		
-		// add listener
-		dropletContext.addPropertyChangeListener(IDropletContext.PROPERTY_DROPLET, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent evt) {
-				// TODO brenner: use listener instead
-				configPanel.setDroplet(dropletContext.getDroplet());
-			}
-		});
 		
 		// set default fonts
 		log.debug("set default fonts");
@@ -249,20 +241,24 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		}
 		
 		// register handlers for mac events
-		log.debug("register handlers for mac events");
-		if (UiUtils.isMacOS()) {
-			MRJApplicationUtils.registerAboutHandler(this);
-			MRJApplicationUtils.registerQuitHandler(this);
-			MRJApplicationUtils.registerPrefsHandler(this);
+		Desktop desktop = Desktop.getDesktop();
+		if (desktop.isSupported(Desktop.Action.APP_ABOUT)) {
+			desktop.setAboutHandler(e -> SwingUtilities.invokeLater(this::handleAbout));
 		}
-		
+		if (desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
+			desktop.setPreferencesHandler(e -> SwingUtilities.invokeLater(this::handlePrefs));
+		}
+		if (desktop.isSupported(Desktop.Action.APP_QUIT_HANDLER)) {
+			desktop.setQuitHandler((e, response) -> SwingUtilities.invokeLater(this::handleQuit));
+		}
+
 		// finishing frame settings
 		// make frame as small as possible
-		// pack();
+		pack();
+		// set minimum size to packed size
+		setMinimumSize(getSize());
 		// set to full screen mode
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		// set minimum size to packed size
-		setMinimumSize(new Dimension(300, 200));
 		// update ui for nimbus component resizing
 		SwingUtilities.updateComponentTreeUI(this);
 		
@@ -273,8 +269,13 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 			}
 		});
 		
+		// set to fullscreen if configured
+		dispose();
+		setUndecorated(Configuration.isFullscreenEnabled());
+		setVisible(true);
+		
 		// add welcome message to logging panel
-		dropletContext.addLoggingMessage("Welcome to Droplet!");
+		dropletContext.addLoggingMessage("Welcome to Droplet v" + Messages.getString("Version") + "!");
 		
 		log.info("Droplet started successfully!");
 		
@@ -293,20 +294,93 @@ public class DropletMainFrame extends JFrame implements MRJAboutHandler, MRJQuit
 		}
 		setTitle(title);
 	}
-	
-	@Override
+
 	public void handlePrefs() throws IllegalStateException {
 		new PreferencesAction(this, dropletContext).actionPerformed(null);
 	}
-	
-	@Override
+
 	public void handleQuit() {
 		new ExitAction(this, dropletContext).actionPerformed(null);
 	}
-	
-	@Override
+
 	public void handleAbout() {
 		new AboutDialog(this).setVisible(true);
+	}
+	
+	private static void customizeOsxTheme() {
+		
+		// print UI defaults
+		UIManager.getLookAndFeelDefaults().entrySet().forEach(System.out::println);
+		
+		UIManager.put("Panel.background", DropletColors.BLACK);
+		UIManager.put("Panel.foreground", DropletColors.WHITE);
+		
+		UIManager.put("ToolBar.background", DropletColors.DARK_GRAY);
+		UIManager.put("ToolBar.foreground", DropletColors.WHITE);
+		
+		UIManager.put("SplitPane.dividerSize", 3);
+		UIManager.put("SplitPane.background", DropletColors.BLACK);
+		
+		UIManager.put("TabbedPane.background", DropletColors.GRAY);
+		UIManager.put("TabbedPane.foreground", DropletColors.BLACK);
+		
+		UIManager.put("Label.foreground", DropletColors.WHITE);
+		UIManager.put("CheckBox.foreground", DropletColors.WHITE);
+		UIManager.put("CheckBox.select", DropletColors.WHITE);
+		
+		UIManager.put("TextArea.background", DropletColors.WHITE);
+		UIManager.put("TextArea.border", new EmptyBorder(5, 5, 5, 5));
+		
+		UIManager.put("TextField.background", DropletColors.WHITE);
+		UIManager.put("TextField.border", new EmptyBorder(5, 5, 5, 5));
+		
+		UIManager.put("TitledBorder.titleColor", DropletColors.LIGHT_GRAY);
+		UIManager.put("TitledBorder.font", DropletFonts.FONT_HEADER_LARGE);
+		UIManager.put("TitledBorder.border", new LineBorder(DropletColors.GRAY, 1, true));
+		
+		UIManager.put("RadioButton.foreground", DropletColors.WHITE);
+		
+		UIManager.put("ColorChooser.background", DropletColors.BLACK);
+		UIManager.put("ColorChooser.foreground", DropletColors.WHITE);
+		
+		UIManager.put("OptionPane.background", DropletColors.BLACK);
+		UIManager.put("OptionPane.messageForeground", DropletColors.WHITE);
+		
+		// set font
+		Font defaultFont = new Font("Calibri", Font.PLAIN, 12);
+		
+		UIManager.put("Button.font", defaultFont);
+		UIManager.put("ToggleButton.font", defaultFont);
+		UIManager.put("RadioButton.font", defaultFont);
+		UIManager.put("CheckBox.font", defaultFont);
+		UIManager.put("ColorChooser.font", defaultFont);
+		UIManager.put("ComboBox.font", defaultFont);
+		UIManager.put("Label.font", defaultFont);
+		UIManager.put("List.font", defaultFont);
+		UIManager.put("MenuBar.font", defaultFont);
+		UIManager.put("MenuItem.font", defaultFont);
+		UIManager.put("RadioButtonMenuItem.font", defaultFont);
+		UIManager.put("CheckBoxMenuItem.font", defaultFont);
+		UIManager.put("Menu.font", defaultFont);
+		UIManager.put("PopupMenu.font", defaultFont);
+		UIManager.put("OptionPane.font", defaultFont);
+		UIManager.put("Panel.font", defaultFont);
+		UIManager.put("ProgressBar.font", defaultFont);
+		UIManager.put("ScrollPane.font", defaultFont);
+		UIManager.put("Viewport.font", defaultFont);
+		UIManager.put("TabbedPane.font", defaultFont);
+		UIManager.put("Table.font", defaultFont);
+		UIManager.put("TableHeader.font", defaultFont);
+		UIManager.put("TextField.font", defaultFont);
+		UIManager.put("PasswordField.font", defaultFont);
+		UIManager.put("TextArea.font", defaultFont);
+		UIManager.put("TextPane.font", defaultFont);
+		UIManager.put("EditorPane.font", defaultFont);
+		UIManager.put("TitledBorder.font", defaultFont);
+		UIManager.put("ToolBar.font", defaultFont);
+		UIManager.put("ToolTip.font", defaultFont);
+		UIManager.put("Tree.font", defaultFont);
+		
 	}
 	
 }

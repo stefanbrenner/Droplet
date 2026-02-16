@@ -19,11 +19,14 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -33,6 +36,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
@@ -50,31 +54,43 @@ import com.stefanbrenner.droplet.utils.PluginLoader;
 @SuppressWarnings("serial")
 public class PreferencesDialog extends JDialog {
 	
-	private final JComboBox cmbCommService;
-	private final JComboBox cmbMsgProtocol;
+	private final JComboBox<ISerialCommunicationService> cmbCommService;
+	private final JComboBox<IDropletMessageProtocol> cmbMsgProtocol;
+	private final JComboBox<Locale> cmbLocale;
 	
 	public PreferencesDialog(final JFrame frame) {
 		super(frame, true);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		panel.setLayout(new GridLayout(0, 1));
+		panel.setLayout(new BorderLayout());
 		
-		panel.add(new JLabel(Messages.getString("PreferencesDialog.SerialCommunicationService"))); //$NON-NLS-1$
+		JPanel settingsPanel = new JPanel();
+		settingsPanel.setLayout(new GridLayout(0, 2, 10, 10));
+		
+		settingsPanel.add(new JLabel(Messages.getString("PreferencesDialog.SerialCommunicationService"))); //$NON-NLS-1$
 		ISerialCommunicationService serialCommProvider = Configuration.getSerialCommProvider();
 		List<ISerialCommunicationService> commProviders = PluginLoader.getPlugins(ISerialCommunicationService.class);
-		cmbCommService = new JComboBox();
+		cmbCommService = new JComboBox<>();
 		for (ISerialCommunicationService s : commProviders) {
 			cmbCommService.addItem(s);
 			if (s.getClass().equals(serialCommProvider.getClass())) {
 				cmbCommService.setSelectedItem(s);
 			}
 		}
-		cmbCommService.setRenderer(renderer);
-		panel.add(cmbCommService);
+		cmbCommService.setRenderer(new ListCellRenderer<ISerialCommunicationService>() {
+			@Override
+			public Component getListCellRendererComponent(final JList<? extends ISerialCommunicationService> list,
+					final ISerialCommunicationService value, final int index, final boolean isSelected,
+					final boolean cellHasFocus) {
+				return new DefaultListCellRenderer().getListCellRendererComponent(list, value.getName(), index,
+						isSelected, cellHasFocus);
+			}
+		});
+		settingsPanel.add(cmbCommService);
 		
-		panel.add(new JLabel(Messages.getString("PreferencesDialog.DropletMessageProtocol"))); //$NON-NLS-1$
-		cmbMsgProtocol = new JComboBox();
+		settingsPanel.add(new JLabel(Messages.getString("PreferencesDialog.DropletMessageProtocol"))); //$NON-NLS-1$
+		cmbMsgProtocol = new JComboBox<>();
 		IDropletMessageProtocol messageProtocolProvider = Configuration.getMessageProtocolProvider();
 		List<IDropletMessageProtocol> messageProviders = PluginLoader.getPlugins(IDropletMessageProtocol.class);
 		for (IDropletMessageProtocol p : messageProviders) {
@@ -83,22 +99,38 @@ public class PreferencesDialog extends JDialog {
 				cmbMsgProtocol.setSelectedItem(p);
 			}
 		}
-		cmbMsgProtocol.setRenderer(renderer);
-		panel.add(cmbMsgProtocol);
+		cmbMsgProtocol.setRenderer(new ListCellRenderer<IDropletMessageProtocol>() {
+			@Override
+			public Component getListCellRendererComponent(final JList<? extends IDropletMessageProtocol> list,
+					final IDropletMessageProtocol value, final int index, final boolean isSelected,
+					final boolean cellHasFocus) {
+				return new DefaultListCellRenderer().getListCellRendererComponent(list, value.getName(), index,
+						isSelected, cellHasFocus);
+			}
+		});
+		settingsPanel.add(cmbMsgProtocol);
+		
+		settingsPanel.add(new JLabel(Messages.getString("PreferencesDialog.Locale"))); //$NON-NLS-1$
+		cmbLocale = new JComboBox<>();
+		cmbLocale.addItem(Locale.GERMAN);
+		cmbLocale.addItem(Locale.ENGLISH);
+		cmbLocale.setSelectedItem(Configuration.getLocale());
+		cmbLocale.setRenderer(new ListCellRenderer<Locale>() {
+			@Override
+			public Component getListCellRendererComponent(final JList<? extends Locale> list, final Locale value,
+					final int index, final boolean isSelected, final boolean cellHasFocus) {
+				return new DefaultListCellRenderer().getListCellRendererComponent(list,
+						value.getDisplayName(Configuration.getLocale()), index, isSelected, cellHasFocus);
+			}
+		});
+		settingsPanel.add(cmbLocale);
+		
+		panel.add(settingsPanel, BorderLayout.CENTER);
 		
 		// toolbar panel
 		JPanel panelBottom = new JPanel();
-		panelBottom.setLayout(new GridLayout(1, 0));
+		panelBottom.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBottom.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-		
-		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(final ActionEvent evt) {
-				saveAndClose();
-			}
-		});
-		panelBottom.add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -110,7 +142,16 @@ public class PreferencesDialog extends JDialog {
 		});
 		panelBottom.add(btnCancel);
 		
-		panel.add(panelBottom);
+		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent evt) {
+				saveAndClose();
+			}
+		});
+		panelBottom.add(btnOk);
+		
+		panel.add(panelBottom, BorderLayout.PAGE_END);
 		add(panel);
 		
 		pack();
@@ -120,38 +161,15 @@ public class PreferencesDialog extends JDialog {
 		
 	}
 	
-	/**
-	 * {@link ListCellRenderer} for {@link ISerialCommunicationService} and
-	 * {@link IDropletMessageProtocol}.
-	 */
-	private final ListCellRenderer renderer = new DefaultListCellRenderer() {
-		@Override
-		public Component getListCellRendererComponent(final JList list, final Object value, final int index,
-				final boolean isSelected, final boolean cellHasFocus) {
-			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			if (comp instanceof JLabel) {
-				JLabel label = (JLabel) comp;
-				if (value instanceof ISerialCommunicationService) {
-					label.setText(((ISerialCommunicationService) value).getName());
-				}
-				if (value instanceof IDropletMessageProtocol) {
-					label.setText(((IDropletMessageProtocol) value).getName());
-				}
-			}
-			return comp;
-		}
-	};
-	
 	private void saveAndClose() {
 		
-		// save to configuration
-		Object selectedItem = cmbCommService.getSelectedItem();
-		if (selectedItem instanceof ISerialCommunicationService) {
-			Configuration.setSerialCommProvider((ISerialCommunicationService) selectedItem);
-		}
-		selectedItem = cmbMsgProtocol.getSelectedItem();
-		if (selectedItem instanceof IDropletMessageProtocol) {
-			Configuration.setMessageProtocolProvider((IDropletMessageProtocol) selectedItem);
+		Configuration.setSerialCommProvider((ISerialCommunicationService) cmbCommService.getSelectedItem());
+		Configuration.setMessageProtocolProvider((IDropletMessageProtocol) cmbMsgProtocol.getSelectedItem());
+		
+		if (!Configuration.getLocale().equals(cmbLocale.getSelectedItem())) {
+			Configuration.setLocale((Locale) cmbLocale.getSelectedItem());
+			JOptionPane.showMessageDialog(this, Messages.getString("PreferencesDialog.Locale.info.description"),
+					Messages.getString("PreferencesDialog.Locale.info.title"), JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		setVisible(false);

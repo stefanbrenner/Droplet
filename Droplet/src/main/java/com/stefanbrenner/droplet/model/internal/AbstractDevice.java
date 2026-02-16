@@ -19,13 +19,12 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.IDevice;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,7 +40,7 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	private static final long serialVersionUID = 1L;
 	
 	@XmlAttribute(name = "Number")
-	private String number = StringUtils.EMPTY;
+	private int number = 0;
 	
 	@XmlAttribute(name = "Name")
 	private String name = StringUtils.EMPTY;
@@ -49,8 +48,11 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	@XmlElement(name = "Description")
 	private String description = StringUtils.EMPTY;
 	
+	@XmlElement(name = "Enabled")
+	private boolean enabled = true;
+	
 	@Override
-	public void setNumber(final String number) {
+	public void setNumber(final int number) {
 		firePropertyChange(IDevice.PROPERTY_NUMBER, this.number, this.number = number);
 	}
 	
@@ -62,6 +64,11 @@ public abstract class AbstractDevice extends AbstractModelObject implements IDev
 	@Override
 	public void setDescription(final String description) {
 		firePropertyChange(IDevice.PROPERTY_DESCRIPTION, this.description, this.description = description);
+	}
+	
+	@Override
+	public void setEnabled(final boolean enabled) {
+		firePropertyChange(IDevice.PROPERTY_ENABLED, this.enabled, this.enabled = enabled);
 	}
 	
 	/**

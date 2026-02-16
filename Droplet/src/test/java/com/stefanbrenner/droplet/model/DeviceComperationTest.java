@@ -20,13 +20,12 @@
 package com.stefanbrenner.droplet.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.stefanbrenner.droplet.model.internal.AbstractDevice;
 import com.stefanbrenner.droplet.model.internal.Camera;
@@ -38,7 +37,7 @@ import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
  * @author Stefan Brenner
  *
  */
-public class DeviceComperationTest {
+class DeviceComperationTest {
 	
 	@SuppressWarnings("serial")
 	class NewDevice1 extends AbstractDevice {
@@ -107,7 +106,7 @@ public class DeviceComperationTest {
 	}
 	
 	@Test
-	public void testDropletDeviceComparator() {
+	void testDropletDeviceComparator() {
 		
 		IValve valve1 = new Valve();
 		IFlash flash1 = new Flash();
@@ -116,50 +115,50 @@ public class DeviceComperationTest {
 		// normal comparator
 		DropletDeviceComparator comp1 = new DropletDeviceComparator();
 		
-		assertEquals(0, comp1.compare(valve1, valve1));
-		assertEquals(-1, comp1.compare(valve1, flash1));
-		assertEquals(-1, comp1.compare(valve1, camera1));
+		assertThat(comp1.compare(valve1, valve1)).isEqualTo(0);
+		assertThat(comp1.compare(valve1, flash1)).isEqualTo(-1);
+		assertThat(comp1.compare(valve1, camera1)).isEqualTo(-1);
 		
-		assertEquals(1, comp1.compare(flash1, valve1));
-		assertEquals(0, comp1.compare(flash1, flash1));
-		assertEquals(-1, comp1.compare(flash1, camera1));
+		assertThat(comp1.compare(flash1, valve1)).isEqualTo(1);
+		assertThat(comp1.compare(flash1, flash1)).isEqualTo(0);
+		assertThat(comp1.compare(flash1, camera1)).isEqualTo(-1);
 		
-		assertEquals(1, comp1.compare(camera1, valve1));
-		assertEquals(1, comp1.compare(camera1, flash1));
-		assertEquals(0, comp1.compare(camera1, camera1));
+		assertThat(comp1.compare(camera1, valve1)).isEqualTo(1);
+		assertThat(comp1.compare(camera1, flash1)).isEqualTo(1);
+		assertThat(comp1.compare(camera1, camera1)).isEqualTo(0);
 		
 		comp1.registerComparator(new NewDevice1Comparator());
 		
 		NewDevice1 newDevice1 = new NewDevice1();
 		
-		assertEquals(0, comp1.compare(newDevice1, newDevice1));
-		assertEquals(1, comp1.compare(newDevice1, valve1));
-		assertEquals(-1, comp1.compare(newDevice1, flash1));
-		assertEquals(-1, comp1.compare(newDevice1, camera1));
-		assertEquals(-1, comp1.compare(valve1, newDevice1));
-		assertEquals(1, comp1.compare(flash1, newDevice1));
-		assertEquals(1, comp1.compare(camera1, newDevice1));
+		assertThat(comp1.compare(newDevice1, newDevice1)).isEqualTo(0);
+		assertThat(comp1.compare(newDevice1, valve1)).isEqualTo(1);
+		assertThat(comp1.compare(newDevice1, flash1)).isEqualTo(-1);
+		assertThat(comp1.compare(newDevice1, camera1)).isEqualTo(-1);
+		assertThat(comp1.compare(valve1, newDevice1)).isEqualTo(-1);
+		assertThat(comp1.compare(flash1, newDevice1)).isEqualTo(1);
+		assertThat(comp1.compare(camera1, newDevice1)).isEqualTo(1);
 		
 		comp1.registerComparator(new NewDevice2Comparator());
 		
 		NewDevice2 newDevice2 = new NewDevice2();
 		
-		assertEquals(0, comp1.compare(newDevice2, newDevice2));
-		assertEquals(1, comp1.compare(newDevice2, valve1));
-		assertEquals(1, comp1.compare(newDevice2, flash1));
-		assertEquals(-1, comp1.compare(newDevice2, camera1));
-		assertEquals(-1, comp1.compare(valve1, newDevice2));
-		assertEquals(-1, comp1.compare(flash1, newDevice2));
-		assertEquals(1, comp1.compare(camera1, newDevice2));
+		assertThat(comp1.compare(newDevice2, newDevice2)).isEqualTo(0);
+		assertThat(comp1.compare(newDevice2, valve1)).isEqualTo(1);
+		assertThat(comp1.compare(newDevice2, flash1)).isEqualTo(1);
+		assertThat(comp1.compare(newDevice2, camera1)).isEqualTo(-1);
+		assertThat(comp1.compare(valve1, newDevice2)).isEqualTo(-1);
+		assertThat(comp1.compare(flash1, newDevice2)).isEqualTo(-1);
+		assertThat(comp1.compare(camera1, newDevice2)).isEqualTo(1);
 		
 		// now compare both unknown objects
-		assertEquals(-1, comp1.compare(newDevice1, newDevice2));
-		assertEquals(1, comp1.compare(newDevice2, newDevice1));
+		assertThat(comp1.compare(newDevice1, newDevice2)).isEqualTo(-1);
+		assertThat(comp1.compare(newDevice2, newDevice1)).isEqualTo(1);
 		
 	}
 	
 	@Test
-	public void testDropletDeviceComparatorSorting() {
+	void testDropletDeviceComparatorSorting() {
 		// counters
 		int valves = 0, flashes = 0, cameras = 0, newDevices1 = 0, newDevices2 = 0;
 		

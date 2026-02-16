@@ -23,13 +23,17 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import com.stefanbrenner.droplet.model.internal.Configuration;
+
 /**
  * @author Stefan Brenner
  */
 public class Messages {
+	
 	private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
 	
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME,
+			Configuration.getLocale());
 	
 	private Messages() {
 	}

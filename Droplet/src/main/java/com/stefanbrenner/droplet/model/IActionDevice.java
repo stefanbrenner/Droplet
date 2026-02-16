@@ -30,6 +30,8 @@ public interface IActionDevice extends IDevice {
 	
 	/** Association name for actions of this device. */
 	String ASSOCIATION_ACTIONS = "actions"; //$NON-NLS-1$
+	/** Property name for the valve calibration. */
+	String PROPERTY_CALIBRATION = "calibration"; //$NON-NLS-1$
 	
 	/**
 	 * @param actions
@@ -63,5 +65,16 @@ public interface IActionDevice extends IDevice {
 	 * @return a new action for this device
 	 */
 	IAction createNewAction();
+	
+	/**
+	 * @param calibration
+	 *            value of the valve
+	 */
+	void setCalibration(int calibration);
+	
+	/**
+	 * @return calibration value of the valve
+	 */
+	int getCalibration();
 	
 }

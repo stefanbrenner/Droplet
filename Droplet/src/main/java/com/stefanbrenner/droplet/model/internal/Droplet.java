@@ -25,19 +25,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.stefanbrenner.droplet.model.IDevice;
 import com.stefanbrenner.droplet.model.IDroplet;
 import com.stefanbrenner.droplet.model.IValve;
 import com.stefanbrenner.droplet.service.impl.DropletDeviceComparator;
+import com.stefanbrenner.droplet.utils.Messages;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import lombok.Getter;
 
 /**
@@ -74,19 +74,19 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 		// add 3 valves
 		for (int i = 0; i < 3; i++) {
 			IValve valve = new Valve();
-			valve.setName("Valve " + (i + 1));
-			valve.addAction(valve.createNewAction());
+			valve.setName(Messages.getString("Device.Valve.name") + " " + (i + 1));
+			valve.createNewAction();
 			addDevice(valve);
 		}
 		// add one flash
 		Flash flash = new Flash();
-		flash.setName("Flash");
-		flash.addAction(flash.createNewAction());
+		flash.setName(Messages.getString("Device.Flash.name"));
+		flash.createNewAction();
 		addDevice(flash);
 		// add one camera
 		Camera camera = new Camera();
-		camera.setName("Camera");
-		camera.addAction(camera.createNewAction());
+		camera.setName(Messages.getString("Device.Camera.name"));
+		camera.createNewAction();
 		addDevice(camera);
 	}
 	
@@ -112,7 +112,7 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	public void addDevice(final IDevice device) {
 		List<IDevice> oldValue = devices;
 		devices = new ArrayList<IDevice>(this.devices);
-		device.setNumber(String.valueOf(devices.size() + 1));
+		device.setNumber(devices.size() + 1);
 		devices.add(device);
 		firePropertyChange(IDroplet.ASSOCIATION_DEVICES, oldValue, devices);
 	}
@@ -122,6 +122,11 @@ public class Droplet extends AbstractModelObject implements IDroplet {
 	public <T extends IDevice> List<T> getDevices(final Class<T> type) {
 		return devices.stream().filter(d -> type.isAssignableFrom(d.getClass())).map(d -> (T) d)
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public <T extends IDevice> List<T> getEnabledDevices(final Class<T> type) {
+		return getDevices(type).stream().filter(IDevice::isEnabled).collect(Collectors.toList());
 	}
 	
 	@Override

@@ -21,14 +21,13 @@ package com.stefanbrenner.droplet.model.internal;
 
 import java.awt.Color;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import com.stefanbrenner.droplet.model.IAction;
 import com.stefanbrenner.droplet.model.IFlash;
 import com.stefanbrenner.droplet.xml.ColorAdapter;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -58,7 +57,7 @@ public class Flash extends AbstractActionDevice implements IFlash {
 	}
 	
 	@Override
-	public IAction createNewAction() {
+	public IAction createNewActionInternal() {
 		return new Action();
 	}
 	

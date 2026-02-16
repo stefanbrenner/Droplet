@@ -19,8 +19,6 @@
  *****************************************************************************/
 package com.stefanbrenner.droplet.ui.components;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
@@ -65,14 +63,18 @@ public class MouseWheelSpinner extends JSpinner {
 	// TODO brenner: not working as intended
 	// need to implement own editor to be able to listen to events
 	private void registerFocusListener() {
-		final JFormattedTextField textField = ((JSpinner.DefaultEditor) getEditor()).getTextField();
-		textField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(final FocusEvent event) {
-				textField.selectAll();
-				super.focusGained(event);
-			}
-		});
+		// final JTextField textField = ((JSpinner.DefaultEditor)
+		// getEditor()).getTextField();
+		// textField.addFocusListener(new FocusAdapter() {
+		// @Override
+		// public void focusGained(final FocusEvent event) {
+		// SwingUtilities.invokeLater(() -> {
+		// JTextField tf = (JTextField) event.getSource();
+		// tf.selectAll();
+		// });
+		// // super.focusGained(event);
+		// }
+		// });
 	}
 	
 	private void registerMouseWheelListener() {

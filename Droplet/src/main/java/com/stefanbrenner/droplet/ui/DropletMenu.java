@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -33,9 +34,10 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.model.internal.Configuration;
 import com.stefanbrenner.droplet.ui.actions.AbstractDropletAction;
-import com.stefanbrenner.droplet.ui.actions.AddDeviceAction;
 import com.stefanbrenner.droplet.ui.actions.ExitAction;
+import com.stefanbrenner.droplet.ui.actions.FullscreenAction;
 import com.stefanbrenner.droplet.ui.actions.NewAction;
 import com.stefanbrenner.droplet.ui.actions.OpenAsTemplateAction;
 import com.stefanbrenner.droplet.ui.actions.OpenFileAction;
@@ -62,6 +64,7 @@ public class DropletMenu extends JMenuBar {
 	// menues
 	private JMenu fileMenu;
 	private JMenu editMenu;
+	private JMenu viewMenu;
 	private JMenu helpMenu;
 	
 	// menu items
@@ -71,8 +74,8 @@ public class DropletMenu extends JMenuBar {
 	private JMenuItem saveMenuItem;
 	private JMenuItem saveAsMenuItem;
 	private JMenuItem exitMenuItem;
-	private JMenuItem addDeviceMenuItem;
 	private JMenuItem preferencesMenuItem;
+	private JMenuItem fullscreenMenuItem;
 	private JMenuItem aboutMenuItem;
 	
 	// actions
@@ -81,8 +84,8 @@ public class DropletMenu extends JMenuBar {
 	private AbstractDropletAction openTemplateAction;
 	private AbstractDropletAction saveAction;
 	private AbstractDropletAction saveAsAction;
-	private AbstractDropletAction addDeviceAction;
 	private AbstractDropletAction preferencesAction;
+	private AbstractDropletAction fullscreenAction;
 	private AbstractDropletAction exitAction;
 	
 	public DropletMenu(final JFrame frame, final IDropletContext dropletContext) {
@@ -101,6 +104,10 @@ public class DropletMenu extends JMenuBar {
 		editMenu = add(new JMenu(Messages.getString("DropletMenu.edit"))); //$NON-NLS-1$
 		editMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.editMnemonic"))); //$NON-NLS-1$
 		buildEditMenu();
+		// view menu
+		viewMenu = add(new JMenu(Messages.getString("DropletMenu.view"))); //$NON-NLS-1$
+		viewMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.viewMnemonic"))); //$NON-NLS-1$
+		buildViewMenu();
 		// help menu
 		helpMenu = add(new JMenu(Messages.getString("DropletMenu.help"))); //$NON-NLS-1$
 		helpMenu.setMnemonic(UiUtils.getMnemonic(Messages.getString("DropletMenu.helpMnemonic"))); //$NON-NLS-1$
@@ -138,22 +145,23 @@ public class DropletMenu extends JMenuBar {
 		fileMenu.addSeparator();
 		exitMenuItem = new JMenuItem(exitAction);
 		fileMenu.add(exitMenuItem);
-		
 	}
 	
 	private void buildEditMenu() {
-		
-		addDeviceAction = new AddDeviceAction(frame, dropletContext);
 		preferencesAction = new PreferencesAction(frame, dropletContext);
 		
 		// create menu items
-		addDeviceMenuItem = new JMenuItem(Messages.getString("DropletMenu.addDevice")); //$NON-NLS-1$
-		addDeviceMenuItem.setAction(addDeviceAction);
-		editMenu.add(addDeviceMenuItem);
 		preferencesMenuItem = new JMenuItem("Preferences..."); //$NON-NLS-1$
 		preferencesMenuItem.setAction(preferencesAction);
 		editMenu.add(preferencesMenuItem);
+	}
+	
+	private void buildViewMenu() {
+		fullscreenAction = new FullscreenAction(frame);
 		
+		fullscreenMenuItem = new JCheckBoxMenuItem("Fullscreen", Configuration.isFullscreenEnabled()); //$NON-NLS-1$
+		fullscreenMenuItem.setAction(fullscreenAction);
+		viewMenu.add(fullscreenMenuItem);
 	}
 	
 	private void buildHelpMenu() {

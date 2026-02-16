@@ -35,8 +35,8 @@ import javax.swing.JTextArea;
 import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.stefanbrenner.droplet.model.IDropletContext;
+import com.stefanbrenner.droplet.utils.DropletColors;
 import com.stefanbrenner.droplet.utils.DropletFonts;
-import com.stefanbrenner.droplet.utils.Messages;
 
 /**
  * Panel that shows logging messages.
@@ -55,8 +55,7 @@ public class LoggingPanel extends JPanel {
 	public LoggingPanel(final IDropletContext context) {
 		
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder(Messages.getString("LoggingPanel.title"))); //$NON-NLS-1$
-		setMinimumSize(new Dimension(400, 200));
+		setMinimumSize(new Dimension(300, 200));
 		
 		BeanAdapter<IDropletContext> adapter = new BeanAdapter<IDropletContext>(context, true);
 		
@@ -65,8 +64,12 @@ public class LoggingPanel extends JPanel {
 		txtMessages.setFocusTraversalKeysEnabled(true);
 		txtMessages.setMargin(new Insets(0, 10, 0, 10));
 		txtMessages.setFont(DropletFonts.FONT_LOGGING_SMALL);
+		txtMessages.setBackground(DropletColors.DARK_GRAY);
+		txtMessages.setForeground(DropletColors.WHITE);
+		txtMessages.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		txtMessages.setEditable(false);
 		JScrollPane loggingScrollPane = new JScrollPane(txtMessages);
+		loggingScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		loggingScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 			@Override
 			public void adjustmentValueChanged(final AdjustmentEvent event) {

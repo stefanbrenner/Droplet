@@ -19,11 +19,10 @@
  *******************************************************************************/
 package com.stefanbrenner.droplet.model.internal;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.stefanbrenner.droplet.model.IAction;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

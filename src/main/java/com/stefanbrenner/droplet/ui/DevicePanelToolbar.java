@@ -22,11 +22,7 @@ package com.stefanbrenner.droplet.ui;
 import java.awt.AWTEvent;
 import java.awt.Color;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
+import javax.swing.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
@@ -72,7 +68,7 @@ public class DevicePanelToolbar extends JToolBar {
 		setOrientation(JToolBar.HORIZONTAL);
 		setFloatable(false);
 		setRollover(true);
-		setBackground(DropletColors.DARK_GRAY);
+		setBackground(UIManager.getColor("TabbedPane.background"));
 		
 		// add device button for actiondevices
 		if (device instanceof IActionDevice) {

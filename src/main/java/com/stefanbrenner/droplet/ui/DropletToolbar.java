@@ -23,11 +23,7 @@ import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.JToolBar;
+import javax.swing.*;
 
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -66,7 +62,7 @@ public class DropletToolbar extends JToolBar {
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
 		setFloatable(false);
 		setRollover(true);
-		setBackground(DropletColors.BLACK);
+		setBackground(UIManager.getColor("Panel.background"));
 		
 		// show button
 		JButton btnShow = new JButton(new ShowAction(frame, dropletContext));

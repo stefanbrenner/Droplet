@@ -167,7 +167,7 @@
 									<arguments>
 										<argument>--type</argument><argument>msi</argument>
 										<argument>--name</argument><argument>Droplet</argument>
-										<argument>--app-version</argument><argument>${project.version}</argument>
+										<argument>--app-version</argument><argument>2.0.0</argument>
 										<argument>--input</argument><argument>${project.build.directory}</argument>
 										<argument>--main-jar</argument><argument>${project.artifactId}.jar</argument>
 										<argument>--dest</argument><argument>${project.build.directory}/dist</argument>
